@@ -16,6 +16,15 @@ const sellers = require('./sellers.js');
 // TODO: probably don't need the "action" part, so long as "action" is always equal to the string
 // passed to callEndpoint .. haven't finished looking through the entire API, so might not be?
 
+// TODO: When specifying a "List of" type to Amazon, such as "IdList" to GetMatchingProductForId,
+// apparently the API is expecting it to come in such as:
+// 'IdList.Id.1': 'Id1',
+// 'IdList.Id.2': 'Id2'
+// .. The number part starts at 1 (argh!), but how do we determine what the part between the dots
+// should be?  Other examples that also work: MarketplaceIdList.Id.1, MarketplaceId.Id.1,
+// OrderStatus.Status.1, etc.  Is that something that is dealt with in mws-simple ? or is it some
+// part of the Amazon API that I can't seem to find a bit of documentation about?
+
 const endpoints = Object.assign(
     {},
     feeds.endpoints,
@@ -24,6 +33,7 @@ const endpoints = Object.assign(
     inventory.endpoints,
     merchFulfillment.endpoints,
     orders.endpoints,
+    products.endpoints,
     sellers.endpoints
 );
 
