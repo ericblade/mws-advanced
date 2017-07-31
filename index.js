@@ -9,6 +9,7 @@ const merchFulfillment = require('./merch-fulfillment.js');
 const orders = require('./orders.js');
 const products = require('./products.js');
 const sellers = require('./sellers.js');
+const reports = require('./reports.js');
 
 // TODO: implement Recommendations and Reports and Subscriptions
 // http://s3.amazonaws.com/devo.docs.developer.amazonservices.com/en_DE/sellers/Sellers_ListMarketplaceParticipations.html
@@ -34,7 +35,8 @@ const endpoints = Object.assign(
     merchFulfillment.endpoints,
     orders.endpoints,
     products.endpoints,
-    sellers.endpoints
+    sellers.endpoints,
+    reports.endpoints
 );
 
 // flatten all 1-element arrays found within a result object into just their values
@@ -219,6 +221,15 @@ const listFinancialEvents = async (options) => {
     }
 }
 
+/*
+[ { Condition: 'NewItem',
+    SupplyDetail: '',
+    TotalSupplyQuantity: '0',
+    FNSKU: 'B000WFVXGI',
+    InStockSupplyQuantity: '0',
+    ASIN: 'B000WFVXGI',
+    SellerSKU: 'ND-X5EF-Z0N1' } ]
+*/
 const listInventorySupply = async (options) => {
     const results = await callEndpoint('ListInventorySupply', options);
     try {
@@ -256,6 +267,80 @@ const getMatchingProductForId = async (options) => {
     }
 }
 
+/*
+{ ReportType: '_GET_MERCHANT_LISTINGS_DATA_',
+  ReportProcessingStatus: '_SUBMITTED_',
+  EndDate: '2017-07-31T06:17:53+00:00',
+  Scheduled: 'false',
+  ReportRequestId: '56938017378',
+  SubmittedDate: '2017-07-31T06:17:53+00:00',
+  StartDate: '2017-07-31T06:17:53+00:00' }
+*/
+const requestReport = async (options) => {
+    const result = await callEndpoint('RequestReport', options);
+    try {
+        return result.RequestReportResponse.RequestReportResult.ReportRequestInfo;
+    } catch (err) {
+        return result;
+    }
+}
+
+// interesting note: there are tons of reports returned by this API,
+// apparently Amazon auto pulls reports, and many reports pulled in the Seller Central
+// interface will also show up here. Somewhere in the docs, it says that Amazon
+// keeps all reports for 90 days.
+
+/*
+[ { ReportType: '_GET_MERCHANT_LISTINGS_DATA_',
+    ReportProcessingStatus: '_DONE_',
+    EndDate: '2017-07-31T06:09:35+00:00',
+    Scheduled: 'false',
+    ReportRequestId: '56937017378',
+    StartedProcessingDate: '2017-07-31T06:09:39+00:00',
+    SubmittedDate: '2017-07-31T06:09:35+00:00',
+    StartDate: '2017-07-31T06:09:35+00:00',
+    CompletedDate: '2017-07-31T06:09:46+00:00',
+    GeneratedReportId: '5935233306017378' } ]
+*/
+const getReportRequestList = async (options) => {
+    let obj = {};
+    if (options.ReportRequestIdList) {
+        obj = options.ReportRequestIdList.reduce((prev, curr, index) => {
+            prev[`ReportRequestIdList.Id.${index+1}`] = curr;
+            return prev;
+        }, {})
+        delete options.ReportRequestIdList;
+    }
+    if (options.ReportTypeList) {
+        obj = options.ReportTypeList.reduce((prev, curr, index) => {
+            prev[`ReportTypeList.Type.${index+1}`] = curr;
+            return prev;
+        }, {})
+        delete options.ReportTypeList;
+    }
+    if (options.ReportProcessingStatusList) {
+        obj = options.ReportProcessingStatusList.reduce((prev, curr, index) => {
+            prev[`ReportProcessingStatusList.Status.${index+1}`] = curr;
+            return prev;
+        }, {})
+        delete options.ReportProcessingStatusList;
+    }
+
+    obj = Object.assign({}, obj, options);
+    const result = await callEndpoint('GetReportRequestList', obj);
+    // NextToken is under result.GetReportRequestListResponse.GetReportRequestListResult
+    try {
+        return result.GetReportRequestListResponse.GetReportRequestListResult.ReportRequestInfo;
+    } catch(err) {
+        return result;
+    }
+}
+
+const getReport = async (options) => {
+    const result = await callEndpoint('GetReport', options);
+    return result;
+}
+
 module.exports = {
     init,
     callEndpoint,
@@ -264,4 +349,7 @@ module.exports = {
     listFinancialEvents,
     listInventorySupply,
     getMatchingProductForId,
+    requestReport,
+    getReportRequestList,
+    getReport,
 };

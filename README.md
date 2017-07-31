@@ -108,3 +108,58 @@ http://docs.developer.amazonservices.com/en_UK/products/Products_GetMatchingProd
 
 Returns an Array of matching product information. Each item in the Array is an object containing Identifiers, AttributeSets, Relationships, SalesRankings
 
+
+# Reporting:
+
+Getting detailed reports from Amazon requires somewhat more advanced samples.  For example,
+if you would like to get a report of all of your inventory, you can request the report called
+````_GET_MERCHANT_LISTINGS_DATA_```` .  Note that the Report functions have a pretty low throttling
+rate compared to other API function calls.  Also note that RequestReport() has an internal
+throttling mechanism that doesn't show to the outside -- if you request a particular report
+before Amazon is ready to generate a new version of that report, they will simply send you
+the same request identifier as the last time you requested that report.  Please see
+http://docs.developer.amazonservices.com/en_UK/reports/Reports_Overview.html
+
+````
+    requestReport()
+    getReportRequestList()
+    getReport()
+
+    // you'll probably need to use these three functions in tandem, so here is a sample showing
+    // how to do that -- note that instead of logging the data, it will write it to a file
+    // called test.json
+
+    function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    async function checkReportComplete(reportRequestId) {
+        let done = false;
+        while(!done) {
+            console.log('** checking if report is complete');
+            const report = await mws.getReportRequestList({ ReportRequestIdList: [ reportRequestId ] });
+            done = report.ReportProcessingStatus === '_DONE_';
+            if (!done) {
+                console.log('** retrying in 45 seconds', report);
+                await sleep(45000); // GetReportRequestList throttles are 10 requests at a time, you get one back every 45 seconds, max 80 per hour
+            } else {
+                return report;
+            }
+        }
+    }
+
+    async function testReporting() {
+        console.log('** requesting report');
+        const request = await mws.requestReport({ ReportType: '_GET_MERCHANT_LISTINGS_DATA_' });
+        const reportRequestId = request.ReportRequestId;
+        console.log('** reportRequestId=', reportRequestId);
+        await sleep(1000);
+        const report = await checkReportComplete(reportRequestId);
+        const ReportId = reportRequestId.GeneratedReportId; // NOTE: Some reports will not provide a GeneratedReportId and you need to call GetReportList to find the identifier to send!
+        const report = await mws.getReport({ ReportId });
+        fs.writeFileSync('./test.json', JSON.stringify(report, null, 4));
+        return await mws.getReport({ ReportId });
+    }
+````
+
+
