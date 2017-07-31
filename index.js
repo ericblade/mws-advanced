@@ -116,6 +116,11 @@ const callEndpoint = async (name, options) => {
 
 // TODO: upgrade to call ListMarketplaceParticipationsByNextToken when a NextToken
 // response is returned.
+// FURTHER TODO: how smart can we make our framework? can we handle multiple requests
+// to any endpoint that returns a NextToken ?
+// EVEN FURTHER TODO: can we handle rate limiting, while we're doing that, and only
+// return results when we get all the data?
+
 const getMarketplaces = async () => {
     const result = await callEndpoint('ListMarketplaceParticipations');
     const result2 = result.ListMarketplaceParticipationsResponse.ListMarketplaceParticipationsResult;
@@ -217,9 +222,37 @@ const listFinancialEvents = async (options) => {
 const listInventorySupply = async (options) => {
     const results = await callEndpoint('ListInventorySupply', options);
     try {
-        return results.ListInventorySupplyResponse.ListInventorySupplyResult;
+        return results.ListInventorySupplyResponse.ListInventorySupplyResult.InventorySupplyList.member;
     } catch (err) {
         return results;
+    }
+}
+
+/*
+returns
+[ { Identifiers: { MarketplaceASIN: [Object] },
+    AttributeSets: { 'ns2:ItemAttributes': [Object] },
+    Relationships: '',
+    SalesRankings: { SalesRank: [Array] } } ]
+*/
+const getMatchingProductForId = async (options) => {
+    let obj = {};
+    if (options.IdList) {
+        obj = options.IdList.reduce((prev, curr, index) => {
+            prev[`IdList.Id.${index+1}`] = curr;
+            return prev;
+        }, {})
+        delete options.IdList;
+    }
+    obj = Object.assign({}, obj, options);
+    const products = await callEndpoint('GetMatchingProductForId', obj);
+
+    try {
+        const productList = products.GetMatchingProductForIdResponse.GetMatchingProductForIdResult;
+        const ret = productList.map(p => p.Products.Product);
+        return ret;
+    } catch (err) {
+        return products;
     }
 }
 
@@ -230,4 +263,5 @@ module.exports = {
     listOrders,
     listFinancialEvents,
     listInventorySupply,
+    getMatchingProductForId,
 };
