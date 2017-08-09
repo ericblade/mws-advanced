@@ -1,3 +1,7 @@
+const { promisify } = require('util');
+const fs = require('fs');
+const writeFile = promisify(fs.writeFile);
+
 const MWS = require('mws-simple');
 
 const feeds = require('./feeds.js');
@@ -341,6 +345,75 @@ const getReport = async (options) => {
     return result;
 }
 
+// TODO: should we emit events notifying of things happening inside here?
+// TODO: need to test all report types with this function, because not all reports return
+// the same set of data - some are not giving a ReportRequestId for some reason?!
+// perhaps there was an error in requestReport() regarding this.
+
+// TODO: _GET_FLAT_FILE_ORDERS_DATA_ seems to always result in a cancelled report
+// TODO: _GET_FLAT_FILE_PENDING_ORDERS_DATA_ results in undefined reportRequestId
+// TODO: undefined reportRequestId results in us downloading a large list of reports
+// when we call getReportRequestList()
+// TODO: need to improve the throttling mechanism, waiting 45 seconds per test minimum sucks.
+
+// known to work: _GET_MERCHANT_LISTINGS_ALL_DATA_
+// known to work if given a StartDate: _GET_FLAT_FILE_ORDERS_DATA_, _GET_AMAZON_FULFILLED_SHIPMENTS_DATA_
+// known to require calling GetReportList (therefore not yet working): _GET_SELLER_FEEDBACK_DATA_
+
+const requestAndDownloadReport = async (ReportType, file, reportParams = {}) => {
+    function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    async function checkReportComplete(reportRequestId) {
+        console.log(`-- checking if report is complete ${reportRequestId}`);
+        while (true) {
+            const report = await getReportRequestList({
+                ReportRequestIdList: [ reportRequestId ],
+            });
+            switch (report.ReportProcessingStatus) {
+                case '_IN_PROGRESS_': // fallthrough intentional
+                case '_SUBMITTED_': // fallthrough intentional
+                    console.log(`-- retrying report ${reportRequestId} in 45 sec`);
+                    await sleep(45000); // GetReportRequestList throttles to at most 10 requests, you get 1 back every 45 seconds
+                    break;
+                case '_CANCELLED_':
+                    console.log(`-- cancelled: ${reportRequestId}`, report);
+                    return { cancelled: true };
+                case '_DONE_':
+                    return report;
+                case '_DONE_NO_DATA_':
+                    return {};
+                default:
+                    console.log(`-- unknown status retry in 45 sec: ${report.ReportProcessingStatus}`, report);
+                    await sleep(45000);
+                    break;
+            }
+        }
+    }
+
+    console.log(`-- requesting report ${ReportType}`);
+    const request = await requestReport({
+        ReportType,
+        ...reportParams,
+    });
+    const reportRequestId = request.ReportRequestId;
+    await sleep(1000); // some requests may be available very quickly, check after 1 sec
+    const reportCheck = await checkReportComplete(reportRequestId);
+    const ReportId = reportCheck.GeneratedReportId;
+    // TODO: Some reports do not provide a GeneratedReportId and we need to call GetReportList to find the identifier!
+    if (!ReportId) {
+        console.warn('**** No ReportId received !! This is not yet handled');
+        return {};
+        // TODO
+    }
+    const report = await getReport({ ReportId });
+    if (file) {
+        await writeFile(file, JSON.stringify(report, null, 4));
+    }
+    return report;
+}
+
 module.exports = {
     init,
     callEndpoint,
@@ -352,4 +425,5 @@ module.exports = {
     requestReport,
     getReportRequestList,
     getReport,
+    requestAndDownloadReport,
 };

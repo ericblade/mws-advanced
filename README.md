@@ -162,4 +162,31 @@ http://docs.developer.amazonservices.com/en_UK/reports/Reports_Overview.html
     }
 ````
 
+Note that this rather lengthy set of code has now been encapsulated in
+
+````
+    requestAndDownloadReport()
+
+    await mws.requestAndDownloadReport('_GET_MERCHANT_LISTINGS_ALL_DATA_','amzAllListings.json');
+    await Promise.all([
+        mws.requestAndDownloadReport(
+            '_GET_AMAZON_FULFILLED_SHIPMENTS_DATA_',
+            'amzFbaShipments.json',
+            {
+                StartDate: getTestDate(30), // a function that returns a ISO date X days ago
+            },
+        ),
+        mws.requestAndDownloadReport(
+            '_GET_FLAT_FILE_ORDERS_DATA_',
+            'amzOrders.json',
+            {
+                StartDate: getTestDate(30),
+            },
+        ),
+    ]);
+
+````
+Given a valid report type (see https://docs.developer.amazonservices.com/en_UK/reports/Reports_ReportType.html ), and an optional filename, will save the report to the given file, and return the report data. Third argument is options to pass to RequestReport API.
+
+You can use this function to easily retrieve reports, but if you need more control over how reports are handled, you can use the functions above.
 
