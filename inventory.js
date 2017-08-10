@@ -1,16 +1,22 @@
-const endpoints = {
-    ListInventorySupply: {
-        category: 'FulfillmentInventory',
-        version: '2010-10-01',
-        action: 'ListInventorySupply',
-    },
-    ListInventorySupplyByNextToken: {
-        category: 'FulfillmentInventory',
-        version: '2010-10-01',
-        action: 'ListInventorySupplyByNextToken',
-    },
-};
+//const path = require('path');
 
-module.exports = {
-    endpoints,
-};
+const generateEndpoints = require('./endpoints');
+
+//const scriptName = path.basename(__filename, '.js');
+//const categoryName = `${scriptName.charAt(0).toUpperCase()}${scriptName.slice(1)}`;
+const categoryName = 'FulfillmentInventory';
+
+const apiVersion = '2010-10-01';
+
+const endpointList = [
+    'ListInventorySupply',
+    'ListInventorySupplyByNextToken',
+];
+
+const endpoints = generateEndpoints(
+    categoryName,
+    apiVersion,
+    endpointList
+);
+
+module.exports = endpoints;

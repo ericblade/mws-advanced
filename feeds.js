@@ -1,36 +1,25 @@
-const endpoints = {
-    SubmitFeed: {
-        category: 'Feeds',
-        version: '2009-01-01',
-        action: 'SubmitFeed',
-    },
-    GetFeedSubmissionList: {
-        category: 'Feeds',
-        version: '2009-01-01',
-        action: 'GetFeedSubmissionList',
-    },
-    GetFeedSubmissionListByNextToken: {
-        category: 'Feeds',
-        version: '2009-01-01',
-        action: 'GetFeedSubmissionListByNextToken',
-    },
-    GetFeedSubmissionCount: {
-        category: 'Feeds',
-        version: '2009-01-01',
-        action: 'GetFeedSubmissionCount',
-    },
-    CancelFeedSubmissions: {
-        category: 'Feeds',
-        version: '2009-01-01',
-        action: 'CancelFeedSubmissions',
-    },
-    GetFeedSubmissionResult: {
-        category: 'Feeds',
-        version: '2009-01-01',
-        action: 'GetFeedSubmissionResult',
-    },
-};
+const path = require('path');
 
-module.exports = {
-    endpoints,
-};
+const generateEndpoints = require('./endpoints');
+
+const scriptName = path.basename(__filename, '.js');
+const categoryName = `${scriptName.charAt(0).toUpperCase()}${scriptName.slice(1)}`;
+
+const apiVersion = '2009-01-01';
+
+const endpointList = [
+    'SubmitFeed',
+    'GetFeedSubmissionList',
+    'GetFeedSubmissionListByNextToken',
+    'GetFeedSubmissionCount',
+    'CancelFeedSubmissions',
+    'GetFeedSubmissionResult',
+]
+
+const endpoints = generateEndpoints(
+    categoryName,
+    apiVersion,
+    endpointList
+);
+
+module.exports = endpoints;

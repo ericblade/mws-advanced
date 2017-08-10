@@ -1,26 +1,23 @@
-const endpoints = {
-    ListFinancialEventGroups: {
-        category: 'Finances',
-        version: '2015-05-01',
-        action: 'ListFinancialEventGroups',
-    },
-    ListFinancialEventGroupsByNextToken: {
-        category: 'Finances',
-        version: '2015-05-01',
-        action: 'ListFinancialEventGroupsByNextToken',
-    },
-    ListFinancialEvents: {
-        category: 'Finances',
-        version: '2015-05-01',
-        action: 'ListFinancialEvents',
-    },
-    ListFinancialEventsByNextToken: {
-        category: 'Finances',
-        version: '2015-05-01',
-        action: 'ListFinancialEventsByNextToken',
-    },
-};
+const path = require('path');
 
-module.exports = {
-    endpoints,
-};
+const generateEndpoints = require('./endpoints');
+
+const scriptName = path.basename(__filename, '.js');
+const categoryName = `${scriptName.charAt(0).toUpperCase()}${scriptName.slice(1)}`;
+
+const apiVersion = '2015-05-01';
+
+const endpointList = [
+    'ListFinancialEventGroups',
+    'ListFinancialEventGroupsByNextToken',
+    'ListFinancialEvents',
+    'ListFinancialEventsByNextToken',
+];
+
+const endpoints = generateEndpoints(
+    categoryName,
+    apiVersion,
+    endpointList,
+);
+
+module.exports = endpoints;

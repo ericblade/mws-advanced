@@ -1,56 +1,30 @@
-const endpoints = {
-    GetFulfillmentPreview: {
-        category: 'FulfillmentOutboundShipment',
-        version: '2010-10-01',
-        action: 'GetFulfillmentPreview',
-    },
-    CreateFulfillmentOrder: {
-        category: 'FulfillmentOutboundShipment',
-        version: '2010-10-01',
-        action: 'CreateFulfillmentOrder',
-    },
-    UpdateFulfillmentOrder: {
-        category: 'FulfillmentOutboundShipment',
-        version: '2010-10-01',
-        action: 'UpdateFulfillmentOrder',
-    },
-    GetFulfillmentOrder: {
-        category: 'FulfillmentOutboundShipment',
-        version: '2010-10-01',
-        action: 'GetFulfillmentOrder',
-    },
-    ListAllFulfillmentOrders: {
-        category: 'FulfillmentOutboundShipment',
-        version: '2010-10-01',
-        action: 'ListAllFulfillmentOrders',
-    },
-    ListAllFulfillmentOrdersByNextToken: {
-        category: 'FulfillmentOutboundShipment',
-        version: '2010-10-01',
-        action: 'ListAllFulfillmentOrdersByNextToken',
-    },
-    GetPackageTrackingDetails: {
-        category: 'FulfillmentOutboundShipment',
-        version: '2010-10-01',
-        action: 'GetPackageTrackingDetails',
-    },
-    CancelFulfillmentOrder: {
-        category: 'FulfillmentOutboundShipment',
-        version: '2010-10-01',
-        action: 'CancelFulfillmentOrder',
-    },
-    ListReturnReasonCodes: {
-        category: 'FulfillmentOutboundShipment',
-        version: '2010-10-01',
-        action: 'FulfillmentOutboundShipment',
-    },
-    CreateFulfillmentReturn: {
-        category: 'FulfillmentOutboundShipment',
-        version: '2010-10-01',
-        action: 'CreateFulfillmentReturn',
-    },
-};
+//const path = require('path');
 
-module.exports = {
-    endpoints,
-};
+const generateEndpoints = require('./endpoints');
+
+//const scriptName = path.basename(__filename, '.js');
+//const categoryName = `${scriptName.charAt(0).toUpperCase()}${scriptName.slice(1)}`;
+const categoryName = 'FulfillmentOutboundShipment';
+
+const apiVersion = '2010-10-01';
+
+const endpointList = [
+    'GetFulfillmentPreview',
+    'CreateFulfillmentOrder',
+    'UpdateFulfillmentOrder',
+    'GetFulfillmentOrder',
+    'ListAllFulfillmentOrders',
+    'ListAllFulfillmentOrdersByNextToken',
+    'GetPackageTrackingDetails',
+    'CancelFulfillmentOrder',
+    'ListReturnReasonCodes',
+    'CreateFulfillmentReturn',
+]
+
+const endpoints = generateEndpoints(
+    categoryName,
+    apiVersion,
+    endpointList
+);
+
+module.exports = endpoints;

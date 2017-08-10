@@ -37,15 +37,15 @@ function sleep(ms) {
 
 const endpoints = Object.assign(
     {},
-    feeds.endpoints,
-    finances.endpoints,
-    inbound.endpoints,
-    inventory.endpoints,
-    merchFulfillment.endpoints,
-    orders.endpoints,
-    products.endpoints,
-    sellers.endpoints,
-    reports.endpoints
+    feeds,
+    finances,
+    inbound,
+    inventory,
+    merchFulfillment,
+    orders,
+    products,
+    sellers,
+    reports
 );
 
 // flatten all 1-element arrays found within a result object into just their values
