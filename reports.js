@@ -13,6 +13,16 @@ const endpoints = {
         category: 'Reports',
         version: '2009-01-01',
         action: 'GetReport',
+    },
+    GetReportList: {
+        category: 'Reports',
+        version: '2009-01-01',
+        action: 'GetReportList',
+    },
+    GetReportListByNextToken: {
+        category: 'Reports',
+        version: '2009-01-01',
+        action: 'GetReportListByNextToken',
     }
 };
 

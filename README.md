@@ -190,3 +190,36 @@ Given a valid report type (see https://docs.developer.amazonservices.com/en_UK/r
 
 You can use this function to easily retrieve reports, but if you need more control over how reports are handled, you can use the functions above.
 
+````
+    getReportList()
+    getReportListByNextToken()
+
+    const list = await mws.getReportList(); // return all available reports
+    let nextToken = list.nextToken;
+    let reports = list.result;
+    while(nextToken) {
+        const nextPage = await mws.getReportListByNextToken({ NextToken: nextToken });
+        reports.concat(nextPage.result);
+        nextToken = nextPage.nextToken;
+    }
+    console.log(reports);
+````
+Return a list of reports, and a nextToken if provided in the return data. Return is an object
+in form of { result: [ Array ], nextToken: (token | undefined) }
+
+````
+    getReportListAll()
+
+    const reportList = await mws.getReportListAll({
+        ReportTypeList: [ '_GET_V2_SETTLEMENT_REPORT_DATA_FLAT_FILE_' ],
+    });
+    const report = await mws.getReport({ ReportId: reportList[0].ReportId });
+    fs.writeFileSync('settlement.json', JSON.stringify(report, null, 4));
+````
+
+getReportListAll() calls getReportList(options), followed by any number of required (throttled!)
+getReportListByNextToken calls, to return the entire list of available reports that match the
+criteria presented.  For a list of options, see https://docs.developer.amazonservices.com/en_UK/reports/Reports_GetReportList.html
+
+Return is identical to getReportList()
+

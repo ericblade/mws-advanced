@@ -15,6 +15,11 @@ const products = require('./products.js');
 const sellers = require('./sellers.js');
 const reports = require('./reports.js');
 
+// utility function to allow us to throttle requests
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 // TODO: implement Recommendations and Reports and Subscriptions
 // http://s3.amazonaws.com/devo.docs.developer.amazonservices.com/en_DE/sellers/Sellers_ListMarketplaceParticipations.html
 
@@ -345,6 +350,65 @@ const getReport = async (options) => {
     return result;
 }
 
+const getReportList = async (options) => {
+    let obj = {};
+    if (options.ReportRequestIdList) {
+        obj = options.ReportRequestIdList.reduce((prev, curr, index) => {
+            prev[`ReportRequestIdList.Id.${index+1}`] = curr;
+            return prev;
+        }, {})
+        delete options.ReportRequestIdList;
+    }
+    if (options.ReportTypeList) {
+        obj = options.ReportTypeList.reduce((prev, curr, index) => {
+            prev[`ReportTypeList.Type.${index+1}`] = curr;
+            return prev;
+        }, {})
+        delete options.ReportTypeList;
+    }
+    obj = Object.assign({}, obj, options);
+    const result = await callEndpoint('GetReportList', obj);
+    // NextToken should be in result.GetReportListResponse.GetReportListResult
+    try {
+        const cache = result.GetReportListResponse.GetReportListResult;
+        const ret = {
+            result: cache.ReportInfo,
+            nextToken: cache.HasNext && cache.NextToken,
+        }
+        return ret;
+    } catch (err) {
+        return result;
+    }
+}
+
+const getReportListByNextToken = async (options) => {
+    const result = await callEndpoint('GetReportListByNextToken', options);
+    try {
+        const cache = result.GetReportListByNextTokenResponse.GetReportListByNextTokenResult;
+        const ret = {
+            result: cache.ReportInfo,
+            nextToken: cache.HasNext && cache.NextToken,
+        };
+        return ret;
+    } catch (err) {
+        return result;
+    }
+}
+
+const getReportListAll = async (options) => {
+    let reports = [];
+    const reportList = await getReportList(options);
+    reports = reports.concat(reportList.result);
+    let nextToken = reportList.nextToken;
+    while (nextToken) {
+        const nextPage = await getReportListByNextToken({ NextToken: nextToken });
+        nextToken = nextPage.nextToken;
+        reports = reports.concat(nextPage.result);
+        await sleep(2000);
+    }
+    return reports;
+}
+
 // TODO: should we emit events notifying of things happening inside here?
 // TODO: need to test all report types with this function, because not all reports return
 // the same set of data - some are not giving a ReportRequestId for some reason?!
@@ -361,10 +425,6 @@ const getReport = async (options) => {
 // known to require calling GetReportList (therefore not yet working): _GET_SELLER_FEEDBACK_DATA_
 
 const requestAndDownloadReport = async (ReportType, file, reportParams = {}) => {
-    function sleep(ms) {
-        return new Promise(resolve => setTimeout(resolve, ms));
-    }
-
     async function checkReportComplete(reportRequestId) {
         console.log(`-- checking if report is complete ${reportRequestId}`);
         while (true) {
@@ -398,12 +458,16 @@ const requestAndDownloadReport = async (ReportType, file, reportParams = {}) => 
         ...reportParams,
     });
     const reportRequestId = request.ReportRequestId;
-    await sleep(1000); // some requests may be available very quickly, check after 1 sec
+    await sleep(5000); // some requests may be available very quickly, check after 5 sec
     const reportCheck = await checkReportComplete(reportRequestId);
     const ReportId = reportCheck.GeneratedReportId;
     // TODO: Some reports do not provide a GeneratedReportId and we need to call GetReportList to find the identifier!
     if (!ReportId) {
         console.warn('**** No ReportId received !! This is not yet handled');
+        const reportList = await getReportList({
+            ReportTypeList: [ ReportType ]
+        });
+        console.warn('**** reportList', reportList);
         return {};
         // TODO
     }
@@ -423,7 +487,10 @@ module.exports = {
     listInventorySupply,
     getMatchingProductForId,
     requestReport,
-    getReportRequestList,
     getReport,
+    getReportList,
+    getReportListByNextToken,
+    getReportListAll,
+    getReportRequestList,
     requestAndDownloadReport,
 };
