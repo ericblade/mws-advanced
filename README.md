@@ -2,7 +2,7 @@
 
 Amazon Merchant Web Services API for Javascript
 
-There are a lot of Amazon AWS interfaces in Javascript.
+There are a lot of Amazon MWS interfaces in Javascript.
 
 This one requires node 8.x, with the --harmony switch, as of August 10th, 2017. Or you can roll your own method for transpiling it, if you want.
 
