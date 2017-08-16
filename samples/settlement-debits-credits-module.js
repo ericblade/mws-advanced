@@ -51,7 +51,10 @@ async function main(accessKeys = keys) {
                 orderId = transaction['order-id'] ||
                     transaction['shipment-id'] ||
                     (transaction['transaction-type'] === 'Storage Fee' && 'STORAGE FEE') ||
-                    (transaction['transaction-type'] === 'Subscription Fee' && 'SUBSCRIPTION FEE')
+                    (transaction['transaction-type'] === 'Subscription Fee' && 'SUBSCRIPTION FEE') ||
+                    (transaction['transaction-type'] === 'FBAInboundTransportationFee' && 'FBA INBOUND TRANSPORT') ||
+                    (transaction['transaction-type'] === 'WAREHOUSE_LOST' && 'REIMBURSEMENT (Warehouse Lost)') ||
+                    (transaction['transaction-type'] === 'WAREHOUSE_DAMAGE' && 'REIMBURSEMENT (Warehouse Damage)')
             ;
 
             if (settlementId && !settlement[settlementId]) {
