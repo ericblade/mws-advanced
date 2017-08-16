@@ -47,7 +47,12 @@ async function main(accessKeys = keys) {
             // Whatever identifier we use is called "orderId" below, whether it's an order, or a shipment, or a fee with no identifier.
             // If we can't determine that something is a fee with no identifier to what it is attached to, or an order to attach it to, then assume it is
             // data about the entire settlement, and store it in the root of the object.
-            const orderId = transaction['order-id'] || transaction['shipment-id'] || (transaction['transaction-type'] === 'Storage Fee' && 'STORAGE FEE');
+            const
+                orderId = transaction['order-id'] ||
+                    transaction['shipment-id'] ||
+                    (transaction['transaction-type'] === 'Storage Fee' && 'STORAGE FEE') ||
+                    (transaction['transaction-type'] === 'Subscription Fee' && 'SUBSCRIPTION FEE')
+            ;
 
             if (settlementId && !settlement[settlementId]) {
                 settlement[settlementId] = { orders: {}, credits: {}, debits: {} };
