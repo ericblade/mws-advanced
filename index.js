@@ -311,7 +311,7 @@ const requestReport = async (options) => {
     CompletedDate: '2017-07-31T06:09:46+00:00',
     GeneratedReportId: '5935233306017378' } ]
 */
-const getReportRequestList = async (options) => {
+const getReportRequestList = async (options = {}) => {
     let obj = {};
     if (options.ReportRequestIdList) {
         obj = options.ReportRequestIdList.reduce((prev, curr, index) => {
@@ -350,7 +350,7 @@ const getReport = async (options) => {
     return result;
 }
 
-const getReportList = async (options) => {
+const getReportList = async (options = {}) => {
     let obj = {};
     if (options.ReportRequestIdList) {
         obj = options.ReportRequestIdList.reduce((prev, curr, index) => {
@@ -395,7 +395,7 @@ const getReportListByNextToken = async (options) => {
     }
 }
 
-const getReportListAll = async (options) => {
+const getReportListAll = async (options = {}) => {
     let reports = [];
     const reportList = await getReportList(options);
     reports = reports.concat(reportList.result);
@@ -420,9 +420,19 @@ const getReportListAll = async (options) => {
 // when we call getReportRequestList()
 // TODO: need to improve the throttling mechanism, waiting 45 seconds per test minimum sucks.
 
-// known to work: _GET_MERCHANT_LISTINGS_ALL_DATA_
 // known to work if given a StartDate: _GET_FLAT_FILE_ORDERS_DATA_, _GET_AMAZON_FULFILLED_SHIPMENTS_DATA_
 // known to require calling GetReportList (therefore not yet working): _GET_SELLER_FEEDBACK_DATA_
+// unsure why not working: _GET_FLAT_FILE_ACTIONABLE_ORDER_DATA_ - i may not have any data.
+// may require parameters? just cancells if not given parameters.
+//  _GET_CONVERGED_FLAT_FILE_SOLD_LISTINGS_DATA_
+//  _GET_CONVERGED_FLAT_FILE_ORDER_REPORT_DATA_
+//  _GET_FLAT_FILE_ALL_ORDERS_DATA_BY_LAST_UPDATE_
+//  _GET_FLAT_FILE_ALL_RDERS_DATA_BY_ORDER_DATE_
+//  _GET_XML_ALL_ORDERS_DATA_BY_LAST_UPDATE_
+//  _GET_XML_ALL_ORDERS_DATA_BY_ORDER_DATE_
+//  _GET_FLAT_FILE_PENDING_ORDERS_DATA_ - may also have failed due to not having any pending orders?
+// after I got to _GET_FLAT_FILE_PENDING_ORDERS_DATA_ .. getReportRequestList started throwing out
+// "undefined" as a status. wtf?
 
 const requestAndDownloadReport = async (ReportType, file, reportParams = {}) => {
     async function checkReportComplete(reportRequestId) {

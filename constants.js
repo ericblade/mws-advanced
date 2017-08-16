@@ -80,4 +80,11 @@ const NOREQUEST_REPORT_TYPES = [
     '_GET_V2_SETTLEMENT_REPORT_DATA_FLAT_FILE_',
     '_GET_V2_SETTLEMENT_REPORT_DATA_XML_',
     '_GET_V2_SETTLEMENT_REPORT_DATA_FILE_FILE_V2_',
+    'FeedSummaryReport', // what is this? it shows up in GetReportList, but I can't seem to request it
 ];
+
+module.exports = {
+    REQUEST_REPORT_TYPES,
+    SCHEDULED_REPORT_TYPES,
+    NOREQUEST_REPORT_TYPES,
+}
