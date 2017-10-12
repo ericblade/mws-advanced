@@ -2,7 +2,7 @@ const { promisify } = require('util');
 const fs = require('fs');
 const writeFile = promisify(fs.writeFile);
 
-const MWS = require('mws-simple');
+let MWS = require('mws-simple');
 
 const feeds = require('./feeds.js');
 const finances = require('./finances.js');
@@ -14,6 +14,43 @@ const orders = require('./orders.js');
 const products = require('./products.js');
 const sellers = require('./sellers.js');
 const reports = require('./reports.js');
+
+/* Monkeypatch mws-simple to accept authToken in it's constructor */
+const oldMWS = MWS;
+
+function Client(opts) {
+
+    // force 'new' constructor
+    if (!(this instanceof Client)) return new Client(opts);
+
+    this.host = opts.host || 'mws.amazonservices.com';
+    this.port = opts.port || 443
+
+    if (opts.accessKeyId) this.accessKeyId = opts.accessKeyId;
+    if (opts.secretAccessKey) this.secretAccessKey = opts.secretAccessKey;
+    if (opts.merchantId) this.merchantId = opts.merchantId;
+    if (opts.authToken) this.authToken = opts.authToken;
+}
+
+Client.prototype = oldMWS.prototype;
+
+MWS = Client;
+
+/* End Monkeypatch for mws-simple constructor */
+
+/* Begin Monkeypatch mws-simple request() to apply the authToken as MWSAuthToken in the query */
+const oldRequestFunction = MWS.prototype.request;
+
+function newRequest(requestData, callback) {
+    if (!requestData.query.MWSAuthToken && this.authToken) {
+        requestData.query.MWSAuthToken = this.authToken;
+    }
+    return oldRequestFunction.apply(this, [ requestData, callback ]);
+}
+
+MWS.prototype.request = newRequest;
+
+/* End Monkeypatch */
 
 // utility function to allow us to throttle requests
 function sleep(ms) {
@@ -159,12 +196,15 @@ const getMarketplaces = async () => {
     return { markets, marketParticipations };
 }
 
-const init = ({ accessKeyId, secretAccessKey, merchantId }) => {
-    mws = MWS({
+const init = ({ accessKeyId, secretAccessKey, merchantId, authToken }) => {
+    mws = new MWS({
         accessKeyId,
         secretAccessKey,
         merchantId,
+        authToken,
     });
+    if (mws.authToken)
+        mws.authToken = authToken;
 };
 
 // see https://docs.developer.amazonservices.com/en_UK/orders-2013-09-01/Orders_ListOrders.html
@@ -422,6 +462,8 @@ const getReportListAll = async (options = {}) => {
 
 // known to work if given a StartDate: _GET_FLAT_FILE_ORDERS_DATA_, _GET_AMAZON_FULFILLED_SHIPMENTS_DATA_
 // known to require calling GetReportList (therefore not yet working): _GET_SELLER_FEEDBACK_DATA_
+// _GET_AMAZON_FULFILLED_SHIPMENTS_DATA_
+//
 // unsure why not working: _GET_FLAT_FILE_ACTIONABLE_ORDER_DATA_ - i may not have any data.
 // may require parameters? just cancells if not given parameters.
 //  _GET_CONVERGED_FLAT_FILE_SOLD_LISTINGS_DATA_
@@ -433,6 +475,11 @@ const getReportListAll = async (options = {}) => {
 //  _GET_FLAT_FILE_PENDING_ORDERS_DATA_ - may also have failed due to not having any pending orders?
 // after I got to _GET_FLAT_FILE_PENDING_ORDERS_DATA_ .. getReportRequestList started throwing out
 // "undefined" as a status. wtf?
+//  _GET_FLAT_FILE_ALL_ORDERS_DATA_BY_LAST_UPDATE_
+//  _GET_FLAT_FILE_ALL_ORDERS_DATA_BY_ORDER_DATE_
+//  _GET_XML_ALL_ORDERS_DATA_BY_LAST_UPDATE_
+//  _GET_XML_ALL_ORDERS_DATA_BY_ORDER_DATE_
+
 
 const requestAndDownloadReport = async (ReportType, file, reportParams = {}) => {
     async function checkReportComplete(reportRequestId) {
@@ -468,7 +515,7 @@ const requestAndDownloadReport = async (ReportType, file, reportParams = {}) => 
         ...reportParams,
     });
     const reportRequestId = request.ReportRequestId;
-    await sleep(5000); // some requests may be available very quickly, check after 5 sec
+    await sleep(20000); // some requests may be available quickly, check after 20 sec
     const reportCheck = await checkReportComplete(reportRequestId);
     const ReportId = reportCheck.GeneratedReportId;
     // TODO: Some reports do not provide a GeneratedReportId and we need to call GetReportList to find the identifier!
