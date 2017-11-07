@@ -62,7 +62,7 @@ Skips market places that are known to be not good values (possibly test markets 
 
     const startDate = new Date();
     startDate.setDate(startDate.getDate() - 7);
-    const result = await aws.listOrders({ QueryStartDateTime: startDate.toISOString() });
+    const result = await mws.listOrders({ CreatedAfter: startDate.toISOString(), 'MarketplaceId.Id.1': 'A2ZV50J4W1RKNI' });
     console.log('Orders=', result);
 ````
 https://docs.developer.amazonservices.com/en_UK/orders-2013-09-01/Orders_ListOrders.html
@@ -224,4 +224,3 @@ getReportListByNextToken calls, to return the entire list of available reports t
 criteria presented.  For a list of options, see https://docs.developer.amazonservices.com/en_UK/reports/Reports_GetReportList.html
 
 Return is identical to getReportList()
-
