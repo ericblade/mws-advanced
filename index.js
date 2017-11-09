@@ -1,3 +1,5 @@
+// https://sellercentral.amazon.com/forums/thread.jspa?threadID=369774&tstart=75
+
 const { promisify } = require('util');
 const fs = require('fs');
 const writeFile = promisify(fs.writeFile);
@@ -135,16 +137,97 @@ const requestPromise = (requestData) => {
     });
 };
 
+// TODO: move isType and validateAndTransformParameters to a separate file, add tests
+
+const isType = (type, test, values) => {
+    let valid = false;
+    switch(type) {
+        case 'xs:positiveInteger':
+            if(parseInt(test, 10) === test && test > 0) {
+                valid = true;
+            }
+            break;
+        case 'xs:string':
+            if(typeof test === 'string' || test instanceof String) {
+                valid = true;
+            }
+            break;
+        case 'xs:dateTime': // test for exact match to ISO8601
+            if (new Date(test).toISOString() === test) {
+                valid = true;
+            }
+            break;
+        default:
+            console.log(`** isType: dont know how to handle type ${type}, hope its good`);
+            valid = true;
+    }
+    if (valid && values) {
+        if (!values.includes(valid)) {
+            valid = false;
+        }
+    }
+    return valid;
+}
+
+const validateAndTransformParameters = (valid, options) => {
+    const newOptions = {};
+    // check for unknown parameters
+    Object.keys(options).map((k) => {
+        if (!valid[k]) {
+            throw new Error(`Unknown parameter ${k}`);
+        }
+    });
+    // check for required, list, and type (inside and outside of list)
+    // transform lists into the expected keys at the MWS side.
+    // ie key AmazonOrderId becomes AmazonOrderId.Id.{index}
+    Object.keys(valid).map((k) => {
+        const v = valid[k];
+        const o = options[k];
+
+        // if required and not found, throw
+        if (v.required && !o) {
+            throw new Error(`Required parameter ${k} missing`);
+        }
+        // transform Date objects into ISO strings
+        if (v.type === 'xs:dateTime' && o instanceof Date) {
+            newOptions[k] = o.toISOString();
+        } else if (v.list && o) { // transform lists
+            if (!Array.isArray(o)) {
+                throw new Error(`Parameter ${k} expected an array`);
+            }
+            if (v.listMax && o.length > v.listMax) {
+                throw new Error(`List parameter ${k} can only take up to ${v.listMax} items`);
+            }
+            if (!o.every((val, index, arr) => isType(v.type, val, v.values))) {
+                throw new Error(`List ${k} expects type ${v.type}`);
+            }
+            o.forEach((item, index) => {
+                newOptions[`${v.list}.${index+1}`] = item;
+            });
+        } else { // if not already handled, then run it through isType
+            if (v && o && !isType(v.type, o, v.values)) {
+                throw new Error(`Expected type ${v.type} for ${k}`);
+            }
+            newOptions[k] = o;
+        }
+    });
+    return newOptions;
+}
+
 const callEndpoint = async (name, options) => {
     const endpoint = endpoints[name];
     if (!endpoint) {
         console.error('**** callEndpoint did not find an endpoint called', name);
         return null;
     }
-    const queryOptions = Object.assign({}, options, {
+    if (endpoint.params) {
+        options = validateAndTransformParameters(endpoint.params, options);
+    }
+    const queryOptions = {
+        ...options,
         Action: endpoint.action,
         Version: endpoint.version,
-    });
+    };
 
     const params = {
         path: `/${endpoint.category}/${endpoint.version}`,
