@@ -17,6 +17,10 @@ const endpointList = [
 
 const newEndpointList = {
     ListOrders: {
+        throttle: {
+            maxInFlight: 6,
+            restoreRate: 60,
+        },
         params: {
             CreatedAfter: {
                 type: 'xs:dateTime',
@@ -76,8 +80,62 @@ const newEndpointList = {
                             'Lost' ],
             },
         },
+        returns: {
+            NextToken: {
+                type: 'xs:string',
+                required: false,
+            },
+            LastUpdatedBefore: {
+                type: 'xs:dateTime',
+                required: false, // ONE OF: LastUpdatedBefore, CreatedBefore
+            },
+            CreatedBefore: {
+                type: 'xs:dateTime',
+                required: false, // ONE OF: LastUpdatedBefore, CreatedBefore
+            },
+            Orders: {
+                type: 'Order',
+                required: false,
+                list: 'Orders',
+            }
+        }
+    },
+    ListOrdersByNextToken: {
+        throttle: {
+            maxInFlight: 6,
+            restoreRate: 60,
+        },
+        params: {
+            NextToken: {
+                type: 'xs:string',
+                required: true,
+            },
+        },
+        returns: {
+            NextToken: {
+                type: 'xs:string',
+                required: false,
+            },
+            LastUpdatedBefore: {
+                type: 'xs:dateTime',
+                required: false, // ONE OF: LastUpdatedBefore, CreatedBefore
+            },
+            CreatedBefore: {
+                type: 'xs:dateTime',
+                required: false, // ONE OF: LastUpdatedBefore, CreatedBefore
+            },
+            Orders: {
+                type: 'Order',
+                required: false,
+                list: 'Orders',
+            },
+        }
     },
     GetOrder: {
+        throttle: {
+            maxInFlight: 6,
+            restoreRate: 60,
+        },
         params: {
             AmazonOrderId: {
                 type: 'xs:string',
@@ -86,6 +144,90 @@ const newEndpointList = {
                 listMax: 50,
             },
         },
+        returns: {
+            Orders: {
+                type: 'Order',
+                required: true,
+            }
+        }
+    },
+    ListOrderItems: {
+        throttle: {
+            maxInFlight: 30,
+            restoreRate: 30,
+        },
+        params: {
+            AmazonOrderId: {
+                type: 'xs:string',
+                required: true,
+            },
+        },
+        returns: {
+            NextToken: {
+                type: 'xs:string',
+                required: false,
+            },
+            AmazonOrderId: { // TODO: we could implement format-specifiers as well, this must be 3-7-7 ..
+                type: 'xs:string',
+                required: true,
+            },
+            OrderItems: {
+                type: 'OrderItem',
+                required: true,
+            },
+        },
+    },
+    ListOrderItemsByNextToken: {
+        throttle: {
+            maxInFlight: 30,
+            restoreRate: 30,
+        },
+        params: {
+            NextToken: {
+                type: 'xs:string',
+                required: true,
+            },
+        },
+        returns: {
+            NextToken: {
+                type: 'xs:string',
+                required: false,
+            },
+            AmazonOrderId: { // TODO: we could implement format-specifiers as well, this must be 3-7-7 ..
+                type: 'xs:string',
+                required: true,
+            },
+            OrderItems: {
+                type: 'OrderItem',
+                required: true,
+            },
+        }
+    },
+    GetServiceStatus: {
+        throttle: {
+            maxInFlight: 2,
+            restoreRate: 12,
+        },
+        params: {
+        },
+        returns: {
+            Status: {
+                type: 'xs:string',
+                required: true, // TODO: mws docs don't specify which items are required here, assume status would be?
+            },
+            Timestamp: {
+                type: 'xs:dateTime',
+                required: true,
+            },
+            MessageId: {
+                type: 'xs:string',
+                required: false,
+            },
+            Messages: {
+                type: 'Message',
+                required: false,
+            },
+        }
     },
 };
 
