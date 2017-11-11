@@ -139,16 +139,30 @@ const requestPromise = (requestData) => {
 
 // TODO: move isType and validateAndTransformParameters to a separate file, add tests
 
-const isType = (type, test, values) => {
+const isType = (type, test, definition) => {
     let valid = false;
     switch(type) {
-        case 'xs:positiveInteger':
-            if(parseInt(test, 10) === test && test > 0) {
+        case 'xs:positiveInteger': {
+            const newTest = parseInt(test, 10);
+            if (newTest === test) {
+                if (test < 1 || test < definition.minValue || (definition.maxValue && test > definition.maxValue)) {
+                    throw new Error(`Value ${test} outside of allowed range ${definition.minValue || 1}-${definition.maxValue || 'inf'}`);
+                }
                 valid = true;
             }
             break;
+        }
+        case 'xs:nonNegativeInteger': {
+            const newTest = parseInt(test, 10);
+            if (newTest === test) {
+                if (test < 0 || test < definition.minValue || (definition.maxValue && test > definition.maxValue)) {
+                    throw new Error(`Value ${test} outside of allowed range ${definition.minValue || 1}-${definition.maxValue || 'inf'}`);
+                }
+            }
+            break;
+        }
         case 'xs:string':
-            if(typeof test === 'string' || test instanceof String) {
+            if (typeof test === 'string' || test instanceof String) {
                 valid = true;
             }
             break;
@@ -161,8 +175,8 @@ const isType = (type, test, values) => {
             console.log(`** isType: dont know how to handle type ${type}, hope its good`);
             valid = true;
     }
-    if (valid && values) {
-        if (!values.includes(valid)) {
+    if (valid && definition.values) {
+        if (!definition.values.includes(valid)) {
             valid = false;
         }
     }
@@ -198,14 +212,14 @@ const validateAndTransformParameters = (valid, options) => {
             if (v.listMax && o.length > v.listMax) {
                 throw new Error(`List parameter ${k} can only take up to ${v.listMax} items`);
             }
-            if (!o.every((val, index, arr) => isType(v.type, val, v.values))) {
+            if (!o.every((val, index, arr) => isType(v.type, val, v))) {
                 throw new Error(`List ${k} expects type ${v.type}`);
             }
             o.forEach((item, index) => {
                 newOptions[`${v.list}.${index+1}`] = item;
             });
         } else { // if not already handled, then run it through isType
-            if (v && o && !isType(v.type, o, v.values)) {
+            if (v && o && !isType(v.type, o, v)) {
                 throw new Error(`Expected type ${v.type} for ${k}`);
             }
             newOptions[k] = o;
