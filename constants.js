@@ -85,6 +85,32 @@ const NOREQUEST_REPORT_TYPES = [
     'FeedSummaryReport', // what is this? it shows up in GetReportList, but I can't seem to request it
 ];
 
+const REPORT_PROCESSING_STATUS_TYPES = [
+    '_SUBMITTED_',
+    '_IN_PROGRESS_',
+    '_CANCELLED_',
+    '_DONE_',
+    '_DONE_NO_DATA_'
+];
+
+const SCHEDULE_TYPES = [
+    '_15_MINUTES_',
+    '_30_MINUTES_',
+    '_1_HOUR_',
+    '_2_HOURS_',
+    '_4_HOURS_',
+    '_8_HOURS_',
+    '_12_HOURS_',
+    '_1_DAY_',
+    '_2_DAYS_',
+    '_72_HOURS_',
+    '_1_WEEK_',
+    '_14_DAYS_',
+    '_15_DAYS_',
+    '_30_DAYS_',
+    '_NEVER_',
+];
+
 module.exports = {
     REQUEST_REPORT_TYPES,
     SCHEDULED_REPORT_TYPES,
