@@ -48,7 +48,7 @@ As the MWS API is a rather difficult bear to use coherently, additional function
 ````
     getMarketplaces()
 
-    const result = await aws.getMarketplaces();
+    const result = aws.getMarketplaces();
     console.log('Markets=', result.markets);
     console.log('MarketParticipations=', result.marketParticipations);
 ````
@@ -62,7 +62,7 @@ Skips market places that are known to be not good values (possibly test markets 
 
     const startDate = new Date();
     startDate.setDate(startDate.getDate() - 7);
-    const result = await mws.listOrders({ CreatedAfter: startDate.toISOString(), 'MarketplaceId.Id.1': 'A2ZV50J4W1RKNI' });
+    const result = mws.listOrders({ CreatedAfter: startDate.toISOString(), 'MarketplaceId.Id.1': 'A2ZV50J4W1RKNI' });
     console.log('Orders=', result);
 ````
 https://docs.developer.amazonservices.com/en_UK/orders-2013-09-01/Orders_ListOrders.html
@@ -84,7 +84,7 @@ Returns a list of financial events
 
     const startDate = new Date();
     startDate.setDate(startDate.getDate() - 7);
-    const result = await aws.listInventorySupply({ QueryStartDateTime: startDate.toISOString() });
+    const result = aws.listInventorySupply({ QueryStartDateTime: startDate.toISOString() });
     console.log('Inventory=', result);
 ````
 https://docs.developer.amazonservices.com/en_UK/fba_inventory/FBAInventory_ListInventorySupply.html
@@ -99,7 +99,7 @@ Returns a list of FBA inventory
 ````
     getMatchingProductForId()
 
-    const result = await mws.getMatchingProductForId({
+    const result = mws.getMatchingProductForId({
         MarketplaceId: 'ATVPDKIKX0DER',
         IdType: 'ASIN',
         IdList: [ 'B005NK7VTU' ],
