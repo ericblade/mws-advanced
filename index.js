@@ -184,6 +184,14 @@ const isType = (type, test, definition) => {
 }
 
 const validateAndTransformParameters = (valid, options) => {
+    if (!options) {
+        return {};
+    }
+    if (!valid) {
+        console.warn('**** no validation parameters passed to validateAndTransform, no checking will be performed');
+        return options;
+    }
+
     const newOptions = {};
     // check for unknown parameters
     Object.keys(options).map((k) => {

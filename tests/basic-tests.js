@@ -14,7 +14,7 @@ async function main() {
     if (!marketsList || !marketsList.length) {
         throw(new Error('Expected at least one market. Received ' + JSON.stringify(marketsplacesResults)));
     }
-    console.warn(`* getMarketsplaces returns ${marketsList.length} results, expected > 0`);
+    console.warn(`* getMarketplaces returns ${marketsList.length} results, expected > 0`);
 
     const marketIds = Object.keys(marketsList).map(market => marketsList[market].MarketplaceId);
 
@@ -48,6 +48,8 @@ async function main() {
     // https://docs.developer.amazonservices.com/en_US/orders-2013-09-01/Orders_GetOrder.html
     const getOrderResults = await mws.callEndpoint('GetOrder', params);
     console.warn('* getOrderResults', getOrderResults);
+
+    console.warn('* Done.');
 }
 
 main();
