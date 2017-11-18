@@ -12,6 +12,7 @@ const endpointList = [
     'ListFinancialEventGroupsByNextToken',
     'ListFinancialEvents',
     'ListFinancialEventsByNextToken',
+    'GetServiceStatus',
 ];
 
 const endpoints = generateEndpoints(

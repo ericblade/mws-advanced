@@ -6,6 +6,7 @@ const writeFile = promisify(fs.writeFile);
 
 let MWS = require('mws-simple');
 
+// TODO: add Subscriptions and Recommendations categories
 const feeds = require('./feeds.js');
 const finances = require('./finances.js');
 const inbound = require('./inbound.js');

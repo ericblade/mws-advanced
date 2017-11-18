@@ -17,10 +17,12 @@ const endpointList = [
     'GetLowestOfferListingsForASIN',
     'GetLowestPricedOffersForSKU',
     'GetLowestPricedOffersForASIN',
+    'GetMyFeesEstimate',
     'GetMyPriceForSKU',
     'GetMyPriceForASIN',
     'GetProductCategoriesForSKU',
     'GetProductCategoriesForASIN',
+    'GetServiceStatus',
 ]
 
 const endpoints = generateEndpoints(

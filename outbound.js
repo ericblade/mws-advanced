@@ -19,6 +19,7 @@ const endpointList = [
     'CancelFulfillmentOrder',
     'ListReturnReasonCodes',
     'CreateFulfillmentReturn',
+    'GetServiceStatus',
 ]
 
 const endpoints = generateEndpoints(

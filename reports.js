@@ -12,9 +12,7 @@ const apiVersion = '2009-01-01';
 const endpointList = [
     'RequestReport',
     'GetReportRequestList',
-    'GetReport',
-    'GetReportList',
-    'GetReportListByNextToken',
+    'GetReportRequestListByNextToken',
     'GetReportRequestCount',
     'CancelReportRequests',
     'GetReportList',

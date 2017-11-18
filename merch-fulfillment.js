@@ -13,6 +13,7 @@ const endpointList = [
     'CreateShipment',
     'GetShipment',
     'CancelShipment',
+    'GetServiceStatus',
 ];
 
 const endpoints = generateEndpoints(

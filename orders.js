@@ -13,6 +13,7 @@ const endpointList = [
     'GetOrder',
     'ListOrderItems',
     'ListOrderItemsByNextToken',
+    'GetServiceStatus',
 ];
 
 const newEndpointList = {

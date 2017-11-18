@@ -31,6 +31,7 @@ const endpointList = [
     'ListInboundShipmentsByNextToken',
     'ListInboundShipmentItems',
     'ListInboundShipmentItemsByNextToken',
+    'GetServiceStatus',
 ];
 
 const endpoints = generateEndpoints(
