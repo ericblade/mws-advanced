@@ -1,6 +1,6 @@
 const path = require('path');
 
-const generateEndpoints = require('./endpoints');
+const generateEndpoints = require('./endpoints-utils');
 
 const constants = require('./constants.js');
 

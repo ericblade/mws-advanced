@@ -19,6 +19,7 @@ async function main() {
     const marketIds = Object.keys(marketsList).map(market => marketsList[market].MarketplaceId);
 
     // TODO: add GetServiceStatus call at very end of tests -- it has a maximum quota of *2*, with a restore rate of 1 every five minutes. ugh.
+    // also, is GetServiceStatus independent for each category it exists? probably, but not sure.
 
     const startDate = new Date();
     // startDate.setMonth(startDate.getMonth() - 1);
