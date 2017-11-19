@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "./node_modules/.bin/mocha --timeout=3000",
-    "coverage": "nyc report --reporter=text-lcov > coverage.txt"
+    "coverage": "./node_modules/.bin/nyc --reporter=lcov ./node_modules/.bin/mocha --timeout=3000 && send-coverage.cmd"
   },
   "author": "",
   "license": "Apache",
