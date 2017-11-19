@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "./node_modules/.bin/mocha"
+    "test": "./node_modules/.bin/mocha --timeout=3000",
+    "coverage": "nyc report --reporter=text-lcov > coverage.txt"
   },
   "author": "",
   "license": "Apache",
@@ -15,6 +16,7 @@
     "chai": "^4.1.2",
     "karma": "^1.7.1",
     "karma-coverage": "^1.1.1",
-    "mocha": "^4.0.1"
+    "mocha": "^4.0.1",
+    "nyc": "^11.3.0"
   }
 }
