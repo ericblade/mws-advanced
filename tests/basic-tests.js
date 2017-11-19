@@ -9,14 +9,13 @@ async function main() {
     console.warn('* calling getMarketplaces()');
 
     const marketplacesResults = await mws.getMarketplaces();
-    const marketsList = marketplacesResults.markets; // TODO: wtf is wrong with results.marketParticipations ?
-    let marketsObj = {};
-    if (!marketsList || !marketsList.length) {
+    const marketDetails = marketplacesResults.marketDetails;
+    const marketIds = Object.keys(marketDetails);
+
+    if (!marketIds || !marketIds.length) {
         throw(new Error('Expected at least one market. Received ' + JSON.stringify(marketsplacesResults)));
     }
-    console.warn(`* getMarketplaces returns ${marketsList.length} results, expected > 0`);
-
-    const marketIds = Object.keys(marketsList).map(market => marketsList[market].MarketplaceId);
+    console.warn(`* getMarketplaces returns ${marketIds.length} results, expected > 0`);
 
     // TODO: add GetServiceStatus call at very end of tests -- it has a maximum quota of *2*, with a restore rate of 1 every five minutes. ugh.
     // also, is GetServiceStatus independent for each category it exists? probably, but not sure.

@@ -1,5 +1,15 @@
 const { init, callEndpoint } = require('./lib');
 
+// return data['{name}Response']['{name}Result'] as most APIs seem to return from the hierarchy
+// before any of the useful data is buried.
+const digResponseResult = (name, data) => {
+    try {
+        return data[`${name}Response`][`${name}Result`];
+    } catch (err) {
+        return data;
+    }
+};
+
 /*
     returns:
     { markets, marketParticipations }
@@ -16,29 +26,46 @@ const { init, callEndpoint } = require('./lib');
 
 const getMarketplaces = async () => {
     const result = await callEndpoint('ListMarketplaceParticipations');
-    const result2 = result.ListMarketplaceParticipationsResponse.ListMarketplaceParticipationsResult;
-    const marketParticipationsTemp = result2.ListParticipations.Participation;
-    const marketsTemp = result2.ListMarketplaces.Marketplace;
-    let markets = [];
-    let marketParticipations = [];
+    const result2 = digResponseResult('ListMarketplaceParticipations', result);
 
-    for (const m of marketsTemp) {
-        if (m.MarketplaceId === 'A2ZV50J4W1RKNI' || m.MarketplaceId === 'A1MQXOICRS2Z7M') {
-            continue;
+    // destructure result2.ListParticipations.Participation to marketParticipationsTemp
+    const { ListParticipations: { Participation: marketParticipationsTemp } } = result2;
+    // destructure result2.ListMarketplaces.Marketplace to marketsTemp
+    const { ListMarketplaces: { Marketplace: marketsTemp } } = result2;
+
+    let marketDetails = {};
+
+    // map and filter
+    const markets = marketsTemp.reduce((arr, market) => {
+        // market = { MarketplaceId, DefaultCountryCode, DomainName, DefaultCurrencyCode, Name }
+        // A2ZV50J4W1RKNI === "sim1.stores.amazon.com", "Non-Amazon"
+        // A1MQXOICRS2Z7M === "siprod.stores.amazon.ca", "SI CA Prod Marketplace"
+        // A2EUQ1WTGCTBG2 === "www.amazon.ca" "Amazon.ca"
+        // ATVPDKIKX0DER === "www.amazon.com" "Amazon.com"
+        // Looks like "Non-Amazon" and "SI CA Prod Marketplace" are test markets? maybe?
+        if (market.MarketplaceId === 'A2ZV50J4W1RKNI' || market.MarketplaceId === 'A1MQXOICRS2Z7M') {
+            return arr;
         }
-        markets.push(m);
-    }
+        arr.push(market);
+        marketDetails[market.MarketplaceId] = market;
+        return arr;
+    }, []);
 
-    for (const p of marketParticipationsTemp) {
-        p.MarketplaceId = p.MarketplaceId[0];
-        p.SellerId = p.SellerId[0];
-        p.HasSellerSuspendedListings = p.HasSellerSuspendedListings[0];
-        if (p.MarketplaceId !== 'A2ZV50J4W1RKNI' && p.MarketplaceId !== 'A1MQXOICRS2Z7M') {
-            marketParticipations.push(p);
+    // marketParticipation = { MarketplaceId, SellerId, HasSellerSuspendedListings }
+    // map and filter
+    const marketParticipations = marketParticipationsTemp.reduce((arr, participation) => {
+        if (participation.MarketplaceId === 'A2ZV50J4W1RKNI' || participation.MarketplaceId === 'A1MQXOICRS2Z7M') {
+            return arr;
         }
-    }
+        arr.push(participation);
+        marketDetails[participation.MarketplaceId] = {
+            ...marketDetails[participation.MarketplaceId],
+            ...participation,
+        };
+        return arr;
+    }, []);
 
-    return { markets, marketParticipations };
+    return { markets, marketParticipations, marketDetails };
 }
 
 // see https://docs.developer.amazonservices.com/en_UK/orders-2013-09-01/Orders_ListOrders.html
