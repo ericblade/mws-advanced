@@ -159,7 +159,6 @@ const getMatchingProductForId = async (options) => {
     obj = Object.assign({}, obj, options);
     const products = await callEndpoint('GetMatchingProductForId', obj);
 
-
     try {
         const productList = digResponseResult('GetMatchingProductForProductId', products);
         const ret = productList.map(p => p.Products.Product);
@@ -203,28 +202,6 @@ const requestReport = async (options) => {
 */
 const getReportRequestList = async (options = {}) => {
     let obj = {};
-    if (options.ReportRequestIdList) {
-        obj = options.ReportRequestIdList.reduce((prev, curr, index) => {
-            prev[`ReportRequestIdList.Id.${index+1}`] = curr;
-            return prev;
-        }, {})
-        delete options.ReportRequestIdList;
-    }
-    if (options.ReportTypeList) {
-        obj = options.ReportTypeList.reduce((prev, curr, index) => {
-            prev[`ReportTypeList.Type.${index+1}`] = curr;
-            return prev;
-        }, {})
-        delete options.ReportTypeList;
-    }
-    if (options.ReportProcessingStatusList) {
-        obj = options.ReportProcessingStatusList.reduce((prev, curr, index) => {
-            prev[`ReportProcessingStatusList.Status.${index+1}`] = curr;
-            return prev;
-        }, {})
-        delete options.ReportProcessingStatusList;
-    }
-
     obj = Object.assign({}, obj, options);
     const result = await callEndpoint('GetReportRequestList', obj);
     // NextToken is under result.GetReportRequestListResponse.GetReportRequestListResult
@@ -239,20 +216,6 @@ const getReport = async (options) => {
 
 const getReportList = async (options = {}) => {
     let obj = {};
-    if (options.ReportRequestIdList) {
-        obj = options.ReportRequestIdList.reduce((prev, curr, index) => {
-            prev[`ReportRequestIdList.Id.${index+1}`] = curr;
-            return prev;
-        }, {})
-        delete options.ReportRequestIdList;
-    }
-    if (options.ReportTypeList) {
-        obj = options.ReportTypeList.reduce((prev, curr, index) => {
-            prev[`ReportTypeList.Type.${index+1}`] = curr;
-            return prev;
-        }, {})
-        delete options.ReportTypeList;
-    }
     obj = Object.assign({}, obj, options);
     const result = await callEndpoint('GetReportList', obj);
     // NextToken should be in result.GetReportListResponse.GetReportListResult
