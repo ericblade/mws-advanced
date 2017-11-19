@@ -1,4 +1,9 @@
 const { init, callEndpoint } = require('./lib');
+const { sleep } = require('./lib/sleep');
+const { promisify } = require('util');
+const fs = require('fs');
+
+const writeFile = promisify(fs.writeFile);
 
 // return data['{name}Response']['{name}Result'] as most APIs seem to return from the hierarchy
 // before any of the useful data is buried.
@@ -12,9 +17,14 @@ const digResponseResult = (name, data) => {
 
 /*
     returns:
-    { markets, marketParticipations }
+    { markets, marketParticipations, marketDetails }
     markets = MarketplaceId, DefaultCountryCode, DomainName, Name, DefaultCurrencyCode, DefaultLanguageCode
     marketParticipations = MarketplaceId, SellerId, HasSellerSuspendedListings
+    marketDetails = {
+        marketplaceID: {
+            ... all of the above
+        }
+    }
 */
 
 // TODO: upgrade to call ListMarketplaceParticipationsByNextToken when a NextToken
@@ -33,7 +43,7 @@ const getMarketplaces = async () => {
     // destructure result2.ListMarketplaces.Marketplace to marketsTemp
     const { ListMarketplaces: { Marketplace: marketsTemp } } = result2;
 
-    let marketDetails = {};
+    const marketDetails = {};
 
     // map and filter
     const markets = marketsTemp.reduce((arr, market) => {
@@ -66,7 +76,7 @@ const getMarketplaces = async () => {
     }, []);
 
     return { markets, marketParticipations, marketDetails };
-}
+};
 
 // see https://docs.developer.amazonservices.com/en_UK/orders-2013-09-01/Orders_ListOrders.html
 // returns
@@ -123,7 +133,7 @@ const listFinancialEvents = async (options) => {
     const results = await callEndpoint('ListFinancialEvents', options);
     const financialEvents = digResponseResult('ListFinancialEvents', results);
     return financialEvents;
-}
+};
 
 /*
 [ { Condition: 'NewItem',
@@ -138,7 +148,7 @@ const listInventorySupply = async (options) => {
     const results = await callEndpoint('ListInventorySupply', options);
     const inventorySupply = digResponseResult('ListInventorySupply', results);
     return inventorySupply.InventorySupplyList.member;
-}
+};
 
 /*
 returns
@@ -149,13 +159,15 @@ returns
 */
 const getMatchingProductForId = async (options) => {
     let obj = {};
+    /* eslint-disable no-param-reassign */
     if (options.IdList) {
         obj = options.IdList.reduce((prev, curr, index) => {
-            prev[`IdList.Id.${index+1}`] = curr;
+            prev[`IdList.Id.${index + 1}`] = curr;
             return prev;
-        }, {})
+        }, {});
         delete options.IdList;
     }
+    /* eslint-enable no-param-reassign */
     obj = Object.assign({}, obj, options);
     const products = await callEndpoint('GetMatchingProductForId', obj);
 
@@ -166,7 +178,7 @@ const getMatchingProductForId = async (options) => {
     } catch (err) {
         return products;
     }
-}
+};
 
 /*
 { ReportType: '_GET_MERCHANT_LISTINGS_DATA_',
@@ -181,7 +193,7 @@ const requestReport = async (options) => {
     const result = await callEndpoint('RequestReport', options);
     const reportRequests = digResponseResult('RequestReport', result);
     return reportRequests.ReportRequestInfo;
-}
+};
 
 // interesting note: there are tons of reports returned by this API,
 // apparently Amazon auto pulls reports, and many reports pulled in the Seller Central
@@ -206,13 +218,13 @@ const getReportRequestList = async (options = {}) => {
     const result = await callEndpoint('GetReportRequestList', obj);
     // NextToken is under result.GetReportRequestListResponse.GetReportRequestListResult
     const reportRequestList = digResponseResult('GetReportRequestList', result);
-    return result.ReportRequestInfo;
-}
+    return reportRequestList.ReportRequestInfo;
+};
 
 const getReport = async (options) => {
     const result = await callEndpoint('GetReport', options);
     return result;
-}
+};
 
 const getReportList = async (options = {}) => {
     let obj = {};
@@ -224,12 +236,12 @@ const getReportList = async (options = {}) => {
         const ret = {
             result: cache.ReportInfo,
             nextToken: cache.HasNext && cache.NextToken,
-        }
+        };
         return ret;
     } catch (err) {
         return result;
     }
-}
+};
 
 const getReportListByNextToken = async (options) => {
     const result = await callEndpoint('GetReportListByNextToken', options);
@@ -243,21 +255,23 @@ const getReportListByNextToken = async (options) => {
     } catch (err) {
         return result;
     }
-}
+};
 
 const getReportListAll = async (options = {}) => {
     let reports = [];
     const reportList = await getReportList(options);
     reports = reports.concat(reportList.result);
-    let nextToken = reportList.nextToken;
+    let { nextToken } = reportList;
+    /* eslint-disable no-await-in-loop */
     while (nextToken) {
         const nextPage = await getReportListByNextToken({ NextToken: nextToken });
+        // eslint-disable-next-line prefer-destructuring
         nextToken = nextPage.nextToken;
         reports = reports.concat(nextPage.result);
         await sleep(2000);
     }
     return reports;
-}
+};
 
 // TODO: should we emit events notifying of things happening inside here?
 // TODO: need to test all report types with this function, because not all reports return
@@ -296,7 +310,7 @@ const requestAndDownloadReport = async (ReportType, file, reportParams = {}) => 
         console.log(`-- checking if report is complete ${reportRequestId}`);
         while (true) {
             const report = await getReportRequestList({
-                ReportRequestIdList: [ reportRequestId ],
+                ReportRequestIdList: [reportRequestId],
             });
             switch (report.ReportProcessingStatus) {
                 case '_IN_PROGRESS_': // fallthrough intentional
@@ -332,7 +346,7 @@ const requestAndDownloadReport = async (ReportType, file, reportParams = {}) => 
     if (!ReportId) {
         console.warn('**** No ReportId received !! This is not yet handled');
         const reportList = await getReportList({
-            ReportTypeList: [ ReportType ]
+            ReportTypeList: [ReportType],
         });
         console.warn('**** reportList', reportList);
         return {};
@@ -343,7 +357,7 @@ const requestAndDownloadReport = async (ReportType, file, reportParams = {}) => 
         await writeFile(file, JSON.stringify(report, null, 4));
     }
     return report;
-}
+};
 
 module.exports = {
     init,

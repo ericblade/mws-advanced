@@ -5,18 +5,31 @@
   "main": "index.js",
   "scripts": {
     "test": "./node_modules/.bin/mocha --timeout=3000",
-    "coverage": "./node_modules/.bin/nyc --reporter=lcov ./node_modules/.bin/mocha --timeout=3000 && send-coverage.cmd"
+    "coverage": "./node_modules/.bin/nyc --reporter=lcov ./node_modules/.bin/mocha --timeout=3000",
+    "send-coverage": "./send-coverage",
+    "lint-staged": "lint-staged"
   },
-  "author": "",
+  "lint-staged": {
+    "*.js": "eslint"
+  },
+  "pre-commit": [
+    "lint-staged"
+  ],
+  "author": "Eric Blade",
   "license": "Apache",
   "dependencies": {
     "mws-simple": "^1.0.2"
   },
   "devDependencies": {
     "chai": "^4.1.2",
+    "eslint": "^4.11.0",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.8.0",
     "karma": "^1.7.1",
     "karma-coverage": "^1.1.1",
+    "lint-staged": "^5.0.0",
     "mocha": "^4.0.1",
-    "nyc": "^11.3.0"
+    "nyc": "^11.3.0",
+    "pre-commit": "^1.2.2"
   }
 }
