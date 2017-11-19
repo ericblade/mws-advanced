@@ -6,8 +6,11 @@
 /* eslint-disable import/no-extraneous-dependencies,no-undef,no-unused-expressions,prefer-destructuring */
 const fs = require('fs'); // yes i know i probably shouldn't be writing files in tests. sorry.
 
-// eslint-disable-next-line prefer-destructuring
-const expect = require('chai').expect;
+const chai = require('chai');
+const chaiAsPromised = require('chai-as-promised');
+
+chai.use(chaiAsPromised);
+const expect = chai.expect;
 
 const sleep = require('../lib/sleep');
 const isType = require('../lib/validation.js').isType;
@@ -195,6 +198,12 @@ describe('mws-advanced sanity', () => {
             'merchantId',
         );
         done();
+    });
+    it('callEndpoint throws on unknown endpoint', async () => {
+        expect(mws.callEndpoint('/test/endpoint', {})).to.be.rejectedWith(Error);
+    });
+    it('callEndpoint throws on garbage parameters', async () => {
+        expect(mws.callEndpoint('GetOrder', { junkTest: true })).to.be.rejectedWith(Error);
     });
 });
 
