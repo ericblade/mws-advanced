@@ -84,11 +84,8 @@ const getMarketplaces = async () => {
 // TODO: provide an option to automatically call ListOrdersByNextToken if NextToken is received?
 const listOrders = async (options) => {
     const results = await callEndpoint('ListOrders', options);
-    try {
-        return results.ListOrdersResponse.ListOrdersResult.Orders.Order;
-    } catch(err) {
-        return results;
-    }
+    const orders = digResponseResult('ListOrders', results);
+    return orders.Orders.Order;
 };
 
 /*
@@ -124,11 +121,8 @@ const listOrders = async (options) => {
 */
 const listFinancialEvents = async (options) => {
     const results = await callEndpoint('ListFinancialEvents', options);
-    try {
-        return results.ListFinancialEventsResponse.ListFinancialEventsResult;
-    } catch (err) {
-        return results;
-    }
+    const financialEvents = digResponseResult('ListFinancialEvents', results);
+    return financialEvents;
 }
 
 /*
@@ -142,11 +136,8 @@ const listFinancialEvents = async (options) => {
 */
 const listInventorySupply = async (options) => {
     const results = await callEndpoint('ListInventorySupply', options);
-    try {
-        return results.ListInventorySupplyResponse.ListInventorySupplyResult.InventorySupplyList.member;
-    } catch (err) {
-        return results;
-    }
+    const inventorySupply = digResponseResult('ListInventorySupply', results);
+    return inventorySupply.InventorySupplyList.member;
 }
 
 /*
@@ -168,8 +159,9 @@ const getMatchingProductForId = async (options) => {
     obj = Object.assign({}, obj, options);
     const products = await callEndpoint('GetMatchingProductForId', obj);
 
+
     try {
-        const productList = products.GetMatchingProductForIdResponse.GetMatchingProductForIdResult;
+        const productList = digResponseResult('GetMatchingProductForProductId', products);
         const ret = productList.map(p => p.Products.Product);
         return ret;
     } catch (err) {
@@ -188,11 +180,8 @@ const getMatchingProductForId = async (options) => {
 */
 const requestReport = async (options) => {
     const result = await callEndpoint('RequestReport', options);
-    try {
-        return result.RequestReportResponse.RequestReportResult.ReportRequestInfo;
-    } catch (err) {
-        return result;
-    }
+    const reportRequests = digResponseResult('RequestReport', result);
+    return reportRequests.ReportRequestInfo;
 }
 
 // interesting note: there are tons of reports returned by this API,
@@ -239,11 +228,8 @@ const getReportRequestList = async (options = {}) => {
     obj = Object.assign({}, obj, options);
     const result = await callEndpoint('GetReportRequestList', obj);
     // NextToken is under result.GetReportRequestListResponse.GetReportRequestListResult
-    try {
-        return result.GetReportRequestListResponse.GetReportRequestListResult.ReportRequestInfo;
-    } catch(err) {
-        return result;
-    }
+    const reportRequestList = digResponseResult('GetReportRequestList', result);
+    return result.ReportRequestInfo;
 }
 
 const getReport = async (options) => {
@@ -271,7 +257,7 @@ const getReportList = async (options = {}) => {
     const result = await callEndpoint('GetReportList', obj);
     // NextToken should be in result.GetReportListResponse.GetReportListResult
     try {
-        const cache = result.GetReportListResponse.GetReportListResult;
+        const cache = digResponseResult('GetReportList', result);
         const ret = {
             result: cache.ReportInfo,
             nextToken: cache.HasNext && cache.NextToken,
@@ -285,7 +271,7 @@ const getReportList = async (options = {}) => {
 const getReportListByNextToken = async (options) => {
     const result = await callEndpoint('GetReportListByNextToken', options);
     try {
-        const cache = result.GetReportListByNextTokenResponse.GetReportListByNextTokenResult;
+        const cache = digResponseResult('GetReportListByNextToken', result);
         const ret = {
             result: cache.ReportInfo,
             nextToken: cache.HasNext && cache.NextToken,
