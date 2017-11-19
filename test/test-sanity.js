@@ -1,15 +1,97 @@
 // no-extraneous-dependencies would force us to put chai as a non-dev dep
 // no-undef breaks the standard pattern with chai, apparently
+// no-unused-expressions also breaks standard chai patterns
+// remove prefer-destructuring here because for some reason eslint is failing to handle it with require()
 
-/* eslint-disable import/no-extraneous-dependencies,no-undef */
+/* eslint-disable import/no-extraneous-dependencies,no-undef,no-unused-expressions,prefer-destructuring */
 const fs = require('fs'); // yes i know i probably shouldn't be writing files in tests. sorry.
 
 // eslint-disable-next-line prefer-destructuring
 const expect = require('chai').expect;
 
+const sleep = require('../lib/sleep');
+const isType = require('../lib/validation.js').isType;
+
 describe('Sanity', () => {
     it('true is true', (done) => {
         expect(true).to.equal(true);
+        done();
+    });
+});
+
+describe('Misc Utils', () => {
+    it('sleep() 1sec works', async () => {
+        const startDate = Date.now();
+        await sleep(1000);
+        expect(Date.now() - startDate).to.be.approximately(1000, 100, 'slept for 1sec');
+    });
+});
+
+describe('isType', () => {
+    it('xs:positiveInteger', (done) => {
+        expect(() => isType('xs:positiveInteger', -100)).to.throw();
+        expect(() => isType('xs:positiveInteger', 0)).to.throw();
+        expect(isType('xs:positiveInteger', 100)).to.be.true;
+        expect(isType('xs:positiveInteger', 'string')).to.be.false;
+        expect(isType('xs:positiveInteger', { test: true })).be.false;
+        done();
+    });
+    it('xs:nonNegativeInteger', (done) => {
+        expect(() => isType('xs:nonNegativeInteger', -100)).to.throw();
+        expect(isType('xs:nonNegativeInteger', 0)).to.be.true;
+        expect(isType('xs:nonNegativeInteger', 100)).to.be.true;
+        expect(isType('xs:nonNegativeInteger', 'string')).to.be.false;
+        expect(isType('xs:nonNegativeInteger', { test: true })).to.be.false;
+        done();
+    });
+    it('integer ranging', (done) => {
+        const range = { minValue: 10, maxValue: 100 };
+        expect(() => isType('xs:positiveInteger', 1, range)).to.throw();
+        expect(() => isType('xs:nonNegativeInteger', 1, range)).to.throw();
+        expect(isType('xs:positiveInteger', 50, range)).to.be.true;
+        expect(isType('xs:nonNegativeInteger', 50, range)).to.be.true;
+        expect(() => isType('xs:positiveInteger', 1000, range)).to.throw();
+        expect(() => isType('xs:nonNegativeInteger', 1000, range)).to.throw();
+        done();
+    });
+    it('xs:string accepts regular strings', (done) => {
+        const valid = isType('xs:string', 'this is a regular string');
+        expect(valid).to.be.true;
+        done();
+    });
+    it('xs:string accepts string objects', (done) => {
+        const valid = isType('xs:string', String('this is a string object'));
+        expect(valid).to.be.true;
+        done();
+    });
+    it('xs:string does not accept things that are definitely not strings', (done) => {
+        expect(isType('xs:string', { test: true })).to.be.false;
+        expect(isType('xs:string', 12345)).to.be.false;
+        expect(isType('xs:string', new Date())).to.be.false;
+        done();
+    });
+    it('xs:dateTime fails Date objects (validateAndTransform converts them to ISO)', (done) => {
+        expect(isType('xs:dateTime', new Date())).to.be.false;
+        done();
+    });
+    it('xs:dateTime accepts ISO Strings', (done) => {
+        expect(isType('xs:dateTime', new Date().toISOString())).to.be.true;
+        done();
+    });
+    it('xs:dateTime fails non-ISO strings', (done) => {
+        expect(() => isType('xs:dateTime', 'string')).to.throw(); // Date constructor throws
+        expect(isType('xs:dateTime', 12345)).to.be.false;
+        expect(() => isType('xs:dateTime', { test: true })).to.throw(); // Date constructor throws
+        done();
+    });
+    it('allowed values works', (done) => {
+        const allowed = { values: ['test1', 'test2', 2, 3] };
+        expect(isType('xs:string', 'test1', allowed)).to.be.true;
+        expect(isType('xs:string', 'test2', allowed)).to.be.true;
+        expect(() => isType('xs:string', 'test3', allowed)).to.throw();
+        expect(isType('xs:positiveInteger', 2, allowed)).to.be.true;
+        expect(isType('xs:nonNegativeInteger', 3, allowed)).to.be.true;
+        expect(() => isType('xs:positiveInteger', 100, allowed)).to.throw();
         done();
     });
 });
