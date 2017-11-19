@@ -1,5 +1,10 @@
+// no-extraneous-dependencies would force us to put chai as a non-dev dep
+// no-undef breaks the standard pattern with chai, apparently
+
+/* eslint-disable import/no-extraneous-dependencies,no-undef */
 const fs = require('fs'); // yes i know i probably shouldn't be writing files in tests. sorry.
 
+// eslint-disable-next-line prefer-destructuring
 const expect = require('chai').expect;
 
 describe('Sanity', () => {
@@ -12,12 +17,13 @@ describe('Sanity', () => {
 // TODO: a full test configuration for this function to test all possible things could be quite
 // extensive, it will take some time/effort.
 const generateEndpoints = require('../lib/endpoints/endpoints-utils');
+
 describe('Endpoint Utils', () => {
     it('generateEndpoints', (done) => {
         const endpoints = generateEndpoints(
             'TestCategory',
             '2015-01-01',
-            [ 'TestEndpoint' ],
+            ['TestEndpoint'],
             {
                 TestEndpoint: {
                     throttle: {
@@ -36,8 +42,8 @@ describe('Endpoint Utils', () => {
                             required: true,
                         },
                     },
-                }
-            }
+                },
+            },
         );
 
         expect(endpoints).to.be.an('object');
@@ -45,7 +51,10 @@ describe('Endpoint Utils', () => {
 
         const testEndpoint = endpoints.TestEndpoint;
         expect(testEndpoint).to.be.an('object');
-        expect(testEndpoint).to.include.all.keys('category', 'version', 'action', 'params', 'returns');
+        expect(testEndpoint).to.include.all.keys(
+            'category', 'version', 'action',
+            'params', 'returns',
+        );
         expect(testEndpoint.category).to.be.a('string');
         expect(testEndpoint.version).to.be.a('string');
         expect(testEndpoint.action).to.be.a('string');
@@ -69,7 +78,7 @@ describe('Endpoint Utils', () => {
         expect(testReturn.required).to.be.a('boolean');
 
         done();
-    })
+    });
 });
 
 const mws = require('..');
@@ -87,7 +96,11 @@ describe('API', () => {
         it('getMarketplaces', async () => {
             const marketplaceResults = await mws.getMarketplaces();
             expect(marketplaceResults).to.be.an('object');
-            expect(marketplaceResults).to.include.all.keys('marketDetails', 'marketParticipations', 'markets');
+            expect(marketplaceResults).to.include.all.keys(
+                'marketDetails',
+                'marketParticipations',
+                'markets',
+            );
             expect(marketplaceResults.marketDetails).to.be.an('object');
             expect(marketplaceResults.marketParticipations).to.be.an('array');
             expect(marketplaceResults.marketParticipations).to.have.lengthOf.above(0);
@@ -114,7 +127,7 @@ describe('API', () => {
             const params = {
                 MarketplaceId: marketIds,
                 CreatedAfter: startDate,
-            }
+            };
             const results = await mws.listOrders(params);
             expect(results).to.have.lengthOf.above(0);
             orderIds = Object.keys(results).map(order => results[order].AmazonOrderId);
@@ -134,7 +147,7 @@ describe('API', () => {
         let reportList = [];
         it('getReportListAll', async () => {
             reportList = await mws.getReportListAll({
-                ReportTypeList: [ '_GET_V2_SETTLEMENT_REPORT_DATA_FLAT_FILE_' ],
+                ReportTypeList: ['_GET_V2_SETTLEMENT_REPORT_DATA_FLAT_FILE_'],
             });
             expect(reportList).to.be.an('array');
             expect(reportList).to.have.lengthOf.above(0);
@@ -150,7 +163,7 @@ describe('API', () => {
             const settlement = report[0];
             expect(settlement).to.include.all.keys(
                 'settlement-id', 'settlement-start-date', 'settlement-end-date',
-                'deposit-date', 'total-amount', 'currency'
+                'deposit-date', 'total-amount', 'currency',
             );
             const amount = parseFloat(settlement['total-amount']);
             expect(amount).to.be.a('number');

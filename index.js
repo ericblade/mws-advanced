@@ -53,7 +53,9 @@ const getMarketplaces = async () => {
         // A2EUQ1WTGCTBG2 === "www.amazon.ca" "Amazon.ca"
         // ATVPDKIKX0DER === "www.amazon.com" "Amazon.com"
         // Looks like "Non-Amazon" and "SI CA Prod Marketplace" are test markets? maybe?
-        if (market.MarketplaceId === 'A2ZV50J4W1RKNI' || market.MarketplaceId === 'A1MQXOICRS2Z7M') {
+        if (market.MarketplaceId === 'A2ZV50J4W1RKNI' ||
+            market.MarketplaceId === 'A1MQXOICRS2Z7M'
+        ) {
             return arr;
         }
         arr.push(market);
@@ -64,7 +66,9 @@ const getMarketplaces = async () => {
     // marketParticipation = { MarketplaceId, SellerId, HasSellerSuspendedListings }
     // map and filter
     const marketParticipations = marketParticipationsTemp.reduce((arr, participation) => {
-        if (participation.MarketplaceId === 'A2ZV50J4W1RKNI' || participation.MarketplaceId === 'A1MQXOICRS2Z7M') {
+        if (participation.MarketplaceId === 'A2ZV50J4W1RKNI' ||
+            participation.MarketplaceId === 'A1MQXOICRS2Z7M'
+        ) {
             return arr;
         }
         arr.push(participation);
