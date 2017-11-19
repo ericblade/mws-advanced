@@ -6,13 +6,14 @@ Amazon Merchant Web Services API for Javascript
 
 There are a lot of Amazon MWS interfaces in Javascript.
 
-This one requires node 8.x, with the --harmony switch, as of August 10th, 2017. Or you can roll your own method for transpiling it, if you want.
 
 None of them have (much of) any documentation, and just appear to assume that you already know how to use the Amazon API.
 
 Very few of them are written to use modern Javascript constructs.  A few use Promises, but none are any newer than that.
 
 This project, which uses the rather simple "mws-simple" as it's base, intends to solve both of those problems.
+This one requires node 8.x, with the --harmony switch, as of August 10th, 2017. ( --harmony not required as of node 8.9 )
+Or you can roll your own method for transpiling it, if you want.
 
 As this is a brand new project, documentation may be a little light to begin with, but I'm certainly going to write this in modern Javascript code, with Promises, and Await/Async, and everything else I can use to make my life easier.
 
