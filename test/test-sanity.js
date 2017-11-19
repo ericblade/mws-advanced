@@ -166,6 +166,38 @@ describe('Endpoint Utils', () => {
 const mws = require('..');
 const keys = require('./keys.json');
 
+describe('mws-advanced sanity', () => {
+    it('init returns a configured mws object', (done) => {
+        const client = mws.init({
+            accessKeyId: 'testKeyId',
+            secretAccessKey: 'testSecret',
+            merchantId: 'testMerchantId',
+            authToken: 'authToken',
+        });
+        expect(client).to.be.an('object');
+        expect(client).to.include.all.keys(
+            'host',
+            'port',
+            'accessKeyId',
+            'secretAccessKey',
+            'merchantId',
+            'authToken',
+        );
+        done();
+    });
+    it('tester provided a likely correct keys.json file', (done) => {
+        expect(
+            keys,
+            'provide a keys.json file with accessKeyId, secretAccessKey, merchantId to test API',
+        ).to.include.all.keys(
+            'accessKeyId',
+            'secretAccessKey',
+            'merchantId',
+        );
+        done();
+    });
+});
+
 describe('API', () => {
     let marketIds = [];
     let testMarketId = '';
