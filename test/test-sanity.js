@@ -205,6 +205,10 @@ describe('mws-advanced sanity', () => {
     it('callEndpoint throws on garbage parameters', async () => {
         expect(mws.callEndpoint('GetOrder', { junkTest: true })).to.be.rejectedWith(Error);
     });
+    it('callEndpoint functions', async () => {
+        mws.init(keys);
+        expect(mws.callEndpoint('ListMarketplaceParticipations', {})).to.be.fulfilled;
+    });
 });
 
 describe('API', () => {
