@@ -76,6 +76,10 @@ describe('Misc Utils', () => {
 });
 
 describe('isType', () => {
+    it('unknown type passes as always valid', (done) => {
+        expect(isType('testtype', 'junkdata')).to.be.true;
+        done();
+    });
     it('xs:positiveInteger', (done) => {
         expect(() => isType('xs:positiveInteger', -100)).to.throw();
         expect(() => isType('xs:positiveInteger', 0)).to.throw();
