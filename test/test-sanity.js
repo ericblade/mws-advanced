@@ -344,38 +344,21 @@ describe('API', () => {
         });
     });
     describe('Finances Category', () => {
-        // TODO: Check that we are receiving exactly what we should be here.
-        // See following link for example of correct data
-        // https://docs.developer.amazonservices.com/en_US/finances/Finances_ListFinancialEvents.html
-        /* // ACTUAL DATA RETURNED:
-            Financial Events= { FinancialEvents:
-            { ProductAdsPaymentEventList: '',
-            RentalTransactionEventList: '',
-            PayWithAmazonEventList: '',
-            ServiceFeeEventList: { ServiceFeeEvent: [Object] },
-            CouponPaymentEventList: '',
-            ServiceProviderCreditEventList: '',
-            SellerDealPaymentEventList: '',
-            SellerReviewEnrollmentPaymentEventList: '',
-            DebtRecoveryEventList: '',
-            ShipmentEventList: { ShipmentEvent: [Array] },
-            RetrochargeEventList: '',
-            SAFETReimbursementEventList: '',
-            GuaranteeClaimEventList: '',
-            ChargebackEventList: '',
-            FBALiquidationEventList: '',
-            LoanServicingEventList: '',
-            RefundEventList: '',
-            AdjustmentEventList: { AdjustmentEvent: [Array] },
-            PerformanceBondRefundEventList: '' } }
-        */
         it('listFinancialEvents', async () => {
             const startDate = new Date();
             startDate.setDate(startDate.getDate() - 7);
             const result = await mws.listFinancialEvents({ PostedAfter: startDate });
-            // TODO: once we confirm exactly how the format should look, make sure that we test
-            // that it is correct.
             expect(result).to.be.an('object');
+            expect(result).to.have.keys(
+                'ProductAdsPaymentEventList', 'RentalTransactionEventList',
+                'PayWithAmazonEventList', 'ServiceFeeEventList',
+                'CouponPaymentEventList', 'ServiceProviderCreditEventList',
+                'SellerDealPaymentEventList', 'SellerReviewEnrollmentPaymentEventList',
+                'DebtRecoveryEventList', 'ShipmentEventList', 'RetrochargeEventList',
+                'SAFETReimbursementEventList', 'GuaranteeClaimEventList',
+                'ChargebackEventList', 'FBALiquidationEventList', 'LoanServicingEventList',
+                'RefundEventList', 'AdjustmentEventList', 'PerformanceBondRefundEventList',
+            );
         });
     });
 });

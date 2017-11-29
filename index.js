@@ -123,7 +123,7 @@ const listOrders = async (options) => {
 */
 const listFinancialEvents = async (options) => {
     const results = await callEndpoint('ListFinancialEvents', options);
-    return results;
+    return results.FinancialEvents;
 };
 
 /*
