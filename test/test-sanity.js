@@ -14,6 +14,7 @@ const expect = chai.expect;
 
 const sleep = require('../lib/sleep');
 const isType = require('../lib/validation.js').isType;
+const flattenResult = require('../lib/flatten-result').flattenResult;
 
 describe('Sanity', () => {
     it('true is true', (done) => {
@@ -27,6 +28,36 @@ describe('Misc Utils', () => {
         const startDate = Date.now();
         await sleep(1000);
         expect(Date.now() - startDate).to.be.approximately(1000, 100, 'slept for 1sec');
+    });
+    // TODO: we should test flattenResult using actual amazon data
+    // as well, to validate real world usage.
+    it('flattenResult() returns flat results', (done) => {
+        const result = flattenResult({
+            test: ['test'],
+            test2: ['test2-a', 'test2-b'],
+            test3: [
+                {
+                    test4: ['test4-a'],
+                    test5: ['test5-a', 'test5-b'],
+                },
+            ],
+        });
+        expect(result).to.be.an('object');
+        expect(result).to.include.all.keys(
+            'test',
+            'test2',
+            'test3',
+        );
+        expect(result.test).to.equal('test');
+        expect(result.test2).to.have.lengthOf(2);
+        expect(result.test3).to.be.an('object').include.all.keys(
+            'test4',
+            'test5',
+        );
+        expect(result.test3.test4).to.equal('test4-a');
+        expect(result.test3.test5).to.have.lengthOf(2);
+
+        done();
     });
 });
 
