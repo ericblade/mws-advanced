@@ -15,6 +15,10 @@ const expect = chai.expect;
 const sleep = require('../lib/sleep');
 const isType = require('../lib/validation.js').isType;
 const flattenResult = require('../lib/flatten-result').flattenResult;
+const { digResponseResult } = require('../lib/dig-response-result');
+
+const listMarketplacesData = require('./ListMarketplaces.json');
+const errorData = require('./errorData.json');
 
 describe('Sanity', () => {
     it('true is true', (done) => {
@@ -57,6 +61,16 @@ describe('Misc Utils', () => {
         expect(result.test3.test4).to.equal('test4-a');
         expect(result.test3.test5).to.have.lengthOf(2);
 
+        done();
+    });
+    it('digResponseResult() returns nameResponse.nameResult', (done) => {
+        const result = digResponseResult('ListMarketplaceParticipations', listMarketplacesData);
+        expect(result).to.be.an('object');
+        expect(result).to.have.keys('ListParticipations', 'ListMarketplaces');
+        done();
+    });
+    it('digResponseResult() throws on error', (done) => {
+        expect(() => digResponseResult('ListMarketplaceParticipations', errorData)).to.throw();
         done();
     });
 });

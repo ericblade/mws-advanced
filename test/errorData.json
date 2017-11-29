@@ -1,0 +1,16 @@
+{
+    "ErrorResponse": {
+        "$": {
+            "xmlns": "https://mws.amazonservices.com/doc/2009-01-01/"
+        },
+        "Error": {
+            "Type": "Sender",
+            "Code": "InvalidClientTokenId",
+            "Message": "The AWS Access Key Id you provided does not exist in our records.",
+            "Detail": "com.amazonservices.mws.model.Error$Detail@17b6643"
+        },
+        "ResponseMetadata": {
+            "RequestId": "fake-request-id"
+        }
+    }
+}

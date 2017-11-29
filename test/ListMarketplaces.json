@@ -1,0 +1,72 @@
+{
+    "ListMarketplaceParticipationsResponse": {
+        "$": {
+            "xmlns": "https://mws.amazonservices.com/Sellers/2011-07-01"
+        },
+        "ListMarketplaceParticipationsResult": {
+            "ListParticipations": {
+                "Participation": [
+                    {
+                        "MarketplaceId": "A1MQXOICRS2Z7M",
+                        "SellerId": "x",
+                        "HasSellerSuspendedListings": "No"
+                    },
+                    {
+                        "MarketplaceId": "A2EUQ1WTGCTBG2",
+                        "SellerId": "x",
+                        "HasSellerSuspendedListings": "No"
+                    },
+                    {
+                        "MarketplaceId": "A2ZV50J4W1RKNI",
+                        "SellerId": "x",
+                        "HasSellerSuspendedListings": "No"
+                    },
+                    {
+                        "MarketplaceId": "ATVPDKIKX0DER",
+                        "SellerId": "x",
+                        "HasSellerSuspendedListings": "No"
+                    }
+                ]
+            },
+            "ListMarketplaces": {
+                "Marketplace": [
+                    {
+                        "MarketplaceId": "A1MQXOICRS2Z7M",
+                        "DefaultCountryCode": "CA",
+                        "DomainName": "siprod.stores.amazon.ca",
+                        "Name": "SI CA Prod Marketplace",
+                        "DefaultCurrencyCode": "CAD",
+                        "DefaultLanguageCode": "en_CA"
+                    },
+                    {
+                        "MarketplaceId": "A2EUQ1WTGCTBG2",
+                        "DefaultCountryCode": "CA",
+                        "DomainName": "www.amazon.ca",
+                        "Name": "Amazon.ca",
+                        "DefaultCurrencyCode": "CAD",
+                        "DefaultLanguageCode": "en_CA"
+                    },
+                    {
+                        "MarketplaceId": "A2ZV50J4W1RKNI",
+                        "DefaultCountryCode": "US",
+                        "DomainName": "sim1.stores.amazon.com",
+                        "Name": "Non-Amazon",
+                        "DefaultCurrencyCode": "USD",
+                        "DefaultLanguageCode": "en_US"
+                    },
+                    {
+                        "MarketplaceId": "ATVPDKIKX0DER",
+                        "DefaultCountryCode": "US",
+                        "DomainName": "www.amazon.com",
+                        "Name": "Amazon.com",
+                        "DefaultCurrencyCode": "USD",
+                        "DefaultLanguageCode": "en_US"
+                    }
+                ]
+            }
+        },
+        "ResponseMetadata": {
+            "RequestId": "335ee62e-87e5-469e-a0f7-a15772499a4a"
+        }
+    }
+}

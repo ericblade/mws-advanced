@@ -5,16 +5,6 @@ const fs = require('fs');
 
 const writeFile = promisify(fs.writeFile);
 
-// return data['{name}Response']['{name}Result'] as most APIs seem to return from the hierarchy
-// before any of the useful data is buried.
-const digResponseResult = (name, data) => {
-    try {
-        return data[`${name}Response`][`${name}Result`];
-    } catch (err) {
-        return data;
-    }
-};
-
 /*
     returns:
     { markets, marketParticipations, marketDetails }
@@ -36,12 +26,11 @@ const digResponseResult = (name, data) => {
 
 const getMarketplaces = async () => {
     const result = await callEndpoint('ListMarketplaceParticipations');
-    const result2 = digResponseResult('ListMarketplaceParticipations', result);
 
     // destructure result2.ListParticipations.Participation to marketParticipationsTemp
-    const { ListParticipations: { Participation: marketParticipationsTemp } } = result2;
+    const { ListParticipations: { Participation: marketParticipationsTemp } } = result;
     // destructure result2.ListMarketplaces.Marketplace to marketsTemp
-    const { ListMarketplaces: { Marketplace: marketsTemp } } = result2;
+    const { ListMarketplaces: { Marketplace: marketsTemp } } = result;
 
     const marketDetails = {};
 
@@ -98,8 +87,7 @@ const getMarketplaces = async () => {
 // TODO: provide an option to automatically call ListOrdersByNextToken if NextToken is received?
 const listOrders = async (options) => {
     const results = await callEndpoint('ListOrders', options);
-    const orders = digResponseResult('ListOrders', results);
-    return orders.Orders.Order;
+    return results.Orders.Order;
 };
 
 /*
@@ -135,8 +123,7 @@ const listOrders = async (options) => {
 */
 const listFinancialEvents = async (options) => {
     const results = await callEndpoint('ListFinancialEvents', options);
-    const financialEvents = digResponseResult('ListFinancialEvents', results);
-    return financialEvents;
+    return results;
 };
 
 /*
@@ -150,8 +137,7 @@ const listFinancialEvents = async (options) => {
 */
 const listInventorySupply = async (options) => {
     const results = await callEndpoint('ListInventorySupply', options);
-    const inventorySupply = digResponseResult('ListInventorySupply', results);
-    return inventorySupply.InventorySupplyList.member;
+    return results.InventorySupplyList.member;
 };
 
 /*
@@ -176,8 +162,7 @@ const getMatchingProductForId = async (options) => {
     const products = await callEndpoint('GetMatchingProductForId', obj);
 
     try {
-        const productList = digResponseResult('GetMatchingProductForProductId', products);
-        const ret = productList.map(p => p.Products.Product);
+        const ret = products.map(p => p.Products.Product);
         return ret;
     } catch (err) {
         return products;
@@ -195,8 +180,7 @@ const getMatchingProductForId = async (options) => {
 */
 const requestReport = async (options) => {
     const result = await callEndpoint('RequestReport', options);
-    const reportRequests = digResponseResult('RequestReport', result);
-    return reportRequests.ReportRequestInfo;
+    return result.ReportRequestInfo;
 };
 
 // interesting note: there are tons of reports returned by this API,
@@ -221,8 +205,7 @@ const getReportRequestList = async (options = {}) => {
     obj = Object.assign({}, obj, options);
     const result = await callEndpoint('GetReportRequestList', obj);
     // NextToken is under result.GetReportRequestListResponse.GetReportRequestListResult
-    const reportRequestList = digResponseResult('GetReportRequestList', result);
-    return reportRequestList.ReportRequestInfo;
+    return result.ReportRequestInfo;
 };
 
 const getReport = async (options) => {
@@ -236,10 +219,9 @@ const getReportList = async (options = {}) => {
     const result = await callEndpoint('GetReportList', obj);
     // NextToken should be in result.GetReportListResponse.GetReportListResult
     try {
-        const cache = digResponseResult('GetReportList', result);
         const ret = {
-            result: cache.ReportInfo,
-            nextToken: cache.HasNext && cache.NextToken,
+            result: result.ReportInfo,
+            nextToken: result.HasNext && result.NextToken,
         };
         return ret;
     } catch (err) {
@@ -250,10 +232,9 @@ const getReportList = async (options = {}) => {
 const getReportListByNextToken = async (options) => {
     const result = await callEndpoint('GetReportListByNextToken', options);
     try {
-        const cache = digResponseResult('GetReportListByNextToken', result);
         const ret = {
-            result: cache.ReportInfo,
-            nextToken: cache.HasNext && cache.NextToken,
+            result: result.ReportInfo,
+            nextToken: result.HasNext && result.NextToken,
         };
         return ret;
     } catch (err) {
