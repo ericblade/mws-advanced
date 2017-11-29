@@ -373,4 +373,46 @@ describe('API', () => {
             expect(result.supplyList).to.be.an('array');
         });
     });
+    describe('Products Category', () => {
+        it('getMatchingProductForId single ASIN', async () => {
+            const result = await mws.getMatchingProductForId({
+                MarketplaceId: 'ATVPDKIKX0DER',
+                IdType: 'ASIN',
+                IdList: ['B005NK7VTU'],
+            });
+            expect(result).to.be.an('array');
+            expect(result).to.have.lengthOf(1);
+            expect(result[0]).to.be.an('object');
+            expect(result[0]).to.have.key('B005NK7VTU');
+        });
+        it('getMatchingProductForId 2 ASINs', async () => {
+            const result = await mws.getMatchingProductForId({
+                MarketplaceId: 'ATVPDKIKX0DER',
+                IdType: 'ASIN',
+                IdList: ['B005NK7VTU', 'B00OB8EYZE'],
+            });
+            expect(result).to.be.an('array');
+            expect(result).to.have.lengthOf(2);
+        });
+        it('getMatchingProductForId single UPC', async () => {
+            const result = await mws.getMatchingProductForId({
+                MarketplaceId: 'ATVPDKIKX0DER',
+                IdType: 'UPC',
+                IdList: ['020357122682'],
+            });
+            expect(result).to.be.an('array');
+            expect(result).to.have.lengthOf(1);
+            expect(result[0]).to.be.an('object');
+            expect(result[0]).to.have.key('020357122682');
+        });
+        it('getMatchingProductForId with invalid UPC', async () => {
+            const params = {
+                MarketplaceId: 'ATVPDKIKX0DER',
+                IdType: 'UPC',
+                IdList: ['012345678900'],
+            };
+            // Error: {"Type":"Sender","Code":"InvalidParameterValue","Message":"Invalid UPC identifier 000000000000 for marketplace ATVPDKIKX0DER"}
+            expect(mws.getMatchingProductForId(params)).to.be.rejectedWith(Error);
+        });
+    });
 });

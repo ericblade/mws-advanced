@@ -148,25 +148,15 @@ returns
     SalesRankings: { SalesRank: [Array] } } ]
 */
 const getMatchingProductForId = async (options) => {
-    let obj = {};
-    /* eslint-disable no-param-reassign */
-    if (options.IdList) {
-        obj = options.IdList.reduce((prev, curr, index) => {
-            prev[`IdList.Id.${index + 1}`] = curr;
-            return prev;
-        }, {});
-        delete options.IdList;
+    const result = await callEndpoint('GetMatchingProductForId', options);
+    if (result.Error) {
+        throw new Error(JSON.stringify(result.Error));
     }
-    /* eslint-enable no-param-reassign */
-    obj = Object.assign({}, obj, options);
-    const products = await callEndpoint('GetMatchingProductForId', obj);
-
-    try {
-        const ret = products.map(p => p.Products.Product);
-        return ret;
-    } catch (err) {
-        return products;
-    }
+    // for a single return, flattenResult will drop this to an object, which is not desireable
+    // in this particular case.
+    const products = Array.isArray(result) ? result : [result];
+    const ret = products.map(p => ({ [`${p.$.Id}`]: p.Products.Product }));
+    return ret;
 };
 
 /*
