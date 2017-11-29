@@ -137,7 +137,7 @@ const listFinancialEvents = async (options) => {
 */
 const listInventorySupply = async (options) => {
     const results = await callEndpoint('ListInventorySupply', options);
-    return results.InventorySupplyList.member;
+    return { nextToken: results.NextToken, supplyList: results.InventorySupplyList.member };
 };
 
 /*

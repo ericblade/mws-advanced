@@ -361,4 +361,16 @@ describe('API', () => {
             );
         });
     });
+    describe('FBA Fulfillment Inventory Category', () => {
+        it('listInventorySupply', async () => {
+            const startDate = new Date();
+            startDate.setDate(startDate.getDate() - 7);
+            const result = await mws.listInventorySupply({
+                QueryStartDateTime: startDate,
+            });
+            expect(result).to.be.an('object');
+            expect(result).to.contain.keys('supplyList');
+            expect(result.supplyList).to.be.an('array');
+        });
+    });
 });
