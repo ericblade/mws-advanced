@@ -2,8 +2,9 @@
 // no-undef breaks the standard pattern with chai, apparently
 // no-unused-expressions also breaks standard chai patterns
 // remove prefer-destructuring here because for some reason eslint is failing to handle it with require()
+// remove prefer-arrow-function because we need to use regular functions in places to access this.skip()
 
-/* eslint-disable import/no-extraneous-dependencies,no-undef,no-unused-expressions,prefer-destructuring */
+/* eslint-disable import/no-extraneous-dependencies,no-undef,no-unused-expressions,prefer-destructuring,prefer-arrow-callback */
 const fs = require('fs'); // yes i know i probably shouldn't be writing files in tests. sorry.
 
 const chai = require('chai');
@@ -218,6 +219,12 @@ describe('Endpoint Utils', () => {
 const mws = require('..');
 const keys = require('./keys.json');
 
+// TODO: can we set SkipAPITests based on the results of the first API test? if it fails, then we probably need to skip all remaining tests, as something is broken.
+let SkipAPITests = false;
+if (!keys || !keys.accessKeyId || !keys.secretAccessKey || !keys.merchantId) {
+    SkipAPITests = true;
+}
+
 describe('mws-advanced sanity', () => {
     it('init returns a configured mws object', (done) => {
         const client = mws.init({
@@ -269,7 +276,11 @@ describe('API', () => {
         mws.init(keys);
     });
     describe('Seller Category', () => {
-        it('getMarketplaces', async () => {
+        it('getMarketplaces', async function testGetMarketplaces() {
+            if (SkipAPITests) {
+                this.skip();
+                return false;
+            }
             const marketplaceResults = await mws.getMarketplaces();
             expect(marketplaceResults).to.be.an('object');
             expect(marketplaceResults).to.include.all.keys(
@@ -297,7 +308,11 @@ describe('API', () => {
         });
     });
     describe('Order Category', () => {
-        it('listOrders', async () => {
+        it('listOrders', async function testListOrders() {
+            if (SkipAPITests || !marketIds || !marketIds.length) {
+                this.skip();
+                return false;
+            }
             const startDate = new Date();
             startDate.setDate(startDate.getDate() - 7);
             const params = {
@@ -310,7 +325,11 @@ describe('API', () => {
             expect(orderIds).to.have.lengthOf.above(0);
             return true;
         });
-        it('endpoint GetOrder', async () => {
+        it('endpoint GetOrder', async function testGetOrder() {
+            if (SkipAPITests || !orderIds || !orderIds.length) {
+                this.skip();
+                return false;
+            }
             const params = {
                 AmazonOrderId: orderIds,
             };
@@ -321,7 +340,11 @@ describe('API', () => {
     });
     describe('Reports Category', () => {
         let reportList = [];
-        it('getReportListAll', async () => {
+        it('getReportListAll', async function testGetReportListAll() {
+            if (SkipAPITests) {
+                this.skip();
+                return false;
+            }
             reportList = await mws.getReportListAll({
                 ReportTypeList: ['_GET_V2_SETTLEMENT_REPORT_DATA_FLAT_FILE_'],
             });
@@ -329,7 +352,11 @@ describe('API', () => {
             expect(reportList).to.have.lengthOf.above(0);
             return reportList;
         });
-        it('getReport', async () => {
+        it('getReport', async function testGetReport() {
+            if (SkipAPITests || !reportList || !reportList.length) {
+                this.skip();
+                return false;
+            }
             const report = await mws.getReport({
                 ReportId: reportList[0].ReportId,
             });
@@ -348,7 +375,11 @@ describe('API', () => {
         });
     });
     describe('Finances Category', () => {
-        it('listFinancialEvents', async () => {
+        it('listFinancialEvents', async function testListFinancialEvents() {
+            if (SkipAPITests) {
+                this.skip();
+                return false;
+            }
             const startDate = new Date();
             startDate.setDate(startDate.getDate() - 7);
             const result = await mws.listFinancialEvents({ PostedAfter: startDate });
@@ -363,10 +394,15 @@ describe('API', () => {
                 'ChargebackEventList', 'FBALiquidationEventList', 'LoanServicingEventList',
                 'RefundEventList', 'AdjustmentEventList', 'PerformanceBondRefundEventList',
             );
+            return result;
         });
     });
     describe('FBA Fulfillment Inventory Category', () => {
-        it('listInventorySupply', async () => {
+        it('listInventorySupply', async function testListInventorySupply() {
+            if (SkipAPITests) {
+                this.skip();
+                return false;
+            }
             const startDate = new Date();
             startDate.setDate(startDate.getDate() - 7);
             const result = await mws.listInventorySupply({
@@ -375,10 +411,15 @@ describe('API', () => {
             expect(result).to.be.an('object');
             expect(result).to.contain.keys('supplyList');
             expect(result.supplyList).to.be.an('array');
+            return result;
         });
     });
     describe('Products Category', () => {
-        it('getMatchingProductForId single ASIN', async () => {
+        it('getMatchingProductForId single ASIN', async function testGetMatchingProductForId() {
+            if (SkipAPITests) {
+                this.skip();
+                return false;
+            }
             const result = await mws.getMatchingProductForId({
                 MarketplaceId: 'ATVPDKIKX0DER',
                 IdType: 'ASIN',
@@ -388,8 +429,13 @@ describe('API', () => {
             expect(result).to.have.lengthOf(1);
             expect(result[0]).to.be.an('object');
             expect(result[0]).to.have.key('B005NK7VTU');
+            return result;
         });
-        it('getMatchingProductForId 2 ASINs', async () => {
+        it('getMatchingProductForId 2 ASINs', async function testGetMatchingProductForId2() {
+            if (SkipAPITests) {
+                this.skip();
+                return false;
+            }
             const result = await mws.getMatchingProductForId({
                 MarketplaceId: 'ATVPDKIKX0DER',
                 IdType: 'ASIN',
@@ -397,8 +443,13 @@ describe('API', () => {
             });
             expect(result).to.be.an('array');
             expect(result).to.have.lengthOf(2);
+            return result;
         });
-        it('getMatchingProductForId single UPC', async () => {
+        it('getMatchingProductForId single UPC', async function testGetMatchingProductForId3() {
+            if (SkipAPITests) {
+                this.skip();
+                return false;
+            }
             const result = await mws.getMatchingProductForId({
                 MarketplaceId: 'ATVPDKIKX0DER',
                 IdType: 'UPC',
@@ -408,8 +459,13 @@ describe('API', () => {
             expect(result).to.have.lengthOf(1);
             expect(result[0]).to.be.an('object');
             expect(result[0]).to.have.key('020357122682');
+            return result;
         });
-        it('getMatchingProductForId with invalid UPC', async () => {
+        it('getMatchingProductForId with invalid UPC', async function testGetMatchingProductForId4() {
+            if (SkipAPITests) {
+                this.skip();
+                return false;
+            }
             const params = {
                 MarketplaceId: 'ATVPDKIKX0DER',
                 IdType: 'UPC',
@@ -417,6 +473,7 @@ describe('API', () => {
             };
             // Error: {"Type":"Sender","Code":"InvalidParameterValue","Message":"Invalid UPC identifier 000000000000 for marketplace ATVPDKIKX0DER"}
             expect(mws.getMatchingProductForId(params)).to.be.rejectedWith(Error);
+            return true;
         });
     });
 });
