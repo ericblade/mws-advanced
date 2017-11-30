@@ -94,11 +94,6 @@ https://docs.developer.amazonservices.com/en_UK/fba_inventory/FBAInventory_ListI
 
 Returns a list of FBA inventory
 
-// TODO: we have a possible/probable bug that is probably in flattenResult(),
-// which is causing SupplyDetail from listInventorySupply,
-// and several returns from getMatchingProductForId to appear
-// to be completely empty.
-
 ````
     getMatchingProductForId()
 

@@ -5,7 +5,6 @@
 -   [MarketplaceData](#marketplacedata)
 -   [getMarketplaces](#getmarketplaces)
 -   [Product](#product)
--   [ProductQuery](#productquery)
 -   [getMatchingProductForId](#getmatchingproductforid)
 
 ## MarketplaceData
@@ -32,18 +31,6 @@ Product Information. See official schema for details.
 
 Type: [Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)
 
-## ProductQuery
-
-Product Query Information
-
-Type: [Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)
-
-**Parameters**
-
--   `MarketplaceId` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** ID of Marketplace (see getMarketplaces)
--   `IdType` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Type of lookup to perform: ASIN, GCID, SellerSKU, UPC, EAN, ISBN, JAN
--   `IdList` **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)>** List of codes to perform lookup on
-
 ## getMatchingProductForId
 
 Returns a list of products and their attributes, based on a list of ASIN, GCID, SellerSKU, UPC,
@@ -51,6 +38,9 @@ EAN, ISBN, or JAN values
 
 **Parameters**
 
--   `options` **[ProductQuery](#productquery)** see <https://docs.developer.amazonservices.com/en_UK/products/Products_GetMatchingProductForId.html>
+-   `options` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** see <https://docs.developer.amazonservices.com/en_UK/products/Products_GetMatchingProductForId.html>
+    -   `options.MarketplaceId` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Identifier for marketplace (see getMarketplaces)
+    -   `options.IdType` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Type of lookup to perform: ASIN, GCID, SellerSKU, UPC, EAN, ISBN, JAN
+    -   `options.IdList` **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)>** List of codes to perform lookup on
 
 Returns **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[Product](#product)>** 
