@@ -220,7 +220,7 @@ const mws = require('..');
 const keys = require('./keys.json');
 
 // TODO: can we set SkipAPITests based on the results of the first API test? if it fails, then we probably need to skip all remaining tests, as something is broken.
-let SkipAPITests = true;
+let SkipAPITests = false;
 if (!keys || !keys.accessKeyId || !keys.secretAccessKey || !keys.merchantId) {
     SkipAPITests = true;
 }
@@ -270,10 +270,12 @@ describe('mws-advanced sanity', () => {
     });
 });
 
-describe('API', () => {
+describe('API', function runAPITests() {
     let marketIds = [];
     let testMarketId = '';
     let orderIds = [];
+
+    this.timeout(5000);
 
     beforeEach(function checkSkipAPITests() {
         if (SkipAPITests) {

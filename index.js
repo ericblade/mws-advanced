@@ -44,9 +44,7 @@ const requestReport = async (options) => {
     GeneratedReportId: '5935233306017378' } ]
 */
 const getReportRequestList = async (options = {}) => {
-    let obj = {};
-    obj = Object.assign({}, obj, options);
-    const result = await callEndpoint('GetReportRequestList', obj);
+    const result = await callEndpoint('GetReportRequestList', options);
     // NextToken is under result.GetReportRequestListResponse.GetReportRequestListResult
     return result.ReportRequestInfo;
 };
@@ -57,9 +55,7 @@ const getReport = async (options) => {
 };
 
 const getReportList = async (options = {}) => {
-    let obj = {};
-    obj = Object.assign({}, obj, options);
-    const result = await callEndpoint('GetReportList', obj);
+    const result = await callEndpoint('GetReportList', options);
     // NextToken should be in result.GetReportListResponse.GetReportListResult
     try {
         const ret = {
@@ -98,6 +94,7 @@ const getReportListAll = async (options = {}) => {
         reports = reports.concat(nextPage.result);
         await sleep(2000);
     }
+    /* eslint-enable no-await-in-loop */
     return reports;
 };
 
@@ -136,6 +133,7 @@ const getReportListAll = async (options = {}) => {
 const requestAndDownloadReport = async (ReportType, file, reportParams = {}) => {
     async function checkReportComplete(reportRequestId) {
         console.log(`-- checking if report is complete ${reportRequestId}`);
+        /* eslint-disable no-await-in-loop */
         while (true) {
             const report = await getReportRequestList({
                 ReportRequestIdList: [reportRequestId],
@@ -159,6 +157,7 @@ const requestAndDownloadReport = async (ReportType, file, reportParams = {}) => 
                     break;
             }
         }
+        /* eslint-enable no-await-in-loop */
     }
 
     console.log(`-- requesting report ${ReportType}`);
