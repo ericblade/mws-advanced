@@ -15,10 +15,17 @@
   "pre-commit": [
     "lint-staged"
   ],
-  "author": "Eric Blade",
+  "keywords": [
+    "amazon",
+    "amazon.com",
+    "mws",
+    "seller",
+    "marketplace"
+  ],
+  "author": "Eric Blade <blade.eric@gmail.com>",
   "license": "Apache",
   "dependencies": {
-    "mws-simple": "^1.0.2"
+    "mws-simple": "github:ericblade/mws-simple#1.0.3"
   },
   "devDependencies": {
     "chai": "^4.1.2",

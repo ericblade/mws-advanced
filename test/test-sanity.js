@@ -226,6 +226,9 @@ if (!keys || !keys.accessKeyId || !keys.secretAccessKey || !keys.merchantId) {
 }
 
 describe('mws-advanced sanity', () => {
+    // TODO: write tests that test all configuration options individually, and defaults,
+    // much like was just written in mws-simple
+    // TODO: do we need to write a test that tests authToken if it is present?
     it('init returns a configured mws object', (done) => {
         const client = mws.init({
             accessKeyId: 'testKeyId',
