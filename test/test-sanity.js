@@ -220,7 +220,7 @@ const mws = require('..');
 const keys = require('./keys.json');
 
 // TODO: can we set SkipAPITests based on the results of the first API test? if it fails, then we probably need to skip all remaining tests, as something is broken.
-let SkipAPITests = false;
+let SkipAPITests = true;
 if (!keys || !keys.accessKeyId || !keys.secretAccessKey || !keys.merchantId) {
     SkipAPITests = true;
 }
@@ -275,15 +275,15 @@ describe('API', () => {
     let testMarketId = '';
     let orderIds = [];
 
-    before(() => {
-        mws.init(keys);
+    beforeEach(function checkSkipAPITests() {
+        if (SkipAPITests) {
+            this.skip();
+        } else {
+            mws.init(keys);
+        }
     });
     describe('Seller Category', () => {
         it('getMarketplaces', async function testGetMarketplaces() {
-            if (SkipAPITests) {
-                this.skip();
-                return false;
-            }
             const marketplaceResults = await mws.getMarketplaces();
             expect(marketplaceResults).to.be.an('object');
             expect(marketplaceResults).to.include.all.keys(
@@ -312,7 +312,7 @@ describe('API', () => {
     });
     describe('Order Category', () => {
         it('listOrders', async function testListOrders() {
-            if (SkipAPITests || !marketIds || !marketIds.length) {
+            if (!marketIds || !marketIds.length) {
                 this.skip();
                 return false;
             }
@@ -329,7 +329,7 @@ describe('API', () => {
             return true;
         });
         it('endpoint GetOrder', async function testGetOrder() {
-            if (SkipAPITests || !orderIds || !orderIds.length) {
+            if (!orderIds || !orderIds.length) {
                 this.skip();
                 return false;
             }
@@ -344,10 +344,6 @@ describe('API', () => {
     describe('Reports Category', () => {
         let reportList = [];
         it('getReportListAll', async function testGetReportListAll() {
-            if (SkipAPITests) {
-                this.skip();
-                return false;
-            }
             reportList = await mws.getReportListAll({
                 ReportTypeList: ['_GET_V2_SETTLEMENT_REPORT_DATA_FLAT_FILE_'],
             });
@@ -356,7 +352,7 @@ describe('API', () => {
             return reportList;
         });
         it('getReport', async function testGetReport() {
-            if (SkipAPITests || !reportList || !reportList.length) {
+            if (!reportList || !reportList.length) {
                 this.skip();
                 return false;
             }
@@ -379,10 +375,6 @@ describe('API', () => {
     });
     describe('Finances Category', () => {
         it('listFinancialEvents', async function testListFinancialEvents() {
-            if (SkipAPITests) {
-                this.skip();
-                return false;
-            }
             const startDate = new Date();
             startDate.setDate(startDate.getDate() - 7);
             const result = await mws.listFinancialEvents({ PostedAfter: startDate });
@@ -402,10 +394,6 @@ describe('API', () => {
     });
     describe('FBA Fulfillment Inventory Category', () => {
         it('listInventorySupply', async function testListInventorySupply() {
-            if (SkipAPITests) {
-                this.skip();
-                return false;
-            }
             const startDate = new Date();
             startDate.setDate(startDate.getDate() - 7);
             const result = await mws.listInventorySupply({
@@ -419,10 +407,6 @@ describe('API', () => {
     });
     describe('Products Category', () => {
         it('getMatchingProductForId single ASIN', async function testGetMatchingProductForId() {
-            if (SkipAPITests) {
-                this.skip();
-                return false;
-            }
             const result = await mws.getMatchingProductForId({
                 MarketplaceId: 'ATVPDKIKX0DER',
                 IdType: 'ASIN',
@@ -435,10 +419,6 @@ describe('API', () => {
             return result;
         });
         it('getMatchingProductForId 2 ASINs', async function testGetMatchingProductForId2() {
-            if (SkipAPITests) {
-                this.skip();
-                return false;
-            }
             const result = await mws.getMatchingProductForId({
                 MarketplaceId: 'ATVPDKIKX0DER',
                 IdType: 'ASIN',
@@ -449,10 +429,6 @@ describe('API', () => {
             return result;
         });
         it('getMatchingProductForId single UPC', async function testGetMatchingProductForId3() {
-            if (SkipAPITests) {
-                this.skip();
-                return false;
-            }
             const result = await mws.getMatchingProductForId({
                 MarketplaceId: 'ATVPDKIKX0DER',
                 IdType: 'UPC',
@@ -465,10 +441,6 @@ describe('API', () => {
             return result;
         });
         it('getMatchingProductForId with invalid UPC', async function testGetMatchingProductForId4() {
-            if (SkipAPITests) {
-                this.skip();
-                return false;
-            }
             const params = {
                 MarketplaceId: 'ATVPDKIKX0DER',
                 IdType: 'UPC',
