@@ -2,26 +2,71 @@
 
 ### Table of Contents
 
--   [MarketplaceData](#marketplacedata)
 -   [getMarketplaces](#getmarketplaces)
+-   [listOrders](#listorders)
+-   [listFinancialEvents](#listfinancialevents)
+-   [listInventorySupply](#listinventorysupply)
 -   [Product](#product)
 -   [getMatchingProductForId](#getmatchingproductforid)
-
-## MarketplaceData
-
-Type: [Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)
-
-**Properties**
-
--   `markets` **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)** Array of MarketplaceId, DefaultCountryCode, DomainName, Name, DefaultCurrencyCode, DefaultLanguageCode
--   `marketParticipations` **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)** Array of MarketplaceId, SellerId, HasSellerSuspendedListings
--   `marketDetail` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Object indexed by MarketplaceId containing all of markets and marketParticipations data
+-   [getLowestPricedOffersForASIN](#getlowestpricedoffersforasin)
 
 ## getMarketplaces
 
 Call MWS ListMarketplaceParticipations, return parsed results
 
-Returns **[MarketplaceData](#marketplacedata)** 
+Returns **{markets: [Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array), marketParticipations: [Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array), marketDetail: [Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)}** 
+
+## listOrders
+
+Return orders created or updated during a specific time frame
+see <https://docs.developer.amazonservices.com/en_UK/orders-2013-09-01/Orders_ListOrders.html>
+
+**Parameters**
+
+-   `options` **[object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
+    -   `options.CreatedAfter` **[Date](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date)** Select orders created at or after the given Date
+    -   `options.CreatedBefore` **[Date](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date)** Select orders created at or before the given Date
+    -   `options.LastUpdatedAfter` **[Date](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date)** Select orders updated at or after the given Date
+    -   `options.LastUpdatedBefore` **[Date](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date)** Select orders updated at or before the given Date
+    -   `options.OrderStatus` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** OrderStatus, see MWS doc page
+    -   `options.MarketplaceId` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Marketplace to search
+    -   `options.FulfillmentChannel` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** AFN for Amazon fulfillment, MFN for merchant
+    -   `options.PaymentMethod` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** All, COD, CVS, Other
+    -   `options.BuyerEmail` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Search for orders with given Email address
+    -   `options.SellerOrderId` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Specified seller order ID
+    -   `options.MaxResultsPerPage` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Max number of results to return, 1 &lt;=> 100
+    -   `options.TFMShipmentStatus` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** See MWS doc page
+
+Returns **[object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
+
+## listFinancialEvents
+
+<https://docs.developer.amazonservices.com/en_UK/finances/Finances_ListFinancialEvents.html>
+
+**Parameters**
+
+-   `options` **[object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
+    -   `options.MaxResultsPerPage` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Maximum number of results to return (1 &lt;=> 100)
+    -   `options.AmazonOrderId` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** An order number to search for
+    -   `options.FinancialEventGroupId` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Type of Financial Event to search for
+    -   `options.PostedAfter` **[Date](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date)** When to search for events after
+    -   `options.PostedBefore` **[Date](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date)** When to search for events prior to
+
+Returns **[object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
+
+## listInventorySupply
+
+Return information about the availability of a seller's FBA inventory
+
+**Parameters**
+
+-   `options` **[object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
+    -   `options.SellerSkus` **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)>** A list of SKUs for items to get inventory info for
+    -   `options.QueryStartDateTime` **[Date](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date)** Date to begin searching at
+    -   `options.ResponseGroup` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 'Basic' = Do not include SupplyDetail, 'Detailed' = Do
+    -   `options.MarketplaceId` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Marketplace ID to search
+
+Returns **{nextToken: [string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String), supplyList: [Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)>}** 
 
 ## Product
 
@@ -44,3 +89,16 @@ EAN, ISBN, or JAN values
     -   `options.IdList` **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)>** List of codes to perform lookup on
 
 Returns **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[Product](#product)>** 
+
+## getLowestPricedOffersForASIN
+
+getLowestPricedOffersForASIN
+
+**Parameters**
+
+-   `options` **[object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** see <https://docs.developer.amazonservices.com/en_UK/products/Products_GetLowestPricedOffersForASIN.html>
+    -   `options.MarketplaceId` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Marketplace ID to search
+    -   `options.ASIN` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** ASIN to search for
+    -   `options.ItemCondition` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Listing Condition: New, Used, Collectible, Refurbished, Club
+
+Returns **{asin: [string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String), marketplace: [string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String), itemCondition: [string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String), summary: [object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object), offers: [array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)}** 

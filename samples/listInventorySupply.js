@@ -11,7 +11,7 @@ async function main() {
             QueryStartDateTime: startDate,
             ResponseGroup: 'Detailed',
         });
-        console.warn(JSON.stringify(results));
+        console.warn(JSON.stringify(results, null, 4));
     } catch (err) {
         console.warn('* error', err);
     }
