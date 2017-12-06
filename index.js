@@ -4,7 +4,7 @@ const fs = require('fs');
 const writeFile = promisify(fs.writeFile);
 
 const { init, callEndpoint } = require('./lib');
-const { sleep } = require('./lib/sleep');
+const sleep = require('./lib/sleep');
 
 const { getMarketplaces } = require('./lib/get-marketplaces');
 const { listOrders } = require('./lib/list-orders');
