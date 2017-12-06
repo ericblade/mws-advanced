@@ -11,6 +11,7 @@ const { listOrders } = require('./lib/list-orders');
 const { listFinancialEvents } = require('./lib/list-financial-events');
 const { listInventorySupply } = require('./lib/list-inventory-supply');
 const { getMatchingProductForId } = require('./lib/get-matching-product');
+const { getLowestPricedOffersForASIN } = require('./lib/get-lowest-priced-offers');
 
 /*
 { ReportType: '_GET_MERCHANT_LISTINGS_DATA_',
@@ -201,4 +202,5 @@ module.exports = {
     getReportListAll,
     getReportRequestList,
     requestAndDownloadReport,
+    getLowestPricedOffersForASIN,
 };

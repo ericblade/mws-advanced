@@ -5,10 +5,10 @@ mws.init(keys);
 
 async function main() {
     try {
-        const ASINList = ['142210284X', '1844161668', '0989391108', 'B009NOF57C'];
+        const ASINList = ['B010YSIKKY']; // '1844161668', '0989391108', 'B009NOF57C'
         ASINList.forEach(async (asin) => {
             console.warn('asin=', asin);
-            const results = await mws.callEndpoint('GetLowestPricedOffersForASIN', {
+            const results = await mws.getLowestPricedOffersForASIN({
                 MarketplaceId: 'ATVPDKIKX0DER',
                 ASIN: asin,
                 ItemCondition: 'New',

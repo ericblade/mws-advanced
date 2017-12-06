@@ -408,49 +408,83 @@ describe('API', function runAPITests() {
         });
     });
     describe('Products Category', () => {
-        it('getMatchingProductForId single ASIN', async function testGetMatchingProductForId() {
-            const result = await mws.getMatchingProductForId({
-                MarketplaceId: 'ATVPDKIKX0DER',
-                IdType: 'ASIN',
-                IdList: ['B005NK7VTU'],
+        describe('getMatchingProductForId', () => {
+            it('getMatchingProductForId single ASIN', async function testGetMatchingProductForId() {
+                const result = await mws.getMatchingProductForId({
+                    MarketplaceId: 'ATVPDKIKX0DER',
+                    IdType: 'ASIN',
+                    IdList: ['B005NK7VTU'],
+                });
+                expect(result).to.be.an('array');
+                expect(result).to.have.lengthOf(1);
+                expect(result[0]).to.be.an('object');
+                expect(result[0]).to.have.key('B005NK7VTU');
+                return result;
             });
-            expect(result).to.be.an('array');
-            expect(result).to.have.lengthOf(1);
-            expect(result[0]).to.be.an('object');
-            expect(result[0]).to.have.key('B005NK7VTU');
-            return result;
-        });
-        it('getMatchingProductForId 2 ASINs', async function testGetMatchingProductForId2() {
-            const result = await mws.getMatchingProductForId({
-                MarketplaceId: 'ATVPDKIKX0DER',
-                IdType: 'ASIN',
-                IdList: ['B005NK7VTU', 'B00OB8EYZE'],
+            it('getMatchingProductForId 2 ASINs', async function testGetMatchingProductForId2() {
+                const result = await mws.getMatchingProductForId({
+                    MarketplaceId: 'ATVPDKIKX0DER',
+                    IdType: 'ASIN',
+                    IdList: ['B005NK7VTU', 'B00OB8EYZE'],
+                });
+                expect(result).to.be.an('array');
+                expect(result).to.have.lengthOf(2);
+                return result;
             });
-            expect(result).to.be.an('array');
-            expect(result).to.have.lengthOf(2);
-            return result;
-        });
-        it('getMatchingProductForId single UPC', async function testGetMatchingProductForId3() {
-            const result = await mws.getMatchingProductForId({
-                MarketplaceId: 'ATVPDKIKX0DER',
-                IdType: 'UPC',
-                IdList: ['020357122682'],
+            it('getMatchingProductForId single UPC', async function testGetMatchingProductForId3() {
+                const result = await mws.getMatchingProductForId({
+                    MarketplaceId: 'ATVPDKIKX0DER',
+                    IdType: 'UPC',
+                    IdList: ['020357122682'],
+                });
+                expect(result).to.be.an('array');
+                expect(result).to.have.lengthOf(1);
+                expect(result[0]).to.be.an('object');
+                expect(result[0]).to.have.key('020357122682');
+                return result;
             });
-            expect(result).to.be.an('array');
-            expect(result).to.have.lengthOf(1);
-            expect(result[0]).to.be.an('object');
-            expect(result[0]).to.have.key('020357122682');
-            return result;
+            it('getMatchingProductForId with invalid UPC', async function testGetMatchingProductForId4() {
+                const params = {
+                    MarketplaceId: 'ATVPDKIKX0DER',
+                    IdType: 'UPC',
+                    IdList: ['012345678900'],
+                };
+                // Error: {"Type":"Sender","Code":"InvalidParameterValue","Message":"Invalid UPC identifier 000000000000 for marketplace ATVPDKIKX0DER"}
+                expect(mws.getMatchingProductForId(params)).to.be.rejectedWith(Error);
+                return true;
+            });
         });
-        it('getMatchingProductForId with invalid UPC', async function testGetMatchingProductForId4() {
+        it('getLowestPricedOffers', async function testGetLowestPricedOffersForASIN() {
             const params = {
                 MarketplaceId: 'ATVPDKIKX0DER',
-                IdType: 'UPC',
-                IdList: ['012345678900'],
+                ASIN: 'B010YSIKKY',
+                ItemCondition: 'New',
             };
-            // Error: {"Type":"Sender","Code":"InvalidParameterValue","Message":"Invalid UPC identifier 000000000000 for marketplace ATVPDKIKX0DER"}
-            expect(mws.getMatchingProductForId(params)).to.be.rejectedWith(Error);
-            return true;
+            const result = await mws.getLowestPricedOffersForASIN(params);
+            expect(result).to.be.an('object').with.keys(
+                'asin',
+                'marketplace',
+                'itemCondition',
+                'summary',
+                'lowestOffers',
+            );
+            const summary = result.summary;
+            expect(summary).to.be.an('object').with.keys(
+                'totalOfferCount',
+                'numberOfOffers',
+                'lowestPrices',
+                'buyBoxPrices',
+                'buyBoxEligibleOffers',
+                'listPrice',
+            );
+            expect(summary.totalOfferCount).to.be.a('number');
+            expect(summary.numberOfOffers).to.be.an('array');
+            expect(summary.lowestPrices).to.be.an('array');
+            expect(summary.buyBoxPrices).to.be.an('array');
+            expect(summary.buyBoxEligibleOffers).to.be.an('array');
+
+            expect(result.lowestOffers).to.be.an('array');
+            return result;
         });
     });
 });
