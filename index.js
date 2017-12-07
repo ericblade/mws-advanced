@@ -169,16 +169,15 @@ const requestAndDownloadReport = async (ReportType, file, reportParams = {}) => 
     const reportRequestId = request.ReportRequestId;
     await sleep(20000); // some requests may be available quickly, check after 20 sec
     const reportCheck = await checkReportComplete(reportRequestId);
-    const ReportId = reportCheck.GeneratedReportId;
+    let ReportId = reportCheck.GeneratedReportId;
+
     // TODO: Some reports do not provide a GeneratedReportId and we need to call GetReportList to find the identifier!
     if (!ReportId) {
-        console.warn('**** No ReportId received !! This is not yet handled');
         const reportList = await getReportList({
             ReportTypeList: [ReportType],
         });
-        console.warn('**** reportList', reportList);
-        return {};
-        // TODO
+
+        ReportId = reportList[reportList.length - 1].ReportId;
     }
     const report = await getReport({ ReportId });
     if (file) {
