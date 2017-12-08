@@ -229,23 +229,42 @@ describe('mws-advanced sanity', () => {
     // TODO: write tests that test all configuration options individually, and defaults,
     // much like was just written in mws-simple
     // TODO: do we need to write a test that tests authToken if it is present?
-    it('init returns a configured mws object', (done) => {
-        const client = mws.init({
-            accessKeyId: 'testKeyId',
-            secretAccessKey: 'testSecret',
-            merchantId: 'testMerchantId',
-            authToken: 'authToken',
+    describe('mws.init', () => {
+        it('init returns a configured mws object', (done) => {
+            const client = mws.init({
+                accessKeyId: 'testKeyId',
+                secretAccessKey: 'testSecret',
+                merchantId: 'testMerchantId',
+                authToken: 'authToken',
+            });
+            expect(client).to.be.an('object');
+            expect(client).to.include.all.keys(
+                'host',
+                'port',
+                'accessKeyId',
+                'secretAccessKey',
+                'merchantId',
+                'authToken',
+            );
+            done();
         });
-        expect(client).to.be.an('object');
-        expect(client).to.include.all.keys(
-            'host',
-            'port',
-            'accessKeyId',
-            'secretAccessKey',
-            'merchantId',
-            'authToken',
-        );
-        done();
+        it('init marketplaces', (done) => {
+            let client = mws.init({ region: 'CN', marketplace: 'CN' });
+            expect(client.host).to.equal('mws.amazonservices.com.cn');
+            client = mws.init({ region: 'AU', marketplace: 'AU' });
+            expect(client.host).to.equal('mws.amazonservices.com.au');
+            client = mws.init({ region: 'JP', marketplace: 'JP' });
+            expect(client.host).to.equal('mws.amazonservices.jp');
+            client = mws.init({ region: 'IN', marketplace: 'IN' });
+            expect(client.host).to.equal('mws.amazonservices.in');
+            client = mws.init({ region: 'EU', marketplace: 'DE' });
+            expect(client.host).to.equal('mws-eu.amazonservices.com');
+            client = mws.init({ region: 'BR', marketplace: 'BR' });
+            expect(client.host).to.equal('mws.amazonservices.com');
+            client = mws.init({ region: 'NA', marketplace: 'US' });
+            expect(client.host).to.equal('mws.amazonservices.com');
+            done();
+        });
     });
     it('tester provided a likely correct keys.json file', (done) => {
         expect(
