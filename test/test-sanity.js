@@ -14,7 +14,8 @@ chai.use(chaiAsPromised);
 const expect = chai.expect;
 
 const sleep = require('../lib/sleep');
-const isType = require('../lib/validation.js').isType;
+const isType = require('../lib/validation').isType;
+const validateAndTransformParameters = require('../lib/validation').validateAndTransformParameters;
 const flattenResult = require('../lib/flatten-result').flattenResult;
 const { digResponseResult } = require('../lib/dig-response-result');
 
@@ -149,6 +150,74 @@ describe('isType', () => {
     });
 });
 
+describe('validateAndTransformParameters', () => {
+    const req = {
+        ReqTest: {
+            type: 'xs:string',
+            required: true,
+        },
+        NotReqTest: {
+            type: 'xs:string',
+            required: false,
+        },
+    };
+    it('called with undefined first arg returns without parsing', (done) => {
+        expect(validateAndTransformParameters(undefined, 123)).to.equal(123);
+        done();
+    });
+    it('unknown parameter throws', (done) => {
+        expect(() => validateAndTransformParameters(req, { BadTest: 'test' })).to.throw();
+        done();
+    });
+    it('incorrect type throws', (done) => {
+        expect(() => validateAndTransformParameters(req, { ReqTest: 123 })).to.throw();
+        done();
+    });
+    describe('required parameters', () => {
+        it('required parameter present works', (done) => {
+            expect(validateAndTransformParameters(req, { ReqTest: 'test' })).to.deep.equal({ ReqTest: 'test' });
+            done();
+        });
+        it('required parameter not present throws', (done) => {
+            expect(() => validateAndTransformParameters(req, { NotReqTest: 'test' })).to.throw();
+            done();
+        });
+    });
+    describe('Array to List transformation', () => {
+        const listTest = {
+            ListTest: {
+                type: 'xs:string',
+                required: true,
+                list: 'Test.List',
+                listMax: 2,
+            },
+        };
+        it('throws on non-Arrays', (done) => {
+            expect(() => validateAndTransformParameters(listTest, { ListTest: 'oops' })).to.throw();
+            done();
+        });
+        it('throws on incorrect list data types', (done) => {
+            expect(() => validateAndTransformParameters(listTest, { ListTest: [123] })).to.throw();
+            done();
+        });
+        it('throws on partial incorrect list data types', (done) => {
+            expect(() => validateAndTransformParameters(listTest, { ListTest: ['a', 1] })).to.throw();
+            done();
+        });
+        it('throws on exceeding listMax items', (done) => {
+            expect(() => validateAndTransformParameters(listTest, { ListTest: ['1', '2', '3'] })).to.throw();
+            done();
+        });
+        it('outputs correct list parameters (ListTest[x] => Test.List.x+1)', (done) => {
+            expect(validateAndTransformParameters(listTest, { ListTest: ['1', '2'] })).to.deep.equal({
+                'Test.List.1': '1',
+                'Test.List.2': '2',
+            });
+            done();
+        });
+    });
+});
+
 // TODO: a full test configuration for this function to test all possible things could be quite
 // extensive, it will take some time/effort.
 const generateEndpoints = require('../lib/endpoints/endpoints-utils');
@@ -262,6 +331,11 @@ describe('mws-advanced sanity', () => {
             client = mws.init({ region: 'BR', marketplace: 'BR' });
             expect(client.host).to.equal('mws.amazonservices.com');
             client = mws.init({ region: 'NA', marketplace: 'US' });
+            expect(client.host).to.equal('mws.amazonservices.com');
+            done();
+        });
+        it('init w/ junk marketplace uses default host', (done) => {
+            const client = mws.init({ region: 'TestJunk' });
             expect(client.host).to.equal('mws.amazonservices.com');
             done();
         });
