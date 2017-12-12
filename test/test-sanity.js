@@ -37,6 +37,17 @@ describe('Misc Utils', () => {
     });
     // TODO: we should test flattenResult using actual amazon data
     // as well, to validate real world usage.
+    it('flattenResult returns array when given array', (done) => {
+        const result = flattenResult([{ test: 1, test2: 2 }]);
+        expect(result).to.be.an('array').with.lengthOf(1);
+        expect(result[0]).to.deep.equal({ test: 1, test2: 2 });
+        done();
+    });
+    it('flattenResult returns object when given object', (done) => {
+        const result = flattenResult({ test: 1, test2: 2 });
+        expect(result).to.deep.equal({ test: 1, test2: 2 });
+        done();
+    });
     it('flattenResult() returns flat results', (done) => {
         const result = flattenResult({
             test: ['test'],
