@@ -525,6 +525,8 @@ describe('API', function runAPITests() {
                 expect(result).to.have.lengthOf(1);
                 expect(result[0]).to.be.an('object');
                 expect(result[0].asin).to.equal('B005NK7VTU');
+                expect(result[0].idType).to.equal('asin');
+                expect(result[0].id).to.equal('B005NK7VTU');
                 return result;
             });
             it('getMatchingProductForId 2 ASINs', async function testGetMatchingProductForId2() {
@@ -546,7 +548,9 @@ describe('API', function runAPITests() {
                 expect(result).to.be.an('array');
                 expect(result).to.have.lengthOf(1);
                 expect(result[0]).to.be.an('object');
-                expect(result[0].asin).to.equal('020357122682');
+                expect(result[0].upc).to.equal('020357122682');
+                expect(result[0].idType).to.equal('upc');
+                expect(result[0].id).to.equal('020357122682');
                 return result;
             });
             it('getMatchingProductForId with invalid UPC', async function testGetMatchingProductForId4() {
@@ -576,6 +580,21 @@ describe('API', function runAPITests() {
                     IdList: ['B005NK7VTU', 'B00OB8EYZE', 'B005NK7VTU', 'B00OB8EYZE'],
                 };
                 expect(mws.getMatchingProductForId(params)).to.be.rejectedWith(Error);
+                return true;
+            });
+            it('getMatchingProductForId with partial error (1 asin that works, 1 that doesnt)', async function testGetMatchingProductForId7() {
+                const params = {
+                    MarketplaceId: 'ATVPDKIKX0DER',
+                    IdType: 'ASIN',
+                    IdList: ['B005NK7VTU', 'B01FZRFN2C'],
+                };
+                const result = await mws.getMatchingProductForId(params);
+                expect(result).to.be.an('array');
+                expect(result[0]).to.be.an('object');
+                expect(result[0].asin).to.equal('B005NK7VTU');
+                expect(result[1]).to.be.an('object');
+                expect(result[1].asin).to.equal('B01FZRFN2C');
+                expect(result[1].Error).to.be.an('object');
                 return true;
             });
         });
