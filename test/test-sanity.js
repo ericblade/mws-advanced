@@ -513,6 +513,8 @@ describe('API', function runAPITests() {
     });
     describe('Products Category', () => {
         describe('getMatchingProductForId', () => {
+            // TODO: getMatchingProductForId with two duplicate ASINs throws a 400 Bad Request
+            // error, which we may need to investigate special handling for.
             it('getMatchingProductForId single ASIN', async function testGetMatchingProductForId() {
                 const result = await mws.getMatchingProductForId({
                     MarketplaceId: 'ATVPDKIKX0DER',
@@ -522,7 +524,7 @@ describe('API', function runAPITests() {
                 expect(result).to.be.an('array');
                 expect(result).to.have.lengthOf(1);
                 expect(result[0]).to.be.an('object');
-                expect(result[0]).to.have.key('B005NK7VTU');
+                expect(result[0].asin).to.equal('B005NK7VTU');
                 return result;
             });
             it('getMatchingProductForId 2 ASINs', async function testGetMatchingProductForId2() {
@@ -544,7 +546,7 @@ describe('API', function runAPITests() {
                 expect(result).to.be.an('array');
                 expect(result).to.have.lengthOf(1);
                 expect(result[0]).to.be.an('object');
-                expect(result[0]).to.have.key('020357122682');
+                expect(result[0].asin).to.equal('020357122682');
                 return result;
             });
             it('getMatchingProductForId with invalid UPC', async function testGetMatchingProductForId4() {
@@ -554,6 +556,25 @@ describe('API', function runAPITests() {
                     IdList: ['012345678900'],
                 };
                 // Error: {"Type":"Sender","Code":"InvalidParameterValue","Message":"Invalid UPC identifier 000000000000 for marketplace ATVPDKIKX0DER"}
+                expect(mws.getMatchingProductForId(params)).to.be.rejectedWith(Error);
+                return true;
+            });
+            it('getMatchingProductForId with ASIN that has been deleted', async function testGetMatchingProductForId5() {
+                const params = {
+                    MarketplaceId: 'ATVPDKIKX0DER',
+                    IdType: 'ASIN',
+                    IdList: ['B01FZRFN2C'],
+                };
+                expect(mws.getMatchingProductForId(params)).to.be.rejectedWith(Error);
+                return true;
+            });
+            // oddly, the Amazon API throws Error 400 from the server if you give it duplicate items, instead of ignoring dupes or throwing individual errors, or returning multiple copies.
+            it('getMatchingProductForId with duplicate ASINs in list', async function testGetMatchingProductForId6() {
+                const params = {
+                    MarketplaceId: 'ATVPDKIKX0DER',
+                    IdType: 'ASIN',
+                    IdList: ['B005NK7VTU', 'B00OB8EYZE', 'B005NK7VTU', 'B00OB8EYZE'],
+                };
                 expect(mws.getMatchingProductForId(params)).to.be.rejectedWith(Error);
                 return true;
             });
