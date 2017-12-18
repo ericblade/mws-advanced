@@ -37,6 +37,17 @@ describe('Misc Utils', () => {
     });
     // TODO: we should test flattenResult using actual amazon data
     // as well, to validate real world usage.
+    it('flattenResult returns array when given array', (done) => {
+        const result = flattenResult([{ test: 1, test2: 2 }]);
+        expect(result).to.be.an('array').with.lengthOf(1);
+        expect(result[0]).to.deep.equal({ test: 1, test2: 2 });
+        done();
+    });
+    it('flattenResult returns object when given object', (done) => {
+        const result = flattenResult({ test: 1, test2: 2 });
+        expect(result).to.deep.equal({ test: 1, test2: 2 });
+        done();
+    });
     it('flattenResult() returns flat results', (done) => {
         const result = flattenResult({
             test: ['test'],
@@ -502,6 +513,8 @@ describe('API', function runAPITests() {
     });
     describe('Products Category', () => {
         describe('getMatchingProductForId', () => {
+            // TODO: getMatchingProductForId with two duplicate ASINs throws a 400 Bad Request
+            // error, which we may need to investigate special handling for.
             it('getMatchingProductForId single ASIN', async function testGetMatchingProductForId() {
                 const result = await mws.getMatchingProductForId({
                     MarketplaceId: 'ATVPDKIKX0DER',
@@ -511,7 +524,9 @@ describe('API', function runAPITests() {
                 expect(result).to.be.an('array');
                 expect(result).to.have.lengthOf(1);
                 expect(result[0]).to.be.an('object');
-                expect(result[0]).to.have.key('B005NK7VTU');
+                expect(result[0].asin).to.equal('B005NK7VTU');
+                expect(result[0].idType).to.equal('asin');
+                expect(result[0].id).to.equal('B005NK7VTU');
                 return result;
             });
             it('getMatchingProductForId 2 ASINs', async function testGetMatchingProductForId2() {
@@ -533,7 +548,9 @@ describe('API', function runAPITests() {
                 expect(result).to.be.an('array');
                 expect(result).to.have.lengthOf(1);
                 expect(result[0]).to.be.an('object');
-                expect(result[0]).to.have.key('020357122682');
+                expect(result[0].upc).to.equal('020357122682');
+                expect(result[0].idType).to.equal('upc');
+                expect(result[0].id).to.equal('020357122682');
                 return result;
             });
             it('getMatchingProductForId with invalid UPC', async function testGetMatchingProductForId4() {
@@ -544,6 +561,40 @@ describe('API', function runAPITests() {
                 };
                 // Error: {"Type":"Sender","Code":"InvalidParameterValue","Message":"Invalid UPC identifier 000000000000 for marketplace ATVPDKIKX0DER"}
                 expect(mws.getMatchingProductForId(params)).to.be.rejectedWith(Error);
+                return true;
+            });
+            it('getMatchingProductForId with ASIN that has been deleted', async function testGetMatchingProductForId5() {
+                const params = {
+                    MarketplaceId: 'ATVPDKIKX0DER',
+                    IdType: 'ASIN',
+                    IdList: ['B01FZRFN2C'],
+                };
+                expect(mws.getMatchingProductForId(params)).to.be.rejectedWith(Error);
+                return true;
+            });
+            // oddly, the Amazon API throws Error 400 from the server if you give it duplicate items, instead of ignoring dupes or throwing individual errors, or returning multiple copies.
+            it('getMatchingProductForId with duplicate ASINs in list', async function testGetMatchingProductForId6() {
+                const params = {
+                    MarketplaceId: 'ATVPDKIKX0DER',
+                    IdType: 'ASIN',
+                    IdList: ['B005NK7VTU', 'B00OB8EYZE', 'B005NK7VTU', 'B00OB8EYZE'],
+                };
+                expect(mws.getMatchingProductForId(params)).to.be.rejectedWith(Error);
+                return true;
+            });
+            it('getMatchingProductForId with partial error (1 asin that works, 1 that doesnt)', async function testGetMatchingProductForId7() {
+                const params = {
+                    MarketplaceId: 'ATVPDKIKX0DER',
+                    IdType: 'ASIN',
+                    IdList: ['B005NK7VTU', 'B01FZRFN2C'],
+                };
+                const result = await mws.getMatchingProductForId(params);
+                expect(result).to.be.an('array');
+                expect(result[0]).to.be.an('object');
+                expect(result[0].asin).to.equal('B005NK7VTU');
+                expect(result[1]).to.be.an('object');
+                expect(result[1].asin).to.equal('B01FZRFN2C');
+                expect(result[1].Error).to.be.an('object');
                 return true;
             });
         });
