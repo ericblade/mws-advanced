@@ -4,3 +4,4 @@ test/keys.json
 node_modules
 coverage/*
 old*/*
+.idea/
