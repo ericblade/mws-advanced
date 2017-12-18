@@ -15,6 +15,7 @@ const expect = chai.expect;
 
 const sleep = require('../lib/sleep');
 const isType = require('../lib/validation').isType;
+const validate = require('../lib/validation').validate;
 const validateAndTransformParameters = require('../lib/validation').validateAndTransformParameters;
 const flattenResult = require('../lib/flatten-result').flattenResult;
 const { digResponseResult } = require('../lib/dig-response-result');
@@ -226,6 +227,16 @@ describe('validateAndTransformParameters', () => {
             });
             done();
         });
+    });
+});
+
+describe('Validate amazonOrderId format', () => {
+    it('validates 3-7-3 amazonOrderId format', (done) => {
+        let result = validate('123-1234567-123', { stringFormat: 'amazonOrderId' });
+        expect(result).to.be.true;
+        result = validate('abc-def-ghi', { stringFormat: 'amazonOrderId' });
+        expect(result).to.be.false;
+        done();
     });
 });
 
