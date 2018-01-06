@@ -4,7 +4,7 @@
 // remove prefer-destructuring here because for some reason eslint is failing to handle it with require()
 // remove prefer-arrow-function because we need to use regular functions in places to access this.skip()
 
-/* eslint-disable import/no-extraneous-dependencies,no-undef,no-unused-expressions,prefer-destructuring,prefer-arrow-callback */
+/* eslint-disable import/no-extraneous-dependencies,no-undef,no-unused-expressions,prefer-destructuring,prefer-arrow-callback,global-require,no-empty */
 const fs = require('fs'); // yes i know i probably shouldn't be writing files in tests. sorry.
 
 const chai = require('chai');
@@ -308,10 +308,15 @@ describe('Endpoint Utils', () => {
 });
 
 const mws = require('..');
-const keys = require('./keys.json');
+
+let SkipAPITests = false;
+let keys;
+try {
+    keys = require('./keys.json');
+} catch (err) {
+}
 
 // TODO: can we set SkipAPITests based on the results of the first API test? if it fails, then we probably need to skip all remaining tests, as something is broken.
-let SkipAPITests = false;
 if (!keys || !keys.accessKeyId || !keys.secretAccessKey || !keys.merchantId) {
     SkipAPITests = true;
 }
