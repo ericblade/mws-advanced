@@ -2,6 +2,8 @@
 
 # mws-advanced
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/ericblade/mws-advanced.svg)](https://greenkeeper.io/)
+
 Amazon Merchant Web Services API for Javascript
 
 There are a lot of Amazon MWS interfaces in Javascript.
