@@ -4,7 +4,7 @@
 // remove prefer-destructuring here because for some reason eslint is failing to handle it with require()
 // remove prefer-arrow-function because we need to use regular functions in places to access this.skip()
 
-/* eslint-disable import/no-extraneous-dependencies,no-undef,no-unused-expressions,prefer-destructuring,prefer-arrow-callback,global-require,no-empty */
+/* eslint-disable import/no-extraneous-dependencies,no-undef,no-unused-expressions,prefer-destructuring,prefer-arrow-callback,global-require,no-empty,func-names */
 const fs = require('fs'); // yes i know i probably shouldn't be writing files in tests. sorry.
 
 const chai = require('chai');
@@ -367,26 +367,33 @@ describe('mws-advanced sanity', () => {
             done();
         });
     });
-    it('tester provided a likely correct keys.json file', (done) => {
-        expect(
-            keys,
-            'provide a keys.json file with accessKeyId, secretAccessKey, merchantId to test API',
-        ).to.include.all.keys(
-            'accessKeyId',
-            'secretAccessKey',
-            'merchantId',
-        );
-        done();
-    });
-    it('callEndpoint throws on unknown endpoint', async () => {
-        expect(mws.callEndpoint('/test/endpoint', {})).to.be.rejectedWith(Error);
-    });
-    it('callEndpoint throws on garbage parameters', async () => {
-        expect(mws.callEndpoint('GetOrder', { junkTest: true })).to.be.rejectedWith(Error);
-    });
-    it('callEndpoint functions', async () => {
-        mws.init(keys);
-        expect(mws.callEndpoint('ListMarketplaceParticipations', {})).to.be.fulfilled;
+    describe('callEndpoint functions (requires keys.json)', function () {
+        beforeEach(function () {
+            if (SkipAPITests) {
+                this.skip();
+            }
+        });
+        it('tester provided a likely correct keys.json file', (done) => {
+            expect(
+                keys,
+                'provide a keys.json file with accessKeyId, secretAccessKey, merchantId to test API',
+            ).to.include.all.keys(
+                'accessKeyId',
+                'secretAccessKey',
+                'merchantId',
+            );
+            done();
+        });
+        it('callEndpoint throws on unknown endpoint', async () => {
+            expect(mws.callEndpoint('/test/endpoint', {})).to.be.rejectedWith(Error);
+        });
+        it('callEndpoint throws on garbage parameters', async () => {
+            expect(mws.callEndpoint('GetOrder', { junkTest: true })).to.be.rejectedWith(Error);
+        });
+        it('callEndpoint functions', async () => {
+            mws.init(keys);
+            expect(mws.callEndpoint('ListMarketplaceParticipations', {})).to.be.fulfilled;
+        });
     });
 });
 
