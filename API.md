@@ -3,12 +3,18 @@
 ### Table of Contents
 
 -   [mws-advanced](#mws-advanced)
+-   [mws-advanced](#mws-advanced-1)
 -   [mws](#mws)
 -   [init](#init)
+-   [endpoints](#endpoints)
 -   [callEndpoint](#callendpoint)
 -   [MWS_MARKETPLACES](#mws_marketplaces)
 -   [MWS_ENDPOINTS](#mws_endpoints)
+-   [recursionCount](#recursioncount)
+-   [rootWasArray](#rootwasarray)
+-   [feeds](#feeds)
 -   [REQUEST_REPORT_TYPES](#request_report_types)
+-   [REPORT_PROCESSING_STATUS_TYPES](#report_processing_status_types)
 -   [getMarketplaces](#getmarketplaces)
 -   [listOrders](#listorders)
 -   [listFinancialEvents](#listfinancialevents)
@@ -26,11 +32,24 @@
 -   [reformatSummary](#reformatsummary)
 -   [getLowestPricedOffersForASIN](#getlowestpricedoffersforasin)
 -   [getLowestPricedOffersForASIN](#getlowestpricedoffersforasin-1)
--   [require](#require)
+-   [writeFile](#writefile)
+-   [requestReport](#requestreport)
+-   [requestReport](#requestreport-1)
+-   [getReportRequestList](#getreportrequestlist)
+-   [getReportRequestList](#getreportrequestlist-1)
+-   [getReport](#getreport)
+-   [getReportList](#getreportlist)
+-   [getReportListByNextToken](#getreportlistbynexttoken)
+-   [getReportListAll](#getreportlistall)
+-   [requestAndDownloadReport](#requestanddownloadreport)
 
 ## mws-advanced
 
 mws-advanced module for interacting with Amazon Merchant Web Services
+
+## mws-advanced
+
+reporting functions
 
 ## mws
 
@@ -42,25 +61,32 @@ Initialize mws-advanced with your MWS access keys, merchantId, optionally authto
 
 **Parameters**
 
--   `$0` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)**  (optional, default `{}`)
-    -   `$0.region`   (optional, default `'NA'`)
-    -   `$0.accessKeyId`  
-    -   `$0.secretAccessKey`  
-    -   `$0.merchantId`  
-    -   `$0.authToken`  
-    -   `$0.host`  
-    -   `$0.port`  
--   `config` **[object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Contains your MWS Access Keys/Tokens and options to configure the API
+-   `config` **[object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Contains your MWS Access Keys/Tokens and options to configure the API (optional, default `{}`)
+    -   `config.region` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** One of the Amazon regions as specified in <https://docs.developer.amazonservices.com/en_US/dev_guide/DG_Endpoints.html> (optional, default `'NA'`)
     -   `config.accessKeyId` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Your MWS Access Key
     -   `config.secretAccessKey` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Your MWS Secret Access Key
     -   `config.merchantId` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Your MWS Merchant ID
--   `authToken` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)?** If making a call for a third party account, the Auth Token provided
-                              for the third party account
--   `region` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** One of the Amazon regions as specified in <https://docs.developer.amazonservices.com/en_US/dev_guide/DG_Endpoints.html> (optional, default `'NA'`)
--   `host` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Set MWS host server name, see <https://docs.developer.amazonservices.com/en_US/dev_guide/DG_Endpoints.html> (optional, default `'mws.amazonservices.com'`)
--   `port` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Set MWS host port (optional, default `443`)
+    -   `config.authToken` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)?** If making a call for a third party account, the Auth Token provided
+                                  for the third party account
+    -   `config.host` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Set MWS host server name, see <https://docs.developer.amazonservices.com/en_US/dev_guide/DG_Endpoints.html> (optional, default `'mws.amazonservices.com'`)
+    -   `config.port` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Set MWS host port (optional, default `443`)
+
+**Examples**
+
+`````javascript
+    ````
+    (async function() {
+       const result = await mws.getMarketplaces();
+       console.log(result);
+    })();
+    ````
+`````
 
 Returns **mws-simple** The mws-simple instance used to communicate with the API
+
+## endpoints
+
+simple flat list of all the endpoints required from individual modules above
 
 ## callEndpoint
 
@@ -82,9 +108,27 @@ A list of Marketplace IDs hashed by their country code.
 
 A list of hosts you can use with the mws-advanced "host" option, hashed by MWS Region Name.
 
+## recursionCount
+
+flattenResult does some recursion. We need to act differently on the initial iteration.
+
+## rootWasArray
+
+determine if flattenResult was called with an Array as the root
+
+## feeds
+
+pull in all the separate endpoint modules and export them together
+
 ## REQUEST_REPORT_TYPES
 
-Constants for endpoint handling code. Mostly report generation functions use these.
+List of all valid request report types.
+This should probably be a hash map from sane values into values that Amazon understands,
+but we don't really have reporting done very well yet.
+
+## REPORT_PROCESSING_STATUS_TYPES
+
+status indicators for report processing status updates
 
 ## getMarketplaces
 
@@ -180,6 +224,13 @@ Returns **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Refere
 **Parameters**
 
 -   `offer`  
+-   `unknown` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+
+## reformatOffer
+
+**Parameters**
+
+-   `offer`  
 -   `subCondition` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** The subcondition of the item (New, Mint, Very Good, Good, Acceptable, Poor, Club, OEM, Warranty, Refurbished Warranty, Refurbished, Open Box, or Other)
 -   `sellerFeedbackRating` **SellerFeedbackRating** Information about the seller's feedback
 -   `shippingTime` **DetailedShippingTime** Maximum time within which the item will likely be shipped
@@ -190,13 +241,6 @@ Returns **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Refere
 -   `isFulfilledByAmazon` **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** True if FBA, False if not
 -   `isBuyBoxWinner` **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?** True if offer has buy box, False if not
 -   `isFeaturedMerchant` **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?** True if seller is eligible for Buy Box, False if not
-
-## reformatOffer
-
-**Parameters**
-
--   `offer`  
--   `unknown` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 
 ## reformatOffer
 
@@ -253,6 +297,17 @@ Returns **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Refere
 
 ## getLowestPricedOffersForASIN
 
+**Parameters**
+
+-   `options`  
+-   `asin` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** asin returned by request
+-   `marketplace` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** marketplace asin is in
+-   `itemCondition` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** condition of item requested
+-   `summary` **OfferSummary** \-
+-   `offers` **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;Offers>** list of offers
+
+## getLowestPricedOffersForASIN
+
 getLowestPricedOffersForASIN
 
 Calls GetLowestPricedOffersForASIN, reformats results, and returns the data
@@ -266,17 +321,123 @@ Calls GetLowestPricedOffersForASIN, reformats results, and returns the data
 
 Returns **LowestPricedOffers** 
 
-## getLowestPricedOffersForASIN
+## writeFile
+
+Promisified version of fs.writeFile
+We like to use Promises. writeFile does not come in a Promise variant, currently.
+Use util/promisify to make it work with Promises.
+This is better than using writeFileSync. Trust me. :-)
+
+**Parameters**
+
+-   `fileName` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** path/filename to write to
+-   `contents` **([string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String) \| [Buffer](https://nodejs.org/api/buffer.html))** what to write to file
+
+## requestReport
+
+Request a report from MWS
+Many optional parameters may be required by MWS! Read [ReportType](https://docs.developer.amazonservices.com/en_US/reports/Reports_ReportType.html) for specifics!
+
+**Parameters**
+
+-   `options` **[object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
+    -   `options.ReportType` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Type of Report to Request @see [REQUEST_REPORT_TYPES](#request_report_types)
+    -   `options.StartDate` **[Date](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date)?** Date to start report
+    -   `options.EndDate` **[Date](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date)?** Date to end report at
+    -   `options.ReportOptions` **[object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)?** Reports may have additional options available. Please see the [ReportType](https://docs.developer.amazonservices.com/en_US/reports/Reports_ReportType.html) official docs
+-   `MarketplaceId` **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)>?** Array of marketplace IDs to generate reports covering
+
+Returns **ReportRequestInfo** 
+
+## requestReport
 
 **Parameters**
 
 -   `options`  
--   `asin` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** asin returned by request
--   `marketplace` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** marketplace asin is in
--   `itemCondition` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** condition of item requested
--   `summary` **OfferSummary** \-
--   `offers` **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;Offers>** list of offers
+-   `ReportType` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Type of Report Requested @see [REQUEST_REPORT_TYPES](#request_report_types)
+-   `ReportProcessingStatus` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Status of Report @see [REPORT_PROCESSING_STATUS_TYPES](#report_processing_status_types)
+-   `EndDate` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** ISO Date for Date Ending period
+-   `Scheduled` **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** True if report is scheduled, false if immediate
+-   `ReportRequestId` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Identifier to use with getReport to fetch the report when ready
+-   `SubmittedDate` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** ISO Date for Date request was submitted
+-   `StartDate` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** ISO Date for Date report begins at
 
-## require
+## getReportRequestList
 
-reporting functions
+**Parameters**
+
+-   `options`   (optional, default `{}`)
+-   `ReportType` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Type of Report Requested @see [REQUEST_REPORT_TYPES](#request_report_types)
+-   `ReportProcessingStatus` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Status of Report @see [REPORT_PROCESSING_STATUS_TYPES](#report_processing_status_types)
+-   `EndDate` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** ISO Date for Report End Period
+-   `Scheduled` **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** True if report is scheduled, false if immediate
+-   `ReportRequestId` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Identifier for the Report Request
+-   `StartedProcessingDate` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** ISO Date for time MWS started processing request
+-   `StartDate` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** ISO Date for Report Start Period
+-   `CompletedDate` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** ISO Date for time MWS completed processing request
+-   `GeneratedReportId` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Identifier to use with getReport to retrieve the report
+
+## getReportRequestList
+
+Returns a list of report requests that you can use to get the ReportRequestId for a report
+After calling requestReport, you should call this function occasionally to see if/when the report
+has been processed.
+
+**Parameters**
+
+-   `options` **[object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)?** Options to pass to GetReportRequestList (optional, default `{}`)
+-   `ReportRequestIdList` **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)>?** List of report request IDs @see [requestReport](#requestreport)
+-   `ReportTypeList` **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)>?** List of Report Types @see [REQUEST_REPORT_TYPES](#request_report_types)
+-   `ReportProcessingStatusList` **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)>?** List of Report Processing Status @see [REPORT_PROCESSING_STATUS_TYPES](#report_processing_status_types)
+-   `MaxCount` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Maximum number of report requests to return, max is 100 (optional, default `10`)
+-   `RequestedFromDate` **[Date](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date)** Oldest date to search for (optional, default `90-days-past`)
+-   `RequestedToDate` **[Date](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date)** Newest date to search for (optional, default `Now`)
+
+Returns **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;GetReportRequestListResult>** 
+
+## getReport
+
+Returns the contents of a report
+
+**Parameters**
+
+-   `options` **[object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Options to pass to GetReport
+    -   `options.ReportId` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Report number from @see [GetReportList](GetReportList) or GeneratedReportId from @see [GetReportRequestListResult](GetReportRequestListResult)
+
+Returns **([Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array) \| [object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object))** Contents of the report to return (format may vary WIDELY between different reports generated, see [ReportType](https://docs.developer.amazonservices.com/en_US/reports/Reports_ReportType.html))
+
+## getReportList
+
+TODO: write documentation for getReportList
+
+**Parameters**
+
+-   `options`   (optional, default `{}`)
+
+## getReportListByNextToken
+
+TODO: write documentation for getReportListByNextToken
+(or just roll getReportList and getReportListByNextToken into the same wrapper)
+(that wrapper might be getReportListAll, and just rename it)
+
+**Parameters**
+
+-   `options`  
+
+## getReportListAll
+
+TODO: write documentation for getReportListAll (or see comment on getReportListByNextToken)
+
+**Parameters**
+
+-   `options`   (optional, default `{}`)
+
+## requestAndDownloadReport
+
+TODO: Document requestAndDownloadReport
+
+**Parameters**
+
+-   `ReportType`  
+-   `file`  
+-   `reportParams`   (optional, default `{}`)

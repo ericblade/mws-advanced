@@ -57,30 +57,61 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-SellerFeedbackRating">SellerFeedbackRating</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ShipsFrom">ShipsFrom</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-Product">Product</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-GetReportRequestListResult">GetReportRequestListResult</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-GetReportRequestListResult">GetReportRequestListResult</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ReportRequestInfo">ReportRequestInfo</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#endpoints">endpoints</a><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-REPORT_PROCESSING_STATUS_TYPES">REPORT_PROCESSING_STATUS_TYPES</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-REQUEST_REPORT_TYPES">REQUEST_REPORT_TYPES</a></span></span></li>
 </ul>
 </div>
 </nav>
 
 <div class="content" data-ice="content"><h1 data-ice="title">lib/reports.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">/** reporting functions */
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">/** reporting functions
+ * @module mws-advanced
+*/
 
 const { promisify } = require(&apos;util&apos;);
 const fs = require(&apos;fs&apos;);
 
+/**
+ * Promisified version of fs.writeFile
+ * We like to use Promises. writeFile does not come in a Promise variant, currently.
+ * Use util/promisify to make it work with Promises.
+ * This is better than using writeFileSync. Trust me. :-)
+ * @param {string} fileName - path/filename to write to
+ * @param {string|Buffer} contents - what to write to file
+ */
 const writeFile = promisify(fs.writeFile);
 
 const { callEndpoint } = require(&apos;./callEndpoint&apos;);
 const sleep = require(&apos;./sleep&apos;);
 
-/*
-{ ReportType: &apos;_GET_MERCHANT_LISTINGS_DATA_&apos;,
-  ReportProcessingStatus: &apos;_SUBMITTED_&apos;,
-  EndDate: &apos;2017-07-31T06:17:53+00:00&apos;,
-  Scheduled: &apos;false&apos;,
-  ReportRequestId: &apos;56938017378&apos;,
-  SubmittedDate: &apos;2017-07-31T06:17:53+00:00&apos;,
-  StartDate: &apos;2017-07-31T06:17:53+00:00&apos; }
-*/
+/**
+ * @typedef ReportRequestInfo
+ * @param {string} ReportType Type of Report Requested @see {@link REQUEST_REPORT_TYPES}
+ * @param {string} ReportProcessingStatus Status of Report @see {@link REPORT_PROCESSING_STATUS_TYPES}
+ * @param {string} EndDate ISO Date for Date Ending period
+ * @param {boolean} Scheduled True if report is scheduled, false if immediate
+ * @param {string} ReportRequestId Identifier to use with getReport to fetch the report when ready
+ * @param {string} SubmittedDate ISO Date for Date request was submitted
+ * @param {string} StartDate ISO Date for Date report begins at
+ */
+// TODO: convert ISO Dates to Date objects?
+
+/**
+ * Request a report from MWS
+ * Many optional parameters may be required by MWS! Read [ReportType](https://docs.developer.amazonservices.com/en_US/reports/Reports_ReportType.html) for specifics!
+ *
+ * @async
+ * @param {object} options
+ * @param {string} options.ReportType Type of Report to Request @see {@link REQUEST_REPORT_TYPES}
+ * @param {Date} [options.StartDate] Date to start report
+ * @param {Date} [options.EndDate] Date to end report at
+ * @param {object} [options.ReportOptions] Reports may have additional options available. Please see the [ReportType](https://docs.developer.amazonservices.com/en_US/reports/Reports_ReportType.html) official docs
+ * @param {string[]} [MarketplaceId] Array of marketplace IDs to generate reports covering
+ * @returns {ReportRequestInfo}
+ */
 const requestReport = async (options) =&gt; {
     const result = await callEndpoint(&apos;RequestReport&apos;, options);
     return result.ReportRequestInfo;
@@ -91,29 +122,57 @@ const requestReport = async (options) =&gt; {
 // interface will also show up here. Somewhere in the docs, it says that Amazon
 // keeps all reports for 90 days.
 
-/*
-[ { ReportType: &apos;_GET_MERCHANT_LISTINGS_DATA_&apos;,
-    ReportProcessingStatus: &apos;_DONE_&apos;,
-    EndDate: &apos;2017-07-31T06:09:35+00:00&apos;,
-    Scheduled: &apos;false&apos;,
-    ReportRequestId: &apos;56937017378&apos;,
-    StartedProcessingDate: &apos;2017-07-31T06:09:39+00:00&apos;,
-    SubmittedDate: &apos;2017-07-31T06:09:35+00:00&apos;,
-    StartDate: &apos;2017-07-31T06:09:35+00:00&apos;,
-    CompletedDate: &apos;2017-07-31T06:09:46+00:00&apos;,
-    GeneratedReportId: &apos;5935233306017378&apos; } ]
-*/
+// TODO: for some reason GetReportRequestListResult showsmentation twice.
+/**
+ * @typedef GetReportRequestListResult
+ * @param {string} ReportType Type of Report Requested @see {@link REQUEST_REPORT_TYPES}
+ * @param {string} ReportProcessingStatus Status of Report @see {@link REPORT_PROCESSING_STATUS_TYPES}
+ * @param {string} EndDate ISO Date for Report End Period
+ * @param {boolean} Scheduled True if report is scheduled, false if immediate
+ * @param {string} ReportRequestId Identifier for the Report Request
+ * @param {string} StartedProcessingDate ISO Date for time MWS started processing request
+ * @param {string} StartDate ISO Date for Report Start Period
+ * @param {string} CompletedDate ISO Date for time MWS completed processing request
+ * @param {string} GeneratedReportId Identifier to use with getReport to retrieve the report
+ */
+
+/**
+ * Returns a list of report requests that you can use to get the ReportRequestId for a report
+ * After calling requestReport, you should call this function occasionally to see if/when the report
+ * has been processed.
+ *
+ * @async
+ * @param {object} [options] Options to pass to GetReportRequestList
+ * @param {string[]} [ReportRequestIdList] List of report request IDs @see {@link requestReport}
+ * @param {string[]} [ReportTypeList] List of Report Types @see {@link REQUEST_REPORT_TYPES}
+ * @param {string[]} [ReportProcessingStatusList] List of Report Processing Status @see {@link REPORT_PROCESSING_STATUS_TYPES}
+ * @param {number} [MaxCount=10] Maximum number of report requests to return, max is 100
+ * @param {Date} [RequestedFromDate=90-days-past] Oldest date to search for
+ * @param {Date} [RequestedToDate=Now] Newest date to search for
+ * @returns {GetReportRequestListResult[]}
+ */
+// TODO: make sure we get NextToken out of there and into the main data structure somewhere
 const getReportRequestList = async (options = {}) =&gt; {
     const result = await callEndpoint(&apos;GetReportRequestList&apos;, options);
     // NextToken is under result.GetReportRequestListResponse.GetReportRequestListResult
     return result.ReportRequestInfo;
 };
 
+/**
+ * Returns the contents of a report
+ * @async
+ * @param {object} options Options to pass to GetReport
+ * @param {string} options.ReportId Report number from @see {@link GetReportList} or GeneratedReportId from @see {@link GetReportRequestListResult}
+ * @return {Array|object} Contents of the report to return (format may vary WIDELY between different reports generated, see [ReportType](https://docs.developer.amazonservices.com/en_US/reports/Reports_ReportType.html))
+ */
 const getReport = async (options) =&gt; {
     const result = await callEndpoint(&apos;GetReport&apos;, options);
     return result;
 };
 
+/**
+ * TODO: write documentation for getReportList
+ */
 const getReportList = async (options = {}) =&gt; {
     const result = await callEndpoint(&apos;GetReportList&apos;, options);
     // NextToken should be in result.GetReportListResponse.GetReportListResult
@@ -128,6 +187,11 @@ const getReportList = async (options = {}) =&gt; {
     }
 };
 
+/**
+ * TODO: write documentation for getReportListByNextToken
+ * (or just roll getReportList and getReportListByNextToken into the same wrapper)
+ * (that wrapper might be getReportListAll, and just rename it)
+ */
 const getReportListByNextToken = async (options) =&gt; {
     const result = await callEndpoint(&apos;GetReportListByNextToken&apos;, options);
     try {
@@ -141,6 +205,9 @@ const getReportListByNextToken = async (options) =&gt; {
     }
 };
 
+/**
+ * TODO: write documentation for getReportListAll (or see comment on getReportListByNextToken)
+ */
 const getReportListAll = async (options = {}) =&gt; {
     let reports = [];
     const reportList = await getReportList(options);
@@ -190,6 +257,9 @@ const getReportListAll = async (options = {}) =&gt; {
 //  _GET_XML_ALL_ORDERS_DATA_BY_ORDER_DATE_
 
 
+/**
+ * TODO: Document requestAndDownloadReport
+ */
 const requestAndDownloadReport = async (ReportType, file, reportParams = {}) =&gt; {
     async function checkReportComplete(reportRequestId) {
         console.log(`-- checking if report is complete ${reportRequestId}`);

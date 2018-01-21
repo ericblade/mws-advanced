@@ -1,15 +1,8 @@
 # Getting Started
 
-# Installation
+## Prerequisites
 
-As mws-advanced is still under heavy initial development, it is not currently available from the
-global npm repository.  You should install it from the github repo, as:
-
-````
-npm install --save github:ericblade/mws-advanced
-````
-
-# Getting your MWS credentials
+### Getting your MWS credentials
 
 To use the MWS API, you will need to obtain your MWS API credentials.  Amazon will supply three
 items that you will need to provide: Access Key Id, Secret Access Key, and Merchant ID.
@@ -31,14 +24,23 @@ then click "View" next to the "Secret Key" field.  Make note of your Secret Acce
 Now that you have your Access Key Id, Secret Access Key, and Merchant ID, you can begin using the
 MWS API.
 
-# Official MWS API documentation
+### Official MWS API documentation
 
 You may find yourself wanting to refer to the official Amazon documentation, to determine how, when,
 or why to use an API, or to find out information about what it returns, or what it is used for:
 
 [Amazon MWS Web Service API Documentation](https://developer.amazonservices.com/gp/mws/docs.html)
 
-# Creating the connection to MWS
+## Installation
+
+As mws-advanced is still under heavy initial development, it is not currently available from the
+global npm repository.  You should install it from the github repo, as:
+
+````
+npm install --save github:ericblade/mws-advanced
+````
+
+## Creating the connection to MWS
 
 Before you are able to use the mws-advanced API, you must initialize it with your MWS credentials.
 
@@ -50,7 +52,7 @@ mws.init({
 });
 ````
 
-# Calling mws-advanced APIs
+## Calling mws-advanced APIs
 
 mws-advanced implements several wrappers around the actual MWS API, which parse and process the XML
 responses from MWS into a response format that is more easily readable in Javascript.
@@ -125,7 +127,7 @@ in the United States and Canadian markets:
 This looks, in my opinion, far, far better than the raw result data that results from calling MWS
 "ListMarketplaceParticipations" directly, which you will see an example for in the next section.
 
-# Calling MWS APIs directly
+## Calling MWS APIs directly
 
 For APIs that have not been wrapped, or if you wish to receive the raw data output from a direct
 MWS API call for some reason, you can do that with the callEndpoint function:
@@ -299,7 +301,7 @@ back:
 
 ... what a big difference, right?
 
-# Using your API access for a different Amazon Seller (authToken)
+## Using your API access for a different Amazon Seller (authToken)
 
 Amazon provides the ability to use the MWS API for different Amazon sellers, provided that they
 have authorized you with the ability to access their API account, and have provided you with an

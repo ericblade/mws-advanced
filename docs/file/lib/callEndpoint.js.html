@@ -57,6 +57,11 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-SellerFeedbackRating">SellerFeedbackRating</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ShipsFrom">ShipsFrom</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-Product">Product</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-GetReportRequestListResult">GetReportRequestListResult</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-GetReportRequestListResult">GetReportRequestListResult</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ReportRequestInfo">ReportRequestInfo</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#endpoints">endpoints</a><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-REPORT_PROCESSING_STATUS_TYPES">REPORT_PROCESSING_STATUS_TYPES</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-REQUEST_REPORT_TYPES">REQUEST_REPORT_TYPES</a></span></span></li>
 </ul>
 </div>
 </nav>
@@ -65,11 +70,13 @@
 <pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">const MWS = require(&apos;mws-simple&apos;);
 const { MWS_ENDPOINTS } = require(&apos;./constants&apos;);
 
-// TODO: split the &quot;init&quot; function out of the &quot;callEndpoint&quot; file, difficulty: callEndpoint
-// depends on having init() modify the mws value, which doesn&apos;t carry between module pieces in that
-// case -- exporting &apos;mws&apos; to callEndpoint just results in null every time it&apos;s accessed, even
-// when requiring it inline in code, rather than at the top of the file. Ugh.  Big design
-// problem, that is a holdover from when the entire module was all located in a single file.
+/*
+ * TODO: split the &quot;init&quot; function out of the &quot;callEndpoint&quot; file, difficulty: callEndpoint
+ * depends on having init modify the mws value, which doesn&apos;t carry between module pieces in that
+ * case -- exporting &apos;mws&apos; to callEndpoint just results in null every time it&apos;s accessed, even
+ * when requiring it inline in code, rather than at the top of the file. Ugh.  Big design
+ * problem, that is a holdover from when the entire module was all located in a single file.
+ */
 
 /** holds the mws-simple reference after init() is called */
 let mws = null;
@@ -78,6 +85,13 @@ let mws = null;
  * Initialize mws-advanced with your MWS access keys, merchantId, optionally authtoken, host, port
  *
  * @public
+ * @example
+ * ````
+ * (async function() {
+ *    const result = await mws.getMarketplaces();
+ *    console.log(result);
+ * })();
+ * ````
  * @param {object} config Contains your MWS Access Keys/Tokens and options to configure the API
  * @param {string} config.accessKeyId Your MWS Access Key
  * @param {string} config.secretAccessKey Your MWS Secret Access Key
@@ -127,9 +141,10 @@ const {
     merchFulfillment, orders, products, sellers, reports,
 } = require(&apos;./endpoints&apos;);
 
-// take all the categories and flatten them down into a single flat object
 // TODO: THIS MAY BE A BAD IDEA CONSIDERING THAT SOME CATEGORIES SHARE SOME ENDPOINT NAMES
 // TODO: WE MAY NEED TO COME UP WITH A WAY TO DEAL WITH THAT.
+
+/** simple flat list of all the endpoints required from individual modules above */
 const endpoints = {
     ...feeds,
     ...finances,

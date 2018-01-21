@@ -12,6 +12,18 @@ window.esdocSearchIndex = [
     "variable"
   ],
   [
+    "mws-advanced/lib/endpoints/constants.js~report_processing_status_types",
+    "variable/index.html#static-variable-REPORT_PROCESSING_STATUS_TYPES",
+    "<span>REPORT_PROCESSING_STATUS_TYPES</span> <span class=\"search-result-import-path\">mws-advanced/lib/endpoints/constants.js</span>",
+    "variable"
+  ],
+  [
+    "mws-advanced/lib/endpoints/constants.js~request_report_types",
+    "variable/index.html#static-variable-REQUEST_REPORT_TYPES",
+    "<span>REQUEST_REPORT_TYPES</span> <span class=\"search-result-import-path\">mws-advanced/lib/endpoints/constants.js</span>",
+    "variable"
+  ],
+  [
     "mws-advanced/lib/callendpoint.js~callendpoint",
     "function/index.html#static-function-callEndpoint",
     "<span>callEndpoint</span> <span class=\"search-result-import-path\">mws-advanced/lib/callEndpoint.js</span>",
@@ -598,6 +610,24 @@ window.esdocSearchIndex = [
     "file/lib/reports.js.html",
     "lib/reports.js",
     "file"
+  ],
+  [
+    "lib/reports.js~getreportrequestlistresult",
+    "typedef/index.html#static-typedef-GetReportRequestListResult",
+    "lib/reports.js~GetReportRequestListResult",
+    "typedef"
+  ],
+  [
+    "lib/reports.js~getreportrequestlistresult",
+    "typedef/index.html#static-typedef-GetReportRequestListResult",
+    "lib/reports.js~GetReportRequestListResult",
+    "typedef"
+  ],
+  [
+    "lib/reports.js~reportrequestinfo",
+    "typedef/index.html#static-typedef-ReportRequestInfo",
+    "lib/reports.js~ReportRequestInfo",
+    "typedef"
   ],
   [
     "lib/sleep.js",

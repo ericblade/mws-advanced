@@ -57,6 +57,11 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-SellerFeedbackRating">SellerFeedbackRating</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ShipsFrom">ShipsFrom</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-Product">Product</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-GetReportRequestListResult">GetReportRequestListResult</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-GetReportRequestListResult">GetReportRequestListResult</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ReportRequestInfo">ReportRequestInfo</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#endpoints">endpoints</a><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-REPORT_PROCESSING_STATUS_TYPES">REPORT_PROCESSING_STATUS_TYPES</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-REQUEST_REPORT_TYPES">REQUEST_REPORT_TYPES</a></span></span></li>
 </ul>
 </div>
 </nav>
@@ -197,13 +202,14 @@ EAN, ISBN, or JAN values</p>
           
           <span data-ice="async">async</span>
           
-          <span class="code" data-ice="name"><span><a href="function/index.html#static-function-getReport">getReport</a></span></span><span class="code" data-ice="signature">(options: <span>*</span>): <span>*</span></span>
+          <span class="code" data-ice="name"><span><a href="function/index.html#static-function-getReport">getReport</a></span></span><span class="code" data-ice="signature">(options: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a></span> | <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></span></span>
         </p>
       </div>
       <div>
         
         
-        
+        <div data-ice="description"><p>Returns the contents of a report</p>
+</div>
       </div>
     </td>
     <td>
@@ -231,7 +237,8 @@ EAN, ISBN, or JAN values</p>
       <div>
         
         
-        
+        <div data-ice="description"><p>TODO: write documentation for getReportList</p>
+</div>
       </div>
     </td>
     <td>
@@ -259,7 +266,8 @@ EAN, ISBN, or JAN values</p>
       <div>
         
         
-        
+        <div data-ice="description"><p>TODO: write documentation for getReportListAll (or see comment on getReportListByNextToken)</p>
+</div>
       </div>
     </td>
     <td>
@@ -287,7 +295,10 @@ EAN, ISBN, or JAN values</p>
       <div>
         
         
-        
+        <div data-ice="description"><p>TODO: write documentation for getReportListByNextToken
+(or just roll getReportList and getReportListByNextToken into the same wrapper)
+(that wrapper might be getReportListAll, and just rename it)</p>
+</div>
       </div>
     </td>
     <td>
@@ -309,13 +320,16 @@ EAN, ISBN, or JAN values</p>
           
           <span data-ice="async">async</span>
           
-          <span class="code" data-ice="name"><span><a href="function/index.html#static-function-getReportRequestList">getReportRequestList</a></span></span><span class="code" data-ice="signature">(options: {}): <span>*</span></span>
+          <span class="code" data-ice="name"><span><a href="function/index.html#static-function-getReportRequestList">getReportRequestList</a></span></span><span class="code" data-ice="signature">(options: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></span>, ReportRequestIdList: <span><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span><span>[]</span></span>, ReportTypeList: <span><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span><span>[]</span></span>, ReportProcessingStatusList: <span><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span><span>[]</span></span>, MaxCount: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></span>, RequestedFromDate: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date">Date</a></span>, RequestedToDate: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date">Date</a></span>): <span><span><a href="typedef/index.html#static-typedef-GetReportRequestListResult">GetReportRequestListResult</a></span><span>[]</span></span></span>
         </p>
       </div>
       <div>
         
         
-        
+        <div data-ice="description"><p>Returns a list of report requests that you can use to get the ReportRequestId for a report
+After calling requestReport, you should call this function occasionally to see if/when the report
+has been processed.</p>
+</div>
       </div>
     </td>
     <td>
@@ -460,7 +474,8 @@ see <a href="https://docs.developer.amazonservices.com/en_UK/orders-2013-09-01/O
       <div>
         
         
-        
+        <div data-ice="description"><p>TODO: Document requestAndDownloadReport</p>
+</div>
       </div>
     </td>
     <td>
@@ -482,13 +497,15 @@ see <a href="https://docs.developer.amazonservices.com/en_UK/orders-2013-09-01/O
           
           <span data-ice="async">async</span>
           
-          <span class="code" data-ice="name"><span><a href="function/index.html#static-function-requestReport">requestReport</a></span></span><span class="code" data-ice="signature">(options: <span>*</span>): <span>*</span></span>
+          <span class="code" data-ice="name"><span><a href="function/index.html#static-function-requestReport">requestReport</a></span></span><span class="code" data-ice="signature">(options: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></span>, MarketplaceId: <span><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span><span>[]</span></span>): <span><a href="typedef/index.html#static-typedef-ReportRequestInfo">ReportRequestInfo</a></span></span>
         </p>
       </div>
       <div>
         
         
-        
+        <div data-ice="description"><p>Request a report from MWS
+Many optional parameters may be required by MWS! Read <a href="https://docs.developer.amazonservices.com/en_US/reports/Reports_ReportType.html">ReportType</a> for specifics!</p>
+</div>
       </div>
     </td>
     <td>
@@ -513,11 +530,11 @@ see <a href="https://docs.developer.amazonservices.com/en_UK/orders-2013-09-01/O
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/lib/callEndpoint.js.html#lineNumber113">source</a></span></span>
+      <span data-ice="source"><span><a href="file/lib/callEndpoint.js.html#lineNumber123">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {callEndpoint} from &apos;<span><a href="file/lib/callEndpoint.js.html#lineNumber113">mws-advanced/lib/callEndpoint.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {callEndpoint} from &apos;<span><a href="file/lib/callEndpoint.js.html#lineNumber123">mws-advanced/lib/callEndpoint.js</a></span>&apos;</code></pre></div>
   
   
   <div data-ice="description"><p>Call a known endpoint at MWS, returning the raw data from the function. Parameters are
@@ -837,18 +854,19 @@ EAN, ISBN, or JAN values</p>
     
     <span data-ice="async">async</span>
     
-    <span class="code" data-ice="name">getReport</span><span class="code" data-ice="signature">(options: <span>*</span>): <span>*</span></span>
+    <span class="code" data-ice="name">getReport</span><span class="code" data-ice="signature">(options: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a></span> | <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></span></span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/lib/reports.js.html#lineNumber48">source</a></span></span>
+      <span data-ice="source"><span><a href="file/lib/reports.js.html#lineNumber99">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {getReport} from &apos;<span><a href="file/lib/reports.js.html#lineNumber48">mws-advanced/lib/reports.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {getReport} from &apos;<span><a href="file/lib/reports.js.html#lineNumber99">mws-advanced/lib/reports.js</a></span>&apos;</code></pre></div>
   
   
-  
+  <div data-ice="description"><p>Returns the contents of a report</p>
+</div>
 
   
 
@@ -862,9 +880,17 @@ EAN, ISBN, or JAN values</p>
     
     <tr data-ice="property" data-depth="0">
       <td data-ice="name" class="code" data-depth="0">options</td>
-      <td data-ice="type" class="code"><span>*</span></td>
+      <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></span></td>
       <td data-ice="appendix"></td>
-      <td data-ice="description"></td>
+      <td data-ice="description"><p>Options to pass to GetReport</p>
+</td>
+    </tr>
+<tr data-ice="property" data-depth="1">
+      <td data-ice="name" class="code" data-depth="1">options.ReportId</td>
+      <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span></td>
+      <td data-ice="appendix"></td>
+      <td data-ice="description"><p>Report number from @see <span>GetReportList</span> or GeneratedReportId from @see <span><a href="typedef/index.html#static-typedef-GetReportRequestListResult">GetReportRequestListResult</a></span></p>
+</td>
     </tr>
 </tbody>
   </table>
@@ -876,8 +902,9 @@ EAN, ISBN, or JAN values</p>
     <table>
       <tbody>
         <tr>
-          <td class="return-type code" data-ice="returnType"><span>*</span></td>
-          
+          <td class="return-type code" data-ice="returnType"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a></span> | <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></span></td>
+          <td class="return-desc" data-ice="returnDescription"><p>Contents of the report to return (format may vary WIDELY between different reports generated, see <a href="https://docs.developer.amazonservices.com/en_US/reports/Reports_ReportType.html">ReportType</a>)</p>
+</td>
         </tr>
       </tbody>
     </table>
@@ -912,14 +939,15 @@ EAN, ISBN, or JAN values</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/lib/reports.js.html#lineNumber53">source</a></span></span>
+      <span data-ice="source"><span><a href="file/lib/reports.js.html#lineNumber107">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {getReportList} from &apos;<span><a href="file/lib/reports.js.html#lineNumber53">mws-advanced/lib/reports.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {getReportList} from &apos;<span><a href="file/lib/reports.js.html#lineNumber107">mws-advanced/lib/reports.js</a></span>&apos;</code></pre></div>
   
   
-  
+  <div data-ice="description"><p>TODO: write documentation for getReportList</p>
+</div>
 
   
 
@@ -984,14 +1012,15 @@ EAN, ISBN, or JAN values</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/lib/reports.js.html#lineNumber80">source</a></span></span>
+      <span data-ice="source"><span><a href="file/lib/reports.js.html#lineNumber142">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {getReportListAll} from &apos;<span><a href="file/lib/reports.js.html#lineNumber80">mws-advanced/lib/reports.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {getReportListAll} from &apos;<span><a href="file/lib/reports.js.html#lineNumber142">mws-advanced/lib/reports.js</a></span>&apos;</code></pre></div>
   
   
-  
+  <div data-ice="description"><p>TODO: write documentation for getReportListAll (or see comment on getReportListByNextToken)</p>
+</div>
 
   
 
@@ -1056,14 +1085,17 @@ EAN, ISBN, or JAN values</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/lib/reports.js.html#lineNumber67">source</a></span></span>
+      <span data-ice="source"><span><a href="file/lib/reports.js.html#lineNumber126">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {getReportListByNextToken} from &apos;<span><a href="file/lib/reports.js.html#lineNumber67">mws-advanced/lib/reports.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {getReportListByNextToken} from &apos;<span><a href="file/lib/reports.js.html#lineNumber126">mws-advanced/lib/reports.js</a></span>&apos;</code></pre></div>
   
   
-  
+  <div data-ice="description"><p>TODO: write documentation for getReportListByNextToken
+(or just roll getReportList and getReportListByNextToken into the same wrapper)
+(that wrapper might be getReportListAll, and just rename it)</p>
+</div>
 
   
 
@@ -1123,18 +1155,21 @@ EAN, ISBN, or JAN values</p>
     
     <span data-ice="async">async</span>
     
-    <span class="code" data-ice="name">getReportRequestList</span><span class="code" data-ice="signature">(options: {}): <span>*</span></span>
+    <span class="code" data-ice="name">getReportRequestList</span><span class="code" data-ice="signature">(options: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></span>, ReportRequestIdList: <span><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span><span>[]</span></span>, ReportTypeList: <span><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span><span>[]</span></span>, ReportProcessingStatusList: <span><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span><span>[]</span></span>, MaxCount: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></span>, RequestedFromDate: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date">Date</a></span>, RequestedToDate: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date">Date</a></span>): <span><span><a href="typedef/index.html#static-typedef-GetReportRequestListResult">GetReportRequestListResult</a></span><span>[]</span></span></span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/lib/reports.js.html#lineNumber42">source</a></span></span>
+      <span data-ice="source"><span><a href="file/lib/reports.js.html#lineNumber86">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {getReportRequestList} from &apos;<span><a href="file/lib/reports.js.html#lineNumber42">mws-advanced/lib/reports.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {getReportRequestList} from &apos;<span><a href="file/lib/reports.js.html#lineNumber86">mws-advanced/lib/reports.js</a></span>&apos;</code></pre></div>
   
   
-  
+  <div data-ice="description"><p>Returns a list of report requests that you can use to get the ReportRequestId for a report
+After calling requestReport, you should call this function occasionally to see if/when the report
+has been processed.</p>
+</div>
 
   
 
@@ -1148,10 +1183,55 @@ EAN, ISBN, or JAN values</p>
     
     <tr data-ice="property" data-depth="0">
       <td data-ice="name" class="code" data-depth="0">options</td>
-      <td data-ice="type" class="code">{}</td>
+      <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></span></td>
+      <td data-ice="appendix"><ul><li>optional</li></ul></td>
+      <td data-ice="description"><p>Options to pass to GetReportRequestList</p>
+</td>
+    </tr>
+<tr data-ice="property" data-depth="0">
+      <td data-ice="name" class="code" data-depth="0">ReportRequestIdList</td>
+      <td data-ice="type" class="code"><span><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span><span>[]</span></span></td>
+      <td data-ice="appendix"><ul><li>optional</li></ul></td>
+      <td data-ice="description"><p>List of report request IDs @see <span><a href="function/index.html#static-function-requestReport">requestReport</a></span></p>
+</td>
+    </tr>
+<tr data-ice="property" data-depth="0">
+      <td data-ice="name" class="code" data-depth="0">ReportTypeList</td>
+      <td data-ice="type" class="code"><span><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span><span>[]</span></span></td>
+      <td data-ice="appendix"><ul><li>optional</li></ul></td>
+      <td data-ice="description"><p>List of Report Types @see <span><a href="variable/index.html#static-variable-REQUEST_REPORT_TYPES">REQUEST_REPORT_TYPES</a></span></p>
+</td>
+    </tr>
+<tr data-ice="property" data-depth="0">
+      <td data-ice="name" class="code" data-depth="0">ReportProcessingStatusList</td>
+      <td data-ice="type" class="code"><span><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span><span>[]</span></span></td>
+      <td data-ice="appendix"><ul><li>optional</li></ul></td>
+      <td data-ice="description"><p>List of Report Processing Status @see <span><a href="variable/index.html#static-variable-REPORT_PROCESSING_STATUS_TYPES">REPORT_PROCESSING_STATUS_TYPES</a></span></p>
+</td>
+    </tr>
+<tr data-ice="property" data-depth="0">
+      <td data-ice="name" class="code" data-depth="0">MaxCount</td>
+      <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></span></td>
       <td data-ice="appendix"><ul><li>optional</li>
-<li>default: {}</li></ul></td>
-      <td data-ice="description"></td>
+<li>default: 10</li></ul></td>
+      <td data-ice="description"><p>Maximum number of report requests to return, max is 100</p>
+</td>
+    </tr>
+<tr data-ice="property" data-depth="0">
+      <td data-ice="name" class="code" data-depth="0">RequestedFromDate</td>
+      <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date">Date</a></span></td>
+      <td data-ice="appendix"><ul><li>optional</li>
+<li>default: 90-days-past</li></ul></td>
+      <td data-ice="description"><p>Oldest date to search for</p>
+</td>
+    </tr>
+<tr data-ice="property" data-depth="0">
+      <td data-ice="name" class="code" data-depth="0">RequestedToDate</td>
+      <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date">Date</a></span></td>
+      <td data-ice="appendix"><ul><li>optional</li>
+<li>default: Now</li></ul></td>
+      <td data-ice="description"><p>Newest date to search for</p>
+</td>
     </tr>
 </tbody>
   </table>
@@ -1163,7 +1243,7 @@ EAN, ISBN, or JAN values</p>
     <table>
       <tbody>
         <tr>
-          <td class="return-type code" data-ice="returnType"><span>*</span></td>
+          <td class="return-type code" data-ice="returnType"><span><span><a href="typedef/index.html#static-typedef-GetReportRequestListResult">GetReportRequestListResult</a></span><span>[]</span></span></td>
           
         </tr>
       </tbody>
@@ -1199,11 +1279,11 @@ EAN, ISBN, or JAN values</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/lib/callEndpoint.js.html#lineNumber28">source</a></span></span>
+      <span data-ice="source"><span><a href="file/lib/callEndpoint.js.html#lineNumber37">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {init} from &apos;<span><a href="file/lib/callEndpoint.js.html#lineNumber28">mws-advanced/lib/callEndpoint.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {init} from &apos;<span><a href="file/lib/callEndpoint.js.html#lineNumber37">mws-advanced/lib/callEndpoint.js</a></span>&apos;</code></pre></div>
   
   
   <div data-ice="description"><p>Initialize mws-advanced with your MWS access keys, merchantId, optionally authtoken, host, port</p>
@@ -1307,7 +1387,19 @@ EAN, ISBN, or JAN values</p>
 
   
 
-  
+  <div data-ice="example">
+    <h4>Example:</h4>
+    
+  <div class="example-doc" data-ice="exampleDoc">
+      
+      <pre class="prettyprint source-code"><code data-ice="exampleCode">````
+(async function() {
+   const result = await mws.getMarketplaces();
+   console.log(result);
+})();
+````</code></pre>
+    </div>
+</div>
 
   
 
@@ -1690,14 +1782,15 @@ see <a href="https://docs.developer.amazonservices.com/en_UK/orders-2013-09-01/O
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/lib/reports.js.html#lineNumber129">source</a></span></span>
+      <span data-ice="source"><span><a href="file/lib/reports.js.html#lineNumber194">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {requestAndDownloadReport} from &apos;<span><a href="file/lib/reports.js.html#lineNumber129">mws-advanced/lib/reports.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {requestAndDownloadReport} from &apos;<span><a href="file/lib/reports.js.html#lineNumber194">mws-advanced/lib/reports.js</a></span>&apos;</code></pre></div>
   
   
-  
+  <div data-ice="description"><p>TODO: Document requestAndDownloadReport</p>
+</div>
 
   
 
@@ -1770,18 +1863,20 @@ see <a href="https://docs.developer.amazonservices.com/en_UK/orders-2013-09-01/O
     
     <span data-ice="async">async</span>
     
-    <span class="code" data-ice="name">requestReport</span><span class="code" data-ice="signature">(options: <span>*</span>): <span>*</span></span>
+    <span class="code" data-ice="name">requestReport</span><span class="code" data-ice="signature">(options: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></span>, MarketplaceId: <span><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span><span>[]</span></span>): <span><a href="typedef/index.html#static-typedef-ReportRequestInfo">ReportRequestInfo</a></span></span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/lib/reports.js.html#lineNumber20">source</a></span></span>
+      <span data-ice="source"><span><a href="file/lib/reports.js.html#lineNumber46">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {requestReport} from &apos;<span><a href="file/lib/reports.js.html#lineNumber20">mws-advanced/lib/reports.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {requestReport} from &apos;<span><a href="file/lib/reports.js.html#lineNumber46">mws-advanced/lib/reports.js</a></span>&apos;</code></pre></div>
   
   
-  
+  <div data-ice="description"><p>Request a report from MWS
+Many optional parameters may be required by MWS! Read <a href="https://docs.developer.amazonservices.com/en_US/reports/Reports_ReportType.html">ReportType</a> for specifics!</p>
+</div>
 
   
 
@@ -1795,9 +1890,44 @@ see <a href="https://docs.developer.amazonservices.com/en_UK/orders-2013-09-01/O
     
     <tr data-ice="property" data-depth="0">
       <td data-ice="name" class="code" data-depth="0">options</td>
-      <td data-ice="type" class="code"><span>*</span></td>
+      <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></span></td>
       <td data-ice="appendix"></td>
       <td data-ice="description"></td>
+    </tr>
+<tr data-ice="property" data-depth="1">
+      <td data-ice="name" class="code" data-depth="1">options.ReportType</td>
+      <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span></td>
+      <td data-ice="appendix"></td>
+      <td data-ice="description"><p>Type of Report to Request @see <span><a href="variable/index.html#static-variable-REQUEST_REPORT_TYPES">REQUEST_REPORT_TYPES</a></span></p>
+</td>
+    </tr>
+<tr data-ice="property" data-depth="1">
+      <td data-ice="name" class="code" data-depth="1">options.StartDate</td>
+      <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date">Date</a></span></td>
+      <td data-ice="appendix"><ul><li>optional</li></ul></td>
+      <td data-ice="description"><p>Date to start report</p>
+</td>
+    </tr>
+<tr data-ice="property" data-depth="1">
+      <td data-ice="name" class="code" data-depth="1">options.EndDate</td>
+      <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date">Date</a></span></td>
+      <td data-ice="appendix"><ul><li>optional</li></ul></td>
+      <td data-ice="description"><p>Date to end report at</p>
+</td>
+    </tr>
+<tr data-ice="property" data-depth="1">
+      <td data-ice="name" class="code" data-depth="1">options.ReportOptions</td>
+      <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></span></td>
+      <td data-ice="appendix"><ul><li>optional</li></ul></td>
+      <td data-ice="description"><p>Reports may have additional options available. Please see the <a href="https://docs.developer.amazonservices.com/en_US/reports/Reports_ReportType.html">ReportType</a> official docs</p>
+</td>
+    </tr>
+<tr data-ice="property" data-depth="0">
+      <td data-ice="name" class="code" data-depth="0">MarketplaceId</td>
+      <td data-ice="type" class="code"><span><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span><span>[]</span></span></td>
+      <td data-ice="appendix"><ul><li>optional</li></ul></td>
+      <td data-ice="description"><p>Array of marketplace IDs to generate reports covering</p>
+</td>
     </tr>
 </tbody>
   </table>
@@ -1809,7 +1939,7 @@ see <a href="https://docs.developer.amazonservices.com/en_UK/orders-2013-09-01/O
     <table>
       <tbody>
         <tr>
-          <td class="return-type code" data-ice="returnType"><span>*</span></td>
+          <td class="return-type code" data-ice="returnType"><span><a href="typedef/index.html#static-typedef-ReportRequestInfo">ReportRequestInfo</a></span></td>
           
         </tr>
       </tbody>
