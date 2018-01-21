@@ -1,28 +1,44 @@
 [![codebeat badge](https://codebeat.co/badges/83ea05b8-db4e-4765-ae00-63169ef19c2e)](https://codebeat.co/projects/github-com-ericblade-mws-advanced-master)
 [![Greenkeeper badge](https://badges.greenkeeper.io/ericblade/mws-advanced.svg)](https://greenkeeper.io/)
 [![Documentation badge](./docs/badge.svg)](https://esdoc.org)
-# mws-advanced
+# mws-advanced -- A modern Amazon Merchant Web Services API Interface for Javascript
 
-Amazon Merchant Web Services API for Javascript
+## What does it do?
 
-There are a lot of Amazon MWS interfaces in Javascript.
+mws-advanced provides a modern, fast, and hopefully sensible APIs to connect your Javascript
+application (node or browser) to the Amazon Merchant Web Services API.
 
+mws-advanced uses the straight-forward and very basic functionality provided by
+[mws-simple](https://github.com/ericblade/mws-simple) to provide a much more advanced library for
+accessing MWS, than what has previously been available in the past.
 
-None of them have (much of) any documentation, and just appear to assume that you already know how to use the Amazon API.
+## Documentation / Quick-Start (I've heard enough, let's write some code)
+Automatically generated documentation is available at [Documentation](https://ericblade.github.io/mws-advanced/).
 
-Very few of them are written to use modern Javascript constructs.  A few use Promises, but none are any newer than that.
+## Why a new mws library?
 
-This project, which uses the rather simple "mws-simple" as it's base, intends to solve both of those problems.
-This one requires node 8.x, with the --harmony switch, as of August 10th, 2017. ( --harmony not required as of node 8.9 )
-Or you can roll your own method for transpiling it, if you want.
+Although there are a whole lot of MWS libraries out there on the npm repository, few are actively
+maintained, and even fewer are written using modern Javascript. Some use Promises, but none are
+written to take advantage of the newest features of the language. Still fewer have documentation
+that doesn't just assume you are intimately familiar with the Amazon MWS API already.
 
-As this is a brand new project, documentation may be a little light to begin with, but I'm certainly going to write this in modern Javascript code, with Promises, and Await/Async, and everything else I can use to make my life easier.
+I am writing this to change that. I am writing a project that needs access to the MWS API, and to
+do that, I needed code that interfaces well with modern code.  I need code that is documented well,
+is intuitive to use, and doesn't leave my primary application stuck having to figure out all the
+vagaries of an XML response transformed into a JSON result.  Or worse.
 
-Note that I am currently in a very slow process of writing an application that will make use of this code.  So, this code is getting put together as I need the API calls, and it's being put together to make my life easier.  I welcome any and all input, comments, questions, and especially pull requests, though.  If you want to shape it to fit your needs, that will probably help it fit my needs, and vice verse. :-)
+Most of all, though, this library is here to give you the pieces that I am using to build my
+internal project with.  Enjoy! :-)
 
-# Documentation
+## Requirements
 
-The below documentation is old, and outdated. It is being rewritten into [Documentation](https://ericblade.github.io/mws-advanced/).
+This requires node.js v9.0+ to run. If that's not your environment, you can setup Babel or some
+other transpiler to make it work in older versions.  I'd be happy to accept pulls for this, or any
+other reason, but it is not something I am at all concerned with.  Let's move the ecosystem forward!
+
+## (OLD) Documentation
+
+The below documentation is old, and outdated.
 
 # Do not read this
 
