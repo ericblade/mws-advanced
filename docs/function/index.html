@@ -337,7 +337,7 @@ EAN, ISBN, or JAN values</p>
           
           
           
-          <span class="code" data-ice="name"><span><a href="function/index.html#static-function-init">init</a></span></span><span class="code" data-ice="signature">(config: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></span>, authToken: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>, region: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>, host: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>, port: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></span>): <span>mws-simple</span></span>
+          <span class="code" data-ice="name"><span><a href="function/index.html#static-function-init">init</a></span></span><span class="code" data-ice="signature">(config: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></span>): <span>mws-simple</span></span>
         </p>
       </div>
       <div>
@@ -1195,7 +1195,7 @@ EAN, ISBN, or JAN values</p>
     
     
     
-    <span class="code" data-ice="name">init</span><span class="code" data-ice="signature">(config: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></span>, authToken: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>, region: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>, host: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>, port: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></span>): <span>mws-simple</span></span>
+    <span class="code" data-ice="name">init</span><span class="code" data-ice="signature">(config: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></span>): <span>mws-simple</span></span>
     <span class="right-info">
       
       
@@ -1247,32 +1247,32 @@ EAN, ISBN, or JAN values</p>
       <td data-ice="description"><p>Your MWS Merchant ID</p>
 </td>
     </tr>
-<tr data-ice="property" data-depth="0">
-      <td data-ice="name" class="code" data-depth="0">authToken</td>
+<tr data-ice="property" data-depth="1">
+      <td data-ice="name" class="code" data-depth="1">config.authToken</td>
       <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span></td>
       <td data-ice="appendix"><ul><li>optional</li></ul></td>
       <td data-ice="description"><p>If making a call for a third party account, the Auth Token provided
                           for the third party account</p>
 </td>
     </tr>
-<tr data-ice="property" data-depth="0">
-      <td data-ice="name" class="code" data-depth="0">region</td>
+<tr data-ice="property" data-depth="1">
+      <td data-ice="name" class="code" data-depth="1">config.region</td>
       <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span></td>
       <td data-ice="appendix"><ul><li>optional</li>
 <li>default: &apos;NA&apos;</li></ul></td>
       <td data-ice="description"><p>One of the Amazon regions as specified in <a href="https://docs.developer.amazonservices.com/en_US/dev_guide/DG_Endpoints.html">https://docs.developer.amazonservices.com/en_US/dev_guide/DG_Endpoints.html</a></p>
 </td>
     </tr>
-<tr data-ice="property" data-depth="0">
-      <td data-ice="name" class="code" data-depth="0">host</td>
+<tr data-ice="property" data-depth="1">
+      <td data-ice="name" class="code" data-depth="1">config.host</td>
       <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span></td>
       <td data-ice="appendix"><ul><li>optional</li>
 <li>default: &apos;mws.amazonservices.com&apos;</li></ul></td>
       <td data-ice="description"><p>Set MWS host server name, see <a href="https://docs.developer.amazonservices.com/en_US/dev_guide/DG_Endpoints.html">https://docs.developer.amazonservices.com/en_US/dev_guide/DG_Endpoints.html</a></p>
 </td>
     </tr>
-<tr data-ice="property" data-depth="0">
-      <td data-ice="name" class="code" data-depth="0">port</td>
+<tr data-ice="property" data-depth="1">
+      <td data-ice="name" class="code" data-depth="1">config.port</td>
       <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></span></td>
       <td data-ice="appendix"><ul><li>optional</li>
 <li>default: 443</li></ul></td>
