@@ -23,7 +23,7 @@ Note that I am currently in a very slow process of writing an application that w
 
 # Documentation
 
-The below documentation is old, and outdated. It is being rewritten into [Documentation](docs/).
+The below documentation is old, and outdated. It is being rewritten into [Documentation](https://ericblade.github.io/mws-advanced/).
 
 # Do not read this
 

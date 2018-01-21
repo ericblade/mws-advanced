@@ -35,4 +35,4 @@ mws.init({
 
 ````
 
-Please see the Getting Started page for more info.
+Please see the [Getting Started](./getting-started.html) page for more info.
