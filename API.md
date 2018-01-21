@@ -10,8 +10,8 @@
 -   [listOrders](#listorders)
 -   [listFinancialEvents](#listfinancialevents)
 -   [listInventorySupply](#listinventorysupply)
--   [getMatchingProductForId](#getmatchingproductforid)
 -   [Product](#product)
+-   [getMatchingProductForId](#getmatchingproductforid)
 -   [getLowestPricedOffersForASIN](#getlowestpricedoffersforasin)
 
 ## init
@@ -110,6 +110,14 @@ Return information about the availability of a seller's FBA inventory
 
 Returns **{nextToken: [string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String), supplyList: [Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)>}** 
 
+## Product
+
+Product Information. See official schema for details.
+<http://g-ecx.images-amazon.com/images/G/01/mwsportal/doc/en_US/products/default.xsd> and
+<http://g-ecx.images-amazon.com/images/G/01/mwsportal/doc/en_US/products/ProductsAPI_Response.xsd>
+
+Type: [Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)
+
 ## getMatchingProductForId
 
 Returns a list of products and their attributes, based on a list of ASIN, GCID, SellerSKU, UPC,
@@ -123,14 +131,6 @@ EAN, ISBN, or JAN values
     -   `options.IdList` **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)>** List of codes to perform lookup on
 
 Returns **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[Product](#product)>** 
-
-## Product
-
-Product Information. See official schema for details.
-<http://g-ecx.images-amazon.com/images/G/01/mwsportal/doc/en_US/products/default.xsd> and
-<http://g-ecx.images-amazon.com/images/G/01/mwsportal/doc/en_US/products/ProductsAPI_Response.xsd>
-
-Type: [Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)
 
 ## getLowestPricedOffersForASIN
 
