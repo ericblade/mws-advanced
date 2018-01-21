@@ -12,9 +12,9 @@ window.esdocSearchIndex = [
     "variable"
   ],
   [
-    "mws-advanced/lib/index.js~callendpoint",
+    "mws-advanced/lib/callendpoint.js~callendpoint",
     "function/index.html#static-function-callEndpoint",
-    "<span>callEndpoint</span> <span class=\"search-result-import-path\">mws-advanced/lib/index.js</span>",
+    "<span>callEndpoint</span> <span class=\"search-result-import-path\">mws-advanced/lib/callEndpoint.js</span>",
     "function"
   ],
   [
@@ -36,9 +36,39 @@ window.esdocSearchIndex = [
     "function"
   ],
   [
-    "mws-advanced/lib/index.js~init",
+    "mws-advanced/lib/reports.js~getreport",
+    "function/index.html#static-function-getReport",
+    "<span>getReport</span> <span class=\"search-result-import-path\">mws-advanced/lib/reports.js</span>",
+    "function"
+  ],
+  [
+    "mws-advanced/lib/reports.js~getreportlist",
+    "function/index.html#static-function-getReportList",
+    "<span>getReportList</span> <span class=\"search-result-import-path\">mws-advanced/lib/reports.js</span>",
+    "function"
+  ],
+  [
+    "mws-advanced/lib/reports.js~getreportlistall",
+    "function/index.html#static-function-getReportListAll",
+    "<span>getReportListAll</span> <span class=\"search-result-import-path\">mws-advanced/lib/reports.js</span>",
+    "function"
+  ],
+  [
+    "mws-advanced/lib/reports.js~getreportlistbynexttoken",
+    "function/index.html#static-function-getReportListByNextToken",
+    "<span>getReportListByNextToken</span> <span class=\"search-result-import-path\">mws-advanced/lib/reports.js</span>",
+    "function"
+  ],
+  [
+    "mws-advanced/lib/reports.js~getreportrequestlist",
+    "function/index.html#static-function-getReportRequestList",
+    "<span>getReportRequestList</span> <span class=\"search-result-import-path\">mws-advanced/lib/reports.js</span>",
+    "function"
+  ],
+  [
+    "mws-advanced/lib/callendpoint.js~init",
     "function/index.html#static-function-init",
-    "<span>init</span> <span class=\"search-result-import-path\">mws-advanced/lib/index.js</span>",
+    "<span>init</span> <span class=\"search-result-import-path\">mws-advanced/lib/callEndpoint.js</span>",
     "function"
   ],
   [
@@ -57,6 +87,18 @@ window.esdocSearchIndex = [
     "mws-advanced/lib/list-orders.js~listorders",
     "function/index.html#static-function-listOrders",
     "<span>listOrders</span> <span class=\"search-result-import-path\">mws-advanced/lib/list-orders.js</span>",
+    "function"
+  ],
+  [
+    "mws-advanced/lib/reports.js~requestanddownloadreport",
+    "function/index.html#static-function-requestAndDownloadReport",
+    "<span>requestAndDownloadReport</span> <span class=\"search-result-import-path\">mws-advanced/lib/reports.js</span>",
+    "function"
+  ],
+  [
+    "mws-advanced/lib/reports.js~requestreport",
+    "function/index.html#static-function-requestReport",
+    "<span>requestReport</span> <span class=\"search-result-import-path\">mws-advanced/lib/reports.js</span>",
     "function"
   ],
   [
@@ -342,6 +384,12 @@ window.esdocSearchIndex = [
     "external"
   ],
   [
+    "lib/callendpoint.js",
+    "file/lib/callEndpoint.js.html",
+    "lib/callEndpoint.js",
+    "file"
+  ],
+  [
     "lib/constants.js",
     "file/lib/constants.js.html",
     "lib/constants.js",
@@ -444,6 +492,66 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
+    "lib/get-lowest-priced-offers.js~buyboxprice",
+    "typedef/index.html#static-typedef-BuyBoxPrice",
+    "lib/get-lowest-priced-offers.js~BuyBoxPrice",
+    "typedef"
+  ],
+  [
+    "lib/get-lowest-priced-offers.js~detailedshippingtime",
+    "typedef/index.html#static-typedef-DetailedShippingTime",
+    "lib/get-lowest-priced-offers.js~DetailedShippingTime",
+    "typedef"
+  ],
+  [
+    "lib/get-lowest-priced-offers.js~lowestprice",
+    "typedef/index.html#static-typedef-LowestPrice",
+    "lib/get-lowest-priced-offers.js~LowestPrice",
+    "typedef"
+  ],
+  [
+    "lib/get-lowest-priced-offers.js~lowestpricedoffers",
+    "typedef/index.html#static-typedef-LowestPricedOffers",
+    "lib/get-lowest-priced-offers.js~LowestPricedOffers",
+    "typedef"
+  ],
+  [
+    "lib/get-lowest-priced-offers.js~money",
+    "typedef/index.html#static-typedef-Money",
+    "lib/get-lowest-priced-offers.js~Money",
+    "typedef"
+  ],
+  [
+    "lib/get-lowest-priced-offers.js~offer",
+    "typedef/index.html#static-typedef-Offer",
+    "lib/get-lowest-priced-offers.js~Offer",
+    "typedef"
+  ],
+  [
+    "lib/get-lowest-priced-offers.js~offercount",
+    "typedef/index.html#static-typedef-OfferCount",
+    "lib/get-lowest-priced-offers.js~OfferCount",
+    "typedef"
+  ],
+  [
+    "lib/get-lowest-priced-offers.js~offersummary",
+    "typedef/index.html#static-typedef-OfferSummary",
+    "lib/get-lowest-priced-offers.js~OfferSummary",
+    "typedef"
+  ],
+  [
+    "lib/get-lowest-priced-offers.js~sellerfeedbackrating",
+    "typedef/index.html#static-typedef-SellerFeedbackRating",
+    "lib/get-lowest-priced-offers.js~SellerFeedbackRating",
+    "typedef"
+  ],
+  [
+    "lib/get-lowest-priced-offers.js~shipsfrom",
+    "typedef/index.html#static-typedef-ShipsFrom",
+    "lib/get-lowest-priced-offers.js~ShipsFrom",
+    "typedef"
+  ],
+  [
     "lib/get-marketplaces.js",
     "file/lib/get-marketplaces.js.html",
     "lib/get-marketplaces.js",
@@ -483,6 +591,12 @@ window.esdocSearchIndex = [
     "lib/list-orders.js",
     "file/lib/list-orders.js.html",
     "lib/list-orders.js",
+    "file"
+  ],
+  [
+    "lib/reports.js",
+    "file/lib/reports.js.html",
+    "lib/reports.js",
     "file"
   ],
   [

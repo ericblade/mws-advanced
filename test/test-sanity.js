@@ -4,7 +4,7 @@
 // remove prefer-destructuring here because for some reason eslint is failing to handle it with require()
 // remove prefer-arrow-function because we need to use regular functions in places to access this.skip()
 
-/* eslint-disable import/no-extraneous-dependencies,no-undef,no-unused-expressions,prefer-destructuring,prefer-arrow-callback,global-require,no-empty,func-names */
+/* eslint-disable import/no-extraneous-dependencies,no-undef,no-unused-expressions,prefer-destructuring,prefer-arrow-callback,global-require,no-empty,func-names,arrow-body-style */
 const fs = require('fs'); // yes i know i probably shouldn't be writing files in tests. sorry.
 
 const chai = require('chai');
@@ -384,15 +384,16 @@ describe('mws-advanced sanity', () => {
             );
             done();
         });
-        it('callEndpoint throws on unknown endpoint', async () => {
-            expect(mws.callEndpoint('/test/endpoint', {})).to.be.rejectedWith(Error);
-        });
-        it('callEndpoint throws on garbage parameters', async () => {
-            expect(mws.callEndpoint('GetOrder', { junkTest: true })).to.be.rejectedWith(Error);
-        });
-        it('callEndpoint functions', async () => {
+        it('callEndpoint functions', () => {
             mws.init(keys);
-            expect(mws.callEndpoint('ListMarketplaceParticipations', {})).to.be.fulfilled;
+            return expect(mws.callEndpoint('ListMarketplaceParticipations', {})).to.be.fulfilled;
+        });
+        // TODO: be more specific about which Error is being rejected back here, so when there's a code error in callEndpoint, it doesn't phantom pass
+        it('callEndpoint throws on unknown endpoint', () => {
+            return expect(mws.callEndpoint('/test/endpoint', {})).to.be.rejectedWith(Error);
+        });
+        it('callEndpoint throws on garbage parameters', () => {
+            return expect(mws.callEndpoint('GetOrder', { junkTest: true })).to.be.rejectedWith(Error);
         });
     });
 });
@@ -576,25 +577,26 @@ describe('API', function runAPITests() {
                 expect(result[0].id).to.equal('020357122682');
                 return result;
             });
-            it('getMatchingProductForId with invalid UPC', async function testGetMatchingProductForId4() {
+            // TODO: get more specific about what type of Error we expect - code errors cause success
+            it('getMatchingProductForId with invalid UPC', function testGetMatchingProductForId4() {
                 const params = {
                     MarketplaceId: 'ATVPDKIKX0DER',
                     IdType: 'UPC',
                     IdList: ['012345678900'],
                 };
                 // Error: {"Type":"Sender","Code":"InvalidParameterValue","Message":"Invalid UPC identifier 000000000000 for marketplace ATVPDKIKX0DER"}
-                expect(mws.getMatchingProductForId(params)).to.be.rejectedWith(Error);
-                return true;
+                return expect(mws.getMatchingProductForId(params)).to.be.rejectedWith(Error);
             });
+            // TODO: get more specific about what type of Error
             it('getMatchingProductForId with ASIN that has been deleted', async function testGetMatchingProductForId5() {
                 const params = {
                     MarketplaceId: 'ATVPDKIKX0DER',
                     IdType: 'ASIN',
                     IdList: ['B01FZRFN2C'],
                 };
-                expect(mws.getMatchingProductForId(params)).to.be.rejectedWith(Error);
-                return true;
+                return expect(mws.getMatchingProductForId(params)).to.be.rejectedWith(Error);
             });
+            // TODO: be more specific about what type of Error
             // oddly, the Amazon API throws Error 400 from the server if you give it duplicate items, instead of ignoring dupes or throwing individual errors, or returning multiple copies.
             it('getMatchingProductForId with duplicate ASINs in list', async function testGetMatchingProductForId6() {
                 const params = {
@@ -602,8 +604,7 @@ describe('API', function runAPITests() {
                     IdType: 'ASIN',
                     IdList: ['B005NK7VTU', 'B00OB8EYZE', 'B005NK7VTU', 'B00OB8EYZE'],
                 };
-                expect(mws.getMatchingProductForId(params)).to.be.rejectedWith(Error);
-                return true;
+                return expect(mws.getMatchingProductForId(params)).to.be.rejectedWith(Error);
             });
             it('getMatchingProductForId with partial error (1 asin that works, 1 that doesnt)', async function testGetMatchingProductForId7() {
                 const params = {

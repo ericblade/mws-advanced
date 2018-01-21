@@ -2,17 +2,39 @@
 
 ### Table of Contents
 
+-   [mws-advanced](#mws-advanced)
+-   [mws](#mws)
 -   [init](#init)
--   [REQUEST_REPORT_TYPES](#request_report_types)
+-   [callEndpoint](#callendpoint)
 -   [MWS_MARKETPLACES](#mws_marketplaces)
 -   [MWS_ENDPOINTS](#mws_endpoints)
+-   [REQUEST_REPORT_TYPES](#request_report_types)
 -   [getMarketplaces](#getmarketplaces)
 -   [listOrders](#listorders)
 -   [listFinancialEvents](#listfinancialevents)
 -   [listInventorySupply](#listinventorysupply)
 -   [Product](#product)
 -   [getMatchingProductForId](#getmatchingproductforid)
+-   [reformatOfferCount](#reformatoffercount)
+-   [reformatOffer](#reformatoffer)
+-   [reformatOffer](#reformatoffer-1)
+-   [reformatOffer](#reformatoffer-2)
+-   [reformatOffer](#reformatoffer-3)
+-   [reformatOffer](#reformatoffer-4)
+-   [reformatLowestPrice](#reformatlowestprice)
+-   [reformatBuyBoxPrice](#reformatbuyboxprice)
+-   [reformatSummary](#reformatsummary)
 -   [getLowestPricedOffersForASIN](#getlowestpricedoffersforasin)
+-   [getLowestPricedOffersForASIN](#getlowestpricedoffersforasin-1)
+-   [require](#require)
+
+## mws-advanced
+
+mws-advanced module for interacting with Amazon Merchant Web Services
+
+## mws
+
+holds the mws-simple reference after init() is called
 
 ## init
 
@@ -28,21 +50,29 @@ Initialize mws-advanced with your MWS access keys, merchantId, optionally authto
     -   `$0.authToken`  
     -   `$0.host`  
     -   `$0.port`  
--   `config` **[object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
+-   `config` **[object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Contains your MWS Access Keys/Tokens and options to configure the API
     -   `config.accessKeyId` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Your MWS Access Key
     -   `config.secretAccessKey` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Your MWS Secret Access Key
     -   `config.merchantId` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Your MWS Merchant ID
--   `authToken` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** If making a call for a third party account, the Auth Token provided
+-   `authToken` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)?** If making a call for a third party account, the Auth Token provided
                               for the third party account
--   `region` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** (default NA) One of the Amazon regions as specified in <https://docs.developer.amazonservices.com/en_US/dev_guide/DG_Endpoints.html>
--   `host` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** default (mws.amazonservices.com) Set MWS host server name, see <https://docs.developer.amazonservices.com/en_US/dev_guide/DG_Endpoints.html>
--   `port` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** default (443) Set MWS host port
+-   `region` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** One of the Amazon regions as specified in <https://docs.developer.amazonservices.com/en_US/dev_guide/DG_Endpoints.html> (optional, default `'NA'`)
+-   `host` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Set MWS host server name, see <https://docs.developer.amazonservices.com/en_US/dev_guide/DG_Endpoints.html> (optional, default `'mws.amazonservices.com'`)
+-   `port` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Set MWS host port (optional, default `443`)
 
-Returns **mws-simple** 
+Returns **mws-simple** The mws-simple instance used to communicate with the API
 
-## REQUEST_REPORT_TYPES
+## callEndpoint
 
-Constants for endpoint handling code. Mostly report generation functions use these.
+Call a known endpoint at MWS, returning the raw data from the function. Parameters are
+transformed and validated according to the rules defined in lib/endpoints
+
+**Parameters**
+
+-   `name` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** name of MWS API function to call
+-   `options` **[object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** named hash object of the parameters to pass to the API
+
+Returns **any** Results of the call to MWS
 
 ## MWS_MARKETPLACES
 
@@ -51,6 +81,10 @@ A list of Marketplace IDs hashed by their country code.
 ## MWS_ENDPOINTS
 
 A list of hosts you can use with the mws-advanced "host" option, hashed by MWS Region Name.
+
+## REQUEST_REPORT_TYPES
+
+Constants for endpoint handling code. Mostly report generation functions use these.
 
 ## getMarketplaces
 
@@ -132,9 +166,96 @@ EAN, ISBN, or JAN values
 
 Returns **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[Product](#product)>** 
 
+## reformatOfferCount
+
+**Parameters**
+
+-   `offerCount`  
+-   `count` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** 
+-   `condition` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+-   `fulfillmentChannel` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+
+## reformatOffer
+
+**Parameters**
+
+-   `offer`  
+-   `subCondition` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** The subcondition of the item (New, Mint, Very Good, Good, Acceptable, Poor, Club, OEM, Warranty, Refurbished Warranty, Refurbished, Open Box, or Other)
+-   `sellerFeedbackRating` **SellerFeedbackRating** Information about the seller's feedback
+-   `shippingTime` **DetailedShippingTime** Maximum time within which the item will likely be shipped
+-   `listingPrice` **Money** The price of the item
+-   `points` **Points?** The number of Amazon Points offered with the purchase of an item
+-   `shipping` **Money** Cost of shipping
+-   `shipsFrom` **ShipsFrom?** State and Country where item is shipped from
+-   `isFulfilledByAmazon` **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** True if FBA, False if not
+-   `isBuyBoxWinner` **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?** True if offer has buy box, False if not
+-   `isFeaturedMerchant` **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?** True if seller is eligible for Buy Box, False if not
+
+## reformatOffer
+
+**Parameters**
+
+-   `offer`  
+-   `unknown` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+
+## reformatOffer
+
+**Parameters**
+
+-   `offer`  
+-   `unknown` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+
+## reformatOffer
+
+**Parameters**
+
+-   `offer`  
+-   `unknown` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+
+## reformatOffer
+
+**Parameters**
+
+-   `offer`  
+-   `unknown` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+
+## reformatLowestPrice
+
+**Parameters**
+
+-   `lp`  
+-   `condition` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+-   `fulfillmentChannel` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+-   `landedPrice` **Money** 
+-   `listingPrice` **Money** 
+-   `shipping` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+
+## reformatBuyBoxPrice
+
+**Parameters**
+
+-   `bb`  
+-   `condition` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+-   `landedPrice` **Money** 
+-   `listingPrice` **Money** 
+-   `shipping` **Money** 
+
+## reformatSummary
+
+**Parameters**
+
+-   `summary`  
+-   `totalOfferCount` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** 
+-   `numberOfOffers` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** 
+-   `listPrice` **Money** 
+-   `lowestPrices` **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;LowestPrice>** 
+-   `buyBoxPrices` **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)** 
+
 ## getLowestPricedOffersForASIN
 
 getLowestPricedOffersForASIN
+
+Calls GetLowestPricedOffersForASIN, reformats results, and returns the data
 
 **Parameters**
 
@@ -143,4 +264,19 @@ getLowestPricedOffersForASIN
     -   `options.ASIN` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** ASIN to search for
     -   `options.ItemCondition` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Listing Condition: New, Used, Collectible, Refurbished, Club
 
-Returns **{asin: [string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String), marketplace: [string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String), itemCondition: [string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String), summary: [object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object), offers: [array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)}** 
+Returns **LowestPricedOffers** 
+
+## getLowestPricedOffersForASIN
+
+**Parameters**
+
+-   `options`  
+-   `asin` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** asin returned by request
+-   `marketplace` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** marketplace asin is in
+-   `itemCondition` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** condition of item requested
+-   `summary` **OfferSummary** \-
+-   `offers` **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;Offers>** list of offers
+
+## require
+
+reporting functions
