@@ -78,7 +78,12 @@
 
 /**
  * Call MWS ListMarketplaceParticipations, return parsed results
- *
+ * @example
+ * const marketplaces = (async () =&gt; await mws.getMarketplaces())();
+ * (async function() {
+ *    const result = await mws.getMarketplaces();
+ *    console.log(result);
+ * })();
  * @return {{ markets: Array, marketParticipations: Array, marketDetail: Object }}
  */
 
