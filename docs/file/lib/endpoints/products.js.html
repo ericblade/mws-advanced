@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../../">
+  <title data-ice="title">lib/endpoints/products.js | mws-advanced</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  <script src="script/manual.js"></script>
+</head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./">Home</a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+</header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getLowestPricedOffersForASIN">getLowestPricedOffersForASIN</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getMarketplaces">getMarketplaces</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getMatchingProductForId">getMatchingProductForId</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-callEndpoint">callEndpoint</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-init">init</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-listFinancialEvents">listFinancialEvents</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-listInventorySupply">listInventorySupply</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-listOrders">listOrders</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-MWS_ENDPOINTS">MWS_ENDPOINTS</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-MWS_MARKETPLACES">MWS_MARKETPLACES</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-Product">Product</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">lib/endpoints/products.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">const generateEndpoints = require(&apos;./endpoints-utils&apos;);
+
+const categoryName = &apos;Products&apos;;
+
+const apiVersion = &apos;2011-10-01&apos;;
+
+const endpointList = [
+    &apos;ListMatchingProducts&apos;,
+    &apos;GetMatchingProduct&apos;,
+    &apos;GetMatchingProductForId&apos;,
+    &apos;GetCompetitivePricingForSKU&apos;,
+    &apos;GetCompetitivePricingForASIN&apos;,
+    &apos;GetLowestOfferListingsForSKU&apos;,
+    &apos;GetLowestOfferListingsForASIN&apos;,
+    &apos;GetLowestPricedOffersForSKU&apos;,
+    &apos;GetLowestPricedOffersForASIN&apos;,
+    &apos;GetMyFeesEstimate&apos;,
+    &apos;GetMyPriceForSKU&apos;,
+    &apos;GetMyPriceForASIN&apos;,
+    &apos;GetProductCategoriesForSKU&apos;,
+    &apos;GetProductCategoriesForASIN&apos;,
+    &apos;GetServiceStatus&apos;,
+];
+
+const newEndpointList = {
+    GetMatchingProductForId: {
+        throttle: {
+            maxInFlight: 20,
+            restoreRate: 18000,
+        },
+        params: {
+            MarketplaceId: {
+                type: &apos;xs:string&apos;, // TODO: doc says &quot;MarketplaceType&quot; -- should we validate as that? https://docs.developer.amazonservices.com/en_UK/products/Products_Datatypes.html#MarketplaceType
+                required: true,
+            },
+            IdType: {
+                type: &apos;xs:string&apos;,
+                required: true,
+                values: [&apos;ASIN&apos;, &apos;GCID&apos;, &apos;SellerSKU&apos;, &apos;UPC&apos;, &apos;EAN&apos;, &apos;ISBN&apos;, &apos;JAN&apos;],
+            },
+            IdList: {
+                type: &apos;xs:string&apos;,
+                required: true,
+                list: &apos;IdList.Id&apos;,
+            },
+        },
+        returns: {
+            Product: {
+                type: &apos;&apos;, // TODO: ?
+                required: false,
+            },
+            Identifiers: {
+                type: &apos;&apos;, // TODO: ?
+                required: false,
+            },
+            Relationships: {
+                type: &apos;&apos;, // TODO: ?
+                required: false,
+            },
+            SalesRankings: {
+                type: &apos;&apos;, // TODO: ?
+                required: false,
+            },
+        },
+    },
+    GetLowestOfferListingsForASIN: {
+        throttle: {
+            maxInFlight: 20,
+            restoreRate: 36000,
+        },
+        params: {
+            MarketplaceId: {
+                type: &apos;xs:string&apos;, // TODO: marketplaceId verification
+                required: true,
+            },
+            ASINList: {
+                type: &apos;xs:string&apos;,
+                required: true,
+                list: &apos;ASINList.ASIN&apos;,
+            },
+        },
+        returns: {
+            AllOfferListingsConsidered: {
+                type: &apos;&apos;, // TODO: ??? Documentation is really not clear
+                required: false,
+            },
+            Product: {
+                type: &apos;Product&apos;, // TODO: contains product subelements Product.Identifiers and Product.LowestOfferListings
+                required: true,
+            },
+            Identifiers: {
+                type: &apos;&apos;, // TODO: ??? Documnetation also not clear
+                required: false,
+            },
+            LowestOfferListings: {
+                type: &apos;&apos;, // TODO: ??????
+                required: true,
+            },
+        },
+    },
+    GetLowestPricedOffersForASIN: {
+        throttle: {
+            maxInFlight: 10,
+            restoreRate: 200,
+        },
+        params: {
+            MarketplaceId: {
+                type: &apos;xs:string&apos;, // TODO: doc says &apos;MarketplaceType&apos;
+                required: true,
+            },
+            ASIN: {
+                type: &apos;xs:string&apos;,
+                required: true,
+            },
+            ItemCondition: {
+                type: &apos;xs:string&apos;,
+                required: true,
+                values: [&apos;New&apos;, &apos;Used&apos;, &apos;Collectible&apos;, &apos;Refurbished&apos;, &apos;Club&apos;],
+            },
+        },
+        returns: {
+            Identifier: {
+                type: &apos;Identifier&apos;,
+                required: true,
+            },
+            Summary: {
+                type: &apos;Summary&apos;,
+                required: true,
+            },
+            Offers: {
+                type: &apos;Offers&apos;,
+                required: false,
+            },
+        },
+    },
+    GetCompetitivePricingForASIN: {
+        throttle: {
+            maxInFlight: 20,
+            restoreRate: 36000,
+        },
+        params: {
+            MarketplaceId: {
+                type: &apos;xs:string&apos;,
+                required: true,
+            },
+            ASINList: {
+                type: &apos;xs:string&apos;,
+                required: true, // TODO: maximum 20 values
+                list: &apos;ASINList.ASIN&apos;,
+            },
+        },
+        returns: {
+            Product: {
+                type: &apos;Product&apos;,
+                required: true,
+            },
+            Identifiers: {
+                type: &apos;Identifier&apos;,
+                required: true,
+            },
+            CompetitivePricing: {
+                type: &apos;CompetitivePrice&apos;,
+                required: true,
+            },
+            SalesRankings: {
+                type: &apos;SalesRanking&apos;,
+                required: true,
+            },
+        },
+    },
+};
+
+/**
+ * @private
+ */
+
+const endpoints = generateEndpoints(
+    categoryName,
+    apiVersion,
+    endpointList,
+    newEndpointList,
+);
+
+module.exports = endpoints;
+</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.0.4)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

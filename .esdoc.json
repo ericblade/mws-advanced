@@ -1,6 +1,6 @@
 {
     "source": "./lib",
-    "destination": "./docs/www",
+    "destination": "./docs",
     "plugins": [
         {
             "name": "esdoc-standard-plugin",
@@ -14,11 +14,11 @@
                 "manual": {
                     "globalIndex": true,
                     "badge": false,
-                    "index": "./docs/index.md",
-                    "asset": "./docs/assets",
+                    "index": "./docs-src/index.md",
+                    "asset": "./docs-src/assets",
                     "files": [
-                        "./docs/getting-started.md",
-                        "./docs/usage.md"
+                        "./docs-src/getting-started.md",
+                        "./docs-src/usage.md"
                     ]
                 }
             }

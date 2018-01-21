@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../">
+  <title data-ice="title">lib/constants.js | mws-advanced</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  <script src="script/manual.js"></script>
+</head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./">Home</a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+</header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getLowestPricedOffersForASIN">getLowestPricedOffersForASIN</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getMarketplaces">getMarketplaces</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getMatchingProductForId">getMatchingProductForId</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-callEndpoint">callEndpoint</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-init">init</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-listFinancialEvents">listFinancialEvents</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-listInventorySupply">listInventorySupply</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-listOrders">listOrders</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-MWS_ENDPOINTS">MWS_ENDPOINTS</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-MWS_MARKETPLACES">MWS_MARKETPLACES</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-Product">Product</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">lib/constants.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">// The documentation on these is a little weird -- In the top part, it describes AU and JP as being
+// separate regions, but in the bottom part, it describes them as being poart of the &quot;FE&quot; region,
+// despite them having differing endpoint addresses.  It&apos;s weird, compared to the others. I don&apos;t
+// see any other references to the &quot;FE&quot; region anywhere, but I may be blind.
+// To reduce complexity, I have just made each endpoint have a different region name, so I follow
+// the conventions at the top part of the docs at https://docs.developer.amazonservices.com/en_US/dev_guide/DG_Endpoints.html
+
+/**
+ * A list of Marketplace IDs hashed by their country code.
+ */
+const MWS_MARKETPLACES = {
+    CA: &apos;A2EUQ1WTGCTBG2&apos;,
+    MX: &apos;A1AM78C64UM0Y8&apos;,
+    US: &apos;ATVPDKIKX0DER&apos;,
+    BR: &apos;A2Q3Y263D00KWC&apos;,
+    DE: &apos;A1PA6795UKMFR9&apos;,
+    ES: &apos;A1RKKUPIHCS9HS&apos;,
+    FR: &apos;A13V1IB3VIYZZH&apos;,
+    IT: &apos;APJ6JRA9NG5V4&apos;,
+    UK: &apos;A1F83G8C2ARO7P&apos;,
+    IN: &apos;A21TJRUUN4KGV&apos;,
+    CN: &apos;AAHKV2X7AFYLW&apos;,
+    AU: &apos;A39IBJ37TRP1C6&apos;,
+};
+
+/**
+ * A list of hosts you can use with the mws-advanced &quot;host&quot; option, hashed by MWS Region Name.
+ */
+const MWS_ENDPOINTS = {
+    NA: &apos;mws.amazonservices.com&apos;,
+    BR: &apos;mws.amazonservices.com&apos;,
+    EU: &apos;mws-eu.amazonservices.com&apos;,
+    IN: &apos;mws.amazonservices.in&apos;,
+    CN: &apos;mws.amazonservices.com.cn&apos;,
+    AU: &apos;mws.amazonservices.com.au&apos;,
+    JP: &apos;mws.amazonservices.jp&apos;,
+};
+
+module.exports = {
+    MWS_MARKETPLACES,
+    MWS_ENDPOINTS,
+};
+</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.0.4)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

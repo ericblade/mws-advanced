@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../../">
+  <title data-ice="title">lib/endpoints/reports.js | mws-advanced</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  <script src="script/manual.js"></script>
+</head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./">Home</a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+</header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getLowestPricedOffersForASIN">getLowestPricedOffersForASIN</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getMarketplaces">getMarketplaces</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getMatchingProductForId">getMatchingProductForId</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-callEndpoint">callEndpoint</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-init">init</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-listFinancialEvents">listFinancialEvents</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-listInventorySupply">listInventorySupply</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-listOrders">listOrders</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-MWS_ENDPOINTS">MWS_ENDPOINTS</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-MWS_MARKETPLACES">MWS_MARKETPLACES</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-Product">Product</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">lib/endpoints/reports.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">const path = require(&apos;path&apos;);
+
+const generateEndpoints = require(&apos;./endpoints-utils&apos;);
+
+const constants = require(&apos;./constants.js&apos;);
+
+const scriptName = path.basename(__filename, &apos;.js&apos;);
+const categoryName = `${scriptName.charAt(0).toUpperCase()}${scriptName.slice(1)}`;
+
+const apiVersion = &apos;2009-01-01&apos;;
+
+const endpointList = [
+    &apos;RequestReport&apos;,
+    &apos;GetReportRequestList&apos;,
+    &apos;GetReportRequestListByNextToken&apos;,
+    &apos;GetReportRequestCount&apos;,
+    &apos;CancelReportRequests&apos;,
+    &apos;GetReportList&apos;,
+    &apos;GetReportListByNextToken&apos;,
+    &apos;GetReportCount&apos;,
+    &apos;GetReport&apos;,
+    &apos;ManageReportSchedule&apos;,
+    &apos;GetReportScheduleList&apos;,
+    &apos;GetReportScheduleListByNextToken&apos;,
+    &apos;GetReportScheduleCount&apos;,
+    &apos;UpdateReportAcknowledgements&apos;,
+];
+
+const newEndpointList = {
+    RequestReport: {
+        throttle: {
+            maxInFlight: 15,
+            restoreRate: 60,
+        },
+        params: {
+            ReportType: {
+                type: &apos;xs:string&apos;,
+                required: true,
+            },
+            StartDate: {
+                type: &apos;xs:dateTime&apos;,
+                required: false,
+            },
+            EndDate: {
+                type: &apos;xs:dateTime&apos;,
+                required: false,
+            },
+            ReportOptions: {
+                type: &apos;xs:string&apos;,
+                required: false,
+            },
+            MarketplaceIdList: {
+                type: &apos;xs:string&apos;,
+                required: false, // TODO: only available in NA and EU regions
+            },
+        },
+        returns: {
+            ReportRequestInfo: {
+                type: &apos;ReportRequestInfo&apos;,
+                required: true, // TODO: Docs don&apos;t specifically state it&apos;s required. what if empty?
+            },
+        },
+    },
+    GetReportRequestList: {
+        throttle: {
+            maxInFlight: 10,
+            restoreRate: 78, // approximate, you get one back every 45 seconds, so roughly 78 per hour
+        },
+        params: {
+            ReportRequestIdList: {
+                type: &apos;xs:string&apos;,
+                required: false,
+                list: &apos;ReportRequestIdList.Id&apos;,
+            },
+            ReportTypeList: {
+                type: &apos;xs:string&apos;,
+                required: false,
+                list: &apos;ReportTypeList.Type&apos;,
+                values: constants.REQUEST_REPORT_TYPES,
+            },
+            ReportProcessingStatusList: {
+                type: &apos;xs:string&apos;,
+                required: false,
+                list: &apos;ReportProcessingStatusList.Status&apos;,
+                values: constants.REPORT_PROCESSING_STATUS_TYPES,
+            },
+            MaxCount: {
+                type: &apos;xs:positiveInteger&apos;, // Documentation page says &apos;xs:nonNegativeInteger&apos;, but the range starts at 1, which makes it a xs:positiveInteger
+                required: false,
+                maxValue: 100,
+            },
+            RequestedFromDate: {
+                type: &apos;xs:dateTime&apos;,
+                required: false,
+            },
+            RequestedToDate: {
+                type: &apos;xs:dateTime&apos;,
+                required: false,
+            },
+        },
+        returns: {
+            NextToken: {
+                type: &apos;xs:string&apos;,
+                required: false,
+            },
+            HasNext: {
+                type: &apos;xs:boolean&apos;, // TODO: need to add xs:boolean to the validate function.. does it come in as a string (&quot;True&quot;/&quot;False&quot;) or a bool value?
+                required: true,
+            },
+            ReportRequestInfo: {
+                type: &apos;ReportRequestInfo&apos;,
+                required: true,
+            },
+        },
+    },
+    GetReportRequestListByNextToken: {
+        throttle: {
+            maxInFlight: 30,
+            restoreRate: 1800,
+        },
+        params: {
+            NextToken: {
+                type: &apos;xs:string&apos;,
+                required: true,
+            },
+        },
+        returns: {
+            NextToken: {
+                type: &apos;xs:string&apos;,
+                required: false,
+            },
+            HasNext: {
+                type: &apos;xs:boolean&apos;, // TODO: need to add xs:boolean to the validate function.. does it come in as a string (&quot;True&quot;/&quot;False&quot;) or a bool value?
+                required: true,
+            },
+            ReportRequestInfo: {
+                type: &apos;ReportRequestInfo&apos;,
+                required: true,
+            },
+        },
+    },
+    GetReportRequestCount: {
+        throttle: {
+            maxInFlight: 10,
+            restoreRate: 78,
+        },
+        params: {
+            ReportTypeList: {
+                type: &apos;xs:string&apos;,
+                required: false,
+                values: constants.REQUEST_REPORT_TYPES,
+            },
+            ReportProcessingStatusList: {
+                type: &apos;xs:string&apos;,
+                required: false,
+                values: constants.REPORT_PROCESSING_STATUS_TYPES,
+            },
+            RequestedFromDate: {
+                type: &apos;xs:dateTime&apos;,
+                required: false,
+            },
+            RequestedToDate: {
+                type: &apos;xs:dateTime&apos;,
+                required: false,
+            },
+        },
+        returns: {
+            Count: {
+                type: &apos;xs:nonNegativeInteger&apos;,
+                required: true,
+            },
+        },
+    },
+    CancelReportRequests: {
+        throttle: {
+            maxInFlight: 10,
+            restoreRate: 78,
+        },
+        params: {
+            ReportRequestIdList: {
+                type: &apos;xs:string&apos;,
+                required: false,
+                list: &apos;ReportRequestIdList.Id&apos;,
+            },
+            ReportTypeList: {
+                type: &apos;xs:string&apos;,
+                required: false,
+                values: constants.REQUEST_REPORT_TYPES,
+                list: &apos;ReportTypeList.Type&apos;,
+            },
+            ReportProcessingStatusList: {
+                type: &apos;xs:string&apos;,
+                required: false,
+                values: constants.REPORT_PROCESSING_STATUS_TYPES,
+            },
+            RequestedFromDate: {
+                type: &apos;xs:dateTime&apos;,
+                required: false,
+            },
+            RequestedToDate: {
+                type: &apos;xs:dateTime&apos;,
+                required: false,
+            },
+        },
+        returns: {
+            Count: {
+                type: &apos;xs:nonNegativeInteger&apos;,
+                required: true,
+            },
+            ReportRequestInfo: {
+                type: &apos;ReportRequestInfo&apos;,
+                required: true,
+            },
+        },
+    },
+    GetReportList: {
+        throttle: {
+            maxInFlight: 10,
+            restoreRate: 60,
+        },
+        params: {
+            MaxCount: {
+                type: &apos;xs:positiveInteger&apos;, // docs say nonNegativeInteger, range 1-100
+                required: false,
+                maxValue: 100,
+            },
+            ReportTypeList: {
+                type: &apos;xs:string&apos;,
+                required: false,
+                values: [
+                    ...constants.REQUEST_REPORT_TYPES,
+                    ...constants.NOREQUEST_REPORT_TYPES,
+                    ...constants.SCHEDULED_REPORT_TYPES,
+                ],
+                list: &apos;ReportTypeList.Type&apos;,
+            },
+            Acknowledged: {
+                type: &apos;xs:boolean&apos;,
+                required: false,
+            },
+            ReportRequestIdList: {
+                type: &apos;xs:string&apos;,
+                required: false,
+                list: &apos;ReportRequestIdList.Id&apos;,
+            },
+            AvailableFromDate: {
+                type: &apos;xs:dateTime&apos;,
+                required: false,
+            },
+            AvailableToDate: {
+                type: &apos;xs:dateTime&apos;,
+                required: false,
+            },
+        },
+        returns: {
+            NextToken: {
+                type: &apos;xs:string&apos;,
+                required: false,
+            },
+            HasNext: {
+                type: &apos;xs:boolean&apos;,
+                required: true,
+            },
+            ReportInfo: {
+                type: &apos;ReportInfo&apos;,
+                required: true,
+            },
+        },
+    },
+    GetReportListByNextToken: {
+        throttle: {
+            maxInFlight: 30,
+            restoreRate: 1800,
+        },
+        params: {
+            NextToken: {
+                type: &apos;xs:string&apos;,
+                required: true,
+            },
+        },
+        returns: {
+            NextToken: {
+                type: &apos;xs:string&apos;,
+                required: false,
+            },
+            HasNext: {
+                type: &apos;xs:boolean&apos;,
+                required: true,
+            },
+            ReportInfo: {
+                type: &apos;ReportInfo&apos;,
+                required: true,
+            },
+        },
+    },
+    GetReportCount: {
+        throttle: {
+            maxInFlight: 10,
+            restoreRate: 78,
+        },
+        params: {
+            ReportTypeList: {
+                type: &apos;xs:string&apos;,
+                required: false,
+                list: &apos;ReportTypeList.Type&apos;,
+                values: [
+                    ...constants.REQUEST_REPORT_TYPES,
+                    ...constants.NOREQUEST_REPORT_TYPES,
+                    ...constants.SCHEDULED_REPORT_TYPES,
+                ],
+            },
+            Acknowledged: {
+                type: &apos;xs:boolean&apos;,
+                required: false,
+            },
+            AvailableFromDate: {
+                type: &apos;xs:dateTime&apos;,
+                required: false,
+            },
+            AvailableToDate: {
+                type: &apos;xs:dateTime&apos;,
+                required: false,
+            },
+        },
+        returns: {
+            Count: { // Return types are not documented on this page! Assuming from example.
+                type: &apos;xs:nonNegativeInteger&apos;,
+                required: true,
+            },
+        },
+    },
+    GetReport: {
+        throttle: {
+            maxInFlight: 15,
+            restoreRate: 60,
+        },
+        params: {
+            ReportId: {
+                type: &apos;xs:string&apos;,
+                required: true,
+            },
+        },
+        returns: {
+            Report: {
+                type: &apos;xs:string&apos;,
+                required: true,
+            },
+        },
+    },
+    ManageReportSchedule: {
+        throttle: {
+            maxInFlight: 10,
+            restoreRate: 78,
+        },
+        params: {
+            ReportType: {
+                type: &apos;xs:string&apos;,
+                required: true,
+                values: constants.SCHEDULED_REPORT_TYPES,
+            },
+            Schedule: {
+                type: &apos;xs:string&apos;,
+                required: true,
+                values: constants.SCHEDULE_TYPES,
+            },
+            ScheduleDate: {
+                type: &apos;xs:dateTime&apos;,
+                required: false,
+            },
+        },
+        returns: {
+            Count: {
+                type: &apos;xs:nonNegativeInteger&apos;,
+                required: true,
+            },
+            ReportSchedule: {
+                type: &apos;ReportSchedule&apos;,
+                required: true,
+            },
+        },
+    },
+    GetReportScheduleList: {
+        throttle: {
+            maxInFlight: 10,
+            restoreRate: 78,
+        },
+        params: {
+            ReportTypeList: {
+                type: &apos;xs:string&apos;,
+                required: false,
+                values: constants.SCHEDULED_REPORT_TYPES,
+            },
+        },
+        returns: {
+            NextToken: {
+                type: &apos;xs:string&apos;,
+                required: false,
+            },
+            HasNext: {
+                type: &apos;xs:boolean&apos;,
+                required: true,
+            },
+            ReportSchedule: {
+                type: &apos;ReportSchedule&apos;,
+                required: true,
+            },
+        },
+    },
+    GetReportScheduleListByNextToken: { // Doc says: &quot;this operation can never be called ... it is included for future compatibility&quot;
+        throttle: {
+            maxInFlight: 1,
+            restoreRate: 1,
+        },
+        params: {
+            DO_NOT_USE_THIS: {
+                type: &apos;DO NOT USE GETREPORTSCHEDULELISTBYNEXTTOKEN&apos;,
+                required: true,
+            },
+        },
+        returns: {
+            // NextToken: {
+            //     type: &apos;xs:string&apos;,
+            //     required: false,
+            // },
+            // HasNext: {
+            //     type: &apos;xs:boolean&apos;,
+            //     required: true,
+            // },
+            // ReportSchedule: {
+            //     type: &apos;ReportSchedule&apos;,
+            //     required: true,
+            // }
+        },
+    },
+    GetReportScheduleCount: {
+        throttle: {
+            maxInFlight: 10,
+            restoreRate: 78,
+        },
+        params: {
+            ReportTypeList: {
+                type: &apos;xs:string&apos;,
+                required: false,
+                values: [
+                    ...constants.SCHEDULED_REPORT_TYPES,
+                    ...constants.REQUEST_REPORT_TYPES,
+                ],
+                list: &apos;ReportTypeList.Type&apos;,
+            },
+        },
+        returns: {
+            Count: {
+                type: &apos;xs:nonNegativeInteger&apos;,
+                required: true,
+            },
+        },
+    },
+    UpdateReportAcknowledgements: {
+        throttle: {
+            maxInFlight: 10,
+            restoreRate: 78,
+        },
+        params: {
+            ReportIdList: {
+                type: &apos;xs:string&apos;,
+                required: true,
+                list: &apos;ReportIdList.Id&apos;,
+            },
+            Acknowledged: {
+                type: &apos;xs:boolean&apos;,
+                required: true,
+            },
+        },
+        returns: {
+            Count: {
+                type: &apos;xs:nonNegativeInteger&apos;,
+                required: true,
+            },
+            ReportInfo: {
+                type: &apos;ReportInfo&apos;,
+                required: true,
+            },
+        },
+    },
+};
+
+/**
+ * @private
+ */
+
+const endpoints = generateEndpoints(
+    categoryName,
+    apiVersion,
+    endpointList,
+    newEndpointList,
+);
+
+module.exports = endpoints;
+</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.0.4)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

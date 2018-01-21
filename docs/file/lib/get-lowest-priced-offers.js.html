@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../">
+  <title data-ice="title">lib/get-lowest-priced-offers.js | mws-advanced</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  <script src="script/manual.js"></script>
+</head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./">Home</a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+</header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getLowestPricedOffersForASIN">getLowestPricedOffersForASIN</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getMarketplaces">getMarketplaces</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getMatchingProductForId">getMatchingProductForId</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-callEndpoint">callEndpoint</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-init">init</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-listFinancialEvents">listFinancialEvents</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-listInventorySupply">listInventorySupply</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-listOrders">listOrders</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-MWS_ENDPOINTS">MWS_ENDPOINTS</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-MWS_MARKETPLACES">MWS_MARKETPLACES</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-Product">Product</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">lib/get-lowest-priced-offers.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">const { callEndpoint } = require(&apos;.&apos;);
+
+/**
+ * Reformat an OfferCount. Incoming OfferCount looks like:
+ *   {
+ *      &quot;_&quot;: &quot;31&quot;,
+ *       &quot;$&quot;: {
+ *           &quot;condition&quot;: &quot;used&quot;,
+ *           &quot;fulfillmentChannel&quot;: &quot;Merchant&quot;
+ *       }
+ *   }
+ *
+ * @private
+ * @param {object} offerCount OfferCount from MWS API
+ * @param {string} offerCount._ Number of Offers that match this type
+ * @param {object} offerCount.$ Object describing the type of Offers
+ * @param {object} offerCount.$.condition Offer Condition (used, new, etc)
+ * @param {object} offerCount.$.fulfillmentChannel Merchant or Amazon (FBM or FBA)
+ *
+ * @return {{ count: number, condition: string, fulfillmentChannel: string }}
+ */
+const reformatOfferCount = offerCount =&gt; ({
+    count: parseInt(offerCount._, 10),
+    condition: offerCount.$.condition,
+    fulfillmentChannel: offerCount.$.fulfillmentChannel,
+});
+
+/**
+ * Reformat an Offer
+ *
+ * @private
+ * @param {object} offer Offer from MWS API
+ * @return {{ subCondition: string, sellerFeedbackRating: object, shippingTime: object, listingPrice: object, shipping: object, shipsFrom: object, isFulfilledByAmazon: boolean, isBuyBoxWinner: boolean, isFeaturedMerchant: boolean }}
+ */
+const reformatOffer = offer =&gt; ({
+    subCondition: offer.SubCondition,
+    sellerFeedbackRating: offer.SellerFeedbackRating,
+    shippingTime: offer.ShippingTime.$,
+    listingPrice: offer.ListingPrice,
+    shipping: offer.Shipping,
+    shipsFrom: offer.ShipsFrom,
+    isFulfilledByAmazon: (offer.IsFulfilledByAmazon === &apos;true&apos;),
+    isBuyBoxWinner: (offer.IsBuyBoxWinner === &apos;true&apos;),
+    isFeaturedMerchant: (offer.IsFeaturedMerchant === &apos;true&apos;),
+});
+
+const reformatLowestPrice = lp =&gt; ({
+    condition: lp.$.condition,
+    fulfillmentChannel: lp.$.fulfillmentChannel,
+    landedPrice: lp.LandedPrice,
+    listingPrice: lp.ListingPrice,
+    shipping: lp.Shipping,
+});
+
+const reformatBuyBoxPrice = bb =&gt; ({
+    condition: bb.$.condition,
+    landedPrice: bb.LandedPrice,
+    listingPrice: bb.ListingPrice,
+    shipping: bb.Shipping,
+});
+
+/**
+ * reformat an Offer Summary into something a little more sane looking
+ *
+ * @private
+ * @param {object} Offer Summary (has lots of keys)
+ * @return {object}
+ */
+const reformatSummary = (summary) =&gt; {
+    // this little mess for setting up buyBoxPrices is thanks to flattenResult flattening the
+    // very first node of the tree inappropriately.  Not quite sure how to prevent that, right
+    // at this moment, though.
+    // TODO: when we fix flattenResult to not flatten the very first node, we need to fix this area.
+    // TODO: there is also one other area that would break, but I can&apos;t remember what it was.
+    // Hopefully we have a test for it.
+
+    let buyBoxPrices = [];
+    if (summary.BuyBoxPrices &amp;&amp; summary.BuyBoxPrices.BuyBoxPrice) {
+        if (summary.BuyBoxPrices.BuyBoxPrice.length) {
+            buyBoxPrices = summary.BuyBoxPrices.BuyBoxPrice;
+        } else {
+            buyBoxPrices = [summary.BuyBoxPrices.BuyBoxPrice];
+        }
+    }
+
+    const ret = {};
+    ret.totalOfferCount = parseInt(summary.TotalOfferCount, 10);
+    ret.numberOfOffers = summary.NumberOfOffers.OfferCount.map(reformatOfferCount);
+    ret.listPrice = summary.ListPrice;
+    ret.lowestPrices = summary.LowestPrices.LowestPrice.map(reformatLowestPrice);
+    ret.buyBoxPrices = buyBoxPrices &amp;&amp; buyBoxPrices.map(reformatBuyBoxPrice);
+    ret.buyBoxEligibleOffers = summary.BuyBoxEligibleOffers.OfferCount.map(reformatOfferCount);
+
+    return ret;
+};
+
+/**
+ * getLowestPricedOffersForASIN
+ *
+ * @param {object} options see https://docs.developer.amazonservices.com/en_UK/products/Products_GetLowestPricedOffersForASIN.html
+ * @param {string} options.MarketplaceId Marketplace ID to search
+ * @param {string} options.ASIN ASIN to search for
+ * @param {string} options.ItemCondition Listing Condition: New, Used, Collectible, Refurbished, Club
+ *
+ * @return {{ asin: string, marketplace: string, itemCondition: string, summary: object, offers: array }}
+ */
+const getLowestPricedOffersForASIN = async (options) =&gt; {
+    const results = await callEndpoint(&apos;GetLowestPricedOffersForASIN&apos;, options);
+    const identifier = results.Identifier;
+    const summary = results.Summary;
+
+    // TODO: same comment as above on buyBoxPrices.
+    let offers = [];
+    if (results.Offers &amp;&amp; results.Offers.Offer) {
+        if (results.Offers.Offer.length) {
+            offers = results.Offers.Offer;
+        } else {
+            offers = [results.Offers.Offer];
+        }
+    }
+
+    const ret = {};
+    ret.asin = identifier.ASIN;
+    ret.marketplace = identifier.MarketplaceId;
+    ret.itemCondition = identifier.ItemCondition;
+    ret.summary = reformatSummary(summary);
+    ret.lowestOffers = offers.map(reformatOffer);
+    return ret;
+};
+
+module.exports = { getLowestPricedOffersForASIN };
+</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.0.4)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>
