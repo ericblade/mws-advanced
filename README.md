@@ -21,6 +21,14 @@ As this is a brand new project, documentation may be a little light to begin wit
 
 Note that I am currently in a very slow process of writing an application that will make use of this code.  So, this code is getting put together as I need the API calls, and it's being put together to make my life easier.  I welcome any and all input, comments, questions, and especially pull requests, though.  If you want to shape it to fit your needs, that will probably help it fit my needs, and vice verse. :-)
 
+# Documentation
+
+The below documentation is old, and outdated. It is being rewritten into [Documentation](docs/).
+
+# Do not read this
+
+This is the old documentation, left here so I can refer to it briefly. It will be deleted shortly.
+
 For how to use this project, to start:
 
 ````

@@ -3,6 +3,9 @@
 ### Table of Contents
 
 -   [init](#init)
+-   [REQUEST_REPORT_TYPES](#request_report_types)
+-   [MWS_MARKETPLACES](#mws_marketplaces)
+-   [MWS_ENDPOINTS](#mws_endpoints)
 -   [getMarketplaces](#getmarketplaces)
 -   [listOrders](#listorders)
 -   [listFinancialEvents](#listfinancialevents)
@@ -36,6 +39,18 @@ Initialize mws-advanced with your MWS access keys, merchantId, optionally authto
 -   `port` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** default (443) Set MWS host port
 
 Returns **mws-simple** 
+
+## REQUEST_REPORT_TYPES
+
+Constants for endpoint handling code. Mostly report generation functions use these.
+
+## MWS_MARKETPLACES
+
+A list of Marketplace IDs hashed by their country code.
+
+## MWS_ENDPOINTS
+
+A list of hosts you can use with the mws-advanced "host" option, hashed by MWS Region Name.
 
 ## getMarketplaces
 

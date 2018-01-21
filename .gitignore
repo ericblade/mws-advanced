@@ -1,7 +1,10 @@
 *.json
+!.esdoc.json
 !test/*.json
 test/keys.json
 node_modules
 coverage/*
 old*/*
 .idea/
+docs/www
+samples/old-code

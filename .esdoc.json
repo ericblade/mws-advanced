@@ -1,0 +1,36 @@
+{
+    "source": "./lib",
+    "destination": "./docs/www",
+    "plugins": [
+        {
+            "name": "esdoc-standard-plugin",
+            "option": {
+                "lint": {
+                    "enable": false
+                },
+                "accessor": {
+                    "access": [ "public" ]
+                },
+                "manual": {
+                    "globalIndex": true,
+                    "badge": false,
+                    "index": "./docs/index.md",
+                    "asset": "./docs/assets",
+                    "files": [
+                        "./docs/getting-started.md",
+                        "./docs/usage.md"
+                    ]
+                }
+            }
+        },
+        {
+            "name": "esdoc-ecmascript-proposal-plugin",
+            "option": {
+                "all": true
+            }
+        },
+        {
+            "name": "esdoc-node"
+        }
+    ]
+}
