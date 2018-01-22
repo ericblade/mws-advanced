@@ -6,7 +6,8 @@
   "scripts": {
     "test": "./node_modules/.bin/mocha --timeout=5000",
     "coverage": "./node_modules/.bin/nyc --reporter=lcov ./node_modules/.bin/mocha --timeout=5000",
-    "send-coverage": "./send-coverage",
+    "coveralls": "cat ./coverage/lcov.info | ./node_modules/.bin/coveralls",
+    "coverage-codebeat": "./send-coverage",
     "lint-staged": "lint-staged",
     "push-master": "npm run coverage && git push origin master && send-coverage.cmd",
     "make-docs": "npx esdoc && documentation build -f md > API.md"

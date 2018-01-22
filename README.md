@@ -1,6 +1,7 @@
 [![codebeat badge](https://codebeat.co/badges/83ea05b8-db4e-4765-ae00-63169ef19c2e)](https://codebeat.co/projects/github-com-ericblade-mws-advanced-master)
 [![Greenkeeper badge](https://badges.greenkeeper.io/ericblade/mws-advanced.svg)](https://greenkeeper.io/)
 [![Documentation badge](./docs/badge.svg)](https://esdoc.org)
+[![Coverage Status](https://coveralls.io/repos/ericblade/mws-advanced/badge.svg?branch=master)](https://coveralls.io/r/<account>/<repository>?branch=master)
 # mws-advanced -- A modern Amazon Merchant Web Services API Interface for Javascript
 
 ## What does it do?
@@ -35,6 +36,13 @@ internal project with.  Enjoy! :-)
 This requires node.js v9.0+ to run. If that's not your environment, you can setup Babel or some
 other transpiler to make it work in older versions.  I'd be happy to accept pulls for this, or any
 other reason, but it is not something I am at all concerned with.  Let's move the ecosystem forward!
+
+## Development
+
+This library is under heavy development.  Pull requests from all are welcome.  Since I am writing
+a system that makes use of this library, my primary priority is to make it work for my specific use-
+cases.  Your use cases may not match mine, so let's work together to create a fantastic library for
+all of us :-)
 
 ## (OLD) Documentation
 
