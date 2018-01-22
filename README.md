@@ -1,7 +1,7 @@
 [![codebeat badge](https://codebeat.co/badges/83ea05b8-db4e-4765-ae00-63169ef19c2e)](https://codebeat.co/projects/github-com-ericblade-mws-advanced-master)
 [![Greenkeeper badge](https://badges.greenkeeper.io/ericblade/mws-advanced.svg)](https://greenkeeper.io/)
 [![Documentation badge](./docs/badge.svg)](https://esdoc.org)
-[![Coverage Status](https://coveralls.io/repos/ericblade/mws-advanced/badge.svg?branch=master)](https://coveralls.io/r/<account>/<repository>?branch=master)
+[![Coverage Status](https://coveralls.io/repos/ericblade/mws-advanced/badge.svg?branch=master)](https://coveralls.io/r/ericblade/mws-advanced?branch=master)
 # mws-advanced -- A modern Amazon Merchant Web Services API Interface for Javascript
 
 ## What does it do?
