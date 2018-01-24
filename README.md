@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/ericblade/mws-advanced.svg?branch=master)](https://travis-ci.org/ericblade/mws-advanced)
 [![codebeat badge](https://codebeat.co/badges/83ea05b8-db4e-4765-ae00-63169ef19c2e)](https://codebeat.co/projects/github-com-ericblade-mws-advanced-master)
 [![Greenkeeper badge](https://badges.greenkeeper.io/ericblade/mws-advanced.svg)](https://greenkeeper.io/)
 [![Documentation badge](./docs/badge.svg)](https://esdoc.org)
