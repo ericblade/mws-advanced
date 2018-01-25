@@ -441,34 +441,51 @@ describe('API', function runAPITests() {
         });
     });
     describe('Order Category', () => {
-        it('listOrders', async function testListOrders() {
-            if (!marketIds || !marketIds.length) {
-                this.skip();
-                return false;
-            }
-            const startDate = new Date();
-            startDate.setDate(startDate.getDate() - 7);
-            const params = {
-                MarketplaceId: marketIds,
-                CreatedAfter: startDate,
-            };
-            const results = await mws.listOrders(params);
-            expect(results).to.have.lengthOf.above(0);
-            orderIds = Object.keys(results).map(order => results[order].AmazonOrderId);
-            expect(orderIds).to.have.lengthOf.above(0);
-            return true;
-        });
-        it('endpoint GetOrder', async function testGetOrder() {
-            if (!orderIds || !orderIds.length) {
-                this.skip();
-                return false;
-            }
-            const params = {
-                AmazonOrderId: orderIds,
-            };
-            const results = await mws.callEndpoint('GetOrder', params);
+        describe('listOrders / listOrderItems / getOrder', () => {
+            let orderId;
+            it('listOrders', async function testListOrders() {
+                if (!marketIds || !marketIds.length) {
+                    this.skip();
+                    return false;
+                }
+                const startDate = new Date();
+                startDate.setDate(startDate.getDate() - 7);
+                const params = {
+                    MarketplaceId: marketIds,
+                    CreatedAfter: startDate,
+                };
+                const results = await mws.listOrders(params);
+                expect(results).to.have.lengthOf.above(0);
+                orderIds = Object.keys(results).map(order => results[order].AmazonOrderId);
+                expect(orderIds).to.have.lengthOf.above(0);
+                orderId = orderIds[0];
+                return true;
+            });
+            it('listOrderItems', async () => {
+                if (!marketIds || !marketIds.length) {
+                    this.skip();
+                    return false;
+                }
+                const results = await mws.listOrderItems(orderId);
+                expect(results).to.be.an('Object').and.to.include.all.keys(
+                    'orderId',
+                    'orderItems',
+                );
+                return true;
+            });
+            // TODO: we need to get a wrap on GetOrder!
+            it('endpoint GetOrder', async function testGetOrder() {
+                if (!orderIds || !orderIds.length) {
+                    this.skip();
+                    return false;
+                }
+                const params = {
+                    AmazonOrderId: orderIds,
+                };
+                const results = await mws.callEndpoint('GetOrder', params);
 
-            return results;
+                return results;
+            });
         });
     });
     describe('Reports Category', () => {
