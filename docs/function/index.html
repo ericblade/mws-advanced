@@ -369,7 +369,9 @@ has been processed.</p>
       <div>
         
         
-        <div data-ice="description"><p>Initialize mws-advanced with your MWS access keys, merchantId, optionally authtoken, host, port</p>
+        <div data-ice="description"><p>Initialize mws-advanced with your MWS access keys, merchantId, optionally authtoken, host, port
+If accessKeyId, secretAccessKey, and/or merchantId are not provided, they will be read from
+the environment variables MWS_ACESS_KEY, MWS_SECRET_ACCESS_KEY, and MWS_MERCHANT_ID respectively</p>
 </div>
       </div>
     </td>
@@ -573,11 +575,11 @@ Many optional parameters may be required by MWS! Read <a href="https://docs.deve
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/lib/callEndpoint.js.html#lineNumber124">source</a></span></span>
+      <span data-ice="source"><span><a href="file/lib/callEndpoint.js.html#lineNumber127">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {callEndpoint} from &apos;<span><a href="file/lib/callEndpoint.js.html#lineNumber124">mws-advanced/lib/callEndpoint.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {callEndpoint} from &apos;<span><a href="file/lib/callEndpoint.js.html#lineNumber127">mws-advanced/lib/callEndpoint.js</a></span>&apos;</code></pre></div>
   
   
   <div data-ice="description"><p>Call a known endpoint at MWS, returning the raw data from the function. Parameters are
@@ -1368,14 +1370,16 @@ has been processed.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/lib/callEndpoint.js.html#lineNumber32">source</a></span></span>
+      <span data-ice="source"><span><a href="file/lib/callEndpoint.js.html#lineNumber35">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {init} from &apos;<span><a href="file/lib/callEndpoint.js.html#lineNumber32">mws-advanced/lib/callEndpoint.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {init} from &apos;<span><a href="file/lib/callEndpoint.js.html#lineNumber35">mws-advanced/lib/callEndpoint.js</a></span>&apos;</code></pre></div>
   
   
-  <div data-ice="description"><p>Initialize mws-advanced with your MWS access keys, merchantId, optionally authtoken, host, port</p>
+  <div data-ice="description"><p>Initialize mws-advanced with your MWS access keys, merchantId, optionally authtoken, host, port
+If accessKeyId, secretAccessKey, and/or merchantId are not provided, they will be read from
+the environment variables MWS_ACESS_KEY, MWS_SECRET_ACCESS_KEY, and MWS_MERCHANT_ID respectively</p>
 </div>
 
   
@@ -1398,21 +1402,24 @@ has been processed.</p>
 <tr data-ice="property" data-depth="1">
       <td data-ice="name" class="code" data-depth="1">config.accessKeyId</td>
       <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span></td>
-      <td data-ice="appendix"></td>
+      <td data-ice="appendix"><ul><li>optional</li>
+<li>default: process.env.MWS_ACCESS_KEY</li></ul></td>
       <td data-ice="description"><p>Your MWS Access Key</p>
 </td>
     </tr>
 <tr data-ice="property" data-depth="1">
       <td data-ice="name" class="code" data-depth="1">config.secretAccessKey</td>
       <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span></td>
-      <td data-ice="appendix"></td>
+      <td data-ice="appendix"><ul><li>optional</li>
+<li>default: process.env.MWS_SECRET_ACCESS_KEY</li></ul></td>
       <td data-ice="description"><p>Your MWS Secret Access Key</p>
 </td>
     </tr>
 <tr data-ice="property" data-depth="1">
       <td data-ice="name" class="code" data-depth="1">config.merchantId</td>
       <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span></td>
-      <td data-ice="appendix"></td>
+      <td data-ice="appendix"><ul><li>optional</li>
+<li>default: process.env.MWS_MERCHANT_ID</li></ul></td>
       <td data-ice="description"><p>Your MWS Merchant ID</p>
 </td>
     </tr>

@@ -314,12 +314,18 @@ let keys;
 try {
     keys = require('./keys.json');
 } catch (err) {
+    keys = {
+        accessKeyId: process.env.MWS_ACCESS_KEY,
+        secretAccessKey: process.env.MWS_SECRET_ACCESS_KEY,
+        merchantId: process.env.MWS_MERCHANT_ID,
+    };
 }
 
 // TODO: can we set SkipAPITests based on the results of the first API test? if it fails, then we probably need to skip all remaining tests, as something is broken.
 if (!keys || !keys.accessKeyId || !keys.secretAccessKey || !keys.merchantId) {
     SkipAPITests = true;
 }
+
 
 describe('mws-advanced sanity', () => {
     // TODO: write tests that test all configuration options individually, and defaults,
@@ -342,6 +348,22 @@ describe('mws-advanced sanity', () => {
                 'merchantId',
                 'authToken',
             );
+            done();
+        });
+        it('init can pick up environment variables for keys', (done) => {
+            const oldkey = process.env.MWS_ACCESS_KEY;
+            process.env.MWS_ACCESS_KEY = 'testAccessKey';
+            const oldSecret = process.env.MWS_SECRET_ACCESS_KEY;
+            process.env.MWS_SECRET_ACCESS_KEY = 'testSecret';
+            const oldMerchant = process.env.MWS_MERCHANT_ID;
+            process.env.MWS_MERCHANT_ID = 'testMerchant';
+            const client = mws.init();
+            expect(client.accessKeyId).to.equal('testAccessKey');
+            expect(client.secretAccessKey).to.equal('testSecret');
+            expect(client.merchantId).to.equal('testMerchant');
+            process.env.MWS_ACCESS_KEY = oldkey;
+            process.env.MWS_SECRET_ACCESS_KEY = oldSecret;
+            process.env.MWS_MERCHANT_ID = oldMerchant;
             done();
         });
         it('init marketplaces', (done) => {
@@ -367,16 +389,22 @@ describe('mws-advanced sanity', () => {
             done();
         });
     });
-    describe('callEndpoint functions (requires keys.json)', function () {
+    describe('callEndpoint functions (requires keys)', function () {
+        const testCall = 'GetMatchingProductForId';
+        const testParams = {
+            MarketplaceId: 'ATVPDKIKX0DER',
+            IdType: 'ASIN',
+            IdList: ['B005NK7VTU'],
+        };
         beforeEach(function () {
             if (SkipAPITests) {
                 this.skip();
             }
         });
-        it('tester provided a likely correct keys.json file', (done) => {
+        it('tester provided likely correct keys', (done) => {
             expect(
                 keys,
-                'provide a keys.json file with accessKeyId, secretAccessKey, merchantId to test API',
+                'provide a keys.json file or environment variables with accessKeyId, secretAccessKey, merchantId to test API',
             ).to.include.all.keys(
                 'accessKeyId',
                 'secretAccessKey',
@@ -386,7 +414,7 @@ describe('mws-advanced sanity', () => {
         });
         it('callEndpoint functions', () => {
             mws.init(keys);
-            return expect(mws.callEndpoint('ListMarketplaceParticipations', {})).to.be.fulfilled;
+            return expect(mws.callEndpoint(testCall, testParams)).to.be.fulfilled;
         });
         it('callEndpoint saveRaw/saveParsed options', async () => {
             try {
@@ -396,23 +424,23 @@ describe('mws-advanced sanity', () => {
                 //
             }
             mws.init(keys);
-            await mws.callEndpoint('ListMarketplaceParticipations', {}, { noFlatten: true, saveRaw: './testRaw.json', saveParsed: './testParsed.json' });
+            await mws.callEndpoint(testCall, testParams, { noFlatten: true, saveRaw: './testRaw.json', saveParsed: './testParsed.json' });
             expect(fs.existsSync('./testRaw.json')).to.equal(true);
             expect(fs.existsSync('./testParsed.json')).to.equal(true);
         });
         it('callEndpoint returnRaw option', async () => {
             mws.init(keys);
-            const x = await mws.callEndpoint('ListMarketplaceParticipations', {}, { returnRaw: true });
+            const x = await mws.callEndpoint(testCall, testParams, { returnRaw: true });
             expect(x).to.be.an('Object');
-            expect(x).to.include.all.keys('ListMarketplaceParticipationsResponse');
-            expect(x.ListMarketplaceParticipationsResponse).to.include.all.keys('$', 'ListMarketplaceParticipationsResult', 'ResponseMetadata');
+            expect(x).to.include.all.keys('GetMatchingProductForIdResponse');
+            expect(x.GetMatchingProductForIdResponse).to.include.all.keys('$', 'GetMatchingProductForIdResult', 'ResponseMetadata');
             return true;
         });
         it('callEndpoint noFlatten option', async () => {
             mws.init(keys);
-            const x = await mws.callEndpoint('ListMarketplaceParticipations', {}, { noFlatten: true });
+            const x = await mws.callEndpoint(testCall, testParams, { noFlatten: true });
             expect(x).to.be.an('Array');
-            expect(x[0]).to.include.all.keys('ListParticipations', 'ListMarketplaces');
+            expect(x[0]).to.include.all.keys('$', 'Products');
             return true;
         });
         // TODO: be more specific about which Error is being rejected back here, so when there's a code error in callEndpoint, it doesn't phantom pass

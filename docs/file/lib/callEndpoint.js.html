@@ -97,12 +97,14 @@ let mws = null;
 
 /**
  * Initialize mws-advanced with your MWS access keys, merchantId, optionally authtoken, host, port
+ * If accessKeyId, secretAccessKey, and/or merchantId are not provided, they will be read from
+ * the environment variables MWS_ACESS_KEY, MWS_SECRET_ACCESS_KEY, and MWS_MERCHANT_ID respectively
  *
  * @public
  * @param {object} config Contains your MWS Access Keys/Tokens and options to configure the API
- * @param {string} config.accessKeyId Your MWS Access Key
- * @param {string} config.secretAccessKey Your MWS Secret Access Key
- * @param {string} config.merchantId Your MWS Merchant ID
+ * @param {string} [config.accessKeyId=process.env.MWS_ACCESS_KEY] Your MWS Access Key
+ * @param {string} [config.secretAccessKey=process.env.MWS_SECRET_ACCESS_KEY] Your MWS Secret Access Key
+ * @param {string} [config.merchantId=process.env.MWS_MERCHANT_ID] Your MWS Merchant ID
  * @param {string} [config.authToken] If making a call for a third party account, the Auth Token provided
  *                           for the third party account
  * @param {string} [config.region=&apos;NA&apos;] One of the Amazon regions as specified in https://docs.developer.amazonservices.com/en_US/dev_guide/DG_Endpoints.html
@@ -110,12 +112,13 @@ let mws = null;
  * @param {number} [config.port=443] Set MWS host port
  * @returns {mws-simple} - The mws-simple instance used to communicate with the API
  */
+
 const init = ({
     region = &apos;NA&apos;,
     // marketplace = &apos;US&apos;, // TODO: maybe someday we will want to keep track of a &apos;default&apos; marketplace.
-    accessKeyId,
-    secretAccessKey,
-    merchantId,
+    accessKeyId = process.env.MWS_ACCESS_KEY,
+    secretAccessKey = process.env.MWS_SECRET_ACCESS_KEY,
+    merchantId = process.env.MWS_MERCHANT_ID,
     authToken,
     host,
     port,
