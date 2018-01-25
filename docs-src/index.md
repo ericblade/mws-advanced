@@ -7,6 +7,13 @@ something that is much closer to what you're expecting in a Javascript environme
 it will handle most all of the behind-the-scenes dirty work involved in creating a functional MWS
 application, such as throttling API calls.
 
+As of January 25, 2018, there is a basic throttle handling mechanism.  This is extremely basic, but
+when the library receives a Throttling error from the MWS API, it will simply wait the maximum amount
+of time necessary to have your maximum number of requests in flight again, and then re-try all the
+failed requests.  All you need to do is make correct use of async/await and/or Promises. :-)
+
+This will get improved in the future.
+
 # Example usage
 
 ````

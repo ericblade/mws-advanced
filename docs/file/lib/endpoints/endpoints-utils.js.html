@@ -101,14 +101,15 @@ const generateEndpoints = (categoryName, version, endpoints, endpointDetails) =&
             category: categoryName,
             version,
             action: endpoint,
-            params:
-                (endpointDetails &amp;&amp; endpointDetails[endpoint] &amp;&amp; endpointDetails[endpoint].params)
-                || null,
-            returns:
-                (endpointDetails &amp;&amp; endpointDetails[endpoint] &amp;&amp; endpointDetails[endpoint].returns)
-                || null,
         };
+        if (endpointDetails &amp;&amp; endpointDetails[endpoint]) {
+            const d = endpointDetails[endpoint];
+            if (d.params) ret[index].params = d.params;
+            if (d.returns) ret[index].returns = d.returns;
+            if (d.throttle) ret[index].throttle = d.throttle;
+        }
     });
+    // console.warn(&apos;***** generateEndpoints&apos;, JSON.stringify(ret));
     return ret;
 };
 

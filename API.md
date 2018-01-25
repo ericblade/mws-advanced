@@ -4,6 +4,7 @@
 
 -   [mws-advanced](#mws-advanced)
 -   [mws-advanced](#mws-advanced-1)
+-   [mws-advanced](#mws-advanced-2)
 -   [mws](#mws)
 -   [init](#init)
 -   [endpoints](#endpoints)
@@ -21,8 +22,8 @@
 -   [listOrders](#listorders)
 -   [listFinancialEvents](#listfinancialevents)
 -   [listInventorySupply](#listinventorysupply)
--   [getMatchingProductForId](#getmatchingproductforid)
 -   [Product](#product)
+-   [getMatchingProductForId](#getmatchingproductforid)
 -   [reformatOfferCount](#reformatoffercount)
 -   [reformatOffer](#reformatoffer)
 -   [reformatOffer](#reformatoffer-1)
@@ -48,6 +49,8 @@
 ## mws-advanced
 
 mws-advanced module for interacting with Amazon Merchant Web Services
+
+## mws-advanced
 
 ## mws-advanced
 
@@ -139,15 +142,6 @@ Returns **{markets: [Array](https://developer.mozilla.org/en-US/docs/Web/JavaScr
 
 ## listOrderItems
 
-**Parameters**
-
--   `AmazonOrderId`  
--   `orderId` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Amazon Order ID
--   `nextToken` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Token to provide to ListOrderItemsByNextToken if needed (no token = no need)
--   `orderItems` **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)** Array of all the items in the order
-
-## listOrderItems
-
 Returns order items based on the AmazonOrderId that you specify.
 
 If you've pulled a list of orders using @see [ListOrders](ListOrders), or have order identifiers
@@ -167,6 +161,15 @@ ShippingDiscount
 -   `AmazonOrderId` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 3-7-7 Amazon Order ID formatted string
 
 Returns **OrderItemList** 
+
+## listOrderItems
+
+**Parameters**
+
+-   `AmazonOrderId`  
+-   `orderId` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Amazon Order ID
+-   `nextToken` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Token to provide to ListOrderItemsByNextToken if needed (no token = no need)
+-   `orderItems` **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)** Array of all the items in the order
 
 ## listOrders
 
@@ -223,6 +226,14 @@ Return information about the availability of a seller's FBA inventory
 
 Returns **{nextToken: [string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String), supplyList: [Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)>}** 
 
+## Product
+
+Product Information. See official schema for details.
+<http://g-ecx.images-amazon.com/images/G/01/mwsportal/doc/en_US/products/default.xsd> and
+<http://g-ecx.images-amazon.com/images/G/01/mwsportal/doc/en_US/products/ProductsAPI_Response.xsd>
+
+Type: [Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)
+
 ## getMatchingProductForId
 
 Returns a list of products and their attributes, based on a list of ASIN, GCID, SellerSKU, UPC,
@@ -237,14 +248,6 @@ EAN, ISBN, or JAN values
 
 Returns **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[Product](#product)>** 
 
-## Product
-
-Product Information. See official schema for details.
-<http://g-ecx.images-amazon.com/images/G/01/mwsportal/doc/en_US/products/default.xsd> and
-<http://g-ecx.images-amazon.com/images/G/01/mwsportal/doc/en_US/products/ProductsAPI_Response.xsd>
-
-Type: [Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)
-
 ## reformatOfferCount
 
 **Parameters**
@@ -253,6 +256,13 @@ Type: [Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference
 -   `count` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** 
 -   `condition` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 -   `fulfillmentChannel` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+
+## reformatOffer
+
+**Parameters**
+
+-   `offer`  
+-   `unknown` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 
 ## reformatOffer
 
@@ -276,13 +286,6 @@ Type: [Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference
 -   `isFulfilledByAmazon` **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** True if FBA, False if not
 -   `isBuyBoxWinner` **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?** True if offer has buy box, False if not
 -   `isFeaturedMerchant` **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?** True if seller is eligible for Buy Box, False if not
-
-## reformatOffer
-
-**Parameters**
-
--   `offer`  
--   `unknown` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 
 ## reformatOffer
 
@@ -332,6 +335,17 @@ Type: [Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference
 
 ## getLowestPricedOffersForASIN
 
+**Parameters**
+
+-   `options`  
+-   `asin` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** asin returned by request
+-   `marketplace` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** marketplace asin is in
+-   `itemCondition` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** condition of item requested
+-   `summary` **OfferSummary** \-
+-   `offers` **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;Offers>** list of offers
+
+## getLowestPricedOffersForASIN
+
 getLowestPricedOffersForASIN
 
 Calls GetLowestPricedOffersForASIN, reformats results, and returns the data
@@ -344,17 +358,6 @@ Calls GetLowestPricedOffersForASIN, reformats results, and returns the data
     -   `options.ItemCondition` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Listing Condition: New, Used, Collectible, Refurbished, Club
 
 Returns **LowestPricedOffers** 
-
-## getLowestPricedOffersForASIN
-
-**Parameters**
-
--   `options`  
--   `asin` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** asin returned by request
--   `marketplace` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** marketplace asin is in
--   `itemCondition` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** condition of item requested
--   `summary` **OfferSummary** \-
--   `offers` **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;Offers>** list of offers
 
 ## writeFile
 

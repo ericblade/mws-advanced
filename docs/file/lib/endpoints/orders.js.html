@@ -101,7 +101,7 @@ const newEndpointList = {
     ListOrders: {
         throttle: {
             maxInFlight: 6,
-            restoreRate: 60,
+            restoreRate: 1,
         },
         params: {
             CreatedAfter: {
@@ -185,7 +185,7 @@ const newEndpointList = {
     ListOrdersByNextToken: {
         throttle: {
             maxInFlight: 6,
-            restoreRate: 60,
+            restoreRate: 1,
         },
         params: {
             NextToken: {
@@ -216,7 +216,7 @@ const newEndpointList = {
     GetOrder: {
         throttle: {
             maxInFlight: 6,
-            restoreRate: 60,
+            restoreRate: 1,
         },
         params: {
             AmazonOrderId: {
@@ -288,7 +288,7 @@ const newEndpointList = {
     GetServiceStatus: {
         throttle: {
             maxInFlight: 2,
-            restoreRate: 12,
+            restoreRate: 0.20,
         },
         params: {
         },

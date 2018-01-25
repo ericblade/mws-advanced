@@ -79,12 +79,21 @@
 </nav>
 
 <div class="content" data-ice="content"><h1 data-ice="title">lib/list-order-items.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">const { callEndpoint } = require(&apos;./callEndpoint&apos;);
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">/**
+ * @module mws-advanced
+ */
+const { callEndpoint } = require(&apos;./callEndpoint&apos;);
 const { digResponseResult } = require(&apos;./dig-response-result&apos;);
 
 // TODO: make a typedef for OrderItem and document it correctly
 /**
  * @typedef OrderItemList
+ * Object hash containing:
+ * orderId - Amazon Order ID in 3-7-7 format
+ * orderItems - Array of OrderItems
+ * nextToken - If the list of items is longer than one request can accommodate, a nextToken will
+ * be returned to pass to listOrderItemsByNextToken
+ *
  * @public
  * @param {string} orderId - Amazon Order ID
  * @param {string} nextToken - Token to provide to ListOrderItemsByNextToken if needed (no token = no need)
