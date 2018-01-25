@@ -388,6 +388,33 @@ describe('mws-advanced sanity', () => {
             mws.init(keys);
             return expect(mws.callEndpoint('ListMarketplaceParticipations', {})).to.be.fulfilled;
         });
+        it('callEndpoint saveRaw/saveParsed options', async () => {
+            try {
+                fs.unlinkSync('./testRaw.json');
+                fs.unlinkSync('./testParsed.json');
+            } catch (err) {
+                //
+            }
+            mws.init(keys);
+            await mws.callEndpoint('ListMarketplaceParticipations', {}, { noFlatten: true, saveRaw: './testRaw.json', saveParsed: './testParsed.json' });
+            expect(fs.existsSync('./testRaw.json')).to.equal(true);
+            expect(fs.existsSync('./testParsed.json')).to.equal(true);
+        });
+        it('callEndpoint returnRaw option', async () => {
+            mws.init(keys);
+            const x = await mws.callEndpoint('ListMarketplaceParticipations', {}, { returnRaw: true });
+            expect(x).to.be.an('Object');
+            expect(x).to.include.all.keys('ListMarketplaceParticipationsResponse');
+            expect(x.ListMarketplaceParticipationsResponse).to.include.all.keys('$', 'ListMarketplaceParticipationsResult', 'ResponseMetadata');
+            return true;
+        });
+        it('callEndpoint noFlatten option', async () => {
+            mws.init(keys);
+            const x = await mws.callEndpoint('ListMarketplaceParticipations', {}, { noFlatten: true });
+            expect(x).to.be.an('Array');
+            expect(x[0]).to.include.all.keys('ListParticipations', 'ListMarketplaces');
+            return true;
+        });
         // TODO: be more specific about which Error is being rejected back here, so when there's a code error in callEndpoint, it doesn't phantom pass
         it('callEndpoint throws on unknown endpoint', () => {
             return expect(mws.callEndpoint('/test/endpoint', {})).to.be.rejectedWith(Error);

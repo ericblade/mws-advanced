@@ -97,7 +97,7 @@
           
           <span data-ice="async">async</span>
           
-          <span class="code" data-ice="name"><span><a href="function/index.html#static-function-callEndpoint">callEndpoint</a></span></span><span class="code" data-ice="signature">(name: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>, options: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></span>): <span>any</span></span>
+          <span class="code" data-ice="name"><span><a href="function/index.html#static-function-callEndpoint">callEndpoint</a></span></span><span class="code" data-ice="signature">(name: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>, callOptions: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></span>, opt: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></span>): <span>any</span></span>
         </p>
       </div>
       <div>
@@ -569,15 +569,15 @@ Many optional parameters may be required by MWS! Read <a href="https://docs.deve
     
     <span data-ice="async">async</span>
     
-    <span class="code" data-ice="name">callEndpoint</span><span class="code" data-ice="signature">(name: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>, options: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></span>): <span>any</span></span>
+    <span class="code" data-ice="name">callEndpoint</span><span class="code" data-ice="signature">(name: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>, callOptions: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></span>, opt: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></span>): <span>any</span></span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/lib/callEndpoint.js.html#lineNumber118">source</a></span></span>
+      <span data-ice="source"><span><a href="file/lib/callEndpoint.js.html#lineNumber124">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {callEndpoint} from &apos;<span><a href="file/lib/callEndpoint.js.html#lineNumber118">mws-advanced/lib/callEndpoint.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {callEndpoint} from &apos;<span><a href="file/lib/callEndpoint.js.html#lineNumber124">mws-advanced/lib/callEndpoint.js</a></span>&apos;</code></pre></div>
   
   
   <div data-ice="description"><p>Call a known endpoint at MWS, returning the raw data from the function. Parameters are
@@ -602,10 +602,45 @@ transformed and validated according to the rules defined in lib/endpoints</p>
 </td>
     </tr>
 <tr data-ice="property" data-depth="0">
-      <td data-ice="name" class="code" data-depth="0">options</td>
+      <td data-ice="name" class="code" data-depth="0">callOptions</td>
       <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></span></td>
-      <td data-ice="appendix"></td>
+      <td data-ice="appendix"><ul><li>optional</li></ul></td>
       <td data-ice="description"><p>named hash object of the parameters to pass to the API</p>
+</td>
+    </tr>
+<tr data-ice="property" data-depth="0">
+      <td data-ice="name" class="code" data-depth="0">opt</td>
+      <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></span></td>
+      <td data-ice="appendix"><ul><li>optional</li></ul></td>
+      <td data-ice="description"><p>options for callEndpoint</p>
+</td>
+    </tr>
+<tr data-ice="property" data-depth="1">
+      <td data-ice="name" class="code" data-depth="1">opt.noFlatten</td>
+      <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></span></td>
+      <td data-ice="appendix"><ul><li>optional</li></ul></td>
+      <td data-ice="description"><p>do not flatten results</p>
+</td>
+    </tr>
+<tr data-ice="property" data-depth="1">
+      <td data-ice="name" class="code" data-depth="1">opt.returnRaw</td>
+      <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></span></td>
+      <td data-ice="appendix"><ul><li>optional</li></ul></td>
+      <td data-ice="description"><p>return only the raw data (may or may not be flattened)</p>
+</td>
+    </tr>
+<tr data-ice="property" data-depth="1">
+      <td data-ice="name" class="code" data-depth="1">opt.saveRaw</td>
+      <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span></td>
+      <td data-ice="appendix"><ul><li>optional</li></ul></td>
+      <td data-ice="description"><p>filename to save raw data to (may or may not be flattened)</p>
+</td>
+    </tr>
+<tr data-ice="property" data-depth="1">
+      <td data-ice="name" class="code" data-depth="1">opt.saveParsed</td>
+      <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span></td>
+      <td data-ice="appendix"><ul><li>optional</li></ul></td>
+      <td data-ice="description"><p>filename to save final parsed data to (not compatible with returnRaw, since parsing won&apos;t happen)</p>
 </td>
     </tr>
 </tbody>
@@ -1333,11 +1368,11 @@ has been processed.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/lib/callEndpoint.js.html#lineNumber31">source</a></span></span>
+      <span data-ice="source"><span><a href="file/lib/callEndpoint.js.html#lineNumber32">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {init} from &apos;<span><a href="file/lib/callEndpoint.js.html#lineNumber31">mws-advanced/lib/callEndpoint.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {init} from &apos;<span><a href="file/lib/callEndpoint.js.html#lineNumber32">mws-advanced/lib/callEndpoint.js</a></span>&apos;</code></pre></div>
   
   
   <div data-ice="description"><p>Initialize mws-advanced with your MWS access keys, merchantId, optionally authtoken, host, port</p>
@@ -1460,11 +1495,11 @@ has been processed.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/lib/list-financial-events.js.html#lineNumber14">source</a></span></span>
+      <span data-ice="source"><span><a href="file/lib/list-financial-events.js.html#lineNumber18">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {listFinancialEvents} from &apos;<span><a href="file/lib/list-financial-events.js.html#lineNumber14">mws-advanced/lib/list-financial-events.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {listFinancialEvents} from &apos;<span><a href="file/lib/list-financial-events.js.html#lineNumber18">mws-advanced/lib/list-financial-events.js</a></span>&apos;</code></pre></div>
   
   
   <div data-ice="description"><p><a href="https://docs.developer.amazonservices.com/en_UK/finances/Finances_ListFinancialEvents.html">https://docs.developer.amazonservices.com/en_UK/finances/Finances_ListFinancialEvents.html</a></p>

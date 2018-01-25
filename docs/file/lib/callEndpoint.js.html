@@ -82,6 +82,7 @@
 <pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">const MWS = require(&apos;mws-simple&apos;);
 const { MWS_ENDPOINTS } = require(&apos;./constants&apos;);
 const sleep = require(&apos;./sleep&apos;);
+const fs = require(&apos;fs&apos;);
 
 /*
  * TODO: split the &quot;init&quot; function out of the &quot;callEndpoint&quot; file, difficulty: callEndpoint
@@ -171,17 +172,17 @@ const endpoints = {
  * @async
  * @private
  * @param {any} requestData
+ * @param {object} [opt] - options
+ * @param {boolean} [opt.noFlatten] - do not run flattenResult on the output
  */
-const requestPromise = requestData =&gt;
+const requestPromise = (requestData, opt = {}) =&gt;
     new Promise((resolve, reject) =&gt; {
         // eslint-disable-next-line global-require
         mws.request(requestData, (err, result) =&gt; {
             if (err) {
-                console.warn(&apos;**** requestPromise error hit&apos;);
                 reject(err);
             } else {
-                const flatResult = flattenResult(result);
-                resolve(flatResult);
+                resolve(opt.noFlatten ? result : flattenResult(result));
             }
         });
     });
@@ -193,17 +194,22 @@ const requestPromise = requestData =&gt;
  * @async
  * @public
  * @param {string} name - name of MWS API function to call
- * @param {object} options - named hash object of the parameters to pass to the API
+ * @param {object} [callOptions] - named hash object of the parameters to pass to the API
+ * @param {object} [opt] - options for callEndpoint
+ * @param {boolean} [opt.noFlatten] - do not flatten results
+ * @param {boolean} [opt.returnRaw] - return only the raw data (may or may not be flattened)
+ * @param {string} [opt.saveRaw] - filename to save raw data to (may or may not be flattened)
+ * @param {string} [opt.saveParsed] - filename to save final parsed data to (not compatible with returnRaw, since parsing won&apos;t happen)
  * @returns {any} - Results of the call to MWS
  */
-const callEndpoint = async (name, options) =&gt; {
+const callEndpoint = async (name, callOptions = {}, opt = {}) =&gt; {
     const endpoint = endpoints[name];
     if (!endpoint) {
         throw new Error(&apos;No endpoint name supplied to callEndpoint&apos;);
     }
 
     const newOptions = endpoint.params ?
-        validateAndTransformParameters(endpoint.params, options) : options;
+        validateAndTransformParameters(endpoint.params, callOptions) : callOptions;
 
     const queryOptions = {
         ...newOptions,
@@ -217,12 +223,21 @@ const callEndpoint = async (name, options) =&gt; {
     };
 
     try {
-        const result = await requestPromise(params);
+        const result = await requestPromise(params, { noFlatten: opt.noFlatten });
+        if (opt.saveRaw) {
+            fs.writeFileSync(opt.saveRaw, JSON.stringify(result));
+        }
+        if (opt.returnRaw) {
+            return result;
+        }
         // TODO: add an option that will store the raw data, and a separate option to store the parsed
         // data, to file
         // const fs = require(&apos;fs&apos;);
         // fs.appendFile(`${name}-out.json`, JSON.stringify(result));
         const digResult = digResponseResult(name, result);
+        if (opt.saveParsed) {
+            fs.writeFileSync(opt.saveParsed, JSON.stringify(digResult));
+        }
         return digResult;
     } catch (err) {
         if (err.code === 503) {
@@ -250,7 +265,7 @@ const callEndpoint = async (name, options) =&gt; {
             }
             console.warn(`***** trying again in ${ms}ms`);
             await sleep(ms + 100);
-            return callEndpoint(name, options);
+            return callEndpoint(name, callOptions, opt);
         }
         throw err;
     }
