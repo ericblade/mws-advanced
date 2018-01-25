@@ -111,7 +111,7 @@ const newEndpointList = {
     RequestReport: {
         throttle: {
             maxInFlight: 15,
-            restoreRate: 60,
+            restoreRate: 1,
         },
         params: {
             ReportType: {
@@ -145,7 +145,7 @@ const newEndpointList = {
     GetReportRequestList: {
         throttle: {
             maxInFlight: 10,
-            restoreRate: 78, // approximate, you get one back every 45 seconds, so roughly 78 per hour
+            restoreRate: 0.75, // 1 request every 45 seconds = 3/4 of a request per minute
         },
         params: {
             ReportRequestIdList: {
@@ -197,7 +197,7 @@ const newEndpointList = {
     GetReportRequestListByNextToken: {
         throttle: {
             maxInFlight: 30,
-            restoreRate: 1800,
+            restoreRate: 30,
         },
         params: {
             NextToken: {
@@ -223,7 +223,7 @@ const newEndpointList = {
     GetReportRequestCount: {
         throttle: {
             maxInFlight: 10,
-            restoreRate: 78,
+            restoreRate: 0.75,
         },
         params: {
             ReportTypeList: {
@@ -255,7 +255,7 @@ const newEndpointList = {
     CancelReportRequests: {
         throttle: {
             maxInFlight: 10,
-            restoreRate: 78,
+            restoreRate: 0.75,
         },
         params: {
             ReportRequestIdList: {
@@ -297,7 +297,7 @@ const newEndpointList = {
     GetReportList: {
         throttle: {
             maxInFlight: 10,
-            restoreRate: 60,
+            restoreRate: 1,
         },
         params: {
             MaxCount: {
@@ -351,7 +351,7 @@ const newEndpointList = {
     GetReportListByNextToken: {
         throttle: {
             maxInFlight: 30,
-            restoreRate: 1800,
+            restoreRate: 30,
         },
         params: {
             NextToken: {
@@ -377,7 +377,7 @@ const newEndpointList = {
     GetReportCount: {
         throttle: {
             maxInFlight: 10,
-            restoreRate: 78,
+            restoreRate: 0.75,
         },
         params: {
             ReportTypeList: {
@@ -413,7 +413,7 @@ const newEndpointList = {
     GetReport: {
         throttle: {
             maxInFlight: 15,
-            restoreRate: 60,
+            restoreRate: 1,
         },
         params: {
             ReportId: {
@@ -431,7 +431,7 @@ const newEndpointList = {
     ManageReportSchedule: {
         throttle: {
             maxInFlight: 10,
-            restoreRate: 78,
+            restoreRate: 0.75,
         },
         params: {
             ReportType: {
@@ -463,7 +463,7 @@ const newEndpointList = {
     GetReportScheduleList: {
         throttle: {
             maxInFlight: 10,
-            restoreRate: 78,
+            restoreRate: 0.75,
         },
         params: {
             ReportTypeList: {
@@ -516,7 +516,7 @@ const newEndpointList = {
     GetReportScheduleCount: {
         throttle: {
             maxInFlight: 10,
-            restoreRate: 78,
+            restoreRate: 0.75,
         },
         params: {
             ReportTypeList: {
@@ -539,7 +539,7 @@ const newEndpointList = {
     UpdateReportAcknowledgements: {
         throttle: {
             maxInFlight: 10,
-            restoreRate: 78,
+            restoreRate: 0.75,
         },
         params: {
             ReportIdList: {

@@ -244,7 +244,7 @@ const callEndpoint = async (name, callOptions = {}, opt = {}) =&gt; {
         return digResult;
     } catch (err) {
         if (err.code === 503) {
-            console.warn(&apos;***** Error 503 .. throttling?&apos;);
+            console.warn(&apos;***** Error 503 .. throttling?&apos;, name);
             let ms = 2000;
             if (!endpoint.throttle) {
                 console.warn(`***** throttle information missing for API ${name}`);
