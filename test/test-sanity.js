@@ -427,6 +427,12 @@ describe('mws-advanced sanity', () => {
             await mws.callEndpoint(testCall, testParams, { noFlatten: true, saveRaw: './testRaw.json', saveParsed: './testParsed.json' });
             expect(fs.existsSync('./testRaw.json')).to.equal(true);
             expect(fs.existsSync('./testParsed.json')).to.equal(true);
+            try {
+                fs.unlinkSync('./testRaw.json');
+                fs.unlinkSync('./testParsed.json');
+            } catch (err) {
+                //
+            }
         });
         it('callEndpoint returnRaw option', async () => {
             mws.init(keys);
@@ -541,38 +547,6 @@ describe('API', function runAPITests() {
 
                 return results;
             });
-        });
-    });
-    describe('Reports Category', () => {
-        let reportList = [];
-        it('getReportListAll', async function testGetReportListAll() {
-            reportList = await mws.getReportListAll({
-                ReportTypeList: ['_GET_V2_SETTLEMENT_REPORT_DATA_FLAT_FILE_'],
-            });
-            expect(reportList).to.be.an('array');
-            expect(reportList).to.have.lengthOf.above(0);
-            return reportList;
-        });
-        it('getReport', async function testGetReport() {
-            if (!reportList || !reportList.length) {
-                this.skip();
-                return false;
-            }
-            const report = await mws.getReport({
-                ReportId: reportList[0].ReportId,
-            });
-            fs.writeFileSync('settlement.json', JSON.stringify(report, null, 4));
-            expect(report).to.be.an('array');
-            expect(report).to.have.lengthOf.above(0);
-            const settlement = report[0];
-            expect(settlement).to.include.all.keys(
-                'settlement-id', 'settlement-start-date', 'settlement-end-date',
-                'deposit-date', 'total-amount', 'currency',
-            );
-            const amount = parseFloat(settlement['total-amount']);
-            expect(amount).to.be.a('number');
-            console.warn(`* Found settlement of ${amount}`);
-            return settlement;
         });
     });
     describe('Finances Category', () => {
@@ -725,6 +699,90 @@ describe('API', function runAPITests() {
 
             expect(result.lowestOffers).to.be.an('array');
             return result;
+        });
+    });
+    describe('Reports Category', () => {
+        let reportList = [];
+        let ReportRequestId = null;
+        it('requestReport', async () => {
+            const report = await mws.requestReport({
+                ReportType: '_GET_V1_SELLER_PERFORMANCE_REPORT_',
+            });
+            expect(report).to.be.an('object').with.keys(
+                'ReportType',
+                'ReportProcessingStatus',
+                'EndDate',
+                'Scheduled',
+                'ReportRequestId',
+                'SubmittedDate',
+                'StartDate',
+            );
+            ({ ReportRequestId } = report);
+            console.warn('* setting future report request id to', ReportRequestId);
+            return true;
+        });
+        it('getReportRequestList (timeout disabled, retries until status shows a done or cancelled state)', async function testGetReportRequestList() {
+            if (!ReportRequestId) {
+                this.skip();
+                return false;
+            }
+            this.timeout(0);
+            let reportComplete = false;
+            let list;
+            while (!reportComplete) {
+                // eslint-disable-next-line no-await-in-loop
+                list = await mws.getReportRequestList({
+                    ReportRequestIdList: [ReportRequestId],
+                });
+                const status = list.ReportProcessingStatus;
+                if (status !== '_SUBMITTED_' && status !== '_IN_PROGRESS_') {
+                    reportComplete = true;
+                } else {
+                    // eslint-disable-next-line no-await-in-loop
+                    await sleep(30000);
+                }
+            }
+            return true;
+        });
+        it('getReportListAll', async function testGetReportListAll() {
+            reportList = await mws.getReportListAll({
+                ReportTypeList: ['_GET_V2_SETTLEMENT_REPORT_DATA_FLAT_FILE_'],
+            });
+            expect(reportList).to.be.an('array');
+            expect(reportList).to.have.lengthOf.above(0);
+            return reportList;
+        });
+        it('getReport', async function testGetReport() {
+            if (!reportList || !reportList.length) {
+                this.skip();
+                return false;
+            }
+            const report = await mws.getReport({
+                ReportId: reportList[0].ReportId,
+            });
+            fs.writeFileSync('settlement.json', JSON.stringify(report, null, 4));
+            expect(report).to.be.an('array');
+            expect(report).to.have.lengthOf.above(0);
+            const settlement = report[0];
+            expect(settlement).to.include.all.keys(
+                'settlement-id', 'settlement-start-date', 'settlement-end-date',
+                'deposit-date', 'total-amount', 'currency',
+            );
+            const amount = parseFloat(settlement['total-amount']);
+            expect(amount).to.be.a('number');
+            console.warn(`* Found settlement of ${amount}`);
+            return settlement;
+        });
+        it('requestAndDownloadReport (timeout 60000ms)', async function testRequestDownloadReport() {
+            this.timeout(60000);
+            await mws.requestAndDownloadReport('_GET_FLAT_FILE_OPEN_LISTINGS_DATA_', './test-listings.json');
+            expect(fs.existsSync('./test-listings.json')).to.equal(true);
+            try {
+                fs.unlinkSync('./test-listings.json');
+            } catch (err) {
+                //
+            }
+            return true;
         });
     });
 });
