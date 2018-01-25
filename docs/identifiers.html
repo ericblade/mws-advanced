@@ -103,7 +103,7 @@
           <span data-ice="kind-icon" class="kind-function">F</span>
           <span data-ice="async">async</span>
           
-          <span class="code" data-ice="name"><span><a href="function/index.html#static-function-callEndpoint">callEndpoint</a></span></span><span class="code" data-ice="signature">(name: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>, options: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></span>): <span>any</span></span>
+          <span class="code" data-ice="name"><span><a href="function/index.html#static-function-callEndpoint">callEndpoint</a></span></span><span class="code" data-ice="signature">(name: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>, callOptions: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></span>, opt: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></span>): <span>any</span></span>
         </p>
       </div>
       <div>
@@ -138,7 +138,9 @@
       <div>
         
         
-        <div data-ice="description"><p>Initialize mws-advanced with your MWS access keys, merchantId, optionally authtoken, host, port</p>
+        <div data-ice="description"><p>Initialize mws-advanced with your MWS access keys, merchantId, optionally authtoken, host, port
+If accessKeyId, secretAccessKey, and/or merchantId are not provided, they will be read from
+the environment variables MWS_ACESS_KEY, MWS_SECRET_ACCESS_KEY, and MWS_MERCHANT_ID respectively</p>
 </div>
       </div>
     </td>
