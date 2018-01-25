@@ -892,6 +892,10 @@
             "integrity": "sha1-PiHi4F+fNSIGAAHmOLZS8wqxqxI=",
             "dev": true
         },
+        "esdoc-node-require": {
+            "version": "github:ericblade/esdoc-node-require#bd237640e39efd2c6505980bcb63d26a616d2bd2",
+            "dev": true
+        },
         "esdoc-publish-html-plugin": {
             "version": "1.1.0",
             "resolved": "https://registry.npmjs.org/esdoc-publish-html-plugin/-/esdoc-publish-html-plugin-1.1.0.tgz",

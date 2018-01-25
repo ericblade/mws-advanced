@@ -30,6 +30,18 @@ window.esdocSearchIndex = [
     "function"
   ],
   [
+    "mws-advanced/lib/endpoints/index.js~feeds",
+    "variable/index.html#static-variable-feeds",
+    "<span>feeds</span> <span class=\"search-result-import-path\">mws-advanced/lib/endpoints/index.js</span>",
+    "variable"
+  ],
+  [
+    "mws-advanced/lib/endpoints/index.js~finances",
+    "variable/index.html#static-variable-finances",
+    "<span>finances</span> <span class=\"search-result-import-path\">mws-advanced/lib/endpoints/index.js</span>",
+    "variable"
+  ],
+  [
     "mws-advanced/lib/get-lowest-priced-offers.js~getlowestpricedoffersforasin",
     "function/index.html#static-function-getLowestPricedOffersForASIN",
     "<span>getLowestPricedOffersForASIN</span> <span class=\"search-result-import-path\">mws-advanced/lib/get-lowest-priced-offers.js</span>",
@@ -78,10 +90,22 @@ window.esdocSearchIndex = [
     "function"
   ],
   [
+    "mws-advanced/lib/endpoints/index.js~inbound",
+    "variable/index.html#static-variable-inbound",
+    "<span>inbound</span> <span class=\"search-result-import-path\">mws-advanced/lib/endpoints/index.js</span>",
+    "variable"
+  ],
+  [
     "mws-advanced/lib/callendpoint.js~init",
     "function/index.html#static-function-init",
     "<span>init</span> <span class=\"search-result-import-path\">mws-advanced/lib/callEndpoint.js</span>",
     "function"
+  ],
+  [
+    "mws-advanced/lib/endpoints/index.js~inventory",
+    "variable/index.html#static-variable-inventory",
+    "<span>inventory</span> <span class=\"search-result-import-path\">mws-advanced/lib/endpoints/index.js</span>",
+    "variable"
   ],
   [
     "mws-advanced/lib/list-financial-events.js~listfinancialevents",
@@ -96,10 +120,46 @@ window.esdocSearchIndex = [
     "function"
   ],
   [
+    "mws-advanced/lib/list-order-items.js~listorderitems",
+    "function/index.html#static-function-listOrderItems",
+    "<span>listOrderItems</span> <span class=\"search-result-import-path\">mws-advanced/lib/list-order-items.js</span>",
+    "function"
+  ],
+  [
     "mws-advanced/lib/list-orders.js~listorders",
     "function/index.html#static-function-listOrders",
     "<span>listOrders</span> <span class=\"search-result-import-path\">mws-advanced/lib/list-orders.js</span>",
     "function"
+  ],
+  [
+    "mws-advanced/lib/endpoints/index.js~merchfulfillment",
+    "variable/index.html#static-variable-merchFulfillment",
+    "<span>merchFulfillment</span> <span class=\"search-result-import-path\">mws-advanced/lib/endpoints/index.js</span>",
+    "variable"
+  ],
+  [
+    "mws-advanced/lib/endpoints/index.js~orders",
+    "variable/index.html#static-variable-orders",
+    "<span>orders</span> <span class=\"search-result-import-path\">mws-advanced/lib/endpoints/index.js</span>",
+    "variable"
+  ],
+  [
+    "mws-advanced/lib/endpoints/index.js~outbound",
+    "variable/index.html#static-variable-outbound",
+    "<span>outbound</span> <span class=\"search-result-import-path\">mws-advanced/lib/endpoints/index.js</span>",
+    "variable"
+  ],
+  [
+    "mws-advanced/lib/endpoints/index.js~products",
+    "variable/index.html#static-variable-products",
+    "<span>products</span> <span class=\"search-result-import-path\">mws-advanced/lib/endpoints/index.js</span>",
+    "variable"
+  ],
+  [
+    "mws-advanced/lib/endpoints/index.js~reports",
+    "variable/index.html#static-variable-reports",
+    "<span>reports</span> <span class=\"search-result-import-path\">mws-advanced/lib/endpoints/index.js</span>",
+    "variable"
   ],
   [
     "mws-advanced/lib/reports.js~requestanddownloadreport",
@@ -112,6 +172,12 @@ window.esdocSearchIndex = [
     "function/index.html#static-function-requestReport",
     "<span>requestReport</span> <span class=\"search-result-import-path\">mws-advanced/lib/reports.js</span>",
     "function"
+  ],
+  [
+    "mws-advanced/lib/endpoints/index.js~sellers",
+    "variable/index.html#static-variable-sellers",
+    "<span>sellers</span> <span class=\"search-result-import-path\">mws-advanced/lib/endpoints/index.js</span>",
+    "variable"
   ],
   [
     "lib/.external-ecmascript.js~array",
@@ -598,6 +664,18 @@ window.esdocSearchIndex = [
     "file/lib/list-inventory-supply.js.html",
     "lib/list-inventory-supply.js",
     "file"
+  ],
+  [
+    "lib/list-order-items.js",
+    "file/lib/list-order-items.js.html",
+    "lib/list-order-items.js",
+    "file"
+  ],
+  [
+    "lib/list-order-items.js~orderitemlist",
+    "typedef/index.html#static-typedef-OrderItemList",
+    "lib/list-order-items.js~OrderItemList",
+    "typedef"
   ],
   [
     "lib/list-orders.js",

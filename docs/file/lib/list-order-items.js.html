@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <base data-ice="baseUrl" href="../../">
-  <title data-ice="title">lib/list-orders.js | mws-advanced</title>
+  <title data-ice="title">lib/list-order-items.js | mws-advanced</title>
   <link type="text/css" rel="stylesheet" href="css/style.css">
   <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
   <script src="script/prettify/prettify.js"></script>
@@ -78,51 +78,53 @@
 </div>
 </nav>
 
-<div class="content" data-ice="content"><h1 data-ice="title">lib/list-orders.js</h1>
+<div class="content" data-ice="content"><h1 data-ice="title">lib/list-order-items.js</h1>
 <pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">const { callEndpoint } = require(&apos;./callEndpoint&apos;);
+const { digResponseResult } = require(&apos;./dig-response-result&apos;);
 
-// returns
-/*
-    LatestShipDate: [Array], OrderType: [Array], PurchaseDate: [Array], AmazonOrderId: [Array],
-    BuyerEmail: [Array], LastUpdateDate: [Array], IsReplacementOrder: [Array], ShipServiceLevel: [Array],
-    NumberOfItemsShipped: [Array], OrderStatus: [Array], SalesChannel: [Array], ShippedByAmazonTFM: [Array],
-    IsBusinessOrder: [Array], LatestDeliveryDate: [Array], NumberOfItemsUnshipped: [Array],
-    PaymentMethodDetails: [Array], BuyerName: [Array], EarliestDeliveryDate: [Array],
-    OrderTotal: [Array], IsPremiumOrder: [Array], EarliestShipDate: [Array], MarketplaceId: [Array],
-    FulfillmentChannel: [Array], PaymentMethod: [Array], ShippingAddress: [Array],
-    IsPrime: [Array], ShipmentServiceLevelCategory: [Array]
-*/
-// TODO: if provide a NextToken then call ListOrdersByNextToken ?
-// TODO: provide an option to automatically call ListOrdersByNextToken if NextToken is received?
+// TODO: make a typedef for OrderItem and document it correctly
+/**
+ * @typedef OrderItemList
+ * @public
+ * @param {string} orderId - Amazon Order ID
+ * @param {string} nextToken - Token to provide to ListOrderItemsByNextToken if needed (no token = no need)
+ * @param {Array} orderItems - Array of all the items in the order
+ */
 
 /**
- * Return orders created or updated during a specific time frame
- * see https://docs.developer.amazonservices.com/en_UK/orders-2013-09-01/Orders_ListOrders.html
- * At least ONE of the search options (and maybe more depending on which ones you select) must be
- * specified. Error messages may or may not return information on what parameters you are missing.
- * If you are having trouble, see the official parameter documentation above.
+ * Returns order items based on the AmazonOrderId that you specify.
  *
- * @param {object} options
- * @param {string[]} options.MarketplaceId Array of Marketplace IDs to search @see {@link MWS_MARKETPLACES}
- * @param {Date} [options.CreatedAfter] Select orders created at or after the given Date
- * @param {Date} [options.CreatedBefore] Select orders created at or before the given Date
- * @param {Date} [options.LastUpdatedAfter] Select orders updated at or after the given Date
- * @param {Date} [options.LastUpdatedBefore] Select orders updated at or before the given Date
- * @param {string} [options.OrderStatus] OrderStatus, see MWS doc page
- * @param {string} [options.FulfillmentChannel] AFN for Amazon fulfillment, MFN for merchant
- * @param {string} [options.PaymentMethod] All, COD, CVS, Other
- * @param {string} [options.BuyerEmail] Search for orders with given Email address
- * @param {string} [options.SellerOrderId] Specified seller order ID
- * @param {string} [options.MaxResultsPerPage=100] Max number of results to return, 1 &lt;=&gt; 100
- * @param {string} [options.TFMShipmentStatus] See MWS doc page
- * @returns {object}
+ * If you&apos;ve pulled a list of orders using @see {@link ListOrders}, or have order identifiers
+ * stored in some other fashion, then to find out what items are actually on the orders, you will
+ * need to call ListOrderItems to obtain details about the items that were ordered.  The ListOrders
+ * call does not give you any information about the items, except how many of them have shipped or
+ * not shipped.
+ *
+ * If an Order is in the Pending state, ListOrderItems will not return any pricing or promotion
+ * information. Once an order has left the Pending state, the following items will be returned:
+ *
+ * ItemTax, GiftWrapPrice, ItemPrice, PromotionDiscount, GiftWrapTax, ShippingTax, ShippingPrice,
+ * ShippingDiscount
+ *
+ * @public
+ * @param {string} AmazonOrderId - 3-7-7 Amazon Order ID formatted string
+ * @returns {OrderItemList}
  */
-const listOrders = async (options) =&gt; {
-    const results = await callEndpoint(&apos;ListOrders&apos;, options);
-    return results.Orders.Order;
+const listOrderItems = async (AmazonOrderId) =&gt; {
+    const res = digResponseResult(&apos;ListOrderItems&apos;, await callEndpoint(&apos;ListOrderItems&apos;, { AmazonOrderId }));
+    const arr = res.OrderItems.length ? res.OrderItems : [res.OrderItems];
+    const meh = arr.map(x =&gt; x.OrderItem);
+    const ret = {
+        nextToken: res.nextToken,
+        orderId: res.AmazonOrderId,
+        orderItems: meh,
+    };
+    return ret;
 };
 
-module.exports = { listOrders };
+module.exports = {
+    listOrderItems,
+};
 </code></pre>
 
 </div>
