@@ -311,6 +311,7 @@ const mws = require('..');
 
 let SkipAPITests = false;
 let keys;
+
 try {
     keys = require('./keys.json');
 } catch (err) {
@@ -704,7 +705,12 @@ describe('API', function runAPITests() {
     describe('Reports Category', () => {
         let reportList = [];
         let ReportRequestId = null;
-        it('requestReport', async () => {
+        it('requestReport', async function () {
+            if (!process.env.REPORTS_TESTS) {
+                console.warn('* skipping reports tests (set env REPORTS_TESTS=true to perform)');
+                this.skip();
+                return false;
+            }
             const report = await mws.requestReport({
                 ReportType: '_GET_V1_SELLER_PERFORMANCE_REPORT_',
             });
@@ -723,6 +729,11 @@ describe('API', function runAPITests() {
         });
         it('getReportRequestList (timeout disabled, retries until status shows a done or cancelled state)', async function testGetReportRequestList() {
             if (!ReportRequestId) {
+                this.skip();
+                return false;
+            }
+            if (!process.env.REPORTS_TESTS) {
+                console.warn('* skipping reports tests');
                 this.skip();
                 return false;
             }
@@ -745,6 +756,11 @@ describe('API', function runAPITests() {
             return true;
         });
         it('getReportListAll', async function testGetReportListAll() {
+            if (!process.env.REPORTS_TESTS) {
+                console.warn('* skipping reports tests');
+                this.skip();
+                return false;
+            }
             reportList = await mws.getReportListAll({
                 ReportTypeList: ['_GET_V2_SETTLEMENT_REPORT_DATA_FLAT_FILE_'],
             });
@@ -757,6 +773,12 @@ describe('API', function runAPITests() {
                 this.skip();
                 return false;
             }
+            if (!process.env.REPORTS_TESTS) {
+                console.warn('* skipping reports tests');
+                this.skip();
+                return false;
+            }
+
             const report = await mws.getReport({
                 ReportId: reportList[0].ReportId,
             });
@@ -774,6 +796,11 @@ describe('API', function runAPITests() {
             return settlement;
         });
         it('requestAndDownloadReport (timeout 60000ms)', async function testRequestDownloadReport() {
+            if (!process.env.REPORTS_TESTS) {
+                console.warn('* skipping reports tests');
+                this.skip();
+                return false;
+            }
             this.timeout(60000);
             await mws.requestAndDownloadReport('_GET_FLAT_FILE_OPEN_LISTINGS_DATA_', './test-listings.json');
             expect(fs.existsSync('./test-listings.json')).to.equal(true);
