@@ -22,8 +22,10 @@
 -   [listOrders](#listorders)
 -   [listFinancialEvents](#listfinancialevents)
 -   [listInventorySupply](#listinventorysupply)
--   [getMatchingProductForId](#getmatchingproductforid)
 -   [Product](#product)
+-   [parseAttributeSets](#parseattributesets)
+-   [getMatchingProductForId](#getmatchingproductforid)
+-   [camelize](#camelize)
 -   [reformatOfferCount](#reformatoffercount)
 -   [reformatOffer](#reformatoffer)
 -   [reformatOffer](#reformatoffer-1)
@@ -233,6 +235,24 @@ Return information about the availability of a seller's FBA inventory
 
 Returns **{nextToken: [string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String), supplyList: [Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)>}** 
 
+## Product
+
+Product Information. See official schema for details.
+<http://g-ecx.images-amazon.com/images/G/01/mwsportal/doc/en_US/products/default.xsd> and
+<http://g-ecx.images-amazon.com/images/G/01/mwsportal/doc/en_US/products/ProductsAPI_Response.xsd>
+
+Type: [Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)
+
+## parseAttributeSets
+
+Takes an amazon AttributeSets object and returns it reformatted
+
+**Parameters**
+
+-   `attributeSets` **[object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
+
+Returns **[object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** reformatted Attribute Sets
+
 ## getMatchingProductForId
 
 Returns a list of products and their attributes, based on a list of ASIN, GCID, SellerSKU, UPC,
@@ -247,13 +267,16 @@ EAN, ISBN, or JAN values
 
 Returns **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[Product](#product)>** 
 
-## Product
+## camelize
 
-Product Information. See official schema for details.
-<http://g-ecx.images-amazon.com/images/G/01/mwsportal/doc/en_US/products/default.xsd> and
-<http://g-ecx.images-amazon.com/images/G/01/mwsportal/doc/en_US/products/ProductsAPI_Response.xsd>
+Attempt to relatively intelligently convert any string to camelCase (CamelCase => camelCase)
 
-Type: [Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)
+**Parameters**
+
+-   `str`  
+-   `null-null` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** string to convert
+
+Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** camelCase version of string
 
 ## reformatOfferCount
 
@@ -263,34 +286,6 @@ Type: [Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference
 -   `count` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** 
 -   `condition` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 -   `fulfillmentChannel` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
-
-## reformatOffer
-
-**Parameters**
-
--   `offer`  
--   `unknown` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
-
-## reformatOffer
-
-**Parameters**
-
--   `offer`  
--   `unknown` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
-
-## reformatOffer
-
-**Parameters**
-
--   `offer`  
--   `unknown` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
-
-## reformatOffer
-
-**Parameters**
-
--   `offer`  
--   `unknown` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 
 ## reformatOffer
 
@@ -307,6 +302,34 @@ Type: [Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference
 -   `isFulfilledByAmazon` **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** True if FBA, False if not
 -   `isBuyBoxWinner` **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?** True if offer has buy box, False if not
 -   `isFeaturedMerchant` **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?** True if seller is eligible for Buy Box, False if not
+
+## reformatOffer
+
+**Parameters**
+
+-   `offer`  
+-   `unknown` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+
+## reformatOffer
+
+**Parameters**
+
+-   `offer`  
+-   `unknown` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+
+## reformatOffer
+
+**Parameters**
+
+-   `offer`  
+-   `unknown` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+
+## reformatOffer
+
+**Parameters**
+
+-   `offer`  
+-   `unknown` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 
 ## reformatLowestPrice
 
@@ -380,6 +403,19 @@ This is better than using writeFileSync. Trust me. :-)
 
 ## requestReport
 
+**Parameters**
+
+-   `options`  
+-   `ReportType` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Type of Report Requested @see [REQUEST_REPORT_TYPES](#request_report_types)
+-   `ReportProcessingStatus` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Status of Report @see [REPORT_PROCESSING_STATUS_TYPES](#report_processing_status_types)
+-   `EndDate` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** ISO Date for Date Ending period
+-   `Scheduled` **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** True if report is scheduled, false if immediate
+-   `ReportRequestId` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Identifier to use with getReport to fetch the report when ready
+-   `SubmittedDate` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** ISO Date for Date request was submitted
+-   `StartDate` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** ISO Date for Date report begins at
+
+## requestReport
+
 Request a report from MWS
 Many optional parameters may be required by MWS! Read [ReportType](https://docs.developer.amazonservices.com/en_US/reports/Reports_ReportType.html) for specifics!
 
@@ -393,19 +429,6 @@ Many optional parameters may be required by MWS! Read [ReportType](https://docs.
 -   `MarketplaceId` **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)>?** Array of marketplace IDs to generate reports covering
 
 Returns **ReportRequestInfo** 
-
-## requestReport
-
-**Parameters**
-
--   `options`  
--   `ReportType` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Type of Report Requested @see [REQUEST_REPORT_TYPES](#request_report_types)
--   `ReportProcessingStatus` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Status of Report @see [REPORT_PROCESSING_STATUS_TYPES](#report_processing_status_types)
--   `EndDate` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** ISO Date for Date Ending period
--   `Scheduled` **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** True if report is scheduled, false if immediate
--   `ReportRequestId` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Identifier to use with getReport to fetch the report when ready
--   `SubmittedDate` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** ISO Date for Date request was submitted
--   `StartDate` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** ISO Date for Date report begins at
 
 ## getReportRequestList
 

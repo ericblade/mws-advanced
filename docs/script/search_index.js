@@ -30,6 +30,12 @@ window.esdocSearchIndex = [
     "function"
   ],
   [
+    "mws-advanced/lib/camelize.js~camelize",
+    "function/index.html#static-function-camelize",
+    "<span>camelize</span> <span class=\"search-result-import-path\">mws-advanced/lib/camelize.js</span>",
+    "function"
+  ],
+  [
     "mws-advanced/lib/endpoints/index.js~feeds",
     "variable/index.html#static-variable-feeds",
     "<span>feeds</span> <span class=\"search-result-import-path\">mws-advanced/lib/endpoints/index.js</span>",
@@ -465,6 +471,12 @@ window.esdocSearchIndex = [
     "lib/callendpoint.js",
     "file/lib/callEndpoint.js.html",
     "lib/callEndpoint.js",
+    "file"
+  ],
+  [
+    "lib/camelize.js",
+    "file/lib/camelize.js.html",
+    "lib/camelize.js",
     "file"
   ],
   [
