@@ -31,6 +31,7 @@
     
   <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-callEndpoint">callEndpoint</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-init">init</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-camelize">camelize</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getLowestPricedOffersForASIN">getLowestPricedOffersForASIN</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getMarketplaces">getMarketplaces</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getMatchingProductForId">getMatchingProductForId</a></span></span></li>
@@ -104,6 +105,35 @@
         
         
         <div data-ice="description"><p>Call a known endpoint at MWS, returning the raw data from the function.</p>
+</div>
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">public</span>
+      
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+          
+          
+          
+          <span class="code" data-ice="name"><span><a href="function/index.html#static-function-camelize">camelize</a></span></span><span class="code" data-ice="signature">(-: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span></span>
+        </p>
+      </div>
+      <div>
+        
+        
+        <div data-ice="description"><p>Attempt to relatively intelligently convert any string to camelCase (CamelCase =&gt; camelCase)</p>
 </div>
       </div>
     </td>
@@ -575,11 +605,11 @@ Many optional parameters may be required by MWS! Read <a href="https://docs.deve
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/lib/callEndpoint.js.html#lineNumber127">source</a></span></span>
+      <span data-ice="source"><span><a href="file/lib/callEndpoint.js.html#lineNumber122">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {callEndpoint} from &apos;<span><a href="file/lib/callEndpoint.js.html#lineNumber127">mws-advanced/lib/callEndpoint.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {callEndpoint} from &apos;<span><a href="file/lib/callEndpoint.js.html#lineNumber122">mws-advanced/lib/callEndpoint.js</a></span>&apos;</code></pre></div>
   
   
   <div data-ice="description"><p>Call a known endpoint at MWS, returning the raw data from the function. Parameters are
@@ -657,6 +687,80 @@ transformed and validated according to the rules defined in lib/endpoints</p>
         <tr>
           <td class="return-type code" data-ice="returnType"><span>any</span></td>
           <td class="return-desc" data-ice="returnDescription"><p>Results of the call to MWS</p>
+</td>
+        </tr>
+      </tbody>
+    </table>
+    <div data-ice="returnProperties">
+</div>
+  </div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+</div>
+<div class="detail" data-ice="detail">
+  <h3 data-ice="anchor" id="static-function-camelize">
+    <span class="access" data-ice="access">public</span>
+    
+    
+    
+    
+    
+    <span class="code" data-ice="name">camelize</span><span class="code" data-ice="signature">(-: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span></span>
+    <span class="right-info">
+      
+      
+      <span data-ice="source"><span><a href="file/lib/camelize.js.html#lineNumber8">source</a></span></span>
+    </span>
+  </h3>
+
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import camelize from &apos;<span><a href="file/lib/camelize.js.html#lineNumber8">mws-advanced/lib/camelize.js</a></span>&apos;</code></pre></div>
+  
+  
+  <div data-ice="description"><p>Attempt to relatively intelligently convert any string to camelCase (CamelCase =&gt; camelCase)</p>
+</div>
+
+  
+
+  <div data-ice="properties"><div data-ice="properties">
+  <h4 data-ice="title">Params:</h4>
+  <table class="params">
+    <thead>
+    <tr><td>Name</td><td>Type</td><td>Attribute</td><td>Description</td></tr>
+    </thead>
+    <tbody>
+    
+    <tr data-ice="property" data-depth="0">
+      <td data-ice="name" class="code" data-depth="0">-</td>
+      <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span></td>
+      <td data-ice="appendix"></td>
+      <td data-ice="description"><p>string to convert</p>
+</td>
+    </tr>
+</tbody>
+  </table>
+</div>
+</div>
+
+  <div class="return-params" data-ice="returnParams">
+    <h4>Return:</h4>
+    <table>
+      <tbody>
+        <tr>
+          <td class="return-type code" data-ice="returnType"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span></td>
+          <td class="return-desc" data-ice="returnDescription"><p>camelCase version of string</p>
 </td>
         </tr>
       </tbody>
@@ -854,11 +958,11 @@ transformed and validated according to the rules defined in lib/endpoints</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/lib/get-matching-product.js.html#lineNumber21">source</a></span></span>
+      <span data-ice="source"><span><a href="file/lib/get-matching-product.js.html#lineNumber58">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {getMatchingProductForId} from &apos;<span><a href="file/lib/get-matching-product.js.html#lineNumber21">mws-advanced/lib/get-matching-product.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {getMatchingProductForId} from &apos;<span><a href="file/lib/get-matching-product.js.html#lineNumber58">mws-advanced/lib/get-matching-product.js</a></span>&apos;</code></pre></div>
   
   
   <div data-ice="description"><p>Returns a list of products and their attributes, based on a list of ASIN, GCID, SellerSKU, UPC,
@@ -1370,11 +1474,11 @@ has been processed.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/lib/callEndpoint.js.html#lineNumber35">source</a></span></span>
+      <span data-ice="source"><span><a href="file/lib/callEndpoint.js.html#lineNumber36">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {init} from &apos;<span><a href="file/lib/callEndpoint.js.html#lineNumber35">mws-advanced/lib/callEndpoint.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {init} from &apos;<span><a href="file/lib/callEndpoint.js.html#lineNumber36">mws-advanced/lib/callEndpoint.js</a></span>&apos;</code></pre></div>
   
   
   <div data-ice="description"><p>Initialize mws-advanced with your MWS access keys, merchantId, optionally authtoken, host, port

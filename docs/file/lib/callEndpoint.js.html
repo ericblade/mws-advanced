@@ -31,6 +31,7 @@
     
   <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-callEndpoint">callEndpoint</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-init">init</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-camelize">camelize</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getLowestPricedOffersForASIN">getLowestPricedOffersForASIN</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getMarketplaces">getMarketplaces</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getMatchingProductForId">getMatchingProductForId</a></span></span></li>
@@ -95,6 +96,7 @@ const fs = require(&apos;fs&apos;);
 /** holds the mws-simple reference after init() is called */
 let mws = null;
 
+// TODO: document examples of init, for defaults, for alternate regions, for specific hosts.
 /**
  * Initialize mws-advanced with your MWS access keys, merchantId, optionally authtoken, host, port
  * If accessKeyId, secretAccessKey, and/or merchantId are not provided, they will be read from
@@ -120,21 +122,15 @@ const init = ({
     secretAccessKey = process.env.MWS_SECRET_ACCESS_KEY,
     merchantId = process.env.MWS_MERCHANT_ID,
     authToken,
-    host,
+    host = MWS_ENDPOINTS[region] || &apos;mws.amazonservices.com&apos;,
     port,
 } = {}) =&gt; {
-    let newHost = host;
-    if (!MWS_ENDPOINTS[region]) {
-        console.warn(`**** ${region} not known! Things may not work right or at all. Using default host mws-amazonservices.com`);
-    } else if (!newHost) {
-        newHost = MWS_ENDPOINTS[region];
-    }
     mws = new MWS({
         accessKeyId,
         secretAccessKey,
         merchantId,
         authToken,
-        host: newHost,
+        host,
         port,
     });
     return mws;
