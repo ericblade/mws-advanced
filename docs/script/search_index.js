@@ -30,9 +30,9 @@ window.esdocSearchIndex = [
     "function"
   ],
   [
-    "mws-advanced/lib/camelize.js~camelize",
+    "mws-advanced/lib/util/transformers.js~camelize",
     "function/index.html#static-function-camelize",
-    "<span>camelize</span> <span class=\"search-result-import-path\">mws-advanced/lib/camelize.js</span>",
+    "<span>camelize</span> <span class=\"search-result-import-path\">mws-advanced/lib/util/transformers.js</span>",
     "function"
   ],
   [
@@ -46,6 +46,12 @@ window.esdocSearchIndex = [
     "variable/index.html#static-variable-finances",
     "<span>finances</span> <span class=\"search-result-import-path\">mws-advanced/lib/endpoints/index.js</span>",
     "variable"
+  ],
+  [
+    "mws-advanced/lib/util/transformers.js~forcearray",
+    "function/index.html#static-function-forceArray",
+    "<span>forceArray</span> <span class=\"search-result-import-path\">mws-advanced/lib/util/transformers.js</span>",
+    "function"
   ],
   [
     "mws-advanced/lib/get-lowest-priced-offers.js~getlowestpricedoffersforasin",
@@ -114,6 +120,12 @@ window.esdocSearchIndex = [
     "variable"
   ],
   [
+    "mws-advanced/lib/util/transformers.js~isuppercase",
+    "function/index.html#static-function-isUpperCase",
+    "<span>isUpperCase</span> <span class=\"search-result-import-path\">mws-advanced/lib/util/transformers.js</span>",
+    "function"
+  ],
+  [
     "mws-advanced/lib/list-financial-events.js~listfinancialevents",
     "function/index.html#static-function-listFinancialEvents",
     "<span>listFinancialEvents</span> <span class=\"search-result-import-path\">mws-advanced/lib/list-financial-events.js</span>",
@@ -142,6 +154,12 @@ window.esdocSearchIndex = [
     "variable/index.html#static-variable-merchFulfillment",
     "<span>merchFulfillment</span> <span class=\"search-result-import-path\">mws-advanced/lib/endpoints/index.js</span>",
     "variable"
+  ],
+  [
+    "mws-advanced/lib/util/transformers.js~objtovaluesub",
+    "function/index.html#static-function-objToValueSub",
+    "<span>objToValueSub</span> <span class=\"search-result-import-path\">mws-advanced/lib/util/transformers.js</span>",
+    "function"
   ],
   [
     "mws-advanced/lib/endpoints/index.js~orders",
@@ -184,6 +202,24 @@ window.esdocSearchIndex = [
     "variable/index.html#static-variable-sellers",
     "<span>sellers</span> <span class=\"search-result-import-path\">mws-advanced/lib/endpoints/index.js</span>",
     "variable"
+  ],
+  [
+    "mws-advanced/lib/util/transformers.js~subobjdownlevel",
+    "function/index.html#static-function-subObjDownLevel",
+    "<span>subObjDownLevel</span> <span class=\"search-result-import-path\">mws-advanced/lib/util/transformers.js</span>",
+    "function"
+  ],
+  [
+    "mws-advanced/lib/util/transformers.js~transformkey",
+    "function/index.html#static-function-transformKey",
+    "<span>transformKey</span> <span class=\"search-result-import-path\">mws-advanced/lib/util/transformers.js</span>",
+    "function"
+  ],
+  [
+    "mws-advanced/lib/util/transformers.js~transformobjectkeys",
+    "function/index.html#static-function-transformObjectKeys",
+    "<span>transformObjectKeys</span> <span class=\"search-result-import-path\">mws-advanced/lib/util/transformers.js</span>",
+    "function"
   ],
   [
     "lib/.external-ecmascript.js~array",
@@ -474,12 +510,6 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
-    "lib/camelize.js",
-    "file/lib/camelize.js.html",
-    "lib/camelize.js",
-    "file"
-  ],
-  [
     "lib/constants.js",
     "file/lib/constants.js.html",
     "lib/constants.js",
@@ -648,16 +678,16 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
+    "lib/get-marketplaces.js~marketdetail",
+    "typedef/index.html#static-typedef-MarketDetail",
+    "lib/get-marketplaces.js~MarketDetail",
+    "typedef"
+  ],
+  [
     "lib/get-matching-product.js",
     "file/lib/get-matching-product.js.html",
     "lib/get-matching-product.js",
     "file"
-  ],
-  [
-    "lib/get-matching-product.js~product",
-    "typedef/index.html#static-typedef-Product",
-    "lib/get-matching-product.js~Product",
-    "typedef"
   ],
   [
     "lib/index.js",
@@ -720,9 +750,15 @@ window.esdocSearchIndex = [
     "typedef"
   ],
   [
-    "lib/sleep.js",
-    "file/lib/sleep.js.html",
-    "lib/sleep.js",
+    "lib/util/sleep.js",
+    "file/lib/util/sleep.js.html",
+    "lib/util/sleep.js",
+    "file"
+  ],
+  [
+    "lib/util/transformers.js",
+    "file/lib/util/transformers.js.html",
+    "lib/util/transformers.js",
     "file"
   ],
   [

@@ -31,7 +31,6 @@
     
   <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-callEndpoint">callEndpoint</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-init">init</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-camelize">camelize</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getLowestPricedOffersForASIN">getLowestPricedOffersForASIN</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getMarketplaces">getMarketplaces</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getMatchingProductForId">getMatchingProductForId</a></span></span></li>
@@ -58,7 +57,7 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-OfferSummary">OfferSummary</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-SellerFeedbackRating">SellerFeedbackRating</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ShipsFrom">ShipsFrom</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-Product">Product</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-MarketDetail">MarketDetail</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-OrderItemList">OrderItemList</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-GetReportRequestListResult">GetReportRequestListResult</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-GetReportRequestListResult">GetReportRequestListResult</a></span></span></li>
@@ -75,6 +74,13 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-products">products</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-reports">reports</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-sellers">sellers</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#util">util</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-camelize">camelize</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-forceArray">forceArray</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-isUpperCase">isUpperCase</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-objToValueSub">objToValueSub</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-subObjDownLevel">subObjDownLevel</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-transformKey">transformKey</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-transformObjectKeys">transformObjectKeys</a></span></span></li>
 </ul>
 </div>
 </nav>
@@ -105,6 +111,21 @@ const endpointList = [
 ];
 
 const newEndpointList = {
+    GetMatchingProduct: {
+        throttle: {
+            maxInFlight: 1,
+            restoreRate: 1,
+        },
+        params: {
+            // this will cause an error to throw if you attempt to use this function.
+            // The official documentation says to use GetMatchingProductForId instead, so we&apos;ll
+            // just enforce that.
+            DEPRECATED_USE_GetMatchingProductForId_INSTEAD: {
+                type: &apos;xs:string&apos;,
+                required: true,
+            },
+        },
+    },
     GetMatchingProductForId: {
         throttle: {
             maxInFlight: 20,
@@ -180,6 +201,41 @@ const newEndpointList = {
             },
         },
     },
+    GetLowestOfferListingsForSKU: {
+        throttle: {
+            maxInFlight: 20,
+            restoreRate: 600,
+        },
+        params: {
+            MarketplaceId: {
+                type: &apos;xs:string&apos;, // TODO: marketplaceId verification
+                required: true,
+            },
+            SellerSKUList: {
+                type: &apos;xs:string&apos;,
+                required: true,
+                list: &apos;SellerSKUList.SellerSKU&apos;,
+            },
+        },
+        returns: {
+            AllOfferListingsConsidered: {
+                type: &apos;&apos;, // TODO: ??? Documentation is really not clear
+                required: false,
+            },
+            Product: {
+                type: &apos;Product&apos;, // TODO: contains product subelements Product.Identifiers and Product.LowestOfferListings
+                required: true,
+            },
+            Identifiers: {
+                type: &apos;&apos;, // TODO: ??? Documnetation also not clear
+                required: false,
+            },
+            LowestOfferListings: {
+                type: &apos;&apos;, // TODO: ??????
+                required: true,
+            },
+        },
+    },
     GetLowestPricedOffersForASIN: {
         throttle: {
             maxInFlight: 10,
@@ -191,6 +247,41 @@ const newEndpointList = {
                 required: true,
             },
             ASIN: {
+                type: &apos;xs:string&apos;,
+                required: true,
+            },
+            ItemCondition: {
+                type: &apos;xs:string&apos;,
+                required: true,
+                values: [&apos;New&apos;, &apos;Used&apos;, &apos;Collectible&apos;, &apos;Refurbished&apos;, &apos;Club&apos;],
+            },
+        },
+        returns: {
+            Identifier: {
+                type: &apos;Identifier&apos;,
+                required: true,
+            },
+            Summary: {
+                type: &apos;Summary&apos;,
+                required: true,
+            },
+            Offers: {
+                type: &apos;Offers&apos;,
+                required: false,
+            },
+        },
+    },
+    GetLowestPricedOffersForSKU: {
+        throttle: {
+            maxInFlight: 10,
+            restoreRate: 300,
+        },
+        params: {
+            MarketplaceId: {
+                type: &apos;xs:string&apos;, // TODO: doc says &apos;MarketplaceType&apos;
+                required: true,
+            },
+            SellerSKU: {
                 type: &apos;xs:string&apos;,
                 required: true,
             },
@@ -250,6 +341,233 @@ const newEndpointList = {
             },
         },
     },
+    GetCompetitivePricingForSKU: {
+        throttle: {
+            maxInFlight: 20,
+            restoreRate: 600,
+        },
+        params: {
+            MarketplaceId: {
+                type: &apos;xs:string&apos;,
+                required: true,
+            },
+            SellerSKUList: {
+                type: &apos;xs:string&apos;,
+                required: true, // TODO: maximum 20 values
+                list: &apos;SellerSKUList.SellerSKU&apos;,
+            },
+        },
+        returns: {
+            Product: {
+                type: &apos;Product&apos;,
+                required: true,
+            },
+            Identifiers: {
+                type: &apos;Identifier&apos;,
+                required: true,
+            },
+            CompetitivePricing: {
+                type: &apos;CompetitivePrice&apos;,
+                required: true,
+            },
+            SalesRankings: {
+                type: &apos;SalesRanking&apos;,
+                required: true,
+            },
+        },
+    },
+    GetMyPriceForASIN: {
+        throttle: {
+            maxInFlight: 20,
+            restoreRate: 600,
+        },
+        params: {
+            MarketplaceId: {
+                type: &apos;xs:string&apos;,
+                required: true,
+            },
+            ASINList: {
+                type: &apos;xs:string&apos;,
+                required: true,
+                list: &apos;ASINList.ASIN&apos;,
+            },
+            ItemCondition: {
+                type: &apos;xs:string&apos;,
+                values: [&apos;New&apos;, &apos;Used&apos;, &apos;Collectible&apos;, &apos;Refurbished&apos;, &apos;Club&apos;],
+            },
+        },
+        returns: {
+            Identifiers: {
+                type: &apos;Identifier&apos;,
+                required: true,
+            },
+            BuyingPrice: {
+                type: &apos;BuyingPrice&apos;,
+                required: true,
+            },
+            RegularPrice: {
+                type: &apos;RegularPrice&apos;,
+                required: true,
+            },
+            FulfillmentChannel: {
+                type: &apos;FulfillmentChannel&apos;,
+                required: true,
+            },
+            ItemCondition: {
+                type: &apos;ItemCondition&apos;,
+                required: true,
+            },
+            ItemSubCondition: {
+                type: &apos;ItemSubCondition&apos;,
+                required: true,
+            },
+            SellerId: {
+                type: &apos;SellerId&apos;,
+                required: true,
+            },
+            SellerSKU: {
+                type: &apos;SellerSKU&apos;,
+                required: true,
+            },
+        },
+    },
+    GetMyPriceForSKU: {
+        throttle: {
+            maxInFlight: 20,
+            restoreRate: 600,
+        },
+        params: {
+            MarketplaceId: {
+                type: &apos;xs:string&apos;,
+                required: true,
+            },
+            SellerSKUList: {
+                type: &apos;xs:string&apos;,
+                required: true,
+                list: &apos;SellerSKUList.SellerSKU&apos;,
+            },
+            ItemCondition: {
+                type: &apos;xs:string&apos;,
+                values: [&apos;New&apos;, &apos;Used&apos;, &apos;Collectible&apos;, &apos;Refurbished&apos;, &apos;Club&apos;],
+            },
+        },
+        returns: {
+            Identifiers: {
+                type: &apos;Identifier&apos;,
+                required: true,
+            },
+            BuyingPrice: {
+                type: &apos;BuyingPrice&apos;,
+                required: true,
+            },
+            RegularPrice: {
+                type: &apos;RegularPrice&apos;,
+                required: true,
+            },
+            FulfillmentChannel: {
+                type: &apos;FulfillmentChannel&apos;,
+                required: true,
+            },
+            ItemCondition: {
+                type: &apos;ItemCondition&apos;,
+                required: true,
+            },
+            ItemSubCondition: {
+                type: &apos;ItemSubCondition&apos;,
+                required: true,
+            },
+            SellerId: {
+                type: &apos;SellerId&apos;,
+                required: true,
+            },
+            SellerSKU: {
+                type: &apos;SellerSKU&apos;,
+                required: true,
+            },
+        },
+    },
+    GetProductCategoriesForASIN: {
+        throttle: {
+            maxInFlight: 20,
+            restoreRate: 12,
+        },
+        params: {
+            MarketplaceId: {
+                type: &apos;xs:string&apos;, // TODO: validate marketplaceId
+                required: true,
+            },
+            ASIN: {
+                type: &apos;xs:string&apos;,
+                required: true,
+            },
+        },
+        returns: {
+            // TODO: fill this in
+        },
+    },
+    GetProductCategoriesForSKU: {
+        throttle: {
+            maxInFlight: 20,
+            restoreRate: 12,
+        },
+        params: {
+            MarketplaceId: {
+                type: &apos;xs:string&apos;, // TODO: validate marketplaceId
+                required: true,
+            },
+            SellerSKU: {
+                type: &apos;xs:string&apos;,
+                required: true,
+            },
+        },
+        returns: {
+            // TODO: fill this in
+        },
+    },
+    GetServiceStatus: {
+        throttle: {
+            maxInFlight: 2,
+            restoreRate: 0.20,
+        },
+    },
+    // GetMyFeesEstimate: {
+    //     throttle: {
+    //         maxInFlight: 20,
+    //         restoreRate: 600,
+    //     },
+    //     params: {
+    //         FeesEstimateRequestList: {
+    //             // https://docs.developer.amazonservices.com/en_UK/products/Products_Datatypes.html#FeesEstimateRequest
+    //             // TODO: we don&apos;t support custom objects.
+    //             // This looks like
+    //             // FeesEstimateRequestList.FeesEstimateRequest.1=
+    //             // {
+    //             //     IdType: &apos;ASIN&apos;, // type: &apos;MarketplaceType&apos;, values: [&apos;ASIN&apos;, &apos;SellerSKU&apos;],
+    //             //     IdValue: &apos;B002KT3XQM&apos;, // type: &apos;xs:string&apos;
+    //             //     IsAmazonFulled: true, // type: &apos;xs:boolean&apos;,
+    //             //     Identifier: &apos;request1&apos;, // type: &apos;xs:string&apos;
+    //             //     PriceToEstimateFees: {
+    //             //         ListingPrice: {
+    //             //             CurrencyCode: &apos;USD&apos;,
+    //             //             Amount: &apos;30.00&apos;,
+    //             //         },
+    //             //         Shipping: {
+    //             //             CurrencyCode: &apos;USD&apos;,
+    //             //             Amount: &apos;3.99&apos;,
+    //             //         },
+    //             //         Points: {
+    //             //             PointsNumber: 0,
+    //             //         },
+    //             //     },
+    //             // }
+    //             type: &apos;FeesEstimateRequest&apos;,
+    //             required: true,
+    //         },
+    //     },
+    //     returns: {
+
+    //     },
+    // }
 };
 
 /**
