@@ -204,9 +204,9 @@ window.esdocSearchIndex = [
     "variable"
   ],
   [
-    "mws-advanced/lib/util/transformers.js~subobjdownlevel",
-    "function/index.html#static-function-subObjDownLevel",
-    "<span>subObjDownLevel</span> <span class=\"search-result-import-path\">mws-advanced/lib/util/transformers.js</span>",
+    "mws-advanced/lib/util/transformers.js~subobjuplevel",
+    "function/index.html#static-function-subObjUpLevel",
+    "<span>subObjUpLevel</span> <span class=\"search-result-import-path\">mws-advanced/lib/util/transformers.js</span>",
     "function"
   ],
   [

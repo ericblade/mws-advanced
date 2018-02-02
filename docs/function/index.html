@@ -78,7 +78,7 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-forceArray">forceArray</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-isUpperCase">isUpperCase</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-objToValueSub">objToValueSub</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-subObjDownLevel">subObjDownLevel</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-subObjUpLevel">subObjUpLevel</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-transformKey">transformKey</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-transformObjectKeys">transformObjectKeys</a></span></span></li>
 </ul>
@@ -139,8 +139,7 @@
       <div>
         
         
-        <div data-ice="description"><p>Attempt to relatively intelligently convert any string to camelCase (CamelCase =&gt; camelCase)
-Ignores strings that are entirely uppercase, assuming they might be acronyms or some such.</p>
+        <div data-ice="description"><p>Attempt to relatively intelligently convert any string to camelCase (CamelCase =&gt; camelCase)</p>
 </div>
       </div>
     </td>
@@ -696,7 +695,7 @@ Many optional parameters may be required by MWS! Read <a href="https://docs.deve
           
           
           
-          <span class="code" data-ice="name"><span><a href="function/index.html#static-function-subObjDownLevel">subObjDownLevel</a></span></span><span class="code" data-ice="signature">(key: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>, obj: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></span></span>
+          <span class="code" data-ice="name"><span><a href="function/index.html#static-function-subObjUpLevel">subObjUpLevel</a></span></span><span class="code" data-ice="signature">(key: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>, obj: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></span></span>
         </p>
       </div>
       <div>
@@ -901,15 +900,14 @@ transformed and validated according to the rules defined in lib/endpoints</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/lib/util/transformers.js.html#lineNumber32">source</a></span></span>
+      <span data-ice="source"><span><a href="file/lib/util/transformers.js.html#lineNumber31">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {camelize} from &apos;<span><a href="file/lib/util/transformers.js.html#lineNumber32">mws-advanced/lib/util/transformers.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {camelize} from &apos;<span><a href="file/lib/util/transformers.js.html#lineNumber31">mws-advanced/lib/util/transformers.js</a></span>&apos;</code></pre></div>
   
   
-  <div data-ice="description"><p>Attempt to relatively intelligently convert any string to camelCase (CamelCase =&gt; camelCase)
-Ignores strings that are entirely uppercase, assuming they might be acronyms or some such.</p>
+  <div data-ice="description"><p>Attempt to relatively intelligently convert any string to camelCase (CamelCase =&gt; camelCase)</p>
 </div>
 
   
@@ -2386,11 +2384,11 @@ If you are having trouble, see the official parameter documentation above.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/lib/util/transformers.js.html#lineNumber74">source</a></span></span>
+      <span data-ice="source"><span><a href="file/lib/util/transformers.js.html#lineNumber73">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {objToValueSub} from &apos;<span><a href="file/lib/util/transformers.js.html#lineNumber74">mws-advanced/lib/util/transformers.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {objToValueSub} from &apos;<span><a href="file/lib/util/transformers.js.html#lineNumber73">mws-advanced/lib/util/transformers.js</a></span>&apos;</code></pre></div>
   
   
   <div data-ice="description"><p>Rename obj._ to obj.value, and move contents of obj.$ one level lower</p>
@@ -2642,22 +2640,22 @@ Many optional parameters may be required by MWS! Read <a href="https://docs.deve
   
 </div>
 <div class="detail" data-ice="detail">
-  <h3 data-ice="anchor" id="static-function-subObjDownLevel">
+  <h3 data-ice="anchor" id="static-function-subObjUpLevel">
     <span class="access" data-ice="access">public</span>
     
     
     
     
     
-    <span class="code" data-ice="name">subObjDownLevel</span><span class="code" data-ice="signature">(key: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>, obj: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></span></span>
+    <span class="code" data-ice="name">subObjUpLevel</span><span class="code" data-ice="signature">(key: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>, obj: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></span></span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/lib/util/transformers.js.html#lineNumber46">source</a></span></span>
+      <span data-ice="source"><span><a href="file/lib/util/transformers.js.html#lineNumber45">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {subObjDownLevel} from &apos;<span><a href="file/lib/util/transformers.js.html#lineNumber46">mws-advanced/lib/util/transformers.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {subObjUpLevel} from &apos;<span><a href="file/lib/util/transformers.js.html#lineNumber45">mws-advanced/lib/util/transformers.js</a></span>&apos;</code></pre></div>
   
   
   <div data-ice="description"><p>Move all contents of a subobject &apos;key&apos; down one level</p>
@@ -2734,11 +2732,11 @@ Many optional parameters may be required by MWS! Read <a href="https://docs.deve
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/lib/util/transformers.js.html#lineNumber79">source</a></span></span>
+      <span data-ice="source"><span><a href="file/lib/util/transformers.js.html#lineNumber78">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {transformKey} from &apos;<span><a href="file/lib/util/transformers.js.html#lineNumber79">mws-advanced/lib/util/transformers.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {transformKey} from &apos;<span><a href="file/lib/util/transformers.js.html#lineNumber78">mws-advanced/lib/util/transformers.js</a></span>&apos;</code></pre></div>
   
   
   
@@ -2793,11 +2791,11 @@ Many optional parameters may be required by MWS! Read <a href="https://docs.deve
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/lib/util/transformers.js.html#lineNumber82">source</a></span></span>
+      <span data-ice="source"><span><a href="file/lib/util/transformers.js.html#lineNumber81">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {transformObjectKeys} from &apos;<span><a href="file/lib/util/transformers.js.html#lineNumber82">mws-advanced/lib/util/transformers.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {transformObjectKeys} from &apos;<span><a href="file/lib/util/transformers.js.html#lineNumber81">mws-advanced/lib/util/transformers.js</a></span>&apos;</code></pre></div>
   
   
   

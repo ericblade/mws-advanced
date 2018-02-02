@@ -78,7 +78,7 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-forceArray">forceArray</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-isUpperCase">isUpperCase</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-objToValueSub">objToValueSub</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-subObjDownLevel">subObjDownLevel</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-subObjUpLevel">subObjUpLevel</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-transformKey">transformKey</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-transformObjectKeys">transformObjectKeys</a></span></span></li>
 </ul>
@@ -112,7 +112,6 @@ const isUpperCase = str =&gt; typeof str === &apos;string&apos; &amp;&amp; str =
 // https://stackoverflow.com/questions/2970525/converting-any-string-into-camel-case
 /**
  * Attempt to relatively intelligently convert any string to camelCase (CamelCase =&gt; camelCase)
- * Ignores strings that are entirely uppercase, assuming they might be acronyms or some such.
  *
  * @param {string} - string to convert
  * @returns {string} - camelCase version of string
@@ -131,7 +130,7 @@ const camelize = (str) =&gt; {
  * @param {object} obj - object to move in
  * @return {object} new object with sub-object contents of &apos;key&apos; moved one level lower
  */
-const subObjDownLevel = (key, obj) =&gt; {
+const subObjUpLevel = (key, obj) =&gt; {
     const ret = {
         ...obj,
         ...obj[key],
@@ -140,14 +139,14 @@ const subObjDownLevel = (key, obj) =&gt; {
     return ret;
 };
 
-// This is a version of subObjDownLevel that looks good, but fails tests --
+// This is a version of subObjUpLevel that fails tests --
 // somehow, on objects that had key, it would work, but on objects that didn&apos;t contain
 // key, it would create key as undefined.  It&apos;s not clear why it would effectively delete
 // key if it had already existed, because it should be setting it to undefined.  So, I think there
 // may be either a node bug, or something i&apos;m not familiar with in the spec.  I&apos;m leaving this
 // here right now for future investigation, I should write a test case for the most basic
 // version and query some devs to see if it&apos;s a bug.
-// const subObjDownLevel = (key, obj) =&gt; ({
+// const subObjUpLevel = (key, obj) =&gt; ({
 //     ...obj,
 //     ...obj[key],
 //     [key]: undefined,
@@ -172,7 +171,7 @@ const transformObjectKeys = (obj, keyTransformer = transformKey) =&gt; {
         if (obj._) {
             obj = objToValueSub(obj);
         } else {
-            obj = subObjDownLevel(&apos;$&apos;, obj);
+            obj = subObjUpLevel(&apos;$&apos;, obj);
         }
     }
     const ret = Object.keys(obj).reduce((r, key) =&gt; {
@@ -193,7 +192,7 @@ module.exports = {
     forceArray,
     isUpperCase,
     objToValueSub,
-    subObjDownLevel,
+    subObjUpLevel,
     transformObjectKeys,
     transformKey,
 };

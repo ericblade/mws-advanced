@@ -131,7 +131,7 @@ describe('transformers', () => {
             return true;
         });
     });
-    describe('subObjDownLevel', () => {
+    describe('subObjUpLevel', () => {
         const test = {
             a: 'b',
             c: {
@@ -140,14 +140,14 @@ describe('transformers', () => {
             },
         };
         it('moves a sub-object down a level', () => {
-            const x = transformers.subObjDownLevel('c', test);
-            const y = transformers.subObjDownLevel.bind(null, 'c', test);
+            const x = transformers.subObjUpLevel('c', test);
+            const y = transformers.subObjUpLevel.bind(null, 'c', test);
             expect(x).to.be.an('Object').with.all.keys('a', 'd', 'e');
             expect(y).to.not.change(test, 'c');
             return true;
         });
         it('returns a copy of original object when key is not found', () => {
-            expect(transformers.subObjDownLevel('junk', test)).to.deep.equal(test);
+            expect(transformers.subObjUpLevel('junk', test)).to.deep.equal(test);
             return true;
         });
     });
