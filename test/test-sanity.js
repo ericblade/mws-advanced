@@ -13,7 +13,7 @@ const chaiAsPromised = require('chai-as-promised');
 chai.use(chaiAsPromised);
 const expect = chai.expect;
 
-const sleep = require('../lib/sleep');
+const sleep = require('../lib/util/sleep');
 const isType = require('../lib/validation').isType;
 const validate = require('../lib/validation').validate;
 const validateAndTransformParameters = require('../lib/validation').validateAndTransformParameters;
@@ -22,6 +22,8 @@ const { digResponseResult } = require('../lib/dig-response-result');
 
 const listMarketplacesData = require('./ListMarketplaces.json');
 const errorData = require('./errorData.json');
+
+const transformers = require('../lib/util/transformers');
 
 describe('Sanity', () => {
     it('true is true', (done) => {
@@ -86,6 +88,99 @@ describe('Misc Utils', () => {
     it('digResponseResult() throws on error', (done) => {
         expect(() => digResponseResult('ListMarketplaceParticipations', errorData)).to.throw();
         done();
+    });
+});
+
+describe('transformers', () => {
+    describe('forceArray', () => {
+        const forceArray = transformers.forceArray;
+        it('returns empty array for undefined', () => {
+            expect(forceArray()).to.be.an('Array').with.lengthOf(0);
+        });
+        it('returns array with passed parameter inside for non-array values', () => {
+            expect(forceArray(0)).to.be.an('Array').with.lengthOf(1);
+            expect(forceArray('test')).to.be.an('Array').with.lengthOf(1);
+            expect(forceArray({ obj: 'test' })).to.be.an('Array').with.lengthOf(1);
+            return true;
+        });
+        it('returns a copy of array passed in', () => {
+            const x = ['test1', 'test2'];
+            const y = forceArray(x);
+            expect(y).to.not.equal(x);
+            expect(y).to.deep.equal(x);
+            return true;
+        });
+    });
+    describe('isUpperCase', () => {
+        it('returns true for ABCD', () => {
+            expect(transformers.isUpperCase('ABCD')).to.be.true;
+            return true;
+        });
+        it('returns false for abcd', () => {
+            expect(transformers.isUpperCase('abcd')).to.be.false;
+            return true;
+        });
+        it('returns false for AbCd', () => {
+            expect(transformers.isUpperCase('AbCd')).to.be.false;
+        });
+    });
+    describe('camelize', () => {
+        it('returns camelCase strings', () => {
+            expect(transformers.camelize('PascalCase')).to.equal('pascalCase');
+            expect(transformers.camelize('camelCase')).to.equal('camelCase');
+            return true;
+        });
+    });
+    describe('subObjDownLevel', () => {
+        const test = {
+            a: 'b',
+            c: {
+                d: 0,
+                e: 1,
+            },
+        };
+        it('moves a sub-object down a level', () => {
+            const x = transformers.subObjDownLevel('c', test);
+            const y = transformers.subObjDownLevel.bind(null, 'c', test);
+            expect(x).to.be.an('Object').with.all.keys('a', 'd', 'e');
+            expect(y).to.not.change(test, 'c');
+            return true;
+        });
+        it('returns a copy of original object when key is not found', () => {
+            expect(transformers.subObjDownLevel('junk', test)).to.deep.equal(test);
+            return true;
+        });
+    });
+    describe('objToValueSub', () => {
+        it('works', () => {
+            const test = {
+                _: '0.20',
+                $: {
+                    units: 'inches',
+                },
+            };
+            const x = transformers.objToValueSub(test);
+            expect(x).to.deep.equal({
+                value: '0.20',
+                units: 'inches',
+            });
+            return true;
+        });
+    });
+    describe('transformKey', () => {
+        it('returns camelCase strings', () => {
+            expect(transformers.transformKey('PascalCase')).to.equal('pascalCase');
+            expect(transformers.transformKey('camelCase')).to.equal('camelCase');
+            return true;
+        });
+        it('returns input when given probable acronym (UPPERCASE)', () => {
+            expect(transformers.transformKey('UPPERCASE')).to.equal('UPPERCASE');
+            return true;
+        });
+    });
+    describe('transformObjectKeys', () => {
+        // TODO: write detailed tests for transformObjectKeys.
+        // TODO: should grab actual data from the base API and compare it.
     });
 });
 
@@ -478,26 +573,17 @@ describe('API', function runAPITests() {
         it('getMarketplaces', async function testGetMarketplaces() {
             const marketplaceResults = await mws.getMarketplaces();
             expect(marketplaceResults).to.be.an('object');
-            expect(marketplaceResults).to.include.all.keys(
-                'marketDetails',
-                'marketParticipations',
-                'markets',
-            );
-            expect(marketplaceResults.marketDetails).to.be.an('object');
-            expect(marketplaceResults.marketParticipations).to.be.an('array');
-            expect(marketplaceResults.marketParticipations).to.have.lengthOf.above(0);
-            expect(marketplaceResults.markets).to.be.an('array');
-            expect(marketplaceResults.markets).to.have.lengthOf.above(0);
 
-            marketIds = Object.keys(marketplaceResults.marketDetails);
+            marketIds = Object.keys(marketplaceResults);
             expect(marketIds).to.have.lengthOf.above(0);
+
             testMarketId = marketIds.includes('ATVPDKIKX0DER') ? 'ATVPDKIKX0DER' : marketIds[0];
-            const testMarket = marketplaceResults.marketDetails[testMarketId];
+            const testMarket = marketplaceResults[testMarketId];
             console.warn('* using test markets', marketIds);
             expect(testMarket).to.include.all.keys(
-                'MarketplaceId', 'DefaultCountryCode', 'DomainName', 'Name',
-                'DefaultCurrencyCode', 'DefaultLanguageCode', 'SellerId',
-                'HasSellerSuspendedListings',
+                'marketplaceId', 'defaultCountryCode', 'domainName', 'name',
+                'defaultCurrencyCode', 'defaultLanguageCode', 'sellerId',
+                'hasSellerSuspendedListings',
             );
             return true;
         });

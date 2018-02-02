@@ -31,7 +31,6 @@
     
   <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-callEndpoint">callEndpoint</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-init">init</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-camelize">camelize</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getLowestPricedOffersForASIN">getLowestPricedOffersForASIN</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getMarketplaces">getMarketplaces</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getMatchingProductForId">getMatchingProductForId</a></span></span></li>
@@ -58,7 +57,7 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-OfferSummary">OfferSummary</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-SellerFeedbackRating">SellerFeedbackRating</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ShipsFrom">ShipsFrom</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-Product">Product</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-MarketDetail">MarketDetail</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-OrderItemList">OrderItemList</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-GetReportRequestListResult">GetReportRequestListResult</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-GetReportRequestListResult">GetReportRequestListResult</a></span></span></li>
@@ -75,12 +74,20 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-products">products</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-reports">reports</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-sellers">sellers</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#util">util</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-camelize">camelize</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-forceArray">forceArray</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-isUpperCase">isUpperCase</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-objToValueSub">objToValueSub</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-subObjDownLevel">subObjDownLevel</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-transformKey">transformKey</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-transformObjectKeys">transformObjectKeys</a></span></span></li>
 </ul>
 </div>
 </nav>
 
 <div class="content" data-ice="content"><h1 data-ice="title">lib/get-marketplaces.js</h1>
 <pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">const { callEndpoint } = require(&apos;./callEndpoint&apos;);
+const { transformObjectKeys } = require(&apos;./util/transformers&apos;);
 
 // TODO: upgrade to call ListMarketplaceParticipationsByNextToken when a NextToken
 // response is returned.
@@ -90,6 +97,17 @@
 // return results when we get all the data?
 
 /**
+ * @typedef MarketDetail
+ * Object indexed by MarketplaceID
+ * @param {string} marketplaceId - id of marketplace. should be same as hash index.
+ * @param {string} defaultCountryCode - country code for marketplace (US, CA, etc)
+ * @param {string} domainName - domain name used by customers to access this market (amazon.com, .ca, .mx)
+ * @param {string} defaultCurrencyCode - currency code (USD, CAD, etc)
+ * @param {string} defaultLanguageCode - Language setting (en_US, en_CA, etc)
+ * @param {string} sellerId - your seller ID in this marketplace
+ * @param {boolean} hasSellerSuspendedListings - true if there are seller suspended listings in this account on this market
+ */
+/**
  * Call MWS ListMarketplaceParticipations, return parsed results
  * @example
  * const marketplaces = (async () =&gt; await mws.getMarketplaces())();
@@ -97,7 +115,7 @@
  *    const result = await mws.getMarketplaces();
  *    console.log(result);
  * })();
- * @return {{ markets: Array, marketParticipations: Array, marketDetail: Object }}
+ * @return {MarketDetail}
  */
 
 const getMarketplaces = async () =&gt; {
@@ -110,41 +128,32 @@ const getMarketplaces = async () =&gt; {
 
     const marketDetails = {};
 
-    // map and filter
-    const markets = marketsTemp.reduce((arr, market) =&gt; {
-        // market = { MarketplaceId, DefaultCountryCode, DomainName, DefaultCurrencyCode, Name }
-        // A2ZV50J4W1RKNI === &quot;sim1.stores.amazon.com&quot;, &quot;Non-Amazon&quot;
-        // A1MQXOICRS2Z7M === &quot;siprod.stores.amazon.ca&quot;, &quot;SI CA Prod Marketplace&quot;
-        // A2EUQ1WTGCTBG2 === &quot;www.amazon.ca&quot; &quot;Amazon.ca&quot;
-        // ATVPDKIKX0DER === &quot;www.amazon.com&quot; &quot;Amazon.com&quot;
-        // Looks like &quot;Non-Amazon&quot; and &quot;SI CA Prod Marketplace&quot; are test markets? maybe?
+    // market = { MarketplaceId, DefaultCountryCode, DomainName, DefaultCurrencyCode, Name }
+    // A2ZV50J4W1RKNI === &quot;sim1.stores.amazon.com&quot;, &quot;Non-Amazon&quot;
+    // A1MQXOICRS2Z7M === &quot;siprod.stores.amazon.ca&quot;, &quot;SI CA Prod Marketplace&quot;
+    // A2EUQ1WTGCTBG2 === &quot;www.amazon.ca&quot; &quot;Amazon.ca&quot;
+    // ATVPDKIKX0DER === &quot;www.amazon.com&quot; &quot;Amazon.com&quot;
+    // Looks like &quot;Non-Amazon&quot; and &quot;SI CA Prod Marketplace&quot; are test markets? maybe?
+    marketsTemp.forEach((market) =&gt; {
         if (market.MarketplaceId === &apos;A2ZV50J4W1RKNI&apos; ||
-            market.MarketplaceId === &apos;A1MQXOICRS2Z7M&apos;
-        ) {
-            return arr;
+            market.MarketplaceId === &apos;A1MQXOICRS2Z7M&apos;) {
+            return;
         }
-        arr.push(market);
         marketDetails[market.MarketplaceId] = market;
-        return arr;
-    }, []);
+    });
 
     // marketParticipation = { MarketplaceId, SellerId, HasSellerSuspendedListings }
-    // map and filter
-    const marketParticipations = marketParticipationsTemp.reduce((arr, participation) =&gt; {
+    marketParticipationsTemp.forEach((participation) =&gt; {
         if (participation.MarketplaceId === &apos;A2ZV50J4W1RKNI&apos; ||
-            participation.MarketplaceId === &apos;A1MQXOICRS2Z7M&apos;
-        ) {
-            return arr;
+            participation.MarketplaceId === &apos;A1MQXOICRS2Z7M&apos;) {
+            return;
         }
-        arr.push(participation);
         marketDetails[participation.MarketplaceId] = {
             ...marketDetails[participation.MarketplaceId],
             ...participation,
         };
-        return arr;
-    }, []);
-
-    return { markets, marketParticipations, marketDetails };
+    });
+    return transformObjectKeys(marketDetails);
 };
 
 module.exports = {

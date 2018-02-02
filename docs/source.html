@@ -31,7 +31,6 @@
     
   <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-callEndpoint">callEndpoint</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-init">init</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-camelize">camelize</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getLowestPricedOffersForASIN">getLowestPricedOffersForASIN</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getMarketplaces">getMarketplaces</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getMatchingProductForId">getMatchingProductForId</a></span></span></li>
@@ -58,7 +57,7 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-OfferSummary">OfferSummary</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-SellerFeedbackRating">SellerFeedbackRating</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ShipsFrom">ShipsFrom</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-Product">Product</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-MarketDetail">MarketDetail</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-OrderItemList">OrderItemList</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-GetReportRequestListResult">GetReportRequestListResult</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-GetReportRequestListResult">GetReportRequestListResult</a></span></span></li>
@@ -75,11 +74,18 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-products">products</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-reports">reports</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-sellers">sellers</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#util">util</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-camelize">camelize</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-forceArray">forceArray</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-isUpperCase">isUpperCase</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-objToValueSub">objToValueSub</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-subObjDownLevel">subObjDownLevel</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-transformKey">transformKey</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-transformObjectKeys">transformObjectKeys</a></span></span></li>
 </ul>
 </div>
 </nav>
 
-<div class="content" data-ice="content"><h1>Source <img data-ice="coverageBadge" src="./badge.svg"><span data-ice="totalCoverageCount" class="total-coverage-count">57/140</span></h1>
+<div class="content" data-ice="content"><h1>Source <img data-ice="coverageBadge" src="./badge.svg"><span data-ice="totalCoverageCount" class="total-coverage-count">62/148</span></h1>
 
 <table class="files-summary" data-ice="files" data-use-coverage="true">
   <thead>
@@ -99,17 +105,9 @@
       <td data-ice="identifier" class="identifiers"><span><a href="function/index.html#static-function-callEndpoint">callEndpoint</a></span>
 <span><a href="function/index.html#static-function-init">init</a></span></td>
       <td class="coverage"><span data-ice="coverage">45 %</span><span data-ice="coverageCount" class="coverage-count">5/11</span></td>
-      <td style="display: none;" data-ice="size">8297 byte</td>
+      <td style="display: none;" data-ice="size">8359 byte</td>
       <td style="display: none;" data-ice="lines">194</td>
-      <td style="display: none;" data-ice="updated">2018-01-07 07:59:53 (UTC)</td>
-    </tr>
-<tr data-ice="file">
-      <td data-ice="filePath"><span><a href="file/lib/camelize.js.html">lib/camelize.js</a></span></td>
-      <td data-ice="identifier" class="identifiers"><span><a href="function/index.html#static-function-camelize">camelize</a></span></td>
-      <td class="coverage"><span data-ice="coverage">100 %</span><span data-ice="coverageCount" class="coverage-count">1/1</span></td>
-      <td style="display: none;" data-ice="size">614 byte</td>
-      <td style="display: none;" data-ice="lines">19</td>
-      <td style="display: none;" data-ice="updated">2018-01-03 07:08:23 (UTC)</td>
+      <td style="display: none;" data-ice="updated">2018-02-06 02:58:54 (UTC)</td>
     </tr>
 <tr data-ice="file">
       <td data-ice="filePath"><span><a href="file/lib/constants.js.html">lib/constants.js</a></span></td>
@@ -222,9 +220,9 @@
       <td data-ice="filePath"><span><a href="file/lib/endpoints/products.js.html#errorLines=1,25,3,5,7">lib/endpoints/products.js</a></span></td>
       <td data-ice="identifier" class="identifiers">-</td>
       <td class="coverage"><span data-ice="coverage">16 %</span><span data-ice="coverageCount" class="coverage-count">1/6</span></td>
-      <td style="display: none;" data-ice="size">5211 byte</td>
-      <td style="display: none;" data-ice="lines">184</td>
-      <td style="display: none;" data-ice="updated">2018-01-03 08:11:52 (UTC)</td>
+      <td style="display: none;" data-ice="size">14696 byte</td>
+      <td style="display: none;" data-ice="lines">496</td>
+      <td style="display: none;" data-ice="updated">2018-01-03 23:14:34 (UTC)</td>
     </tr>
 <tr data-ice="file">
       <td data-ice="filePath"><span><a href="file/lib/endpoints/reports.js.html#errorLines=10,12,29,3,5,7,8">lib/endpoints/reports.js</a></span></td>
@@ -259,20 +257,20 @@
       <td style="display: none;" data-ice="updated">2018-01-01 15:50:09 (UTC)</td>
     </tr>
 <tr data-ice="file">
-      <td data-ice="filePath"><span><a href="file/lib/get-marketplaces.js.html#errorLines=1">lib/get-marketplaces.js</a></span></td>
+      <td data-ice="filePath"><span><a href="file/lib/get-marketplaces.js.html#errorLines=1,2">lib/get-marketplaces.js</a></span></td>
       <td data-ice="identifier" class="identifiers"><span><a href="function/index.html#static-function-getMarketplaces">getMarketplaces</a></span></td>
-      <td class="coverage"><span data-ice="coverage">50 %</span><span data-ice="coverageCount" class="coverage-count">1/2</span></td>
-      <td style="display: none;" data-ice="size">2802 byte</td>
-      <td style="display: none;" data-ice="lines">70</td>
-      <td style="display: none;" data-ice="updated">2018-01-01 21:47:35 (UTC)</td>
+      <td class="coverage"><span data-ice="coverage">33 %</span><span data-ice="coverageCount" class="coverage-count">1/3</span></td>
+      <td style="display: none;" data-ice="size">3223 byte</td>
+      <td style="display: none;" data-ice="lines">73</td>
+      <td style="display: none;" data-ice="updated">2018-02-06 05:40:05 (UTC)</td>
     </tr>
 <tr data-ice="file">
       <td data-ice="filePath"><span><a href="file/lib/get-matching-product.js.html#errorLines=1,2">lib/get-matching-product.js</a></span></td>
       <td data-ice="identifier" class="identifiers"><span><a href="function/index.html#static-function-getMatchingProductForId">getMatchingProductForId</a></span></td>
-      <td class="coverage"><span data-ice="coverage">50 %</span><span data-ice="coverageCount" class="coverage-count">2/4</span></td>
-      <td style="display: none;" data-ice="size">3464 byte</td>
-      <td style="display: none;" data-ice="lines">83</td>
-      <td style="display: none;" data-ice="updated">2018-01-03 08:14:36 (UTC)</td>
+      <td class="coverage"><span data-ice="coverage">60 %</span><span data-ice="coverageCount" class="coverage-count">3/5</span></td>
+      <td style="display: none;" data-ice="size">2128 byte</td>
+      <td style="display: none;" data-ice="lines">57</td>
+      <td style="display: none;" data-ice="updated">2018-02-06 05:21:14 (UTC)</td>
     </tr>
 <tr data-ice="file">
       <td data-ice="filePath"><span><a href="file/lib/index.js.html#errorLines=11,12,13,14,15,16,17,18">lib/index.js</a></span></td>
@@ -288,7 +286,7 @@
       <td class="coverage"><span data-ice="coverage">50 %</span><span data-ice="coverageCount" class="coverage-count">1/2</span></td>
       <td style="display: none;" data-ice="size">921 byte</td>
       <td style="display: none;" data-ice="lines">23</td>
-      <td style="display: none;" data-ice="updated">2018-01-05 16:30:14 (UTC)</td>
+      <td style="display: none;" data-ice="updated">2018-01-03 09:35:57 (UTC)</td>
     </tr>
 <tr data-ice="file">
       <td data-ice="filePath"><span><a href="file/lib/list-inventory-supply.js.html#errorLines=1">lib/list-inventory-supply.js</a></span></td>
@@ -324,17 +322,31 @@
 <span><a href="function/index.html#static-function-requestAndDownloadReport">requestAndDownloadReport</a></span>
 <span><a href="function/index.html#static-function-requestReport">requestReport</a></span></td>
       <td class="coverage"><span data-ice="coverage">81 %</span><span data-ice="coverageCount" class="coverage-count">9/11</span></td>
-      <td style="display: none;" data-ice="size">11485 byte</td>
+      <td style="display: none;" data-ice="size">11490 byte</td>
       <td style="display: none;" data-ice="lines">257</td>
-      <td style="display: none;" data-ice="updated">2018-01-01 21:22:28 (UTC)</td>
+      <td style="display: none;" data-ice="updated">2018-02-06 02:59:01 (UTC)</td>
     </tr>
 <tr data-ice="file">
-      <td data-ice="filePath"><span><a href="file/lib/sleep.js.html">lib/sleep.js</a></span></td>
+      <td data-ice="filePath"><span><a href="file/lib/util/sleep.js.html">lib/util/sleep.js</a></span></td>
       <td data-ice="identifier" class="identifiers">-</td>
       <td class="coverage"><span data-ice="coverage">100 %</span><span data-ice="coverageCount" class="coverage-count">1/1</span></td>
       <td style="display: none;" data-ice="size">289 byte</td>
       <td style="display: none;" data-ice="lines">13</td>
-      <td style="display: none;" data-ice="updated">2018-01-01 15:50:09 (UTC)</td>
+      <td style="display: none;" data-ice="updated">2018-02-06 02:45:20 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/lib/util/transformers.js.html#errorLines=79,82">lib/util/transformers.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="function/index.html#static-function-camelize">camelize</a></span>
+<span><a href="function/index.html#static-function-forceArray">forceArray</a></span>
+<span><a href="function/index.html#static-function-isUpperCase">isUpperCase</a></span>
+<span><a href="function/index.html#static-function-objToValueSub">objToValueSub</a></span>
+<span><a href="function/index.html#static-function-subObjDownLevel">subObjDownLevel</a></span>
+<span><a href="function/index.html#static-function-transformKey">transformKey</a></span>
+<span><a href="function/index.html#static-function-transformObjectKeys">transformObjectKeys</a></span></td>
+      <td class="coverage"><span data-ice="coverage">71 %</span><span data-ice="coverageCount" class="coverage-count">5/7</span></td>
+      <td style="display: none;" data-ice="size">3600 byte</td>
+      <td style="display: none;" data-ice="lines">111</td>
+      <td style="display: none;" data-ice="updated">2018-02-06 06:19:13 (UTC)</td>
     </tr>
 <tr data-ice="file">
       <td data-ice="filePath"><span><a href="file/lib/validation.js.html">lib/validation.js</a></span></td>

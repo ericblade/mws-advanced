@@ -31,7 +31,6 @@
     
   <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-callEndpoint">callEndpoint</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-init">init</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-camelize">camelize</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getLowestPricedOffersForASIN">getLowestPricedOffersForASIN</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getMarketplaces">getMarketplaces</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getMatchingProductForId">getMatchingProductForId</a></span></span></li>
@@ -58,7 +57,7 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-OfferSummary">OfferSummary</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-SellerFeedbackRating">SellerFeedbackRating</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ShipsFrom">ShipsFrom</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-Product">Product</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-MarketDetail">MarketDetail</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-OrderItemList">OrderItemList</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-GetReportRequestListResult">GetReportRequestListResult</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-GetReportRequestListResult">GetReportRequestListResult</a></span></span></li>
@@ -75,56 +74,37 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-products">products</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-reports">reports</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-sellers">sellers</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#util">util</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-camelize">camelize</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-forceArray">forceArray</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-isUpperCase">isUpperCase</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-objToValueSub">objToValueSub</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-subObjDownLevel">subObjDownLevel</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-transformKey">transformKey</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-transformObjectKeys">transformObjectKeys</a></span></span></li>
 </ul>
 </div>
 </nav>
 
 <div class="content" data-ice="content"><h1 data-ice="title">lib/get-matching-product.js</h1>
 <pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">const { callEndpoint } = require(&apos;./callEndpoint&apos;);
-const camelize = require(&apos;./camelize&apos;);
+const { forceArray, transformKey, transformObjectKeys } = require(&apos;./util/transformers&apos;);
 
 /**
- * Product Information. See official schema for details.
- * http://g-ecx.images-amazon.com/images/G/01/mwsportal/doc/en_US/products/default.xsd and
- * http://g-ecx.images-amazon.com/images/G/01/mwsportal/doc/en_US/products/ProductsAPI_Response.xsd
- * @typedef {Object} Product
- */
-
-/* eslint-disable no-param-reassign, no-return-assign */
-/**
- * Takes an amazon AttributeSets object and returns it reformatted
+ * remove a string pattern from a string
  *
- * @param {object} attributeSets
- * @returns {object} - reformatted Attribute Sets
+ * @param {string} str string to remove pattern from
+ * @param {string|regex} pattern pattern to remove
+ * @return {string} string with the pattern removed
  */
-const parseAttributeSets = (attributeSets) =&gt; {
-    // move the interior of $ object up one level, if there&apos;s no corresponding _ object:
-    // { $: { xml:Lang: &apos;en-US&apos; } } =&gt; { xml:Lang: &apos;en-US&apos; } }
-    if (attributeSets.$ &amp;&amp; !attributeSets._) {
-        // eslint-disable-next-line no-return-assign
-        Object.keys(attributeSets.$).forEach(k =&gt; attributeSets[k] = attributeSets.$[k]);
-        delete attributeSets.$;
-    }
-    // strip &apos;ns2:&apos; from beginning of keys, then camelize them, then loop through any subobjects.
-    // for _ objects, convert them to &quot;value&quot; and their corresponding &quot;$&quot; contents moves up a level.
-    // { _: 1.20, $: { units: &apos;inches&apos; } } =&gt; { value: &apos;1.20&apos;, units: &apos;inches&apos; }
-    const result = Object.keys(attributeSets).reduce((ret, key) =&gt; {
-        const destKey = !(key === key.toUpperCase()) ? camelize(key.replace(/^ns2:/, &apos;&apos;)) : key;
-        if (typeof attributeSets[key] === &apos;object&apos;) {
-            attributeSets[key] = parseAttributeSets(attributeSets[key]);
-            if (attributeSets[key]._ &amp;&amp; attributeSets[key].$) {
-                attributeSets[key] = {
-                    value: attributeSets[key]._,
-                    ...attributeSets[key].$,
-                };
-            }
-        }
-        ret[destKey] = attributeSets[key];
-        return ret;
-    }, {});
-    return result;
-};
-/* eslint-enable no-param-reassign, no-return-assign */
+const removeFromString = str =&gt; pattern =&gt; str.replace(pattern, &apos;&apos;);
+
+/**
+ * Special key transformer for transformObjectKeys to strip &quot;ns2:&quot; from the beginning of keys,
+ * such as &apos;ns2:ItemAttributes&apos;
+ *
+ * @param {any} k
+ */
+const transformAttributeSetKey = k =&gt; transformKey(removeFromString(k)(/^ns2:/));
 
 /**
  * Returns a list of products and their attributes, based on a list of ASIN, GCID, SellerSKU, UPC,
@@ -144,14 +124,14 @@ const getMatchingProductForId = async (options) =&gt; {
     }
     // for a single return, flattenResult will drop this to an object, which is not desireable
     // in this particular case.
-    const products = [].concat(result || []);
+    const products = forceArray(result);
     const ret = products.map((p) =&gt; {
         const type = String(p.$.IdType).toLowerCase();
         if (p.Error) {
             return { Error: p.Error, [`${type}`]: p.$.Id };
         }
         return {
-            ...parseAttributeSets(p.Products.Product),
+            ...transformObjectKeys(p.Products.Product, transformAttributeSetKey),
             [`${type}`]: p.$.Id,
             idType: type,
             id: p.$.Id,

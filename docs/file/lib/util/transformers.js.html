@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <base data-ice="baseUrl" href="../../../">
-  <title data-ice="title">lib/endpoints/inbound.js | mws-advanced</title>
+  <title data-ice="title">lib/util/transformers.js | mws-advanced</title>
   <link type="text/css" rel="stylesheet" href="css/style.css">
   <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
   <script src="script/prettify/prettify.js"></script>
@@ -85,51 +85,118 @@
 </div>
 </nav>
 
-<div class="content" data-ice="content"><h1 data-ice="title">lib/endpoints/inbound.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">
-const generateEndpoints = require(&apos;./endpoints-utils&apos;);
-
-const categoryName = &apos;FulfillmentInboundShipment&apos;;
-
-const apiVersion = &apos;2010-10-01&apos;;
-
-const endpointList = [
-    &apos;GetInboundGuidanceForSKU&apos;,
-    &apos;GetInboundGuidanceForASIN&apos;,
-    &apos;CreateInboundShipmentPlan&apos;,
-    &apos;CreateInboundShipment&apos;,
-    &apos;UpdateInboundShipment&apos;,
-    &apos;GetPreorderInfo&apos;,
-    &apos;ConfirmPreorder&apos;,
-    &apos;GetPrepInstructionsForSKU&apos;,
-    &apos;GetPrepInstructionsForASIN&apos;,
-    &apos;PutTransportContent&apos;,
-    &apos;EstimateTransportRequest&apos;,
-    &apos;GetTransportContent&apos;,
-    &apos;ConfirmTransportRequest&apos;,
-    &apos;VoidTransportRequest&apos;,
-    &apos;GetPackageLabels&apos;,
-    &apos;GetUniquePackageLabels&apos;,
-    &apos;GetPalletLabels&apos;,
-    &apos;GetBillOfLading&apos;,
-    &apos;ListInboundShipments&apos;,
-    &apos;ListInboundShipmentsByNextToken&apos;,
-    &apos;ListInboundShipmentItems&apos;,
-    &apos;ListInboundShipmentItemsByNextToken&apos;,
-    &apos;GetServiceStatus&apos;,
-];
-
-/**
- * @private
+<div class="content" data-ice="content"><h1 data-ice="title">lib/util/transformers.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">/**
+ * @module transformers
+ * More than meets the eye.
  */
 
-const endpoints = generateEndpoints(
-    categoryName,
-    apiVersion,
-    endpointList,
-);
+/**
+ * Force parameter to be an array. If it&apos;s already an array, return a copy of the original.
+ * If it&apos;s not an array, then return it inside an array. Useful for ensuring that things that
+ * should always be arrays, are actually always arrays.
+ *
+ * @param {any} arr - item to force to array
+ * @return {array} - copy of array, or an array containing arr
+ */
+const forceArray = arr =&gt; [].concat(arr !== undefined ? arr : []);
 
-module.exports = endpoints;
+/**
+ * Test if a string is all upper case
+ *
+ * @param {string} str string to test
+ * @return {boolean} true if string is all UPPERCASE
+ */
+const isUpperCase = str =&gt; typeof str === &apos;string&apos; &amp;&amp; str === str.toUpperCase();
+
+// https://stackoverflow.com/questions/2970525/converting-any-string-into-camel-case
+/**
+ * Attempt to relatively intelligently convert any string to camelCase (CamelCase =&gt; camelCase)
+ * Ignores strings that are entirely uppercase, assuming they might be acronyms or some such.
+ *
+ * @param {string} - string to convert
+ * @returns {string} - camelCase version of string
+ */
+const camelize = (str) =&gt; {
+    const ret = str.replace(
+        /(?:^\w|[A-Z]|\b\w)/g,
+        (letter, index) =&gt; (index === 0 ? letter.toLowerCase() : letter.toUpperCase()),
+    ).replace(/\s+/g, &apos;&apos;);
+    return ret;
+};
+
+/**
+ * Move all contents of a subobject &apos;key&apos; down one level
+ * @param {string} key - key to move
+ * @param {object} obj - object to move in
+ * @return {object} new object with sub-object contents of &apos;key&apos; moved one level lower
+ */
+const subObjDownLevel = (key, obj) =&gt; {
+    const ret = {
+        ...obj,
+        ...obj[key],
+    };
+    delete ret[key];
+    return ret;
+};
+
+// This is a version of subObjDownLevel that looks good, but fails tests --
+// somehow, on objects that had key, it would work, but on objects that didn&apos;t contain
+// key, it would create key as undefined.  It&apos;s not clear why it would effectively delete
+// key if it had already existed, because it should be setting it to undefined.  So, I think there
+// may be either a node bug, or something i&apos;m not familiar with in the spec.  I&apos;m leaving this
+// here right now for future investigation, I should write a test case for the most basic
+// version and query some devs to see if it&apos;s a bug.
+// const subObjDownLevel = (key, obj) =&gt; ({
+//     ...obj,
+//     ...obj[key],
+//     [key]: undefined,
+// });
+
+/**
+ * Rename obj._ to obj.value, and move contents of obj.$ one level lower
+ *
+ * @param {object} obj - object to operate on
+ * @return {object} transformed object
+ */
+const objToValueSub = obj =&gt; ({
+    value: obj._,
+    ...obj.$,
+});
+
+const transformKey = k =&gt; (isUpperCase(k) ? k : camelize(k));
+
+/* eslint-disable no-param-reassign */
+const transformObjectKeys = (obj, keyTransformer = transformKey) =&gt; {
+    if (typeof obj.$ === &apos;object&apos;) {
+        if (obj._) {
+            obj = objToValueSub(obj);
+        } else {
+            obj = subObjDownLevel(&apos;$&apos;, obj);
+        }
+    }
+    const ret = Object.keys(obj).reduce((r, key) =&gt; {
+        const destKey = keyTransformer(key);
+        if (typeof obj[key] === &apos;object&apos;) {
+            r[destKey] = transformObjectKeys(obj[key], keyTransformer);
+        } else {
+            r[destKey] = obj[key];
+        }
+        return r;
+    }, {});
+    return ret;
+};
+/* eslint-enable no-param-reassign */
+
+module.exports = {
+    camelize,
+    forceArray,
+    isUpperCase,
+    objToValueSub,
+    subObjDownLevel,
+    transformObjectKeys,
+    transformKey,
+};
 </code></pre>
 
 </div>
