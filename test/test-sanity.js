@@ -5,6 +5,9 @@
 // remove prefer-arrow-function because we need to use regular functions in places to access this.skip()
 
 /* eslint-disable import/no-extraneous-dependencies,no-undef,no-unused-expressions,prefer-destructuring,prefer-arrow-callback,global-require,no-empty,func-names,arrow-body-style */
+
+process.env.NODE_ENV = 'testing';
+
 const fs = require('fs'); // yes i know i probably shouldn't be writing files in tests. sorry.
 
 const chai = require('chai');
