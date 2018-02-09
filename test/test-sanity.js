@@ -899,13 +899,13 @@ describe('API', function runAPITests() {
             console.warn(`* Found settlement of ${amount}`);
             return settlement;
         });
-        it('requestAndDownloadReport (timeout 60000ms)', async function testRequestDownloadReport() {
+        it('requestAndDownloadReport (timeout 120sec)', async function testRequestDownloadReport() {
             if (!process.env.REPORTS_TESTS) {
                 console.warn('* skipping reports tests');
                 this.skip();
                 return false;
             }
-            this.timeout(60000);
+            this.timeout(120 * 1000);
             await mws.requestAndDownloadReport('_GET_FLAT_FILE_OPEN_LISTINGS_DATA_', './test-listings.json');
             expect(fs.existsSync('./test-listings.json')).to.equal(true);
             try {
