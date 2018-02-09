@@ -64,23 +64,6 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ReportRequestInfo">ReportRequestInfo</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#endpoints">endpoints</a><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-REPORT_PROCESSING_STATUS_TYPES">REPORT_PROCESSING_STATUS_TYPES</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-REQUEST_REPORT_TYPES">REQUEST_REPORT_TYPES</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-feeds">feeds</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-finances">finances</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-inbound">inbound</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-inventory">inventory</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-merchFulfillment">merchFulfillment</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-orders">orders</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-outbound">outbound</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-products">products</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-reports">reports</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-sellers">sellers</a></span></span></li>
-<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#util">util</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-camelize">camelize</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-forceArray">forceArray</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-isUpperCase">isUpperCase</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-objToValueSub">objToValueSub</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-subObjUpLevel">subObjUpLevel</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-transformKey">transformKey</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-transformObjectKeys">transformObjectKeys</a></span></span></li>
 </ul>
 </div>
 </nav>
@@ -102,13 +85,17 @@ const fs = require(&apos;fs&apos;);
 /** holds the mws-simple reference after init() is called */
 let mws = null;
 
-// TODO: document examples of init, for defaults, for alternate regions, for specific hosts.
 /**
  * Initialize mws-advanced with your MWS access keys, merchantId, optionally authtoken, host, port
  * If accessKeyId, secretAccessKey, and/or merchantId are not provided, they will be read from
  * the environment variables MWS_ACESS_KEY, MWS_SECRET_ACCESS_KEY, and MWS_MERCHANT_ID respectively
  *
  * @public
+ * @example
+ * const mws = MWS.init({ region: &apos;NA&apos;, accessKeyId: &apos;1234&apos;, secretAccessKey: &apos;2345&apos;, merchantId: &apos;1234567890&apos; });
+ * const mws = MWS.init({ region: &apos;EU&apos;, accessKeyId, ... });
+ * const mws = MWS.init({ authToken: &apos;qwerty&apos;, accessKeyId, ...});
+ * const mws = MWS.init({ host: &apos;alternate-mws-server.com&apos;, accessKeyId, ... });
  * @param {object} config Contains your MWS Access Keys/Tokens and options to configure the API
  * @param {string} [config.accessKeyId=process.env.MWS_ACCESS_KEY] Your MWS Access Key
  * @param {string} [config.secretAccessKey=process.env.MWS_SECRET_ACCESS_KEY] Your MWS Secret Access Key
@@ -235,10 +222,6 @@ const callEndpoint = async (name, callOptions = {}, opt = {}) =&gt; {
         if (opt.returnRaw) {
             return result;
         }
-        // TODO: add an option that will store the raw data, and a separate option to store the parsed
-        // data, to file
-        // const fs = require(&apos;fs&apos;);
-        // fs.appendFile(`${name}-out.json`, JSON.stringify(result));
         const digResult = digResponseResult(name, result);
         if (opt.saveParsed) {
             fs.writeFileSync(opt.saveParsed, JSON.stringify(digResult));

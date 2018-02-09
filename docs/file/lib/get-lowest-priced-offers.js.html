@@ -64,29 +64,13 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ReportRequestInfo">ReportRequestInfo</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#endpoints">endpoints</a><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-REPORT_PROCESSING_STATUS_TYPES">REPORT_PROCESSING_STATUS_TYPES</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-REQUEST_REPORT_TYPES">REQUEST_REPORT_TYPES</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-feeds">feeds</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-finances">finances</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-inbound">inbound</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-inventory">inventory</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-merchFulfillment">merchFulfillment</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-orders">orders</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-outbound">outbound</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-products">products</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-reports">reports</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-sellers">sellers</a></span></span></li>
-<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#util">util</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-camelize">camelize</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-forceArray">forceArray</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-isUpperCase">isUpperCase</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-objToValueSub">objToValueSub</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-subObjUpLevel">subObjUpLevel</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-transformKey">transformKey</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-transformObjectKeys">transformObjectKeys</a></span></span></li>
 </ul>
 </div>
 </nav>
 
 <div class="content" data-ice="content"><h1 data-ice="title">lib/get-lowest-priced-offers.js</h1>
 <pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">const { callEndpoint } = require(&apos;./callEndpoint&apos;);
+const { forceArray } = require(&apos;./util/transformers&apos;);
 
 /**
  * @typedef OfferCount
@@ -227,21 +211,7 @@ const reformatBuyBoxPrice = bb =&gt; ({
  * @return {OfferSummary}
  */
 const reformatSummary = (summary) =&gt; {
-    // this little mess for setting up buyBoxPrices is thanks to flattenResult flattening the
-    // very first node of the tree inappropriately.  Not quite sure how to prevent that, right
-    // at this moment, though.
-    // TODO: when we fix flattenResult to not flatten the very first node, we need to fix this area.
-    // TODO: there is also one other area that would break, but I can&apos;t remember what it was.
-    // Hopefully we have a test for it.
-
-    let buyBoxPrices = [];
-    if (summary.BuyBoxPrices &amp;&amp; summary.BuyBoxPrices.BuyBoxPrice) {
-        if (summary.BuyBoxPrices.BuyBoxPrice.length) {
-            buyBoxPrices = summary.BuyBoxPrices.BuyBoxPrice;
-        } else {
-            buyBoxPrices = [summary.BuyBoxPrices.BuyBoxPrice];
-        }
-    }
+    const buyBoxPrices = forceArray(summary.BuyBoxPrices.BuyBoxPrice);
 
     const ret = {};
     ret.totalOfferCount = parseInt(summary.TotalOfferCount, 10);
@@ -279,15 +249,7 @@ const getLowestPricedOffersForASIN = async (options) =&gt; {
     const identifier = results.Identifier;
     const summary = results.Summary;
 
-    // TODO: same comment as above on buyBoxPrices.
-    let offers = [];
-    if (results.Offers &amp;&amp; results.Offers.Offer) {
-        if (results.Offers.Offer.length) {
-            offers = results.Offers.Offer;
-        } else {
-            offers = [results.Offers.Offer];
-        }
-    }
+    const offers = forceArray(results.Offers.Offer);
 
     const ret = {};
     ret.asin = identifier.ASIN;

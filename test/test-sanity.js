@@ -192,28 +192,43 @@ describe('isType', () => {
         expect(isType('testtype', 'junkdata')).to.be.true;
         done();
     });
+    it('xs:int', (done) => {
+        expect(isType('xs:int', 0)).to.be.true;
+        expect(isType('xs:int', 1)).to.be.true;
+        expect(isType('xs:int', 1000)).to.be.true;
+        expect(isType('xs:int', -1)).to.be.true;
+        expect(isType('xs:int', -1000)).to.be.true;
+        expect(() => isType('xs:int', 0.1234)).to.throw();
+        expect(isType('xs:int', '1234')).to.be.true;
+        expect(() => isType('xs:int', 'coffee')).to.throw();
+        expect(() => isType('xs:int', { test: 1 })).to.throw();
+        done();
+    });
     it('xs:positiveInteger', (done) => {
         expect(() => isType('xs:positiveInteger', -100)).to.throw();
         expect(() => isType('xs:positiveInteger', 0)).to.throw();
         expect(isType('xs:positiveInteger', 100)).to.be.true;
-        expect(isType('xs:positiveInteger', 'string')).to.be.false;
-        expect(isType('xs:positiveInteger', { test: true })).be.false;
+        expect(() => isType('xs:positiveInteger', 'string')).to.throw();
+        expect(() => isType('xs:positiveInteger', { test: true })).to.throw();
         done();
     });
     it('xs:nonNegativeInteger', (done) => {
         expect(() => isType('xs:nonNegativeInteger', -100)).to.throw();
         expect(isType('xs:nonNegativeInteger', 0)).to.be.true;
         expect(isType('xs:nonNegativeInteger', 100)).to.be.true;
-        expect(isType('xs:nonNegativeInteger', 'string')).to.be.false;
-        expect(isType('xs:nonNegativeInteger', { test: true })).to.be.false;
+        expect(() => isType('xs:nonNegativeInteger', 'string')).to.throw();
+        expect(() => isType('xs:nonNegativeInteger', { test: true })).to.throw();
         done();
     });
     it('integer ranging', (done) => {
         const range = { minValue: 10, maxValue: 100 };
+        expect(() => isType('xs:int', 1, range)).to.throw();
         expect(() => isType('xs:positiveInteger', 1, range)).to.throw();
         expect(() => isType('xs:nonNegativeInteger', 1, range)).to.throw();
+        expect(isType('xs:int', 50, range)).to.be.true;
         expect(isType('xs:positiveInteger', 50, range)).to.be.true;
         expect(isType('xs:nonNegativeInteger', 50, range)).to.be.true;
+        expect(() => isType('xs:int', 1000, range)).to.throw();
         expect(() => isType('xs:positiveInteger', 1000, range)).to.throw();
         expect(() => isType('xs:nonNegativeInteger', 1000, range)).to.throw();
         done();
@@ -651,7 +666,7 @@ describe('API', function runAPITests() {
                 'CouponPaymentEventList', 'ServiceProviderCreditEventList',
                 'SellerDealPaymentEventList', 'SellerReviewEnrollmentPaymentEventList',
                 'DebtRecoveryEventList', 'ShipmentEventList', 'RetrochargeEventList',
-                'SAFETReimbursementEventList', 'GuaranteeClaimEventList',
+                'SAFETReimbursementEventList', 'GuaranteeClaimEventList', 'ImagingServicesFeeEventList',
                 'ChargebackEventList', 'FBALiquidationEventList', 'LoanServicingEventList',
                 'RefundEventList', 'AdjustmentEventList', 'PerformanceBondRefundEventList',
             );
@@ -884,13 +899,13 @@ describe('API', function runAPITests() {
             console.warn(`* Found settlement of ${amount}`);
             return settlement;
         });
-        it('requestAndDownloadReport (timeout 60000ms)', async function testRequestDownloadReport() {
+        it('requestAndDownloadReport (timeout 120sec)', async function testRequestDownloadReport() {
             if (!process.env.REPORTS_TESTS) {
                 console.warn('* skipping reports tests');
                 this.skip();
                 return false;
             }
-            this.timeout(60000);
+            this.timeout(120 * 1000);
             await mws.requestAndDownloadReport('_GET_FLAT_FILE_OPEN_LISTINGS_DATA_', './test-listings.json');
             expect(fs.existsSync('./test-listings.json')).to.equal(true);
             try {

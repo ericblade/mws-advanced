@@ -19,11 +19,6 @@
 -   [getMarketplaces](#getmarketplaces)
 -   [getMarketplaces](#getmarketplaces-1)
 -   [forceArray](#forcearray)
--   [forceArray](#forcearray-1)
--   [isUpperCase](#isuppercase)
--   [camelize](#camelize)
--   [subObjUpLevel](#subobjuplevel)
--   [objToValueSub](#objtovaluesub)
 -   [listOrderItems](#listorderitems)
 -   [listOrderItems](#listorderitems-1)
 -   [listOrders](#listorders)
@@ -86,6 +81,15 @@ the environment variables MWS_ACESS_KEY, MWS_SECRET_ACCESS_KEY, and MWS_MERCHANT
     -   `config.host` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Set MWS host server name, see <https://docs.developer.amazonservices.com/en_US/dev_guide/DG_Endpoints.html> (optional, default `'mws.amazonservices.com'`)
     -   `config.port` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Set MWS host port (optional, default `443`)
 
+**Examples**
+
+```javascript
+const mws = MWS.init({ region: 'NA', accessKeyId: '1234', secretAccessKey: '2345', merchantId: '1234567890' });
+const mws = MWS.init({ region: 'EU', accessKeyId, ... });
+const mws = MWS.init({ authToken: 'qwerty', accessKeyId, ...});
+const mws = MWS.init({ host: 'alternate-mws-server.com', accessKeyId, ... });
+```
+
 Returns **mws-simple** The mws-simple instance used to communicate with the API
 
 ## endpoints
@@ -141,18 +145,6 @@ status indicators for report processing status updates
 
 ## getMarketplaces
 
-**Parameters**
-
--   `marketplaceId` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** id of marketplace. should be same as hash index.
--   `defaultCountryCode` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** country code for marketplace (US, CA, etc)
--   `domainName` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** domain name used by customers to access this market (amazon.com, .ca, .mx)
--   `defaultCurrencyCode` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** currency code (USD, CAD, etc)
--   `defaultLanguageCode` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Language setting (en_US, en_CA, etc)
--   `sellerId` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** your seller ID in this marketplace
--   `hasSellerSuspendedListings` **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** true if there are seller suspended listings in this account on this market
-
-## getMarketplaces
-
 Call MWS ListMarketplaceParticipations, return parsed results
 
 **Examples**
@@ -167,17 +159,17 @@ const marketplaces = (async () => await mws.getMarketplaces())();
 
 Returns **MarketDetail** 
 
-## forceArray
-
-Force parameter to be an array. If it's already an array, return a copy of the original.
-If it's not an array, then return it inside an array. Useful for ensuring that things that
-should always be arrays, are actually always arrays.
+## getMarketplaces
 
 **Parameters**
 
--   `arr` **any** item to force to array
-
-Returns **[array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)** copy of array, or an array containing arr
+-   `marketplaceId` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** id of marketplace. should be same as hash index.
+-   `defaultCountryCode` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** country code for marketplace (US, CA, etc)
+-   `domainName` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** domain name used by customers to access this market (amazon.com, .ca, .mx)
+-   `defaultCurrencyCode` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** currency code (USD, CAD, etc)
+-   `defaultLanguageCode` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Language setting (en_US, en_CA, etc)
+-   `sellerId` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** your seller ID in this marketplace
+-   `hasSellerSuspendedListings` **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** true if there are seller suspended listings in this account on this market
 
 ## forceArray
 
@@ -185,47 +177,14 @@ Returns **[array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Refere
 
 -   `arr`  
 
-## isUpperCase
-
-Test if a string is all upper case
+## listOrderItems
 
 **Parameters**
 
--   `str` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** string to test
-
-Returns **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** true if string is all UPPERCASE
-
-## camelize
-
-Attempt to relatively intelligently convert any string to camelCase (CamelCase => camelCase)
-
-**Parameters**
-
--   `str`  
--   `null-null` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** string to convert
-
-Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** camelCase version of string
-
-## subObjUpLevel
-
-Move all contents of a subobject 'key' down one level
-
-**Parameters**
-
--   `key` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** key to move
--   `obj` **[object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** object to move in
-
-Returns **[object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** new object with sub-object contents of 'key' moved one level lower
-
-## objToValueSub
-
-Rename obj.\_ to obj.value, and move contents of obj.$ one level lower
-
-**Parameters**
-
--   `obj` **[object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** object to operate on
-
-Returns **[object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** transformed object
+-   `AmazonOrderId`  
+-   `orderId` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Amazon Order ID
+-   `nextToken` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Token to provide to ListOrderItemsByNextToken if needed (no token = no need)
+-   `orderItems` **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)** Array of all the items in the order
 
 ## listOrderItems
 
@@ -248,15 +207,6 @@ ShippingDiscount
 -   `AmazonOrderId` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 3-7-7 Amazon Order ID formatted string
 
 Returns **OrderItemList** 
-
-## listOrderItems
-
-**Parameters**
-
--   `AmazonOrderId`  
--   `orderId` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Amazon Order ID
--   `nextToken` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Token to provide to ListOrderItemsByNextToken if needed (no token = no need)
--   `orderItems` **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)** Array of all the items in the order
 
 ## listOrders
 
@@ -361,6 +311,34 @@ Returns **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Refere
 **Parameters**
 
 -   `offer`  
+-   `unknown` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+
+## reformatOffer
+
+**Parameters**
+
+-   `offer`  
+-   `unknown` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+
+## reformatOffer
+
+**Parameters**
+
+-   `offer`  
+-   `unknown` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+
+## reformatOffer
+
+**Parameters**
+
+-   `offer`  
+-   `unknown` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+
+## reformatOffer
+
+**Parameters**
+
+-   `offer`  
 -   `subCondition` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** The subcondition of the item (New, Mint, Very Good, Good, Acceptable, Poor, Club, OEM, Warranty, Refurbished Warranty, Refurbished, Open Box, or Other)
 -   `sellerFeedbackRating` **SellerFeedbackRating** Information about the seller's feedback
 -   `shippingTime` **DetailedShippingTime** Maximum time within which the item will likely be shipped
@@ -371,34 +349,6 @@ Returns **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Refere
 -   `isFulfilledByAmazon` **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** True if FBA, False if not
 -   `isBuyBoxWinner` **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?** True if offer has buy box, False if not
 -   `isFeaturedMerchant` **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?** True if seller is eligible for Buy Box, False if not
-
-## reformatOffer
-
-**Parameters**
-
--   `offer`  
--   `unknown` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
-
-## reformatOffer
-
-**Parameters**
-
--   `offer`  
--   `unknown` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
-
-## reformatOffer
-
-**Parameters**
-
--   `offer`  
--   `unknown` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
-
-## reformatOffer
-
-**Parameters**
-
--   `offer`  
--   `unknown` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 
 ## reformatLowestPrice
 
@@ -501,21 +451,6 @@ Returns **ReportRequestInfo**
 
 ## getReportRequestList
 
-**Parameters**
-
--   `options`   (optional, default `{}`)
--   `ReportType` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Type of Report Requested @see [REQUEST_REPORT_TYPES](#request_report_types)
--   `ReportProcessingStatus` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Status of Report @see [REPORT_PROCESSING_STATUS_TYPES](#report_processing_status_types)
--   `EndDate` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** ISO Date for Report End Period
--   `Scheduled` **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** True if report is scheduled, false if immediate
--   `ReportRequestId` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Identifier for the Report Request
--   `StartedProcessingDate` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** ISO Date for time MWS started processing request
--   `StartDate` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** ISO Date for Report Start Period
--   `CompletedDate` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** ISO Date for time MWS completed processing request
--   `GeneratedReportId` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Identifier to use with getReport to retrieve the report
-
-## getReportRequestList
-
 Returns a list of report requests that you can use to get the ReportRequestId for a report
 After calling requestReport, you should call this function occasionally to see if/when the report
 has been processed.
@@ -531,6 +466,21 @@ has been processed.
 -   `RequestedToDate` **[Date](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date)** Newest date to search for (optional, default `Now`)
 
 Returns **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;GetReportRequestListResult>** 
+
+## getReportRequestList
+
+**Parameters**
+
+-   `options`   (optional, default `{}`)
+-   `ReportType` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Type of Report Requested @see [REQUEST_REPORT_TYPES](#request_report_types)
+-   `ReportProcessingStatus` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Status of Report @see [REPORT_PROCESSING_STATUS_TYPES](#report_processing_status_types)
+-   `EndDate` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** ISO Date for Report End Period
+-   `Scheduled` **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** True if report is scheduled, false if immediate
+-   `ReportRequestId` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Identifier for the Report Request
+-   `StartedProcessingDate` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** ISO Date for time MWS started processing request
+-   `StartDate` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** ISO Date for Report Start Period
+-   `CompletedDate` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** ISO Date for time MWS completed processing request
+-   `GeneratedReportId` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Identifier to use with getReport to retrieve the report
 
 ## getReport
 
