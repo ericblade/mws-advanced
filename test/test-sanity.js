@@ -208,16 +208,16 @@ describe('isType', () => {
         expect(() => isType('xs:positiveInteger', -100)).to.throw();
         expect(() => isType('xs:positiveInteger', 0)).to.throw();
         expect(isType('xs:positiveInteger', 100)).to.be.true;
-        expect(isType('xs:positiveInteger', 'string')).to.be.false;
-        expect(isType('xs:positiveInteger', { test: true })).be.false;
+        expect(() => isType('xs:positiveInteger', 'string')).to.throw();
+        expect(() => isType('xs:positiveInteger', { test: true })).to.throw();
         done();
     });
     it('xs:nonNegativeInteger', (done) => {
         expect(() => isType('xs:nonNegativeInteger', -100)).to.throw();
         expect(isType('xs:nonNegativeInteger', 0)).to.be.true;
         expect(isType('xs:nonNegativeInteger', 100)).to.be.true;
-        expect(isType('xs:nonNegativeInteger', 'string')).to.be.false;
-        expect(isType('xs:nonNegativeInteger', { test: true })).to.be.false;
+        expect(() => isType('xs:nonNegativeInteger', 'string')).to.throw();
+        expect(() => isType('xs:nonNegativeInteger', { test: true })).to.throw();
         done();
     });
     it('integer ranging', (done) => {
