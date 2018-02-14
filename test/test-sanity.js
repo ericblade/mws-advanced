@@ -28,6 +28,8 @@ const errorData = require('./errorData.json');
 
 const transformers = require('../lib/util/transformers');
 
+const errors = require('../lib/errors');
+
 describe('Sanity', () => {
     it('true is true', (done) => {
         expect(true).to.equal(true);
@@ -88,8 +90,8 @@ describe('Misc Utils', () => {
         expect(result).to.have.keys('ListParticipations', 'ListMarketplaces');
         done();
     });
-    it('digResponseResult() throws on error', (done) => {
-        expect(() => digResponseResult('ListMarketplaceParticipations', errorData)).to.throw();
+    it('digResponseResult() throws ServiceError on error message (simulated from server)', (done) => {
+        expect(() => digResponseResult('ListMarketplaceParticipations', errorData)).to.throw(errors.ServiceError);
         done();
     });
 });
@@ -198,39 +200,39 @@ describe('isType', () => {
         expect(isType('xs:int', 1000)).to.be.true;
         expect(isType('xs:int', -1)).to.be.true;
         expect(isType('xs:int', -1000)).to.be.true;
-        expect(() => isType('xs:int', 0.1234)).to.throw();
+        expect(() => isType('xs:int', 0.1234)).to.throw(errors.ValidationError);
         expect(isType('xs:int', '1234')).to.be.true;
-        expect(() => isType('xs:int', 'coffee')).to.throw();
-        expect(() => isType('xs:int', { test: 1 })).to.throw();
+        expect(() => isType('xs:int', 'coffee')).to.throw(errors.ValidationError);
+        expect(() => isType('xs:int', { test: 1 })).to.throw(errors.ValidationError);
         done();
     });
     it('xs:positiveInteger', (done) => {
-        expect(() => isType('xs:positiveInteger', -100)).to.throw();
-        expect(() => isType('xs:positiveInteger', 0)).to.throw();
+        expect(() => isType('xs:positiveInteger', -100)).to.throw(errors.ValidationError);
+        expect(() => isType('xs:positiveInteger', 0)).to.throw(errors.ValidationError);
         expect(isType('xs:positiveInteger', 100)).to.be.true;
-        expect(() => isType('xs:positiveInteger', 'string')).to.throw();
-        expect(() => isType('xs:positiveInteger', { test: true })).to.throw();
+        expect(() => isType('xs:positiveInteger', 'string')).to.throw(errors.ValidationError);
+        expect(() => isType('xs:positiveInteger', { test: true })).to.throw(errors.ValidationError);
         done();
     });
     it('xs:nonNegativeInteger', (done) => {
-        expect(() => isType('xs:nonNegativeInteger', -100)).to.throw();
+        expect(() => isType('xs:nonNegativeInteger', -100)).to.throw(errors.ValidationError);
         expect(isType('xs:nonNegativeInteger', 0)).to.be.true;
         expect(isType('xs:nonNegativeInteger', 100)).to.be.true;
-        expect(() => isType('xs:nonNegativeInteger', 'string')).to.throw();
-        expect(() => isType('xs:nonNegativeInteger', { test: true })).to.throw();
+        expect(() => isType('xs:nonNegativeInteger', 'string')).to.throw(errors.ValidationError);
+        expect(() => isType('xs:nonNegativeInteger', { test: true })).to.throw(errors.ValidationError);
         done();
     });
     it('integer ranging', (done) => {
         const range = { minValue: 10, maxValue: 100 };
-        expect(() => isType('xs:int', 1, range)).to.throw();
-        expect(() => isType('xs:positiveInteger', 1, range)).to.throw();
-        expect(() => isType('xs:nonNegativeInteger', 1, range)).to.throw();
+        expect(() => isType('xs:int', 1, range)).to.throw(errors.ValidationError);
+        expect(() => isType('xs:positiveInteger', 1, range)).to.throw(errors.ValidationError);
+        expect(() => isType('xs:nonNegativeInteger', 1, range)).to.throw(errors.ValidationError);
         expect(isType('xs:int', 50, range)).to.be.true;
         expect(isType('xs:positiveInteger', 50, range)).to.be.true;
         expect(isType('xs:nonNegativeInteger', 50, range)).to.be.true;
-        expect(() => isType('xs:int', 1000, range)).to.throw();
-        expect(() => isType('xs:positiveInteger', 1000, range)).to.throw();
-        expect(() => isType('xs:nonNegativeInteger', 1000, range)).to.throw();
+        expect(() => isType('xs:int', 1000, range)).to.throw(errors.ValidationError);
+        expect(() => isType('xs:positiveInteger', 1000, range)).to.throw(errors.ValidationError);
+        expect(() => isType('xs:nonNegativeInteger', 1000, range)).to.throw(errors.ValidationError);
         done();
     });
     it('xs:string accepts regular strings', (done) => {
@@ -258,19 +260,19 @@ describe('isType', () => {
         done();
     });
     it('xs:dateTime fails non-ISO strings', (done) => {
-        expect(() => isType('xs:dateTime', 'string')).to.throw(); // Date constructor throws
+        expect(() => isType('xs:dateTime', 'string')).to.throw(RangeError); // Date constructor throws
         expect(isType('xs:dateTime', 12345)).to.be.false;
-        expect(() => isType('xs:dateTime', { test: true })).to.throw(); // Date constructor throws
+        expect(() => isType('xs:dateTime', { test: true })).to.throw(RangeError); // Date constructor throws
         done();
     });
     it('allowed values works', (done) => {
         const allowed = { values: ['test1', 'test2', 2, 3] };
         expect(isType('xs:string', 'test1', allowed)).to.be.true;
         expect(isType('xs:string', 'test2', allowed)).to.be.true;
-        expect(() => isType('xs:string', 'test3', allowed)).to.throw();
+        expect(() => isType('xs:string', 'test3', allowed)).to.throw(errors.ValidationError);
         expect(isType('xs:positiveInteger', 2, allowed)).to.be.true;
         expect(isType('xs:nonNegativeInteger', 3, allowed)).to.be.true;
-        expect(() => isType('xs:positiveInteger', 100, allowed)).to.throw();
+        expect(() => isType('xs:positiveInteger', 100, allowed)).to.throw(errors.ValidationError);
         done();
     });
 });
@@ -304,7 +306,7 @@ describe('validateAndTransformParameters', () => {
             done();
         });
         it('required parameter not present throws', (done) => {
-            expect(() => validateAndTransformParameters(req, { NotReqTest: 'test' })).to.throw();
+            expect(() => validateAndTransformParameters(req, { NotReqTest: 'test' })).to.throw(errors.ValidationError);
             done();
         });
     });
@@ -318,19 +320,19 @@ describe('validateAndTransformParameters', () => {
             },
         };
         it('throws on non-Arrays', (done) => {
-            expect(() => validateAndTransformParameters(listTest, { ListTest: 'oops' })).to.throw();
+            expect(() => validateAndTransformParameters(listTest, { ListTest: 'oops' })).to.throw(errors.ValidationError);
             done();
         });
         it('throws on incorrect list data types', (done) => {
-            expect(() => validateAndTransformParameters(listTest, { ListTest: [123] })).to.throw();
+            expect(() => validateAndTransformParameters(listTest, { ListTest: [123] })).to.throw(errors.ValidationError);
             done();
         });
         it('throws on partial incorrect list data types', (done) => {
-            expect(() => validateAndTransformParameters(listTest, { ListTest: ['a', 1] })).to.throw();
+            expect(() => validateAndTransformParameters(listTest, { ListTest: ['a', 1] })).to.throw(errors.ValidationError);
             done();
         });
         it('throws on exceeding listMax items', (done) => {
-            expect(() => validateAndTransformParameters(listTest, { ListTest: ['1', '2', '3'] })).to.throw();
+            expect(() => validateAndTransformParameters(listTest, { ListTest: ['1', '2', '3'] })).to.throw(errors.ValidationError);
             done();
         });
         it('outputs correct list parameters (ListTest[x] => Test.List.x+1)', (done) => {
@@ -563,12 +565,11 @@ describe('mws-advanced sanity', () => {
             expect(x[0]).to.include.all.keys('$', 'Products');
             return true;
         });
-        // TODO: be more specific about which Error is being rejected back here, so when there's a code error in callEndpoint, it doesn't phantom pass
         it('callEndpoint throws on unknown endpoint', () => {
-            return expect(mws.callEndpoint('/test/endpoint', {})).to.be.rejectedWith(Error);
+            return expect(mws.callEndpoint('/test/endpoint', {})).to.be.rejectedWith(errors.InvalidUsage);
         });
         it('callEndpoint throws on garbage parameters', () => {
-            return expect(mws.callEndpoint('GetOrder', { junkTest: true })).to.be.rejectedWith(Error);
+            return expect(mws.callEndpoint('GetOrder', { junkTest: true })).to.be.rejectedWith(errors.ValidationError);
         });
     });
 });
@@ -728,7 +729,6 @@ describe('API', function runAPITests() {
                 expect(result[0].id).to.equal('020357122682');
                 return result;
             });
-            // TODO: get more specific about what type of Error we expect - code errors cause success
             it('getMatchingProductForId with invalid UPC', function testGetMatchingProductForId4() {
                 const params = {
                     MarketplaceId: 'ATVPDKIKX0DER',
@@ -736,18 +736,16 @@ describe('API', function runAPITests() {
                     IdList: ['012345678900'],
                 };
                 // Error: {"Type":"Sender","Code":"InvalidParameterValue","Message":"Invalid UPC identifier 000000000000 for marketplace ATVPDKIKX0DER"}
-                return expect(mws.getMatchingProductForId(params)).to.be.rejectedWith(Error);
+                return expect(mws.getMatchingProductForId(params)).to.be.rejectedWith(errors.ServiceError);
             });
-            // TODO: get more specific about what type of Error
             it('getMatchingProductForId with ASIN that has been deleted', async function testGetMatchingProductForId5() {
                 const params = {
                     MarketplaceId: 'ATVPDKIKX0DER',
                     IdType: 'ASIN',
                     IdList: ['B01FZRFN2C'],
                 };
-                return expect(mws.getMatchingProductForId(params)).to.be.rejectedWith(Error);
+                return expect(mws.getMatchingProductForId(params)).to.be.rejectedWith(errors.ServiceError);
             });
-            // TODO: be more specific about what type of Error
             // oddly, the Amazon API throws Error 400 from the server if you give it duplicate items, instead of ignoring dupes or throwing individual errors, or returning multiple copies.
             it('getMatchingProductForId with duplicate ASINs in list', async function testGetMatchingProductForId6() {
                 const params = {
@@ -755,7 +753,7 @@ describe('API', function runAPITests() {
                     IdType: 'ASIN',
                     IdList: ['B005NK7VTU', 'B00OB8EYZE', 'B005NK7VTU', 'B00OB8EYZE'],
                 };
-                return expect(mws.getMatchingProductForId(params)).to.be.rejectedWith(Error);
+                return expect(mws.getMatchingProductForId(params)).to.be.rejectedWith(mws.ServiceError);
             });
             it('getMatchingProductForId with partial error (1 asin that works, 1 that doesnt)', async function testGetMatchingProductForId7() {
                 const params = {

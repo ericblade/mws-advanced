@@ -792,6 +792,11 @@
                 "is-arrayish": "0.2.1"
             }
         },
+        "es6-error": {
+            "version": "4.1.1",
+            "resolved": "https://registry.npmjs.org/es6-error/-/es6-error-4.1.1.tgz",
+            "integrity": "sha512-Um/+FxMr9CISWh0bi5Zv0iOD+4cFh5qLeks1qhAopKVAJw3drgKbKySikp7wGhDL0HPeaja0P5ULZrxLkniUVg=="
+        },
         "escape-html": {
             "version": "1.0.3",
             "resolved": "https://registry.npmjs.org/escape-html/-/escape-html-1.0.3.tgz",
@@ -2622,7 +2627,7 @@
             "dev": true
         },
         "mws-simple": {
-            "version": "github:ericblade/mws-simple#58beffdab1852b2bf1968ad3e671b177f7658839",
+            "version": "github:ericblade/mws-simple#d0d48145dd83d87e5ac2eca98bdc20f5a757c6fb",
             "requires": {
                 "csv-parse": "2.0.2",
                 "query-string": "5.1.0",
