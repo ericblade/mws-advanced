@@ -29,7 +29,11 @@
 <nav class="navigation" data-ice="nav"><div>
   <ul>
     
-  <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-callEndpoint">callEndpoint</a></span></span></li>
+  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/errors.js~InvalidUsage.html">InvalidUsage</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/errors.js~RequestCancelled.html">RequestCancelled</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/errors.js~ServiceError.html">ServiceError</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/errors.js~ValidationError.html">ValidationError</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-callEndpoint">callEndpoint</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-init">init</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getLowestPricedOffersForASIN">getLowestPricedOffersForASIN</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getMarketplaces">getMarketplaces</a></span></span></li>
@@ -71,6 +75,7 @@
 <div class="content" data-ice="content"><h1 data-ice="title">lib/get-matching-product.js</h1>
 <pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">const { callEndpoint } = require(&apos;./callEndpoint&apos;);
 const { forceArray, transformKey, transformObjectKeys } = require(&apos;./util/transformers&apos;);
+const errors = require(&apos;./errors&apos;);
 
 /**
  * remove a string pattern from a string
@@ -103,7 +108,7 @@ const transformAttributeSetKey = k =&gt; transformKey(removeFromString(k)(/^ns2:
 const getMatchingProductForId = async (options) =&gt; {
     const result = await callEndpoint(&apos;GetMatchingProductForId&apos;, options);
     if (result.Error) {
-        throw new Error(JSON.stringify(result.Error.Message));
+        throw new errors.ServiceError(result.Error.Message);
     }
     // for a single return, flattenResult will drop this to an object, which is not desireable
     // in this particular case.

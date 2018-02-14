@@ -29,7 +29,11 @@
 <nav class="navigation" data-ice="nav"><div>
   <ul>
     
-  <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-callEndpoint">callEndpoint</a></span></span></li>
+  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/errors.js~InvalidUsage.html">InvalidUsage</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/errors.js~RequestCancelled.html">RequestCancelled</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/errors.js~ServiceError.html">ServiceError</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/errors.js~ValidationError.html">ValidationError</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-callEndpoint">callEndpoint</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-init">init</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getLowestPricedOffersForASIN">getLowestPricedOffersForASIN</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getMarketplaces">getMarketplaces</a></span></span></li>
@@ -75,6 +79,8 @@
 
 const { promisify } = require(&apos;util&apos;);
 const fs = require(&apos;fs&apos;);
+
+const errors = require(&apos;./errors&apos;);
 
 /**
  * Promisified version of fs.writeFile
@@ -282,7 +288,7 @@ const requestAndDownloadReport = async (ReportType, file, reportParams = {}) =&g
                 case &apos;_DONE_&apos;:
                     return report;
                 case &apos;_DONE_NO_DATA_&apos;:
-                    return {};
+                    return null;
                 default:
                     console.log(`-- unknown status retry in 45 sec: ${report.ReportProcessingStatus}`, report);
                     await sleep(45000);
@@ -300,9 +306,13 @@ const requestAndDownloadReport = async (ReportType, file, reportParams = {}) =&g
     const reportRequestId = request.ReportRequestId;
     await sleep(20000); // some requests may be available quickly, check after 20 sec
     const reportCheck = await checkReportComplete(reportRequestId);
+    if (reportCheck.cancelled) {
+        console.warn(&apos;******** report request cancelled by server&apos;, ReportType);
+        throw new errors.RequestCancelled(&apos;Report cancelled by server&apos;);
+    }
     let ReportId = reportCheck.GeneratedReportId;
 
-    // TODO: Some reports do not provide a GeneratedReportId and we need to call GetReportList to find the identifier!
+    // When no ReportId is received, then call getReportList to find it.
     if (!ReportId) {
         const reportList = await getReportList({
             ReportTypeList: [ReportType],

@@ -29,7 +29,11 @@
 <nav class="navigation" data-ice="nav"><div>
   <ul>
     
-  <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-callEndpoint">callEndpoint</a></span></span></li>
+  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/errors.js~InvalidUsage.html">InvalidUsage</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/errors.js~RequestCancelled.html">RequestCancelled</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/errors.js~ServiceError.html">ServiceError</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/errors.js~ValidationError.html">ValidationError</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-callEndpoint">callEndpoint</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-init">init</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getLowestPricedOffersForASIN">getLowestPricedOffersForASIN</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getMarketplaces">getMarketplaces</a></span></span></li>
@@ -73,6 +77,8 @@
 const { MWS_ENDPOINTS } = require(&apos;./constants&apos;);
 const sleep = require(&apos;./util/sleep&apos;);
 const fs = require(&apos;fs&apos;);
+
+const errors = require(&apos;./errors.js&apos;);
 
 /*
  * TODO: split the &quot;init&quot; function out of the &quot;callEndpoint&quot; file, difficulty: callEndpoint
@@ -197,7 +203,7 @@ const requestPromise = (requestData, opt = {}) =&gt;
 const callEndpoint = async (name, callOptions = {}, opt = {}) =&gt; {
     const endpoint = endpoints[name];
     if (!endpoint) {
-        throw new Error(&apos;No endpoint name supplied to callEndpoint&apos;);
+        throw new errors.InvalidUsage(&apos;No endpoint name supplied to callEndpoint&apos;);
     }
 
     const newOptions = endpoint.params ?
@@ -228,32 +234,34 @@ const callEndpoint = async (name, callOptions = {}, opt = {}) =&gt; {
         }
         return digResult;
     } catch (err) {
-        if (err.code === 503) {
-            console.warn(&apos;***** Error 503 .. throttling?&apos;, name);
-            let ms = 2000;
-            if (!endpoint.throttle) {
-                console.warn(`***** throttle information missing for API ${name}`);
-                console.warn(&apos;***** &apos;, JSON.stringify(endpoint));
-            } else {
-                // restoreRate = how many you get back in a minute of time. there&apos;s an assumption here
-                // that you&apos;re spamming a lot of requests if you&apos;re hitting throttling, and this
-                // throttle management system is first version, here -- so we&apos;re going to throttle it
-                // not to the minimum possible time frame, but to the length of time that it will take
-                // to restore your entire maxInFlight -- assuming you&apos;re probably going to hit the max
-                // again as soon as we start letting more requests in.
+        if (err instanceof MWS.ServerError) {
+            if (err.code === 503) {
+                console.warn(&apos;***** Error 503 .. throttling?&apos;, name);
+                let ms = 2000;
+                if (!endpoint.throttle) {
+                    console.warn(`***** throttle information missing for API ${name}`);
+                    console.warn(&apos;***** &apos;, JSON.stringify(endpoint));
+                } else {
+                    // restoreRate = how many you get back in a minute of time. there&apos;s an assumption here
+                    // that you&apos;re spamming a lot of requests if you&apos;re hitting throttling, and this
+                    // throttle management system is first version, here -- so we&apos;re going to throttle it
+                    // not to the minimum possible time frame, but to the length of time that it will take
+                    // to restore your entire maxInFlight -- assuming you&apos;re probably going to hit the max
+                    // again as soon as we start letting more requests in.
 
-                // ultimately, an upgraded version of this throttling handler would keep track of how
-                // many of every request are in flight, and try to throttle it to the minimum amount
-                // of time that you can go, automatically throttling future calls without having to
-                // even encounter the 503 from the server.
+                    // ultimately, an upgraded version of this throttling handler would keep track of how
+                    // many of every request are in flight, and try to throttle it to the minimum amount
+                    // of time that you can go, automatically throttling future calls without having to
+                    // even encounter the 503 from the server.
 
-                // that day is not today.  it might be tomorrow. maybe next weekend. i don&apos;t know. :-)
-                const restoreMaxInFlightMin = (endpoint.throttle.maxInFlight / endpoint.throttle.restoreRate) * (callOptions.IdList ? callOptions.IdList.length : 1);
-                ms = (restoreMaxInFlightMin * 60 * 1000) + 100;
+                    // that day is not today.  it might be tomorrow. maybe next weekend. i don&apos;t know. :-)
+                    const restoreMaxInFlightMin = (endpoint.throttle.maxInFlight / endpoint.throttle.restoreRate) * (callOptions.IdList ? callOptions.IdList.length : 1);
+                    ms = (restoreMaxInFlightMin * 60 * 1000) + 100;
+                }
+                console.warn(`***** trying again in ${ms}ms`);
+                await sleep(ms + 100);
+                return callEndpoint(name, callOptions, opt);
             }
-            console.warn(`***** trying again in ${ms}ms`);
-            await sleep(ms + 100);
-            return callEndpoint(name, callOptions, opt);
         }
         throw err;
     }

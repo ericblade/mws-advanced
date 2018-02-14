@@ -1,5 +1,11 @@
 window.esdocSearchIndex = [
   [
+    "mws-advanced/lib/errors.js~invalidusage",
+    "class/lib/errors.js~InvalidUsage.html",
+    "<span>InvalidUsage</span> <span class=\"search-result-import-path\">mws-advanced/lib/errors.js</span>",
+    "class"
+  ],
+  [
     "mws-advanced/lib/constants.js~mws_endpoints",
     "variable/index.html#static-variable-MWS_ENDPOINTS",
     "<span>MWS_ENDPOINTS</span> <span class=\"search-result-import-path\">mws-advanced/lib/constants.js</span>",
@@ -22,6 +28,24 @@ window.esdocSearchIndex = [
     "variable/index.html#static-variable-REQUEST_REPORT_TYPES",
     "<span>REQUEST_REPORT_TYPES</span> <span class=\"search-result-import-path\">mws-advanced/lib/endpoints/constants.js</span>",
     "variable"
+  ],
+  [
+    "mws-advanced/lib/errors.js~requestcancelled",
+    "class/lib/errors.js~RequestCancelled.html",
+    "<span>RequestCancelled</span> <span class=\"search-result-import-path\">mws-advanced/lib/errors.js</span>",
+    "class"
+  ],
+  [
+    "mws-advanced/lib/errors.js~serviceerror",
+    "class/lib/errors.js~ServiceError.html",
+    "<span>ServiceError</span> <span class=\"search-result-import-path\">mws-advanced/lib/errors.js</span>",
+    "class"
+  ],
+  [
+    "mws-advanced/lib/errors.js~validationerror",
+    "class/lib/errors.js~ValidationError.html",
+    "<span>ValidationError</span> <span class=\"search-result-import-path\">mws-advanced/lib/errors.js</span>",
+    "class"
   ],
   [
     "mws-advanced/lib/callendpoint.js~callendpoint",
@@ -495,6 +519,12 @@ window.esdocSearchIndex = [
     "lib/endpoints/sellers.js",
     "file/lib/endpoints/sellers.js.html",
     "lib/endpoints/sellers.js",
+    "file"
+  ],
+  [
+    "lib/errors.js",
+    "file/lib/errors.js.html",
+    "lib/errors.js",
     "file"
   ],
   [
