@@ -184,6 +184,18 @@ status indicators for report processing status updates
 
 ## getMarketplaces
 
+**Parameters**
+
+-   `marketplaceId` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** id of marketplace. should be same as hash index.
+-   `defaultCountryCode` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** country code for marketplace (US, CA, etc)
+-   `domainName` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** domain name used by customers to access this market (amazon.com, .ca, .mx)
+-   `defaultCurrencyCode` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** currency code (USD, CAD, etc)
+-   `defaultLanguageCode` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Language setting (en_US, en_CA, etc)
+-   `sellerId` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** your seller ID in this marketplace
+-   `hasSellerSuspendedListings` **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** true if there are seller suspended listings in this account on this market
+
+## getMarketplaces
+
 Call MWS ListMarketplaceParticipations, return parsed results
 
 **Examples**
@@ -198,32 +210,11 @@ const marketplaces = (async () => await mws.getMarketplaces())();
 
 Returns **MarketDetail** 
 
-## getMarketplaces
-
-**Parameters**
-
--   `marketplaceId` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** id of marketplace. should be same as hash index.
--   `defaultCountryCode` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** country code for marketplace (US, CA, etc)
--   `domainName` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** domain name used by customers to access this market (amazon.com, .ca, .mx)
--   `defaultCurrencyCode` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** currency code (USD, CAD, etc)
--   `defaultLanguageCode` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Language setting (en_US, en_CA, etc)
--   `sellerId` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** your seller ID in this marketplace
--   `hasSellerSuspendedListings` **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** true if there are seller suspended listings in this account on this market
-
 ## forceArray
 
 **Parameters**
 
 -   `arr`  
-
-## listOrderItems
-
-**Parameters**
-
--   `AmazonOrderId`  
--   `orderId` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Amazon Order ID
--   `nextToken` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Token to provide to ListOrderItemsByNextToken if needed (no token = no need)
--   `orderItems` **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)** Array of all the items in the order
 
 ## listOrderItems
 
@@ -246,6 +237,15 @@ ShippingDiscount
 -   `AmazonOrderId` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 3-7-7 Amazon Order ID formatted string
 
 Returns **OrderItemList** 
+
+## listOrderItems
+
+**Parameters**
+
+-   `AmazonOrderId`  
+-   `orderId` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Amazon Order ID
+-   `nextToken` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Token to provide to ListOrderItemsByNextToken if needed (no token = no need)
+-   `orderItems` **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)** Array of all the items in the order
 
 ## listOrders
 
@@ -364,6 +364,13 @@ Returns **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Refere
 **Parameters**
 
 -   `offer`  
+-   `unknown` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+
+## reformatOffer
+
+**Parameters**
+
+-   `offer`  
 -   `subCondition` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** The subcondition of the item (New, Mint, Very Good, Good, Acceptable, Poor, Club, OEM, Warranty, Refurbished Warranty, Refurbished, Open Box, or Other)
 -   `sellerFeedbackRating` **SellerFeedbackRating** Information about the seller's feedback
 -   `shippingTime` **DetailedShippingTime** Maximum time within which the item will likely be shipped
@@ -374,13 +381,6 @@ Returns **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Refere
 -   `isFulfilledByAmazon` **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** True if FBA, False if not
 -   `isBuyBoxWinner` **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?** True if offer has buy box, False if not
 -   `isFeaturedMerchant` **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?** True if seller is eligible for Buy Box, False if not
-
-## reformatOffer
-
-**Parameters**
-
--   `offer`  
--   `unknown` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 
 ## reformatOffer
 
@@ -423,6 +423,17 @@ Returns **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Refere
 
 ## getLowestPricedOffersForASIN
 
+**Parameters**
+
+-   `options`  
+-   `asin` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** asin returned by request
+-   `marketplace` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** marketplace asin is in
+-   `itemCondition` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** condition of item requested
+-   `summary` **OfferSummary** \-
+-   `offers` **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;Offers>** list of offers
+
+## getLowestPricedOffersForASIN
+
 getLowestPricedOffersForASIN
 
 Calls GetLowestPricedOffersForASIN, reformats results, and returns the data
@@ -436,17 +447,6 @@ Calls GetLowestPricedOffersForASIN, reformats results, and returns the data
 
 Returns **LowestPricedOffers** 
 
-## getLowestPricedOffersForASIN
-
-**Parameters**
-
--   `options`  
--   `asin` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** asin returned by request
--   `marketplace` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** marketplace asin is in
--   `itemCondition` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** condition of item requested
--   `summary` **OfferSummary** \-
--   `offers` **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;Offers>** list of offers
-
 ## writeFile
 
 Promisified version of fs.writeFile
@@ -458,6 +458,19 @@ This is better than using writeFileSync. Trust me. :-)
 
 -   `fileName` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** path/filename to write to
 -   `contents` **([string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String) \| [Buffer](https://nodejs.org/api/buffer.html))** what to write to file
+
+## requestReport
+
+**Parameters**
+
+-   `options`  
+-   `ReportType` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Type of Report Requested @see [REQUEST_REPORT_TYPES](#request_report_types)
+-   `ReportProcessingStatus` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Status of Report @see [REPORT_PROCESSING_STATUS_TYPES](#report_processing_status_types)
+-   `EndDate` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** ISO Date for Date Ending period
+-   `Scheduled` **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** True if report is scheduled, false if immediate
+-   `ReportRequestId` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Identifier to use with getReport to fetch the report when ready
+-   `SubmittedDate` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** ISO Date for Date request was submitted
+-   `StartDate` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** ISO Date for Date report begins at
 
 ## requestReport
 
@@ -474,19 +487,6 @@ Many optional parameters may be required by MWS! Read [ReportType](https://docs.
 -   `MarketplaceId` **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)>?** Array of marketplace IDs to generate reports covering
 
 Returns **ReportRequestInfo** 
-
-## requestReport
-
-**Parameters**
-
--   `options`  
--   `ReportType` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Type of Report Requested @see [REQUEST_REPORT_TYPES](#request_report_types)
--   `ReportProcessingStatus` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Status of Report @see [REPORT_PROCESSING_STATUS_TYPES](#report_processing_status_types)
--   `EndDate` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** ISO Date for Date Ending period
--   `Scheduled` **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** True if report is scheduled, false if immediate
--   `ReportRequestId` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Identifier to use with getReport to fetch the report when ready
--   `SubmittedDate` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** ISO Date for Date request was submitted
--   `StartDate` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** ISO Date for Date report begins at
 
 ## getReportRequestList
 
