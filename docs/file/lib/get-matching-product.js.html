@@ -119,7 +119,15 @@ const getMatchingProductForId = async (options) =&gt; {
             return { Error: p.Error, [`${type}`]: p.$.Id };
         }
         return {
-            ...transformObjectKeys(p.Products.Product, transformAttributeSetKey),
+            results: transformObjectKeys(p.Products.Product, transformAttributeSetKey),
+            // results: p.Products.Product.map(x =&gt; {
+            //     return {
+            //         ...x,
+            //         attributeSets: transformObjectKeys(x.AttributeSets, transformAttributeSetKey),
+            //     };
+            //     // console.warn(&quot;**************** x&quot;, x);
+            //     // return x;
+            // }),
             [`${type}`]: p.$.Id,
             idType: type,
             id: p.$.Id,

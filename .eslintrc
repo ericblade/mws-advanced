@@ -8,6 +8,7 @@
     "globals": {
     },
     "rules": {
+        "no-restricted-syntax": 0,
         "indent": [ "error", 4, { "SwitchCase": 1 } ],
         "linebreak-style": 0,
         "max-len": [

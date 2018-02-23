@@ -81,13 +81,13 @@
  * @class InvalidUsage
  * @extends {Error}
  */
- class InvalidUsage extends extError {}
+class InvalidUsage extends extError {}
 
 /**
  * Thrown when an Error response comes from the Service (not a mws-simple.ServerError though)
  *
  * @class ServiceError
- * @extends {extError}
+ * @extends {Error}
  */
 class ServiceError extends extError {}
 
@@ -95,7 +95,7 @@ class ServiceError extends extError {}
  * Thrown when a request is cancelled by MWS -- we have no way of knowing automatically if we should retry or not
  *
  * @class RequestCancelled
- * @extends {extError}
+ * @extends {Error}
  */
 class RequestCancelled extends extError {}
 
@@ -103,7 +103,7 @@ class RequestCancelled extends extError {}
  * Thrown when parameters fail validation locally, before being sent to MWS
  *
  * @class ValidationError
- * @extends {extError}
+ * @extends {Error}
  */
 class ValidationError extends extError {}
 

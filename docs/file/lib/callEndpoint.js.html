@@ -175,7 +175,6 @@ const endpoints = {
  */
 const requestPromise = (requestData, opt = {}) =&gt;
     new Promise((resolve, reject) =&gt; {
-        // eslint-disable-next-line global-require
         mws.request(requestData, (err, result) =&gt; {
             if (err) {
                 reject(err);
