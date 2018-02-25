@@ -825,6 +825,11 @@ describe('API', function runAPITests() {
                 expect(result[1].asin).to.equal('B00IH00CN0');
             });
             // TODO: figure out some function we can use to query some valid skus to use
+            // TODO: we should test error conditions for getProductCategories*, however, throwing up
+            // invalid ASINs comes up with potentially several different results:
+            // 1- no category returned, no error
+            // 2- error 400, "invalid ASIN for marketplace (x)",
+            // 3- error 500, "Server Error"
             it.skip('getProductCategoriesForSkus', 'unable to test skus without first querying skus');
         });
     });
