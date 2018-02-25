@@ -72,6 +72,18 @@ window.esdocSearchIndex = [
     "function"
   ],
   [
+    "mws-advanced/lib/get-product-categories.js~getproductcategoriesforasins",
+    "function/index.html#static-function-getProductCategoriesForAsins",
+    "<span>getProductCategoriesForAsins</span> <span class=\"search-result-import-path\">mws-advanced/lib/get-product-categories.js</span>",
+    "function"
+  ],
+  [
+    "mws-advanced/lib/get-product-categories.js~getproductcategoriesforskus",
+    "function/index.html#static-function-getProductCategoriesForSkus",
+    "<span>getProductCategoriesForSkus</span> <span class=\"search-result-import-path\">mws-advanced/lib/get-product-categories.js</span>",
+    "function"
+  ],
+  [
     "mws-advanced/lib/reports.js~getreport",
     "function/index.html#static-function-getReport",
     "<span>getReport</span> <span class=\"search-result-import-path\">mws-advanced/lib/reports.js</span>",
@@ -616,6 +628,24 @@ window.esdocSearchIndex = [
     "file/lib/get-matching-product.js.html",
     "lib/get-matching-product.js",
     "file"
+  ],
+  [
+    "lib/get-product-categories.js",
+    "file/lib/get-product-categories.js.html",
+    "lib/get-product-categories.js",
+    "file"
+  ],
+  [
+    "lib/get-product-categories.js~productcategorybyasin",
+    "typedef/index.html#static-typedef-productCategoryByAsin",
+    "lib/get-product-categories.js~productCategoryByAsin",
+    "typedef"
+  ],
+  [
+    "lib/get-product-categories.js~productcategorybysku",
+    "typedef/index.html#static-typedef-productCategoryBySku",
+    "lib/get-product-categories.js~productCategoryBySku",
+    "typedef"
   ],
   [
     "lib/index.js",
