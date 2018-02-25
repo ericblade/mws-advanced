@@ -803,6 +803,30 @@ describe('API', function runAPITests() {
             expect(result.lowestOffers).to.be.an('array');
             return result;
         });
+        describe('getProductCategories*', () => {
+            it('getProductCategoriesForAsins returns single result', async function testCategoriesAsins() {
+                const result = await mws.getProductCategoriesForAsins({
+                    marketplaceId: 'ATVPDKIKX0DER',
+                    asins: ['B00IDD9TU8'],
+                });
+                expect(result).to.be.an('Array').with.lengthOf(1);
+                expect(result[0]).to.include.all.keys('asin', 'Self');
+                expect(result[0].asin).to.equal('B00IDD9TU8');
+            });
+            it('getProductCategoriesForAsins returns multiple results', async function testCategoriesAsins2() {
+                const result = await mws.getProductCategoriesForAsins({
+                    marketplaceId: 'ATVPDKIKX0DER',
+                    asins: ['B00IDD9TU8', 'B00IH00CN0'],
+                });
+                expect(result).to.be.an('Array').with.lengthOf(2);
+                expect(result[0]).to.include.all.keys('asin', 'Self');
+                expect(result[0].asin).to.equal('B00IDD9TU8');
+                expect(result[1]).to.include.all.keys('asin', 'Self');
+                expect(result[1].asin).to.equal('B00IH00CN0');
+            });
+            // TODO: figure out some function we can use to query some valid skus to use
+            it.skip('getProductCategoriesForSkus', 'unable to test skus without first querying skus');
+        });
     });
     describe('Reports Category', () => {
         let reportList = [];
