@@ -5,22 +5,22 @@ It is expected that you will use either async/await or Promise syntax to operate
 
 ### async/await Example
 
-````
+``` js
 const marketplaces = (async () => await mws.getMarketplaces())();
 console.log(marketplaces);
-````
+```
 
 ### Promises Example
-````
+``` js
 mws.getMarketplaces().then(marketplaces => {
     console.log(marketplaces);
 });
-````
+```
 Most mws-advanced functions will require at least one, if not several, parameters to function
 correctly.  Most, if not all, parameters will be passed in as an object:
 
 ### Example of passing parameters in as an object
-````
+``` js
 const getLastSevenDaysOrders = async () => {
     const startDate = new Date();
     startDate.setDate(startDate.getDate() - 7);
@@ -29,7 +29,7 @@ const getLastSevenDaysOrders = async () => {
         MarketplaceId: [ 'A2ZV50J4W1RKNI' ],
     });
 };
-````
+```
 
 ## Obtaining Marketplace Values
 
@@ -47,7 +47,7 @@ See also [Using multiple marketplaces](https://docs.developer.amazonservices.com
 
 ### Using an authToken to operate on someone else's MWS account
 
-See [Using your API access for a different Amazon Seller](./manual/getting-started.html#using-your-api-access-for-a-different-amazon-seller--authtoken-)
+See [Using your API access for a different Amazon Seller](./getting-started.html#using-your-api-access-for-a-different-amazon-seller--authtoken-)
 
 ### Report Processing
 A large document can be written on Report Processing, and probably will in the future. For right now,
