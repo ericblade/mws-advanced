@@ -68,60 +68,24 @@ will return data that should look something like this sample data from an accoun
 in the United States and Canadian markets:
 
 ````
-{
-    "markets": [
-        {
-            "MarketplaceId": "A2EUQ1WTGCTBG2",
-            "DefaultCountryCode": "CA",
-            "DomainName": "www.amazon.ca",
-            "Name": "Amazon.ca",
-            "DefaultCurrencyCode": "CAD",
-            "DefaultLanguageCode": "en_CA"
-        },
-        {
-            "MarketplaceId": "ATVPDKIKX0DER",
-            "DefaultCountryCode": "US",
-            "DomainName": "www.amazon.com",
-            "Name": "Amazon.com",
-            "DefaultCurrencyCode": "USD",
-            "DefaultLanguageCode": "en_US"
-        }
-    ],
-    "marketParticipations": [
-        {
-            "MarketplaceId": "A2EUQ1WTGCTBG2",
-            "SellerId": "A3VRRE5P0AL2IX",
-            "HasSellerSuspendedListings": "No"
-        },
-        {
-            "MarketplaceId": "ATVPDKIKX0DER",
-            "SellerId": "A3VRRE5P0AL2IX",
-            "HasSellerSuspendedListings": "No"
-        }
-    ],
-    "marketDetails": {
-        "A2EUQ1WTGCTBG2": {
-            "MarketplaceId": "A2EUQ1WTGCTBG2",
-            "DefaultCountryCode": "CA",
-            "DomainName": "www.amazon.ca",
-            "Name": "Amazon.ca",
-            "DefaultCurrencyCode": "CAD",
-            "DefaultLanguageCode": "en_CA",
-            "SellerId": "A3VRRE5P0AL2IX",
-            "HasSellerSuspendedListings": "No"
-        },
-        "ATVPDKIKX0DER": {
-            "MarketplaceId": "ATVPDKIKX0DER",
-            "DefaultCountryCode": "US",
-            "DomainName": "www.amazon.com",
-            "Name": "Amazon.com",
-            "DefaultCurrencyCode": "USD",
-            "DefaultLanguageCode": "en_US",
-            "SellerId": "A3VRRE5P0AL2IX",
-            "HasSellerSuspendedListings": "No"
-        }
-    }
-}
+{ A2EUQ1WTGCTBG2:
+   { marketplaceId: 'A2EUQ1WTGCTBG2',
+     defaultCountryCode: 'CA',
+     domainName: 'www.amazon.ca',
+     name: 'Amazon.ca',
+     defaultCurrencyCode: 'CAD',
+     defaultLanguageCode: 'en_CA',
+     sellerId: 'SELLERIDSTRING',
+     hasSellerSuspendedListings: 'No' },
+  ATVPDKIKX0DER:
+   { marketplaceId: 'ATVPDKIKX0DER',
+     defaultCountryCode: 'US',
+     domainName: 'www.amazon.com',
+     name: 'Amazon.com',
+     defaultCurrencyCode: 'USD',
+     defaultLanguageCode: 'en_US',
+     sellerId: 'SELLERIDSTRING',
+     hasSellerSuspendedListings: 'No' } }
 ````
 
 This looks, in my opinion, far, far better than the raw result data that results from calling MWS
