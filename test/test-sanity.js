@@ -832,7 +832,47 @@ describe('API', function runAPITests() {
             // 3- error 500, "Server Error"
             it.skip('getProductCategoriesForSkus', 'unable to test skus without first querying skus');
         });
+        describe.only('getMyFeesEstimate', () => {
+            const test1 = {
+                marketplaceId: 'ATVPDKIKX0DER',
+                idType: 'ASIN',
+                idValue: 'B002KT3XQM',
+                isAmazonFulfilled: true,
+                identifier: '1',
+                listingPrice: {
+                    currencyCode: 'USD',
+                    amount: '0.00',
+                },
+                shipping: {
+                    currencyCode: 'USD',
+                    amount: '0.00',
+                },
+            };
+            const test2 = {
+                ...test1,
+                identifier: '2',
+                idValue: 'B00IDD9TU8',
+                isAmazonFulfilled: false,
+            };
+
+            // TODO: write tests for potential failure conditions, make sure code handles them as expected
+            it('getMyFeesEstimate returns object indexed by request Identifier', async function testFeesSingle() {
+                const result = await mws.getMyFeesEstimate([test1]);
+                expect(result).to.be.an('Object').that.includes.all.keys(test1.identifier);
+                const testRes = result[test1.identifier];
+                expect(testRes).to.be.an('Object').that.includes.all.keys('totalFees', 'time', 'detail', 'identifier', 'status');
+            });
+            it('getMyFeesEstimate returns correctly for multiple items', async function testFeesMultiple() {
+                const result = await mws.getMyFeesEstimate([test1, test2]);
+                expect(result).to.be.an('Object').that.includes.all.keys(test1.identifier);
+                const testRes = result[test1.identifier];
+                const testRes2 = result[test2.identifier];
+                expect(testRes).to.be.an('Object').that.includes.all.keys('totalFees', 'time', 'detail', 'identifier', 'status');
+                expect(testRes2).to.be.an('Object').that.includes.all.keys('totalFees', 'time', 'detail', 'identifier', 'status');
+            });
+        });
     });
+
     describe('Reports Category', () => {
         let reportList = [];
         let ReportRequestId = null;
