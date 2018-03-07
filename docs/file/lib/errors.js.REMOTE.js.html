@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <base data-ice="baseUrl" href="../../">
-  <title data-ice="title">lib/validation.js | mws-advanced</title>
+  <title data-ice="title">lib/errors.js.REMOTE.js | mws-advanced</title>
   <link type="text/css" rel="stylesheet" href="css/style.css">
   <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
   <script src="script/prettify/prettify.js"></script>
@@ -93,171 +93,80 @@
 </div>
 </nav>
 
-<div class="content" data-ice="content"><h1 data-ice="title">lib/validation.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">const errors = require(&apos;./errors&apos;);
-
-// TODO: testing indicates some weirdness in this call. It throws for things that are outside of
-// ranges, but otherwise valid, it throws for things that are not in a list of valid values, but it
-// does not throw for basic type incompatibility, relying on it&apos;s caller to throw. Should this throw
-// on all errors, or should it not throw on any errors? It&apos;s a lot easier to determine the *reason*
-// for the throw here, so I lean towards fixing this to throw an error for all invalid things. For
-// right now, I&apos;m going to leave it exactly as is, because there&apos;s always a throw at the end user,
-// but this makes unit testing weird.
-
-// we expect xs:dateTime to come in as a ISO string. This is a little confusing because the
-// consumer, validateAndTransform allows Date objects as input.
-/* eslint-disable no-param-reassign */
-/**
- *
- *
- * @param {string} type - type of integer to validate (xs:int, xs:positiveInteger, etc)
- * @param {any} test - value to test
- * @param {object} minmax - minimum and maximum values to test for
- * @param {integer} minmax.minValue - minimum value to test for
- * @param {integer} minmax.maxValue - maximum value to test for
- */
-const validateInteger = (type, test, { minValue, maxValue } = { }) =&gt; {
-    if (minValue === undefined) {
-        if (type === &apos;xs:positiveInteger&apos;) minValue = 1;
-        else if (type === &apos;xs:nonNegativeInteger&apos;) minValue = 0;
-        else minValue = -2147483658;
-    }
-    if (maxValue === undefined) {
-        maxValue = 2147483647;
-    }
-    const newTest = parseInt(test, 10);
-    // eslint-disable-next-line eqeqeq
-    const valid = test == newTest &amp;&amp; (minValue == null || newTest &gt;= minValue) &amp;&amp; (maxValue == null || newTest &lt;= maxValue);
-    if (!valid) {
-        throw new errors.ValidationError(`Expected type ${type} ${minValue} &lt;= ${test} &lt;= ${maxValue}`);
-    }
-    return valid;
-};
+<div class="content" data-ice="content"><h1 data-ice="title">lib/errors.js.REMOTE.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">const extError = require(&apos;es6-error&apos;);
 
 /**
- * Tests if an item belongs to a given type, and validates values and other stuff.
- * This function is currently overloaded to do too much. Sorry. The end consumer of *this* function,
- * validateAndTransform, is handling crazier stuff.
- * @private
- * @param {string} type data type referenced from MWS documentation (ie, &apos;xs:positiveInteger&apos;)
- * @param {any} test data to test against the given type
- * @param {any} definition validation definition (see lib/endpoints)
- * @returns Boolean true if correct type AND valid, false if not. Throws on many errors.
+ * Thrown when completely Invalid Parameters are given and we have no way of making sense of them
+ *
+ * @class InvalidUsage
+ * @extends {Error}
  */
-const isType = (type, test, definition) =&gt; {
-    let valid = false;
-    switch (type) {
-        case &apos;xs:int&apos;:
-        case &apos;xs:positiveInteger&apos;: // fallthrough from xs:int intentional
-        case &apos;xs:nonNegativeInteger&apos;: // fallthrough from xs:positiveInteger intentional
-            valid = validateInteger(type, test, definition);
-            break;
-        case &apos;xs:string&apos;:
-            if (typeof test === &apos;string&apos; || test instanceof String) {
-                valid = true;
+class InvalidUsage extends extError {}
+
+/**
+ * Thrown when an Error response comes from the Service (not a mws-simple.ServerError though)
+ *
+ * @class ServiceError
+ * @extends {Error}
+ */
+class ServiceError extends extError {
+    constructor(message) {
+        super(message);
+        // if this should go to a sub-class, then choose that. note that this creates a bit of a
+        // chicken and egg problem, requiring disabling eslint no-use-before-define.
+        // I want subclasses to extend ServiceError, but I also want ServiceError to figure out
+        // which subclass to use automagically.
+        if (this.constructor === ServiceError) {
+            const test = message.match(/Invalid (.*) identifier (.*) for marketplace (.*)/);
+            if (test &amp;&amp; test.length === 4) {
+                // eslint-disable-next-line no-use-before-define
+                return new InvalidIdentifier(message, test[1], test[2], test[3]);
             }
-            break;
-        case &apos;xs:dateTime&apos;: // test for exact match to ISO8601
-            if (new Date(test).toISOString() === test) {
-                valid = true;
-            }
-            break;
-        default:
-            console.log(`** isType: dont know how to handle type ${type}, hope its good`);
-            valid = true;
+        }
     }
-    if (valid &amp;&amp; definition &amp;&amp; definition.values &amp;&amp; !definition.values.includes(test)) {
-        throw new errors.ValidationError(`Value ${test} is not in allowed values list: ${definition.values}`);
-    }
-    return valid;
-};
-/**
- * The &quot;validate&quot; step of &quot;validateAndTransform&quot; will happen here. See discussion here:
- * https://github.com/ericblade/mws-advanced/pull/20
- *
- * @private
- * @param {any} test
- * @param {any} definition
- * @returns
- */
-function validate(test, definition) {
-    let validOrderId = false;
-    const re = /\d{3}-\d{7}-\d{3}/g;
-    if (re.test(test) &amp;&amp; definition.stringFormat === &apos;amazonOrderId&apos;) {
-        validOrderId = true;
-    }
-    return validOrderId;
 }
 
 /**
- * Used to both validate and transform &quot;normal&quot; javascript parameters (such as regular strings,
- * arrays, object hashes, and Date objects) into something that the underlying MWS system can
- * understand.
+ * Thrown when receiving an &quot;Invalid&quot; identifier message, which is also the same as &quot;identifier
+ * does not exist&quot; -- when calling something like getMatchingProductForId, MWS will return
+ * &quot;Invalid Identifier&quot; for any situation in which an identifier is not found. It may or may not
+ * be technically valid, but it definitely doesn&apos;t exist on their side.
  *
- * @private
- * @param {any} valid
- * @param {any} options
- * @returns
+ * @class InvalidIdentifier
+ * @extends {ServiceError}
  */
-const validateAndTransformParameters = (valid, options) =&gt; {
-    if (!options) {
-        return {};
+class InvalidIdentifier extends ServiceError {
+    constructor(message, type, identifier, marketplace) {
+        super(message);
+        this.type = type;
+        this.identifier = identifier;
+        this.marketplace = marketplace;
     }
-    if (!valid) {
-        console.warn(&apos;**** no validation parameters passed to validateAndTransform, no checking will be performed&apos;);
-        return options;
-    }
+}
 
-    const newOptions = {};
-    // check for unknown parameters
-    Object.keys(options).forEach((k) =&gt; {
-        if (!valid[k]) {
-            throw new errors.ValidationError(`Unknown parameter ${k}`);
-        }
-    });
-    // check for required, list, and type (inside and outside of list)
-    // transform lists into the expected keys at the MWS side.
-    // ie key AmazonOrderId becomes AmazonOrderId.Id.{index}
-    Object.keys(valid).forEach((k) =&gt; {
-        const v = valid[k];
-        const o = options[k];
+/**
+ * Thrown when a request is cancelled by MWS -- we have no way of knowing automatically if we should retry or not
+ *
+ * @class RequestCancelled
+ * @extends {Error}
+ */
+class RequestCancelled extends extError {}
 
-        // if required and not found, throw
-        if (v.required &amp;&amp; !o) {
-            throw new errors.ValidationError(`Required parameter ${k} missing`);
-        }
-        // transform Date objects into ISO strings
-        if (v.type === &apos;xs:dateTime&apos; &amp;&amp; o instanceof Date) {
-            newOptions[k] = o.toISOString();
-        } else if (v.list &amp;&amp; o) { // transform lists
-            if (!Array.isArray(o)) {
-                throw new errors.ValidationError(`Parameter ${k} expected an array`);
-            }
-            if (v.listMax &amp;&amp; o.length &gt; v.listMax) {
-                throw new errors.ValidationError(`List parameter ${k} can only take up to ${v.listMax} items`);
-            }
-            if (!o.every(val =&gt; isType(v.type, val, v))) {
-                throw new errors.ValidationError(`List ${k} expects type ${v.type}`);
-            }
-            o.forEach((item, index) =&gt; {
-                newOptions[`${v.list}.${index + 1}`] = item;
-            });
-        } else { // if not already handled, then run it through isType
-            if (v &amp;&amp; o &amp;&amp; !isType(v.type, o, v)) {
-                throw new errors.ValidationError(`Expected type ${v.type} for ${k}`);
-            }
-            if (k &amp;&amp; o) {
-                newOptions[k] = o;
-            }
-        }
-    });
-    return newOptions;
-};
+/**
+ * Thrown when parameters fail validation locally, before being sent to MWS
+ *
+ * @class ValidationError
+ * @extends {Error}
+ */
+class ValidationError extends extError {}
 
 module.exports = {
-    isType,
-    validate,
-    validateAndTransformParameters,
+    InvalidUsage,
+    InvalidIdentifier,
+    RequestCancelled,
+    ServiceError,
+    ValidationError,
 };
 </code></pre>
 

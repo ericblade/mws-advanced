@@ -1,5 +1,41 @@
 window.esdocSearchIndex = [
   [
+    "mws-advanced/lib/errors.js.local.js~invalididentifier",
+    "class/lib/errors.js.LOCAL.js~InvalidIdentifier.html",
+    "<span>InvalidIdentifier</span> <span class=\"search-result-import-path\">mws-advanced/lib/errors.js.LOCAL.js</span>",
+    "class"
+  ],
+  [
+    "mws-advanced/lib/errors.js.remote.js~invalididentifier",
+    "class/lib/errors.js.REMOTE.js~InvalidIdentifier.html",
+    "<span>InvalidIdentifier</span> <span class=\"search-result-import-path\">mws-advanced/lib/errors.js.REMOTE.js</span>",
+    "class"
+  ],
+  [
+    "mws-advanced/lib/errors.js~invalididentifier",
+    "class/lib/errors.js~InvalidIdentifier.html",
+    "<span>InvalidIdentifier</span> <span class=\"search-result-import-path\">mws-advanced/lib/errors.js</span>",
+    "class"
+  ],
+  [
+    "mws-advanced/lib/errors.js.base.js~invalidusage",
+    "class/lib/errors.js.BASE.js~InvalidUsage.html",
+    "<span>InvalidUsage</span> <span class=\"search-result-import-path\">mws-advanced/lib/errors.js.BASE.js</span>",
+    "class"
+  ],
+  [
+    "mws-advanced/lib/errors.js.local.js~invalidusage",
+    "class/lib/errors.js.LOCAL.js~InvalidUsage.html",
+    "<span>InvalidUsage</span> <span class=\"search-result-import-path\">mws-advanced/lib/errors.js.LOCAL.js</span>",
+    "class"
+  ],
+  [
+    "mws-advanced/lib/errors.js.remote.js~invalidusage",
+    "class/lib/errors.js.REMOTE.js~InvalidUsage.html",
+    "<span>InvalidUsage</span> <span class=\"search-result-import-path\">mws-advanced/lib/errors.js.REMOTE.js</span>",
+    "class"
+  ],
+  [
     "mws-advanced/lib/errors.js~invalidusage",
     "class/lib/errors.js~InvalidUsage.html",
     "<span>InvalidUsage</span> <span class=\"search-result-import-path\">mws-advanced/lib/errors.js</span>",
@@ -30,15 +66,69 @@ window.esdocSearchIndex = [
     "variable"
   ],
   [
+    "mws-advanced/lib/errors.js.base.js~requestcancelled",
+    "class/lib/errors.js.BASE.js~RequestCancelled.html",
+    "<span>RequestCancelled</span> <span class=\"search-result-import-path\">mws-advanced/lib/errors.js.BASE.js</span>",
+    "class"
+  ],
+  [
+    "mws-advanced/lib/errors.js.local.js~requestcancelled",
+    "class/lib/errors.js.LOCAL.js~RequestCancelled.html",
+    "<span>RequestCancelled</span> <span class=\"search-result-import-path\">mws-advanced/lib/errors.js.LOCAL.js</span>",
+    "class"
+  ],
+  [
+    "mws-advanced/lib/errors.js.remote.js~requestcancelled",
+    "class/lib/errors.js.REMOTE.js~RequestCancelled.html",
+    "<span>RequestCancelled</span> <span class=\"search-result-import-path\">mws-advanced/lib/errors.js.REMOTE.js</span>",
+    "class"
+  ],
+  [
     "mws-advanced/lib/errors.js~requestcancelled",
     "class/lib/errors.js~RequestCancelled.html",
     "<span>RequestCancelled</span> <span class=\"search-result-import-path\">mws-advanced/lib/errors.js</span>",
     "class"
   ],
   [
+    "mws-advanced/lib/errors.js.base.js~serviceerror",
+    "class/lib/errors.js.BASE.js~ServiceError.html",
+    "<span>ServiceError</span> <span class=\"search-result-import-path\">mws-advanced/lib/errors.js.BASE.js</span>",
+    "class"
+  ],
+  [
+    "mws-advanced/lib/errors.js.local.js~serviceerror",
+    "class/lib/errors.js.LOCAL.js~ServiceError.html",
+    "<span>ServiceError</span> <span class=\"search-result-import-path\">mws-advanced/lib/errors.js.LOCAL.js</span>",
+    "class"
+  ],
+  [
+    "mws-advanced/lib/errors.js.remote.js~serviceerror",
+    "class/lib/errors.js.REMOTE.js~ServiceError.html",
+    "<span>ServiceError</span> <span class=\"search-result-import-path\">mws-advanced/lib/errors.js.REMOTE.js</span>",
+    "class"
+  ],
+  [
     "mws-advanced/lib/errors.js~serviceerror",
     "class/lib/errors.js~ServiceError.html",
     "<span>ServiceError</span> <span class=\"search-result-import-path\">mws-advanced/lib/errors.js</span>",
+    "class"
+  ],
+  [
+    "mws-advanced/lib/errors.js.base.js~validationerror",
+    "class/lib/errors.js.BASE.js~ValidationError.html",
+    "<span>ValidationError</span> <span class=\"search-result-import-path\">mws-advanced/lib/errors.js.BASE.js</span>",
+    "class"
+  ],
+  [
+    "mws-advanced/lib/errors.js.local.js~validationerror",
+    "class/lib/errors.js.LOCAL.js~ValidationError.html",
+    "<span>ValidationError</span> <span class=\"search-result-import-path\">mws-advanced/lib/errors.js.LOCAL.js</span>",
+    "class"
+  ],
+  [
+    "mws-advanced/lib/errors.js.remote.js~validationerror",
+    "class/lib/errors.js.REMOTE.js~ValidationError.html",
+    "<span>ValidationError</span> <span class=\"search-result-import-path\">mws-advanced/lib/errors.js.REMOTE.js</span>",
     "class"
   ],
   [
@@ -51,6 +141,12 @@ window.esdocSearchIndex = [
     "mws-advanced/lib/callendpoint.js~callendpoint",
     "function/index.html#static-function-callEndpoint",
     "<span>callEndpoint</span> <span class=\"search-result-import-path\">mws-advanced/lib/callEndpoint.js</span>",
+    "function"
+  ],
+  [
+    "mws-advanced/lib/callendpoint.js~clearcallcache",
+    "function/index.html#static-function-clearCallCache",
+    "<span>clearCallCache</span> <span class=\"search-result-import-path\">mws-advanced/lib/callEndpoint.js</span>",
     "function"
   ],
   [
@@ -69,6 +165,12 @@ window.esdocSearchIndex = [
     "mws-advanced/lib/get-matching-product.js~getmatchingproductforid",
     "function/index.html#static-function-getMatchingProductForId",
     "<span>getMatchingProductForId</span> <span class=\"search-result-import-path\">mws-advanced/lib/get-matching-product.js</span>",
+    "function"
+  ],
+  [
+    "mws-advanced/lib/get-my-fees-estimate.js~getmyfeesestimate",
+    "function/index.html#static-function-getMyFeesEstimate",
+    "<span>getMyFeesEstimate</span> <span class=\"search-result-import-path\">mws-advanced/lib/get-my-fees-estimate.js</span>",
     "function"
   ],
   [
@@ -540,6 +642,114 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
+    "lib/errors.js.base.js",
+    "file/lib/errors.js.BASE.js.html",
+    "lib/errors.js.BASE.js",
+    "file"
+  ],
+  [
+    "lib/errors.js.local.js",
+    "file/lib/errors.js.LOCAL.js.html",
+    "lib/errors.js.LOCAL.js",
+    "file"
+  ],
+  [
+    "lib/errors.js.local.js~invalididentifier#constructor",
+    "class/lib/errors.js.LOCAL.js~InvalidIdentifier.html#instance-constructor-constructor",
+    "lib/errors.js.LOCAL.js~InvalidIdentifier#constructor",
+    "method"
+  ],
+  [
+    "lib/errors.js.local.js~invalididentifier#identifier",
+    "class/lib/errors.js.LOCAL.js~InvalidIdentifier.html#instance-member-identifier",
+    "lib/errors.js.LOCAL.js~InvalidIdentifier#identifier",
+    "member"
+  ],
+  [
+    "lib/errors.js.local.js~invalididentifier#marketplace",
+    "class/lib/errors.js.LOCAL.js~InvalidIdentifier.html#instance-member-marketplace",
+    "lib/errors.js.LOCAL.js~InvalidIdentifier#marketplace",
+    "member"
+  ],
+  [
+    "lib/errors.js.local.js~invalididentifier#type",
+    "class/lib/errors.js.LOCAL.js~InvalidIdentifier.html#instance-member-type",
+    "lib/errors.js.LOCAL.js~InvalidIdentifier#type",
+    "member"
+  ],
+  [
+    "lib/errors.js.local.js~serviceerror#constructor",
+    "class/lib/errors.js.LOCAL.js~ServiceError.html#instance-constructor-constructor",
+    "lib/errors.js.LOCAL.js~ServiceError#constructor",
+    "method"
+  ],
+  [
+    "lib/errors.js.remote.js",
+    "file/lib/errors.js.REMOTE.js.html",
+    "lib/errors.js.REMOTE.js",
+    "file"
+  ],
+  [
+    "lib/errors.js.remote.js~invalididentifier#constructor",
+    "class/lib/errors.js.REMOTE.js~InvalidIdentifier.html#instance-constructor-constructor",
+    "lib/errors.js.REMOTE.js~InvalidIdentifier#constructor",
+    "method"
+  ],
+  [
+    "lib/errors.js.remote.js~invalididentifier#identifier",
+    "class/lib/errors.js.REMOTE.js~InvalidIdentifier.html#instance-member-identifier",
+    "lib/errors.js.REMOTE.js~InvalidIdentifier#identifier",
+    "member"
+  ],
+  [
+    "lib/errors.js.remote.js~invalididentifier#marketplace",
+    "class/lib/errors.js.REMOTE.js~InvalidIdentifier.html#instance-member-marketplace",
+    "lib/errors.js.REMOTE.js~InvalidIdentifier#marketplace",
+    "member"
+  ],
+  [
+    "lib/errors.js.remote.js~invalididentifier#type",
+    "class/lib/errors.js.REMOTE.js~InvalidIdentifier.html#instance-member-type",
+    "lib/errors.js.REMOTE.js~InvalidIdentifier#type",
+    "member"
+  ],
+  [
+    "lib/errors.js.remote.js~serviceerror#constructor",
+    "class/lib/errors.js.REMOTE.js~ServiceError.html#instance-constructor-constructor",
+    "lib/errors.js.REMOTE.js~ServiceError#constructor",
+    "method"
+  ],
+  [
+    "lib/errors.js~invalididentifier#constructor",
+    "class/lib/errors.js~InvalidIdentifier.html#instance-constructor-constructor",
+    "lib/errors.js~InvalidIdentifier#constructor",
+    "method"
+  ],
+  [
+    "lib/errors.js~invalididentifier#identifier",
+    "class/lib/errors.js~InvalidIdentifier.html#instance-member-identifier",
+    "lib/errors.js~InvalidIdentifier#identifier",
+    "member"
+  ],
+  [
+    "lib/errors.js~invalididentifier#marketplace",
+    "class/lib/errors.js~InvalidIdentifier.html#instance-member-marketplace",
+    "lib/errors.js~InvalidIdentifier#marketplace",
+    "member"
+  ],
+  [
+    "lib/errors.js~invalididentifier#type",
+    "class/lib/errors.js~InvalidIdentifier.html#instance-member-type",
+    "lib/errors.js~InvalidIdentifier#type",
+    "member"
+  ],
+  [
+    "lib/errors.js~serviceerror#constructor",
+    "class/lib/errors.js~ServiceError.html#instance-constructor-constructor",
+    "lib/errors.js~ServiceError#constructor",
+    "method"
+  ],
+  [
     "lib/flatten-result.js",
     "file/lib/flatten-result.js.html",
     "lib/flatten-result.js",
@@ -627,6 +837,12 @@ window.esdocSearchIndex = [
     "lib/get-matching-product.js",
     "file/lib/get-matching-product.js.html",
     "lib/get-matching-product.js",
+    "file"
+  ],
+  [
+    "lib/get-my-fees-estimate.js",
+    "file/lib/get-my-fees-estimate.js.html",
+    "lib/get-my-fees-estimate.js",
     "file"
   ],
   [

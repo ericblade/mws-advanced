@@ -8,11 +8,13 @@
 -   [mws](#mws)
 -   [init](#init)
 -   [endpoints](#endpoints)
+-   [clearCallCache](#clearcallcache)
 -   [callEndpoint](#callendpoint)
 -   [MWS_MARKETPLACES](#mws_marketplaces)
 -   [MWS_ENDPOINTS](#mws_endpoints)
 -   [InvalidUsage](#invalidusage)
 -   [ServiceError](#serviceerror)
+-   [InvalidIdentifier](#invalididentifier)
 -   [RequestCancelled](#requestcancelled)
 -   [ValidationError](#validationerror)
 -   [recursionCount](#recursioncount)
@@ -23,9 +25,9 @@
 -   [REPORT_PROCESSING_STATUS_TYPES](#report_processing_status_types)
 -   [getMarketplaces](#getmarketplaces)
 -   [getMarketplaces](#getmarketplaces-1)
+-   [forceArray](#forcearray)
 -   [listOrderItems](#listorderitems)
 -   [listOrderItems](#listorderitems-1)
--   [forceArray](#forcearray)
 -   [listOrders](#listorders)
 -   [listFinancialEvents](#listfinancialevents)
 -   [listInventorySupply](#listinventorysupply)
@@ -106,6 +108,12 @@ Returns **mws-simple** The mws-simple instance used to communicate with the API
 
 simple flat list of all the endpoints required from individual modules above
 
+## clearCallCache
+
+Clear any data in the call cache. You should probably call this occasionally, if you are
+running this in any kind of a server environment, where it will be running for long periods
+of time, else your memory usage will grow out of control.
+
 ## callEndpoint
 
 Call a known endpoint at MWS, returning the raw data from the function. Parameters are
@@ -115,7 +123,7 @@ transformed and validated according to the rules defined in lib/endpoints
 
 -   `name` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** name of MWS API function to call
 -   `callOptions` **[object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)?** named hash object of the parameters to pass to the API (optional, default `{}`)
--   `opt` **[object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)?** options for callEndpoint (optional, default `{}`)
+-   `opt` **[object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)?** options for callEndpoint (optional, default `{maxThrottleRetries:2,noFlatten:false,returnRaw:false,saveParsed:undefined,saveRaw:undefined,useCache:true}`)
     -   `opt.noFlatten` **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?** do not flatten results
     -   `opt.returnRaw` **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?** return only the raw data (may or may not be flattened)
     -   `opt.saveRaw` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)?** filename to save raw data to (may or may not be flattened)
@@ -142,6 +150,15 @@ Thrown when completely Invalid Parameters are given and we have no way of making
 **Extends Error**
 
 Thrown when an Error response comes from the Service (not a mws-simple.ServerError though)
+
+## InvalidIdentifier
+
+**Extends ServiceError**
+
+Thrown when receiving an "Invalid" identifier message, which is also the same as "identifier
+does not exist" -- when calling something like getMatchingProductForId, MWS will return
+"Invalid Identifier" for any situation in which an identifier is not found. It may or may not
+be technically valid, but it definitely doesn't exist on their side.
 
 ## RequestCancelled
 
@@ -215,14 +232,11 @@ const marketplaces = (async () => await mws.getMarketplaces())();
 
 Returns **MarketDetail** 
 
-## listOrderItems
+## forceArray
 
 **Parameters**
 
--   `AmazonOrderId`  
--   `orderId` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Amazon Order ID
--   `nextToken` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Token to provide to ListOrderItemsByNextToken if needed (no token = no need)
--   `orderItems` **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)** Array of all the items in the order
+-   `arr`  
 
 ## listOrderItems
 
@@ -246,11 +260,14 @@ ShippingDiscount
 
 Returns **OrderItemList** 
 
-## forceArray
+## listOrderItems
 
 **Parameters**
 
--   `arr`  
+-   `AmazonOrderId`  
+-   `orderId` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Amazon Order ID
+-   `nextToken` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Token to provide to ListOrderItemsByNextToken if needed (no token = no need)
+-   `orderItems` **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)** Array of all the items in the order
 
 ## listOrders
 
@@ -428,6 +445,17 @@ Returns **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Refere
 
 ## getLowestPricedOffersForASIN
 
+**Parameters**
+
+-   `options`  
+-   `asin` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** asin returned by request
+-   `marketplace` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** marketplace asin is in
+-   `itemCondition` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** condition of item requested
+-   `summary` **OfferSummary** \-
+-   `offers` **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;Offers>** list of offers
+
+## getLowestPricedOffersForASIN
+
 getLowestPricedOffersForASIN
 
 Calls GetLowestPricedOffersForASIN, reformats results, and returns the data
@@ -441,38 +469,17 @@ Calls GetLowestPricedOffersForASIN, reformats results, and returns the data
 
 Returns **LowestPricedOffers** 
 
-## getLowestPricedOffersForASIN
-
-**Parameters**
-
--   `options`  
--   `asin` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** asin returned by request
--   `marketplace` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** marketplace asin is in
--   `itemCondition` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** condition of item requested
--   `summary` **OfferSummary** \-
--   `offers` **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;Offers>** list of offers
-
 ## getProductCategoriesForAsins
 
-**Parameters**
-
--   `$0` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
-    -   `$0.marketplaceId`  
-    -   `$0.asins`  
--   `sku` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** SKU that this category information belongs to
--   `error` **[object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)?** This field is set when a server error is returned, see error.code and error.body for further info. Server Errors may be returned for invalid SKUs or other reasons.
--   `Self` **productCategory?** The product category that this SKU belongs to - if not present, may be an invalid ASIN
-
-## getProductCategoriesForAsins
+return product categories for multiple asins
 
 **Parameters**
 
--   `$0` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
-    -   `$0.marketplaceId`  
-    -   `$0.asins`  
--   `asin` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** ASIN that this category information belongs to
--   `error` **[object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)?** This field is set when a server error is returned, see error.code and error.body for further info. Server Errors may be returned for invalid ASINs or other reasons.
--   `Self` **productCategory?** The product category this ASIN belongs to - if not present, may be an invalid ASIN
+-   `parameters` **[object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
+    -   `parameters.marketplaceId` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** marketplace identifier to run query on
+    -   `parameters.asins` **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)>** Array of string ASINs to query for
+
+Returns **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;productCategoryByAsin>** Array of product category information
 
 ## getProductCategoriesForAsins
 
@@ -490,15 +497,25 @@ Product Category Information
 
 ## getProductCategoriesForAsins
 
-return product categories for multiple asins
+**Parameters**
+
+-   `$0` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
+    -   `$0.marketplaceId`  
+    -   `$0.asins`  
+-   `asin` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** ASIN that this category information belongs to
+-   `error` **[object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)?** This field is set when a server error is returned, see error.code and error.body for further info. Server Errors may be returned for invalid ASINs or other reasons.
+-   `Self` **productCategory?** The product category this ASIN belongs to - if not present, may be an invalid ASIN
+
+## getProductCategoriesForAsins
 
 **Parameters**
 
--   `parameters` **[object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
-    -   `parameters.marketplaceId` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** marketplace identifier to run query on
-    -   `parameters.asins` **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)>** Array of string ASINs to query for
-
-Returns **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;productCategoryByAsin>** Array of product category information
+-   `$0` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
+    -   `$0.marketplaceId`  
+    -   `$0.asins`  
+-   `sku` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** SKU that this category information belongs to
+-   `error` **[object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)?** This field is set when a server error is returned, see error.code and error.body for further info. Server Errors may be returned for invalid SKUs or other reasons.
+-   `Self` **productCategory?** The product category that this SKU belongs to - if not present, may be an invalid ASIN
 
 ## getProductCategoriesForSkus
 
@@ -555,6 +572,21 @@ Returns **ReportRequestInfo**
 
 ## getReportRequestList
 
+**Parameters**
+
+-   `options`   (optional, default `{}`)
+-   `ReportType` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Type of Report Requested @see [REQUEST_REPORT_TYPES](#request_report_types)
+-   `ReportProcessingStatus` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Status of Report @see [REPORT_PROCESSING_STATUS_TYPES](#report_processing_status_types)
+-   `EndDate` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** ISO Date for Report End Period
+-   `Scheduled` **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** True if report is scheduled, false if immediate
+-   `ReportRequestId` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Identifier for the Report Request
+-   `StartedProcessingDate` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** ISO Date for time MWS started processing request
+-   `StartDate` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** ISO Date for Report Start Period
+-   `CompletedDate` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** ISO Date for time MWS completed processing request
+-   `GeneratedReportId` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Identifier to use with getReport to retrieve the report
+
+## getReportRequestList
+
 Returns a list of report requests that you can use to get the ReportRequestId for a report
 After calling requestReport, you should call this function occasionally to see if/when the report
 has been processed.
@@ -570,21 +602,6 @@ has been processed.
 -   `RequestedToDate` **[Date](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date)** Newest date to search for (optional, default `Now`)
 
 Returns **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;GetReportRequestListResult>** 
-
-## getReportRequestList
-
-**Parameters**
-
--   `options`   (optional, default `{}`)
--   `ReportType` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Type of Report Requested @see [REQUEST_REPORT_TYPES](#request_report_types)
--   `ReportProcessingStatus` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Status of Report @see [REPORT_PROCESSING_STATUS_TYPES](#report_processing_status_types)
--   `EndDate` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** ISO Date for Report End Period
--   `Scheduled` **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** True if report is scheduled, false if immediate
--   `ReportRequestId` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Identifier for the Report Request
--   `StartedProcessingDate` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** ISO Date for time MWS started processing request
--   `StartDate` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** ISO Date for Report Start Period
--   `CompletedDate` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** ISO Date for time MWS completed processing request
--   `GeneratedReportId` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Identifier to use with getReport to retrieve the report
 
 ## getReport
 

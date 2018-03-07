@@ -55,3 +55,24 @@ please see the official MWS documentation: [Reports Overview](http://docs.develo
 
 Also, please note that the reporting functions are currently mostly just stubs, and will likely undergo
 significant changes, as we use them, and discover where they are lacking.
+
+## API call caching
+
+As of March 7th, 2018, there is now an implementation for extremely simple API call caching. This is
+enabled by default, as repeatedly testing the same calls over and over, while developing a major
+application, was causing major headaches with throttling.
+
+If you are using mws-advanced for some kind of long-running service process, you should call
+mws.clearCallCache() occasionally, which will dump the entire contents of the cache.  I suggest setting
+a 1-hour or longer interval, as the MWS service may throttle you on a request-per-hour basis. If you
+do not do this, you may notice your memory usage/requirements becoming very high, if you are making
+a lot of different requests.
+
+This implementation needs a major overhaul, but it gets the job done as far as not repeating identical
+calls to the MWS servers constantly.
+
+All endpoint calls will cache the results of requests, stored in an object indexed by the parameters to the call.
+Whenever an identical call is made, the results will be returned from the cache.
+
+This does not cache any of the results of processing, so it is not ideal -- the library wrapper functions, such as
+getLowestPricedOffersForAsins still must do all of their processing.

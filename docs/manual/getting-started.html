@@ -54,6 +54,7 @@
 <li data-ice="manualNav" class="indent-h2" data-link="manual/usage.html"><a href="manual/usage.html#advanced-usage" data-ice="link">Advanced Usage</a></li>
 <li data-ice="manualNav" class="indent-h3" data-link="manual/usage.html"><a href="manual/usage.html#using-an-authtoken-to-operate-on-someone-else--39-s-mws-account" data-ice="link">Using an authToken to operate on someone else&apos;s MWS account</a></li>
 <li data-ice="manualNav" class="indent-h3" data-link="manual/usage.html"><a href="manual/usage.html#report-processing" data-ice="link">Report Processing</a></li>
+<li data-ice="manualNav" class="indent-h2" data-link="manual/usage.html"><a href="manual/usage.html#api-call-caching" data-ice="link">API call caching</a></li>
 </ul>
   </div>
 </div>
@@ -94,60 +95,24 @@ responses from MWS into a response format that is more easily readable in Javasc
 })();</code>
 </code></pre><p>will return data that should look something like this sample data from an account that is registered
 in the United States and Canadian markets:</p>
-<pre><code><code class="source-code prettyprint">{
-    &quot;markets&quot;: [
-        {
-            &quot;MarketplaceId&quot;: &quot;A2EUQ1WTGCTBG2&quot;,
-            &quot;DefaultCountryCode&quot;: &quot;CA&quot;,
-            &quot;DomainName&quot;: &quot;www.amazon.ca&quot;,
-            &quot;Name&quot;: &quot;Amazon.ca&quot;,
-            &quot;DefaultCurrencyCode&quot;: &quot;CAD&quot;,
-            &quot;DefaultLanguageCode&quot;: &quot;en_CA&quot;
-        },
-        {
-            &quot;MarketplaceId&quot;: &quot;ATVPDKIKX0DER&quot;,
-            &quot;DefaultCountryCode&quot;: &quot;US&quot;,
-            &quot;DomainName&quot;: &quot;www.amazon.com&quot;,
-            &quot;Name&quot;: &quot;Amazon.com&quot;,
-            &quot;DefaultCurrencyCode&quot;: &quot;USD&quot;,
-            &quot;DefaultLanguageCode&quot;: &quot;en_US&quot;
-        }
-    ],
-    &quot;marketParticipations&quot;: [
-        {
-            &quot;MarketplaceId&quot;: &quot;A2EUQ1WTGCTBG2&quot;,
-            &quot;SellerId&quot;: &quot;A3VRRE5P0AL2IX&quot;,
-            &quot;HasSellerSuspendedListings&quot;: &quot;No&quot;
-        },
-        {
-            &quot;MarketplaceId&quot;: &quot;ATVPDKIKX0DER&quot;,
-            &quot;SellerId&quot;: &quot;A3VRRE5P0AL2IX&quot;,
-            &quot;HasSellerSuspendedListings&quot;: &quot;No&quot;
-        }
-    ],
-    &quot;marketDetails&quot;: {
-        &quot;A2EUQ1WTGCTBG2&quot;: {
-            &quot;MarketplaceId&quot;: &quot;A2EUQ1WTGCTBG2&quot;,
-            &quot;DefaultCountryCode&quot;: &quot;CA&quot;,
-            &quot;DomainName&quot;: &quot;www.amazon.ca&quot;,
-            &quot;Name&quot;: &quot;Amazon.ca&quot;,
-            &quot;DefaultCurrencyCode&quot;: &quot;CAD&quot;,
-            &quot;DefaultLanguageCode&quot;: &quot;en_CA&quot;,
-            &quot;SellerId&quot;: &quot;A3VRRE5P0AL2IX&quot;,
-            &quot;HasSellerSuspendedListings&quot;: &quot;No&quot;
-        },
-        &quot;ATVPDKIKX0DER&quot;: {
-            &quot;MarketplaceId&quot;: &quot;ATVPDKIKX0DER&quot;,
-            &quot;DefaultCountryCode&quot;: &quot;US&quot;,
-            &quot;DomainName&quot;: &quot;www.amazon.com&quot;,
-            &quot;Name&quot;: &quot;Amazon.com&quot;,
-            &quot;DefaultCurrencyCode&quot;: &quot;USD&quot;,
-            &quot;DefaultLanguageCode&quot;: &quot;en_US&quot;,
-            &quot;SellerId&quot;: &quot;A3VRRE5P0AL2IX&quot;,
-            &quot;HasSellerSuspendedListings&quot;: &quot;No&quot;
-        }
-    }
-}</code>
+<pre><code><code class="source-code prettyprint">{ A2EUQ1WTGCTBG2:
+   { marketplaceId: &apos;A2EUQ1WTGCTBG2&apos;,
+     defaultCountryCode: &apos;CA&apos;,
+     domainName: &apos;www.amazon.ca&apos;,
+     name: &apos;Amazon.ca&apos;,
+     defaultCurrencyCode: &apos;CAD&apos;,
+     defaultLanguageCode: &apos;en_CA&apos;,
+     sellerId: &apos;SELLERIDSTRING&apos;,
+     hasSellerSuspendedListings: &apos;No&apos; },
+  ATVPDKIKX0DER:
+   { marketplaceId: &apos;ATVPDKIKX0DER&apos;,
+     defaultCountryCode: &apos;US&apos;,
+     domainName: &apos;www.amazon.com&apos;,
+     name: &apos;Amazon.com&apos;,
+     defaultCurrencyCode: &apos;USD&apos;,
+     defaultLanguageCode: &apos;en_US&apos;,
+     sellerId: &apos;SELLERIDSTRING&apos;,
+     hasSellerSuspendedListings: &apos;No&apos; } }</code>
 </code></pre><p>This looks, in my opinion, far, far better than the raw result data that results from calling MWS
 &quot;ListMarketplaceParticipations&quot; directly, which you will see an example for in the next section.</p>
 <h2 id="calling-mws-apis-directly">Calling MWS APIs directly</h2><p>For APIs that have not been wrapped, or if you wish to receive the raw data output from a direct
