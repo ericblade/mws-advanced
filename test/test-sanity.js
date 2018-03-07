@@ -771,37 +771,39 @@ describe('API', function runAPITests() {
                 return true;
             });
         });
-        it('getLowestPricedOffers', async function testGetLowestPricedOffersForASIN() {
-            const params = {
-                MarketplaceId: 'ATVPDKIKX0DER',
-                ASIN: 'B010YSIKKY',
-                ItemCondition: 'New',
-            };
-            const result = await mws.getLowestPricedOffersForASIN(params);
-            expect(result).to.be.an('object').with.keys(
-                'asin',
-                'marketplace',
-                'itemCondition',
-                'summary',
-                'lowestOffers',
-            );
-            const summary = result.summary;
-            expect(summary).to.be.an('object').with.keys(
-                'totalOfferCount',
-                'numberOfOffers',
-                'lowestPrices',
-                'buyBoxPrices',
-                'buyBoxEligibleOffers',
-                'listPrice',
-            );
-            expect(summary.totalOfferCount).to.be.a('number');
-            expect(summary.numberOfOffers).to.be.an('array');
-            expect(summary.lowestPrices).to.be.an('array');
-            expect(summary.buyBoxPrices).to.be.an('array');
-            expect(summary.buyBoxEligibleOffers).to.be.an('array');
+        describe('getLowestPricedOffers', () => {
+            it('getLowestPricedOffers', async function testGetLowestPricedOffersForASIN() {
+                const params = {
+                    MarketplaceId: 'ATVPDKIKX0DER',
+                    ASIN: 'B010YSIKKY',
+                    ItemCondition: 'New',
+                };
+                const result = await mws.getLowestPricedOffersForASIN(params);
+                expect(result).to.be.an('object').with.keys(
+                    'asin',
+                    'marketplace',
+                    'itemCondition',
+                    'summary',
+                    'lowestOffers',
+                );
+                const summary = result.summary;
+                expect(summary).to.be.an('object').with.keys(
+                    'totalOfferCount',
+                    'numberOfOffers',
+                    'lowestPrices',
+                    'buyBoxPrices',
+                    'buyBoxEligibleOffers',
+                    'listPrice',
+                );
+                expect(summary.totalOfferCount).to.be.a('number');
+                expect(summary.numberOfOffers).to.be.an('array');
+                expect(summary.lowestPrices).to.be.an('array');
+                expect(summary.buyBoxPrices).to.be.an('array');
+                expect(summary.buyBoxEligibleOffers).to.be.an('array');
 
-            expect(result.lowestOffers).to.be.an('array');
-            return result;
+                expect(result.lowestOffers).to.be.an('array');
+                return result;
+            });
         });
         describe('getProductCategories*', () => {
             it('getProductCategoriesForAsins returns single result', async function testCategoriesAsins() {
@@ -832,7 +834,7 @@ describe('API', function runAPITests() {
             // 3- error 500, "Server Error"
             it.skip('getProductCategoriesForSkus', 'unable to test skus without first querying skus');
         });
-        describe.only('getMyFeesEstimate', () => {
+        describe('getMyFeesEstimate', () => {
             const test1 = {
                 marketplaceId: 'ATVPDKIKX0DER',
                 idType: 'ASIN',
