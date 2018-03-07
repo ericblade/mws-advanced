@@ -628,7 +628,7 @@ describe('API', function runAPITests() {
                 orderId = orderIds[0];
                 return true;
             });
-            it('listOrderItems', async () => {
+            it('listOrderItems', async function testListOrderItems() {
                 if (!marketIds || !marketIds.length) {
                     this.skip();
                     return false;
