@@ -4231,7 +4231,7 @@
             "dev": true
         },
         "mws-simple": {
-            "version": "github:ericblade/mws-simple#d0d48145dd83d87e5ac2eca98bdc20f5a757c6fb",
+            "version": "github:ericblade/mws-simple#406e548112c8dc420bc3e44a85e414698c3f636e",
             "requires": {
                 "csv-parse": "2.0.4",
                 "query-string": "5.1.0",
