@@ -8,7 +8,8 @@ async function main() {
         const feeTest = {
             marketplaceId: 'ATVPDKIKX0DER',
             idType: 'ASIN',
-            idValue: 'B002KT3XQM',
+            // idValue: 'B002KT3XQM',
+            idValue: 'B0002APO1I',
             isAmazonFulfilled: true,
             listingPrice: {
                 currencyCode: 'USD',
