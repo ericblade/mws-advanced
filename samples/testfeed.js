@@ -7,10 +7,10 @@ async function main() {
     try {
         const results = await mws.callEndpoint('SubmitFeed', {
             'MarketplaceIdList.Id.1': 'ATVPDKIKX0DER',
-            FeedType: '_POST_FLAT_FILE_LISTINGS_DATA_',
+            FeedType: '_POST_FLAT_FILE_PRICEANDQUANTITYONLY_UPDATE_DATA_',
             feedContent:
-`sku\tproduct-id\tproduct-id-type\tprice\tquantity
-test1\tB075ZFDXS4\t1\t99.99\t1`,
+`sku\tprice\tminimum-seller-allowed-price\tmaximum-seller-allowed-price\tquantity\thandling-time\tfulfillment-channel
+PO-TON5-ZUPT\t39.99\t9.99\t199.99\t0\t\t`,
         });
         console.warn('* results', JSON.stringify(results, null, 4));
     } catch (err) {
