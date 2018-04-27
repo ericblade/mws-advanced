@@ -932,11 +932,6 @@
                 "cssom": "0.3.2"
             }
         },
-        "csv-parse": {
-            "version": "2.0.4",
-            "resolved": "https://registry.npmjs.org/csv-parse/-/csv-parse-2.0.4.tgz",
-            "integrity": "sha512-Kg6gTYPQQX4DcwSDFJ1DJupOjWFyzjPFxTqkPP7bVehzRENjTTUx4XuiFwVhUIFt9Z5sShaMm/ebWvcA7U0j7A=="
-        },
         "dashdash": {
             "version": "1.14.1",
             "resolved": "https://registry.npmjs.org/dashdash/-/dashdash-1.14.1.tgz",
@@ -4231,12 +4226,62 @@
             "dev": true
         },
         "mws-simple": {
-            "version": "github:ericblade/mws-simple#406e548112c8dc420bc3e44a85e414698c3f636e",
+            "version": "github:ericblade/mws-simple#7ec504dc29956b56140bb702366c1aeebbdc7349",
             "requires": {
-                "csv-parse": "2.0.4",
-                "query-string": "5.1.0",
-                "request": "2.83.0",
+                "csv-parse": "2.2.0",
+                "query-string": "6.0.0",
+                "request": "2.85.0",
                 "xml2js": "0.4.19"
+            },
+            "dependencies": {
+                "csv-parse": {
+                    "version": "2.2.0",
+                    "resolved": "https://registry.npmjs.org/csv-parse/-/csv-parse-2.2.0.tgz",
+                    "integrity": "sha512-nNXh61kEIUbTXPWPZbrKlkkylh7BDxffDUWQPWIho+Rog4XWRV8bTR8ZVo8qngzAwbhlvtKFcsaf2hGDV1iF8Q=="
+                },
+                "query-string": {
+                    "version": "6.0.0",
+                    "resolved": "https://registry.npmjs.org/query-string/-/query-string-6.0.0.tgz",
+                    "integrity": "sha1-i485RHtz6CkNb141gXeSGOkXEUI=",
+                    "requires": {
+                        "decode-uri-component": "0.2.0",
+                        "strict-uri-encode": "2.0.0"
+                    }
+                },
+                "request": {
+                    "version": "2.85.0",
+                    "resolved": "https://registry.npmjs.org/request/-/request-2.85.0.tgz",
+                    "integrity": "sha512-8H7Ehijd4js+s6wuVPLjwORxD4zeuyjYugprdOXlPSqaApmL/QOy+EB/beICHVCHkGMKNh5rvihb5ov+IDw4mg==",
+                    "requires": {
+                        "aws-sign2": "0.7.0",
+                        "aws4": "1.6.0",
+                        "caseless": "0.12.0",
+                        "combined-stream": "1.0.5",
+                        "extend": "3.0.1",
+                        "forever-agent": "0.6.1",
+                        "form-data": "2.3.1",
+                        "har-validator": "5.0.3",
+                        "hawk": "6.0.2",
+                        "http-signature": "1.2.0",
+                        "is-typedarray": "1.0.0",
+                        "isstream": "0.1.2",
+                        "json-stringify-safe": "5.0.1",
+                        "mime-types": "2.1.17",
+                        "oauth-sign": "0.8.2",
+                        "performance-now": "2.1.0",
+                        "qs": "6.5.1",
+                        "safe-buffer": "5.1.1",
+                        "stringstream": "0.0.5",
+                        "tough-cookie": "2.3.3",
+                        "tunnel-agent": "0.6.0",
+                        "uuid": "3.2.1"
+                    }
+                },
+                "strict-uri-encode": {
+                    "version": "2.0.0",
+                    "resolved": "https://registry.npmjs.org/strict-uri-encode/-/strict-uri-encode-2.0.0.tgz",
+                    "integrity": "sha1-ucczDHBChi9rFC3CdLvMWGbONUY="
+                }
             }
         },
         "nanomatch": {
@@ -5974,7 +6019,8 @@
         "object-assign": {
             "version": "4.1.1",
             "resolved": "https://registry.npmjs.org/object-assign/-/object-assign-4.1.1.tgz",
-            "integrity": "sha1-IQmtx5ZYh8/AXLvUQsrIv7s2CGM="
+            "integrity": "sha1-IQmtx5ZYh8/AXLvUQsrIv7s2CGM=",
+            "dev": true
         },
         "object-copy": {
             "version": "0.1.0",
@@ -6445,16 +6491,6 @@
             "resolved": "https://registry.npmjs.org/qs/-/qs-6.5.1.tgz",
             "integrity": "sha512-eRzhrN1WSINYCDCbrz796z37LOe3m5tmW7RQf6oBntukAG1nmovJvhnwHHRMAfeoItc1m2Hk02WER2aQ/iqs+A=="
         },
-        "query-string": {
-            "version": "5.1.0",
-            "resolved": "https://registry.npmjs.org/query-string/-/query-string-5.1.0.tgz",
-            "integrity": "sha512-F3DkxxlY0AqD/rwe4YAwjRE2HjOkKW7TxsuteyrS/Jbwrxw887PqYBL4sWUJ9D/V1hmFns0SCD6FDyvlwo9RCQ==",
-            "requires": {
-                "decode-uri-component": "0.2.0",
-                "object-assign": "4.1.1",
-                "strict-uri-encode": "1.1.0"
-            }
-        },
         "randomatic": {
             "version": "1.1.7",
             "resolved": "https://registry.npmjs.org/randomatic/-/randomatic-1.1.7.tgz",
@@ -6599,6 +6635,7 @@
             "version": "2.83.0",
             "resolved": "https://registry.npmjs.org/request/-/request-2.83.0.tgz",
             "integrity": "sha512-lR3gD69osqm6EYLk9wB/G1W/laGWjzH90t1vEa2xuxHD5KUrSzp9pUSfTm+YC5Nxt2T8nMPEvKlhbQayU7bgFw==",
+            "dev": true,
             "requires": {
                 "aws-sign2": "0.7.0",
                 "aws4": "1.6.0",
@@ -7185,11 +7222,6 @@
             "requires": {
                 "any-observable": "0.2.0"
             }
-        },
-        "strict-uri-encode": {
-            "version": "1.1.0",
-            "resolved": "https://registry.npmjs.org/strict-uri-encode/-/strict-uri-encode-1.1.0.tgz",
-            "integrity": "sha1-J5siXfHVgrH1TmWt3UNS4Y+qBxM="
         },
         "string-width": {
             "version": "2.1.1",
