@@ -24,12 +24,12 @@
 -   [REPORT_PROCESSING_STATUS_TYPES][20]
 -   [getMarketplaces][21]
 -   [getMarketplaces][22]
--   [forceArray][23]
--   [removeFromString][24]
--   [transformAttributeSetKey][25]
--   [transformObjectKeys][26]
--   [listOrderItems][27]
--   [listOrderItems][28]
+-   [listOrderItems][23]
+-   [listOrderItems][24]
+-   [forceArray][25]
+-   [removeFromString][26]
+-   [transformAttributeSetKey][27]
+-   [transformObjectKeys][28]
 -   [listOrders][29]
 -   [listFinancialEvents][30]
 -   [listInventorySupply][31]
@@ -200,6 +200,18 @@ status indicators for report processing status updates
 
 ## getMarketplaces
 
+**Parameters**
+
+-   `marketplaceId` **[string][60]** id of marketplace. should be same as hash index.
+-   `defaultCountryCode` **[string][60]** country code for marketplace (US, CA, etc)
+-   `domainName` **[string][60]** domain name used by customers to access this market (amazon.com, .ca, .mx)
+-   `defaultCurrencyCode` **[string][60]** currency code (USD, CAD, etc)
+-   `defaultLanguageCode` **[string][60]** Language setting (en_US, en_CA, etc)
+-   `sellerId` **[string][60]** your seller ID in this marketplace
+-   `hasSellerSuspendedListings` **[boolean][63]** true if there are seller suspended listings in this account on this market
+
+## getMarketplaces
+
 Call MWS ListMarketplaceParticipations, return parsed results
 
 **Examples**
@@ -214,17 +226,36 @@ const marketplaces = (async () => await mws.getMarketplaces())();
 
 Returns **MarketDetail** 
 
-## getMarketplaces
+## listOrderItems
+
+Returns order items based on the AmazonOrderId that you specify.
+
+If you've pulled a list of orders using @see [ListOrders][64], or have order identifiers
+stored in some other fashion, then to find out what items are actually on the orders, you will
+need to call ListOrderItems to obtain details about the items that were ordered.  The ListOrders
+call does not give you any information about the items, except how many of them have shipped or
+not shipped.
+
+If an Order is in the Pending state, ListOrderItems will not return any pricing or promotion
+information. Once an order has left the Pending state, the following items will be returned:
+
+ItemTax, GiftWrapPrice, ItemPrice, PromotionDiscount, GiftWrapTax, ShippingTax, ShippingPrice,
+ShippingDiscount
 
 **Parameters**
 
--   `marketplaceId` **[string][60]** id of marketplace. should be same as hash index.
--   `defaultCountryCode` **[string][60]** country code for marketplace (US, CA, etc)
--   `domainName` **[string][60]** domain name used by customers to access this market (amazon.com, .ca, .mx)
--   `defaultCurrencyCode` **[string][60]** currency code (USD, CAD, etc)
--   `defaultLanguageCode` **[string][60]** Language setting (en_US, en_CA, etc)
--   `sellerId` **[string][60]** your seller ID in this marketplace
--   `hasSellerSuspendedListings` **[boolean][63]** true if there are seller suspended listings in this account on this market
+-   `AmazonOrderId` **[string][60]** 3-7-7 Amazon Order ID formatted string
+
+Returns **OrderItemList** 
+
+## listOrderItems
+
+**Parameters**
+
+-   `AmazonOrderId`  
+-   `orderId` **[string][60]** Amazon Order ID
+-   `nextToken` **[string][60]** Token to provide to ListOrderItemsByNextToken if needed (no token = no need)
+-   `orderItems` **[Array][65]** Array of all the items in the order
 
 ## forceArray
 
@@ -273,37 +304,6 @@ to a much more readable:
 -   `keyTransformer` **any**  (optional, default `transformKey`)
 
 Returns **any** transformed object
-
-## listOrderItems
-
-Returns order items based on the AmazonOrderId that you specify.
-
-If you've pulled a list of orders using @see [ListOrders][64], or have order identifiers
-stored in some other fashion, then to find out what items are actually on the orders, you will
-need to call ListOrderItems to obtain details about the items that were ordered.  The ListOrders
-call does not give you any information about the items, except how many of them have shipped or
-not shipped.
-
-If an Order is in the Pending state, ListOrderItems will not return any pricing or promotion
-information. Once an order has left the Pending state, the following items will be returned:
-
-ItemTax, GiftWrapPrice, ItemPrice, PromotionDiscount, GiftWrapTax, ShippingTax, ShippingPrice,
-ShippingDiscount
-
-**Parameters**
-
--   `AmazonOrderId` **[string][60]** 3-7-7 Amazon Order ID formatted string
-
-Returns **OrderItemList** 
-
-## listOrderItems
-
-**Parameters**
-
--   `AmazonOrderId`  
--   `orderId` **[string][60]** Amazon Order ID
--   `nextToken` **[string][60]** Token to provide to ListOrderItemsByNextToken if needed (no token = no need)
--   `orderItems` **[Array][65]** Array of all the items in the order
 
 ## listOrders
 
@@ -409,13 +409,6 @@ Returns **[Array][65]&lt;Product>**
 **Parameters**
 
 -   `offer`  
--   `unknown` **[string][60]** 
-
-## reformatOffer
-
-**Parameters**
-
--   `offer`  
 -   `subCondition` **[string][60]** The subcondition of the item (New, Mint, Very Good, Good, Acceptable, Poor, Club, OEM, Warranty, Refurbished Warranty, Refurbished, Open Box, or Other)
 -   `sellerFeedbackRating` **SellerFeedbackRating** Information about the seller's feedback
 -   `shippingTime` **DetailedShippingTime** Maximum time within which the item will likely be shipped
@@ -426,6 +419,13 @@ Returns **[Array][65]&lt;Product>**
 -   `isFulfilledByAmazon` **[boolean][63]** True if FBA, False if not
 -   `isBuyBoxWinner` **[boolean][63]?** True if offer has buy box, False if not
 -   `isFeaturedMerchant` **[boolean][63]?** True if seller is eligible for Buy Box, False if not
+
+## reformatOffer
+
+**Parameters**
+
+-   `offer`  
+-   `unknown` **[string][60]** 
 
 ## reformatLowestPrice
 
@@ -461,6 +461,17 @@ Returns **[Array][65]&lt;Product>**
 
 ## getLowestPricedOffersForASIN
 
+**Parameters**
+
+-   `options`  
+-   `asin` **[string][60]** asin returned by request
+-   `marketplace` **[string][60]** marketplace asin is in
+-   `itemCondition` **[string][60]** condition of item requested
+-   `summary` **OfferSummary** \-
+-   `offers` **[Array][65]&lt;Offers>** list of offers
+
+## getLowestPricedOffersForASIN
+
 getLowestPricedOffersForASIN
 
 Calls GetLowestPricedOffersForASIN, reformats results, and returns the data
@@ -474,16 +485,17 @@ Calls GetLowestPricedOffersForASIN, reformats results, and returns the data
 
 Returns **LowestPricedOffers** 
 
-## getLowestPricedOffersForASIN
+## getProductCategoriesForAsins
+
+return product categories for multiple asins
 
 **Parameters**
 
--   `options`  
--   `asin` **[string][60]** asin returned by request
--   `marketplace` **[string][60]** marketplace asin is in
--   `itemCondition` **[string][60]** condition of item requested
--   `summary` **OfferSummary** \-
--   `offers` **[Array][65]&lt;Offers>** list of offers
+-   `parameters` **[object][59]** 
+    -   `parameters.marketplaceId` **[string][60]** marketplace identifier to run query on
+    -   `parameters.asins` **[Array][65]&lt;[string][60]>** Array of string ASINs to query for
+
+Returns **[Array][65]&lt;productCategoryByAsin>** Array of product category information
 
 ## getProductCategoriesForAsins
 
@@ -498,20 +510,6 @@ Returns **LowestPricedOffers**
 
 ## getProductCategoriesForAsins
 
-productCategory
-Product Category Information
-
-**Parameters**
-
--   `$0` **[Object][59]** 
-    -   `$0.marketplaceId`  
-    -   `$0.asins`  
--   `ProductCategoryId` **[string][60]** The string or numeric-string category identifier for the category
--   `ProductCategoryName` **[string][60]** The string human readable description of the category
--   `Parent` **productCategory?** Parent product category. This will not be present if this category is the root.
-
-## getProductCategoriesForAsins
-
 **Parameters**
 
 -   `$0` **[Object][59]** 
@@ -523,15 +521,17 @@ Product Category Information
 
 ## getProductCategoriesForAsins
 
-return product categories for multiple asins
+productCategory
+Product Category Information
 
 **Parameters**
 
--   `parameters` **[object][59]** 
-    -   `parameters.marketplaceId` **[string][60]** marketplace identifier to run query on
-    -   `parameters.asins` **[Array][65]&lt;[string][60]>** Array of string ASINs to query for
-
-Returns **[Array][65]&lt;productCategoryByAsin>** Array of product category information
+-   `$0` **[Object][59]** 
+    -   `$0.marketplaceId`  
+    -   `$0.asins`  
+-   `ProductCategoryId` **[string][60]** The string or numeric-string category identifier for the category
+-   `ProductCategoryName` **[string][60]** The string human readable description of the category
+-   `Parent` **productCategory?** Parent product category. This will not be present if this category is the root.
 
 ## getProductCategoriesForSkus
 
@@ -710,17 +710,17 @@ TODO: Document requestAndDownloadReport
 
 [22]: #getmarketplaces-1
 
-[23]: #forcearray
+[23]: #listorderitems
 
-[24]: #removefromstring
+[24]: #listorderitems-1
 
-[25]: #transformattributesetkey
+[25]: #forcearray
 
-[26]: #transformobjectkeys
+[26]: #removefromstring
 
-[27]: #listorderitems
+[27]: #transformattributesetkey
 
-[28]: #listorderitems-1
+[28]: #transformobjectkeys
 
 [29]: #listorders
 

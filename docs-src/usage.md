@@ -58,21 +58,23 @@ significant changes, as we use them, and discover where they are lacking.
 
 ## API call caching
 
-As of March 7th, 2018, there is now an implementation for extremely simple API call caching. This is
-enabled by default, as repeatedly testing the same calls over and over, while developing a major
-application, was causing major headaches with throttling.
+For a brief period of time, this library did it's own result caching, but that was not a very good idea. For an approach you can take to caching data for long-running services, check out [cache: replace ...] https://github.com/ericblade/mws-advanced/issues/52
 
-If you are using mws-advanced for some kind of long-running service process, you should call
-mws.clearCallCache() occasionally, which will dump the entire contents of the cache.  I suggest setting
-a 1-hour or longer interval, as the MWS service may throttle you on a request-per-hour basis. If you
-do not do this, you may notice your memory usage/requirements becoming very high, if you are making
-a lot of different requests.
+## Submitting data feeds
 
-This implementation needs a major overhaul, but it gets the job done as far as not repeating identical
-calls to the MWS servers constantly.
+The library does support submitting data feeds, although it is in very early stages.
 
-All endpoint calls will cache the results of requests, stored in an object indexed by the parameters to the call.
-Whenever an identical call is made, the results will be returned from the cache.
+You can dynamically create your own feed data, and submit it using callEndpoint, by doing something like:
 
-This does not cache any of the results of processing, so it is not ideal -- the library wrapper functions, such as
-getLowestPricedOffersForAsins still must do all of their processing.
+````
+        const results = await mws.callEndpoint('SubmitFeed', {
+            'MarketplaceIdList.Id.1': 'ATVPDKIKX0DER',
+            FeedType: '_POST_FLAT_FILE_PRICEANDQUANTITYONLY_UPDATE_DATA_',
+            feedContent:
+`sku\tprice\tminimum-seller-allowed-price\tmaximum-seller-allowed-price\tquantity\thandling-time\tfulfillment-channel
+PO-TON5-ZUPT\t39.99\t9.99\t199.99\t0\t\t`,
+        });
+        console.warn('* results', JSON.stringify(results, null, 4));
+````
+
+There is a discussion thread up to determine some approaches to improving upon this.  See [Discussion: Dynamic feed generation] (https://github.com/ericblade/mws-advanced/issues/59)
