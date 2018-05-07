@@ -5,10 +5,16 @@ mws.init(keys);
 
 async function main() {
     try {
+        // const results = await mws.getMatchingProductForId({
+        //     MarketplaceId: 'ATVPDKIKX0DER',
+        //     IdType: 'ASIN',
+        //     IdList: ['B005NK7VTU', 'B01FZRFN2C'],
+        // });
+
         const results = await mws.getMatchingProductForId({
             MarketplaceId: 'ATVPDKIKX0DER',
-            IdType: 'ASIN',
-            IdList: ['B005NK7VTU', 'B01FZRFN2C'],
+            IdType: 'UPC',
+            IdList: ['746775298494'],
         });
 
         console.warn(JSON.stringify(results, null, 4));

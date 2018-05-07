@@ -1,0 +1,22 @@
+{
+    "A2EUQ1WTGCTBG2": {
+        "MarketplaceId": "A2EUQ1WTGCTBG2",
+        "DefaultCountryCode": "CA",
+        "DomainName": "www.amazon.ca",
+        "Name": "Amazon.ca",
+        "DefaultCurrencyCode": "CAD",
+        "DefaultLanguageCode": "en_CA",
+        "SellerId": "SELLERID",
+        "HasSellerSuspendedListings": "No"
+    },
+    "ATVPDKIKX0DER": {
+        "MarketplaceId": "ATVPDKIKX0DER",
+        "DefaultCountryCode": "US",
+        "DomainName": "www.amazon.com",
+        "Name": "Amazon.com",
+        "DefaultCurrencyCode": "USD",
+        "DefaultLanguageCode": "en_US",
+        "SellerId": "SELLERID",
+        "HasSellerSuspendedListings": "No"
+    }
+}

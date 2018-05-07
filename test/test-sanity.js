@@ -183,7 +183,42 @@ describe('transformers', () => {
             return true;
         });
     });
+    describe('removeFromString', () => {
+        it('returns a string minus a substring', () => {
+            expect(transformers.removeFromString('testString', 'String')).to.equal('test');
+        });
+        it('returns a string minus a regex pattern', () => {
+            expect(transformers.removeFromString('testString', /^test/)).to.equal('String');
+        });
+    });
+    describe('transformAttributeSetKey', () => {
+        it('extends transformKey to remove "ns2:" from beginning of key, ns2:ItemAttributes=>itemAttributes', () => {
+            expect(transformers.transformAttributeSetKey('ns2:ItemAttributes')).to.equal('itemAttributes');
+        });
+    });
     describe('transformObjectKeys', () => {
+        it('simple test with getMarketplaces data', () => {
+            const testData = require('./data/transformObjectKeys-1.json');
+            /* eslint-disable dot-notation */
+            const res = transformers.transformObjectKeys(testData)['ATVPDKIKX0DER'];
+            const comp = testData['ATVPDKIKX0DER'];
+            /* eslint-enable dot-notation */
+            expect(comp.MarketplaceId).to.equal(res.marketplaceId);
+            expect(comp.DefaultCountryCode).to.equal(res.defaultCountryCode);
+            expect(comp.DomainName).to.equal(res.domainName);
+            expect(comp.Name).to.equal(res.name);
+            expect(comp.DefaultCurrencyCode).to.equal(res.defaultCurrencyCode);
+            expect(comp.DefaultLanguageCode).to.equal(res.defaultLanguageCode);
+            expect(comp.SellerId).to.equal(res.sellerId);
+            expect(comp.HasSellerSuspendedListings).to.equal(res.hasSellerSuspendedListings);
+        });
+        it('extended test with getMatchingProductForId attribute data, using transformAttributeSetKey, test ns2:MaterialType => materialType', () => {
+            const testData = require('./data/transformObjectKeys-2.json');
+            const res = transformers.transformObjectKeys(testData, transformers.transformAttributeSetKey);
+            testData.forEach((x, i) => {
+                expect(x.AttributeSets['ns2:ItemAttributes']['ns2:MaterialType']).to.deep.equal(res[i].attributeSets.itemAttributes.materialType);
+            });
+        });
         // TODO: write detailed tests for transformObjectKeys.
         // TODO: should grab actual data from the base API and compare it.
     });
