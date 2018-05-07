@@ -2,8 +2,8 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <base data-ice="baseUrl" href="../../">
-  <title data-ice="title">lib/list-financial-events.js | mws-advanced</title>
+  <base data-ice="baseUrl" href="../../../">
+  <title data-ice="title">lib/feeds/ListingLoader.js | mws-advanced</title>
   <link type="text/css" rel="stylesheet" href="css/style.css">
   <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
   <script src="script/prettify/prettify.js"></script>
@@ -78,38 +78,48 @@
 </div>
 </nav>
 
-<div class="content" data-ice="content"><h1 data-ice="title">lib/list-financial-events.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">const { callEndpoint } = require(&apos;./callEndpoint&apos;);
-const { forceArray } = require(&apos;./util/transformers&apos;);
+<div class="content" data-ice="content"><h1 data-ice="title">lib/feeds/ListingLoader.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">const header = `TemplateType=Offer\tVersion=2014.0703\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t
+sku\tprice\tquantity\tproduct-id\tproduct-id-type\tcondition-type\tcondition-note\tASIN-hint\ttitle\tproduct-tax-code\toperation-type\tsale-price\tsale-start-date\tsale-end-date\tleadtime-to-ship\tlaunch-date\tis-giftwrap-available\tis-gift-message-available\tfulfillment-center-id\tmain-offer-image\toffer-image1\toffer-image2\toffer-image3\toffer-image4\toffer-image5\tbatteries_required\tare_batteries_included\tbattery_cell_composition\tbattery_type\tnumber_of_batteries\tbattery_weight\tbattery_weight_unit_of_measure\tnumber_of_lithium_metal_cells\tnumber_of_lithium_ion_cells\tlithium_battery_packaging\tlithium_battery_energy_content\tlithium_battery_energy_content_unit_of_measure\tlithium_battery_weight\tlithium_battery_weight_unit_of_measure\tsupplier_declared_dg_hz_regulation1\tsupplier_declared_dg_hz_regulation2\tsupplier_declared_dg_hz_regulation3\tsupplier_declared_dg_hz_regulation4\tsupplier_declared_dg_hz_regulation5\thazmat_united_nations_regulatory_id\tsafety_data_sheet_url\titem_weight\titem_weight_unit_of_measure\titem_volume\titem_volume_unit_of_measure\tflash_point\tghs_classification_class1\tghs_classification_class2\tghs_classification_class3
+`;
 
-// TODO: probably needs to handle nextToken
-// TODO: write some tests to more completely test this function&apos;s output
-
-/**
- * https://docs.developer.amazonservices.com/en_UK/finances/Finances_ListFinancialEvents.html
- *
- * @param {object} options
- * @param {number} options.MaxResultsPerPage Maximum number of results to return (1 &lt;=&gt; 100)
- * @param {string} options.AmazonOrderId An order number to search for
- * @param {string} options.FinancialEventGroupId Type of Financial Event to search for
- * @param {Date} options.PostedAfter When to search for events after
- * @param {Date} options.PostedBefore When to search for events prior to
- * @returns {object}
- */
-const listFinancialEvents = async (options) =&gt; {
-    const results = (await callEndpoint(&apos;ListFinancialEvents&apos;, options)).FinancialEvents;
-    // TODO: This call can return a *LOT* of differently named items, and it&apos;s difficult to figure out what needs to be forced
-    // to Array type.
-    try {
-        // force ShipmentItems to be an array
-        results.ShipmentEventList.ShipmentEvent.ShipmentItemList.ShipmentItem = forceArray(results.ShipmentEventList.ShipmentEvent.ShipmentItemList.ShipmentItem);
-    } catch (err) {
-        //
+class ListingLoader {
+    constructor() {
+        this.sku = undefined;
+        this.price = undefined;
+        this.quantity = undefined;
+        this.productId = undefined;
+        this.productIdType = undefined;
+        this.conditionType = undefined;
+        this.conditionNote = undefined;
     }
-    return results;
-};
+    getFeedData() {
+        if (!this.sku) throw new Error(&apos;No Sku&apos;);
+        if (!this.price) throw new Error(&apos;No Price&apos;);
+        if (!this.quantity &amp;&amp; this.quantity !== 0) throw new Error(&apos;No Quantity&apos;);
+        if (!this.productId) throw new Error(&apos;No Product Id&apos;);
+        if (!this.productIdType) throw new Error(&apos;No Product Type&apos;);
+        if (!this.conditionType) throw new Error(&apos;No Condition Type&apos;);
+        if (!this.conditionNote &amp;&amp; this.conditionNote !== &apos;&apos;) throw new Error(&apos;No Condition Note&apos;);
+        return `${this.sku}\t${this.price}\t${this.quantity}\t${this.productId}\t${this.productIdType}\t${this.conditionType}\t${this.conditionNote}																																															\n`
+    }
+}
 
-module.exports = { listFinancialEvents };
+async function main() {
+    const x = new ListingLoader();
+    x.sku = &apos;TestSKU&apos;;
+    x.price = &apos;14.99&apos;;
+    x.quantity = 0;
+    x.productId = &apos;B075ZFDXS4&apos;;
+    x.productIdType = &apos;ASIN&apos;;
+    x.conditionType = &apos;New&apos;;
+    x.conditionNote = &apos;&apos;;
+    const feed = `${header}\n${x.getFeedData()}\n`;
+    const fs = require(&apos;fs&apos;);
+    fs.writeFileSync(&apos;test.txt&apos;, feed);
+}
+
+main();
 </code></pre>
 
 </div>

@@ -29,27 +29,12 @@
 <nav class="navigation" data-ice="nav"><div>
   <ul>
     
-  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/errors.js.BASE.js~InvalidUsage.html">InvalidUsage</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/errors.js.BASE.js~RequestCancelled.html">RequestCancelled</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/errors.js.BASE.js~ServiceError.html">ServiceError</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/errors.js.BASE.js~ValidationError.html">ValidationError</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/errors.js.LOCAL.js~InvalidIdentifier.html">InvalidIdentifier</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/errors.js.LOCAL.js~InvalidUsage.html">InvalidUsage</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/errors.js.LOCAL.js~RequestCancelled.html">RequestCancelled</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/errors.js.LOCAL.js~ServiceError.html">ServiceError</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/errors.js.LOCAL.js~ValidationError.html">ValidationError</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/errors.js.REMOTE.js~InvalidIdentifier.html">InvalidIdentifier</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/errors.js.REMOTE.js~InvalidUsage.html">InvalidUsage</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/errors.js.REMOTE.js~RequestCancelled.html">RequestCancelled</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/errors.js.REMOTE.js~ServiceError.html">ServiceError</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/errors.js.REMOTE.js~ValidationError.html">ValidationError</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/errors.js~InvalidIdentifier.html">InvalidIdentifier</a></span></span></li>
+  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/errors.js~InvalidIdentifier.html">InvalidIdentifier</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/errors.js~InvalidUsage.html">InvalidUsage</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/errors.js~RequestCancelled.html">RequestCancelled</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/errors.js~ServiceError.html">ServiceError</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/errors.js~ValidationError.html">ValidationError</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-callEndpoint">callEndpoint</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-clearCallCache">clearCallCache</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-init">init</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getLowestPricedOffersForASIN">getLowestPricedOffersForASIN</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getMarketplaces">getMarketplaces</a></span></span></li>
@@ -95,25 +80,8 @@
 
 <div class="content" data-ice="content"><h1 data-ice="title">lib/get-matching-product.js</h1>
 <pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">const { callEndpoint } = require(&apos;./callEndpoint&apos;);
-const { forceArray, transformKey, transformObjectKeys } = require(&apos;./util/transformers&apos;);
+const { forceArray, transformObjectKeys, transformAttributeSetKey } = require(&apos;./util/transformers&apos;);
 const errors = require(&apos;./errors&apos;);
-
-/**
- * remove a string pattern from a string
- *
- * @param {string} str string to remove pattern from
- * @param {string|regex} pattern pattern to remove
- * @return {string} string with the pattern removed
- */
-const removeFromString = str =&gt; pattern =&gt; str.replace(pattern, &apos;&apos;);
-
-/**
- * Special key transformer for transformObjectKeys to strip &quot;ns2:&quot; from the beginning of keys,
- * such as &apos;ns2:ItemAttributes&apos;
- *
- * @param {any} k
- */
-const transformAttributeSetKey = k =&gt; transformKey(removeFromString(k)(/^ns2:/));
 
 /**
  * Returns a list of products and their attributes, based on a list of ASIN, GCID, SellerSKU, UPC,
@@ -139,13 +107,14 @@ const getMatchingProductForId = async (options) =&gt; {
         if (p.Error) {
             return { Error: p.Error, [`${type}`]: p.$.Id };
         }
-        const { SalesRankings: rankings } = p.Products.Product;
-        if (rankings &amp;&amp; rankings.SalesRank) {
+        const transformedResults = forceArray(transformObjectKeys(p.Products.Product, transformAttributeSetKey));
+        const results = transformedResults.map((x) =&gt; {
             // eslint-disable-next-line no-param-reassign
-            p.Products.Product.SalesRankings.SalesRank = forceArray(rankings.SalesRank);
-        }
+            if (x.salesRankings.salesRank) x.salesRankings.salesRank = forceArray(x.salesRankings.salesRank);
+            return x;
+        });
         return {
-            results: forceArray(transformObjectKeys(p.Products.Product, transformAttributeSetKey)),
+            results,
             // results: p.Products.Product.map(x =&gt; {
             //     return {
             //         ...x,
@@ -170,7 +139,7 @@ module.exports = {
 </div>
 
 <footer class="footer">
-  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.0.4)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.1.0)</span><img src="./image/esdoc-logo-mini-black.png"></a>
 </footer>
 
 <script src="script/search_index.js"></script>
