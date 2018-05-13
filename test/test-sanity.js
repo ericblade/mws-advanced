@@ -609,6 +609,28 @@ describe('mws-advanced sanity', () => {
     });
 });
 
+describe('Parsers', function runParserTests() {
+    it('getMarketplaces', function testGetMarketplaces() {
+        const json = JSON.parse(fs.readFileSync('./test/mock/ListMarketplaceParticipations.json'));
+        const parser = require('../lib/parsers/marketplaceData');
+
+        const marketplaceResults = parser(json);
+
+        expect(marketplaceResults).to.be.an('object');
+
+        marketIds = Object.keys(marketplaceResults);
+        expect(marketIds).to.have.lengthOf.above(0);
+
+        const testMarket = marketplaceResults['ATVPDKIKX0DER']; // eslint-disable-line dot-notation
+        expect(testMarket).to.include.all.keys(
+            'marketplaceId', 'defaultCountryCode', 'domainName', 'name',
+            'defaultCurrencyCode', 'defaultLanguageCode', 'sellerId',
+            'hasSellerSuspendedListings',
+        );
+        return true;
+    });
+});
+
 describe('API', function runAPITests() {
     let marketIds = [];
     let testMarketId = '';

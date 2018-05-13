@@ -2,6 +2,7 @@
 !.esdoc.json
 !test/*.json
 !test/data/*
+!test/mock/*
 !npm-shrinkwrap.json
 test/keys.json
 node_modules
