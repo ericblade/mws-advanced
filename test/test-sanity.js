@@ -610,7 +610,7 @@ describe('mws-advanced sanity', () => {
 });
 
 describe('Parsers', function runParserTests() {
-    it('getMarketplaces', function testGetMarketplaces() {
+    it('getMarketplaces parser', function testGetMarketplacesParser() {
         const json = JSON.parse(fs.readFileSync('./test/mock/ListMarketplaceParticipations.json'));
         const parser = require('../lib/parsers/marketplaceData');
 
@@ -628,6 +628,37 @@ describe('Parsers', function runParserTests() {
             'hasSellerSuspendedListings',
         );
         return true;
+    });
+    it('getLowestPricedOffers', async function testGetLowestPricedOffersParser() {
+        const json = JSON.parse(fs.readFileSync('./test/mock/GetLowestPricedOffersForASIN.json'));
+        const parser = require('../lib/parsers/lowestPricedOffers');
+
+        const result = parser(json);
+
+        expect(result).to.be.an('object').with.keys(
+            'asin',
+            'marketplace',
+            'itemCondition',
+            'summary',
+            'lowestOffers',
+        );
+        const summary = result.summary;
+        expect(summary).to.be.an('object').with.keys(
+            'totalOfferCount',
+            'numberOfOffers',
+            'lowestPrices',
+            'buyBoxPrices',
+            'buyBoxEligibleOffers',
+            'listPrice',
+        );
+        expect(summary.totalOfferCount).to.be.a('number');
+        expect(summary.numberOfOffers).to.be.an('array');
+        expect(summary.lowestPrices).to.be.an('array');
+        expect(summary.buyBoxPrices).to.be.an('array');
+        expect(summary.buyBoxEligibleOffers).to.be.an('array');
+
+        expect(result.lowestOffers).to.be.an('array');
+        return result;
     });
 });
 
@@ -829,7 +860,12 @@ describe('API', function runAPITests() {
             });
         });
         describe('getLowestPricedOffers', () => {
-            it('getLowestPricedOffers', async function testGetLowestPricedOffersForASIN() {
+            it('getLowestPricedOffersForSKU', function () {
+                // console.warn('* test for getLowestPricedOffersForSKU not yet implemented, requires fetching a valid SellerSKU');
+                this.skip();
+                return false;
+            });
+            it('getLowestPricedOffersForASIN', async function testGetLowestPricedOffersForASIN() {
                 const params = {
                     MarketplaceId: 'ATVPDKIKX0DER',
                     ASIN: 'B010YSIKKY',
