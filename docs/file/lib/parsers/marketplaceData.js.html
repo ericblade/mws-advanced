@@ -2,8 +2,8 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <base data-ice="baseUrl" href="../../">
-  <title data-ice="title">lib/list-order-items.js | mws-advanced</title>
+  <base data-ice="baseUrl" href="../../../">
+  <title data-ice="title">lib/parsers/marketplaceData.js | mws-advanced</title>
   <link type="text/css" rel="stylesheet" href="css/style.css">
   <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
   <script src="script/prettify/prettify.js"></script>
@@ -81,63 +81,55 @@
 </div>
 </nav>
 
-<div class="content" data-ice="content"><h1 data-ice="title">lib/list-order-items.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">/**
- * @module mws-advanced
- */
-const { callEndpoint } = require(&apos;./callEndpoint&apos;);
-const { digResponseResult } = require(&apos;./dig-response-result&apos;);
-const { forceArray } = require(&apos;./util/transformers&apos;);
-
-// TODO: make a typedef for OrderItem and document it correctly
-/**
- * @typedef OrderItemList
- * Object hash containing:
- * orderId - Amazon Order ID in 3-7-7 format
- * orderItems - Array of OrderItems
- * nextToken - If the list of items is longer than one request can accommodate, a nextToken will
- * be returned to pass to listOrderItemsByNextToken
- *
- * @public
- * @param {string} orderId - Amazon Order ID
- * @param {string} nextToken - Token to provide to ListOrderItemsByNextToken if needed (no token = no need)
- * @param {Array} orderItems - Array of all the items in the order
- */
+<div class="content" data-ice="content"><h1 data-ice="title">lib/parsers/marketplaceData.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">const { transformObjectKeys } = require(&apos;../util/transformers&apos;);
 
 /**
- * Returns order items based on the AmazonOrderId that you specify.
+ * Turn a mess of XML from ListMarketplaceParticipations into a @see {@link MarketDetail}
  *
- * If you&apos;ve pulled a list of orders using @see {@link ListOrders}, or have order identifiers
- * stored in some other fashion, then to find out what items are actually on the orders, you will
- * need to call ListOrderItems to obtain details about the items that were ordered.  The ListOrders
- * call does not give you any information about the items, except how many of them have shipped or
- * not shipped.
- *
- * If an Order is in the Pending state, ListOrderItems will not return any pricing or promotion
- * information. Once an order has left the Pending state, the following items will be returned:
- *
- * ItemTax, GiftWrapPrice, ItemPrice, PromotionDiscount, GiftWrapTax, ShippingTax, ShippingPrice,
- * ShippingDiscount
- *
- * @public
- * @param {string} AmazonOrderId - 3-7-7 Amazon Order ID formatted string
- * @returns {OrderItemList}
+ * @param {any} marketplaceData
+ * @returns
  */
-const listOrderItems = async (AmazonOrderId) =&gt; {
-    const res = digResponseResult(&apos;ListOrderItems&apos;, await callEndpoint(&apos;ListOrderItems&apos;, { AmazonOrderId }));
-    const arr = forceArray(res.OrderItems);
-    const meh = arr.map(x =&gt; x.OrderItem);
-    const ret = {
-        nextToken: res.nextToken,
-        orderId: res.AmazonOrderId,
-        orderItems: meh,
-    };
-    return ret;
+const parseMarketplaceData = (marketplaceData) =&gt; {
+    // destructure result.ListParticipations.Participation to marketParticipationsTemp
+    const { ListParticipations: { Participation: marketParticipationsTemp } } = marketplaceData;
+    // destructure result.ListMarketplaces.Marketplace to marketsTemp
+    const { ListMarketplaces: { Marketplace: marketsTemp } } = marketplaceData;
+
+    let marketDetails = {};
+
+    // market = { MarketplaceId, DefaultCountryCode, DomainName, DefaultCurrencyCode, Name }
+    // A2ZV50J4W1RKNI === &quot;sim1.stores.amazon.com&quot;, &quot;Non-Amazon&quot;
+    // A1MQXOICRS2Z7M === &quot;siprod.stores.amazon.ca&quot;, &quot;SI CA Prod Marketplace&quot;
+    // A2EUQ1WTGCTBG2 === &quot;www.amazon.ca&quot; &quot;Amazon.ca&quot;
+    // ATVPDKIKX0DER === &quot;www.amazon.com&quot; &quot;Amazon.com&quot;
+    // Looks like &quot;Non-Amazon&quot; and &quot;SI CA Prod Marketplace&quot; are test markets? maybe?
+
+    const marketFilter = market =&gt; market !== &apos;A2ZV50J4W1RKNI&apos; &amp;&amp; market !== &apos;A1MQXOICRS2Z7M&apos;;
+
+    marketDetails = marketsTemp.reduce((acc, market) =&gt; {
+        if (!marketFilter(market.MarketplaceId)) {
+            return acc;
+        }
+        acc[market.MarketplaceId] = market;
+        return acc;
+    }, marketDetails);
+
+    marketDetails = marketParticipationsTemp.reduce((acc, participation) =&gt; {
+        if (!marketFilter(participation.MarketplaceId)) {
+            return acc;
+        }
+        acc[participation.MarketplaceId] = {
+            ...marketDetails[participation.MarketplaceId],
+            ...participation,
+        };
+        return acc;
+    }, marketDetails);
+
+    return transformObjectKeys(marketDetails);
 };
 
-module.exports = {
-    listOrderItems,
-};
+module.exports = parseMarketplaceData;
 </code></pre>
 
 </div>

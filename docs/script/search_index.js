@@ -66,6 +66,12 @@ window.esdocSearchIndex = [
     "function"
   ],
   [
+    "mws-advanced/lib/get-lowest-priced-offers.js~getlowestpricedoffersforsku",
+    "function/index.html#static-function-getLowestPricedOffersForSKU",
+    "<span>getLowestPricedOffersForSKU</span> <span class=\"search-result-import-path\">mws-advanced/lib/get-lowest-priced-offers.js</span>",
+    "function"
+  ],
+  [
     "mws-advanced/lib/get-marketplaces.js~getmarketplaces",
     "function/index.html#static-function-getMarketplaces",
     "<span>getMarketplaces</span> <span class=\"search-result-import-path\">mws-advanced/lib/get-marketplaces.js</span>",
@@ -153,6 +159,18 @@ window.esdocSearchIndex = [
     "mws-advanced/lib/list-orders.js~listorders",
     "function/index.html#static-function-listOrders",
     "<span>listOrders</span> <span class=\"search-result-import-path\">mws-advanced/lib/list-orders.js</span>",
+    "function"
+  ],
+  [
+    "mws-advanced/lib/callendpoint.js~parseendpoint",
+    "function/index.html#static-function-parseEndpoint",
+    "<span>parseEndpoint</span> <span class=\"search-result-import-path\">mws-advanced/lib/callEndpoint.js</span>",
+    "function"
+  ],
+  [
+    "mws-advanced/lib/parsers/marketplacedata.js~parsemarketplacedata",
+    "function/index.html#static-function-parseMarketplaceData",
+    "<span>parseMarketplaceData</span> <span class=\"search-result-import-path\">mws-advanced/lib/parsers/marketplaceData.js</span>",
     "function"
   ],
   [
@@ -600,66 +618,6 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
-    "lib/get-lowest-priced-offers.js~buyboxprice",
-    "typedef/index.html#static-typedef-BuyBoxPrice",
-    "lib/get-lowest-priced-offers.js~BuyBoxPrice",
-    "typedef"
-  ],
-  [
-    "lib/get-lowest-priced-offers.js~detailedshippingtime",
-    "typedef/index.html#static-typedef-DetailedShippingTime",
-    "lib/get-lowest-priced-offers.js~DetailedShippingTime",
-    "typedef"
-  ],
-  [
-    "lib/get-lowest-priced-offers.js~lowestprice",
-    "typedef/index.html#static-typedef-LowestPrice",
-    "lib/get-lowest-priced-offers.js~LowestPrice",
-    "typedef"
-  ],
-  [
-    "lib/get-lowest-priced-offers.js~lowestpricedoffers",
-    "typedef/index.html#static-typedef-LowestPricedOffers",
-    "lib/get-lowest-priced-offers.js~LowestPricedOffers",
-    "typedef"
-  ],
-  [
-    "lib/get-lowest-priced-offers.js~money",
-    "typedef/index.html#static-typedef-Money",
-    "lib/get-lowest-priced-offers.js~Money",
-    "typedef"
-  ],
-  [
-    "lib/get-lowest-priced-offers.js~offer",
-    "typedef/index.html#static-typedef-Offer",
-    "lib/get-lowest-priced-offers.js~Offer",
-    "typedef"
-  ],
-  [
-    "lib/get-lowest-priced-offers.js~offercount",
-    "typedef/index.html#static-typedef-OfferCount",
-    "lib/get-lowest-priced-offers.js~OfferCount",
-    "typedef"
-  ],
-  [
-    "lib/get-lowest-priced-offers.js~offersummary",
-    "typedef/index.html#static-typedef-OfferSummary",
-    "lib/get-lowest-priced-offers.js~OfferSummary",
-    "typedef"
-  ],
-  [
-    "lib/get-lowest-priced-offers.js~sellerfeedbackrating",
-    "typedef/index.html#static-typedef-SellerFeedbackRating",
-    "lib/get-lowest-priced-offers.js~SellerFeedbackRating",
-    "typedef"
-  ],
-  [
-    "lib/get-lowest-priced-offers.js~shipsfrom",
-    "typedef/index.html#static-typedef-ShipsFrom",
-    "lib/get-lowest-priced-offers.js~ShipsFrom",
-    "typedef"
-  ],
-  [
     "lib/get-marketplaces.js",
     "file/lib/get-marketplaces.js.html",
     "lib/get-marketplaces.js",
@@ -735,6 +693,78 @@ window.esdocSearchIndex = [
     "lib/list-orders.js",
     "file/lib/list-orders.js.html",
     "lib/list-orders.js",
+    "file"
+  ],
+  [
+    "lib/parsers/lowestpricedoffers.js",
+    "file/lib/parsers/lowestPricedOffers.js.html",
+    "lib/parsers/lowestPricedOffers.js",
+    "file"
+  ],
+  [
+    "lib/parsers/lowestpricedoffers.js~buyboxprice",
+    "typedef/index.html#static-typedef-BuyBoxPrice",
+    "lib/parsers/lowestPricedOffers.js~BuyBoxPrice",
+    "typedef"
+  ],
+  [
+    "lib/parsers/lowestpricedoffers.js~detailedshippingtime",
+    "typedef/index.html#static-typedef-DetailedShippingTime",
+    "lib/parsers/lowestPricedOffers.js~DetailedShippingTime",
+    "typedef"
+  ],
+  [
+    "lib/parsers/lowestpricedoffers.js~lowestprice",
+    "typedef/index.html#static-typedef-LowestPrice",
+    "lib/parsers/lowestPricedOffers.js~LowestPrice",
+    "typedef"
+  ],
+  [
+    "lib/parsers/lowestpricedoffers.js~lowestpricedoffers",
+    "typedef/index.html#static-typedef-LowestPricedOffers",
+    "lib/parsers/lowestPricedOffers.js~LowestPricedOffers",
+    "typedef"
+  ],
+  [
+    "lib/parsers/lowestpricedoffers.js~money",
+    "typedef/index.html#static-typedef-Money",
+    "lib/parsers/lowestPricedOffers.js~Money",
+    "typedef"
+  ],
+  [
+    "lib/parsers/lowestpricedoffers.js~offer",
+    "typedef/index.html#static-typedef-Offer",
+    "lib/parsers/lowestPricedOffers.js~Offer",
+    "typedef"
+  ],
+  [
+    "lib/parsers/lowestpricedoffers.js~offercount",
+    "typedef/index.html#static-typedef-OfferCount",
+    "lib/parsers/lowestPricedOffers.js~OfferCount",
+    "typedef"
+  ],
+  [
+    "lib/parsers/lowestpricedoffers.js~offersummary",
+    "typedef/index.html#static-typedef-OfferSummary",
+    "lib/parsers/lowestPricedOffers.js~OfferSummary",
+    "typedef"
+  ],
+  [
+    "lib/parsers/lowestpricedoffers.js~sellerfeedbackrating",
+    "typedef/index.html#static-typedef-SellerFeedbackRating",
+    "lib/parsers/lowestPricedOffers.js~SellerFeedbackRating",
+    "typedef"
+  ],
+  [
+    "lib/parsers/lowestpricedoffers.js~shipsfrom",
+    "typedef/index.html#static-typedef-ShipsFrom",
+    "lib/parsers/lowestPricedOffers.js~ShipsFrom",
+    "typedef"
+  ],
+  [
+    "lib/parsers/marketplacedata.js",
+    "file/lib/parsers/marketplaceData.js.html",
+    "lib/parsers/marketplaceData.js",
     "file"
   ],
   [

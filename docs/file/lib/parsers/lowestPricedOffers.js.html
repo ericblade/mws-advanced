@@ -2,8 +2,8 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <base data-ice="baseUrl" href="../../">
-  <title data-ice="title">lib/list-order-items.js | mws-advanced</title>
+  <base data-ice="baseUrl" href="../../../">
+  <title data-ice="title">lib/parsers/lowestPricedOffers.js | mws-advanced</title>
   <link type="text/css" rel="stylesheet" href="css/style.css">
   <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
   <script src="script/prettify/prettify.js"></script>
@@ -81,63 +81,202 @@
 </div>
 </nav>
 
-<div class="content" data-ice="content"><h1 data-ice="title">lib/list-order-items.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">/**
- * @module mws-advanced
- */
-const { callEndpoint } = require(&apos;./callEndpoint&apos;);
-const { digResponseResult } = require(&apos;./dig-response-result&apos;);
-const { forceArray } = require(&apos;./util/transformers&apos;);
+<div class="content" data-ice="content"><h1 data-ice="title">lib/parsers/lowestPricedOffers.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">const { forceArray } = require(&apos;../util/transformers&apos;);
 
-// TODO: make a typedef for OrderItem and document it correctly
 /**
- * @typedef OrderItemList
- * Object hash containing:
- * orderId - Amazon Order ID in 3-7-7 format
- * orderItems - Array of OrderItems
- * nextToken - If the list of items is longer than one request can accommodate, a nextToken will
- * be returned to pass to listOrderItemsByNextToken
- *
- * @public
- * @param {string} orderId - Amazon Order ID
- * @param {string} nextToken - Token to provide to ListOrderItemsByNextToken if needed (no token = no need)
- * @param {Array} orderItems - Array of all the items in the order
+ * @typedef OfferCount
+ * @param {number} count
+ * @param {string} condition
+ * @param {string} fulfillmentChannel
  */
 
 /**
- * Returns order items based on the AmazonOrderId that you specify.
+ * Reformat an OfferCount. Incoming OfferCount looks like:
+ *   {
+ *      &quot;_&quot;: &quot;31&quot;,
+ *       &quot;$&quot;: {
+ *           &quot;condition&quot;: &quot;used&quot;,
+ *           &quot;fulfillmentChannel&quot;: &quot;Merchant&quot;
+ *       }
+ *   }
  *
- * If you&apos;ve pulled a list of orders using @see {@link ListOrders}, or have order identifiers
- * stored in some other fashion, then to find out what items are actually on the orders, you will
- * need to call ListOrderItems to obtain details about the items that were ordered.  The ListOrders
- * call does not give you any information about the items, except how many of them have shipped or
- * not shipped.
+ * @private
+ * @param {object} offerCount OfferCount from MWS API
+ * @param {string} offerCount._ Number of Offers that match this type
+ * @param {object} offerCount.$ Object describing the type of Offers
+ * @param {object} offerCount.$.condition Offer Condition (used, new, etc)
+ * @param {object} offerCount.$.fulfillmentChannel Merchant or Amazon (FBM or FBA)
  *
- * If an Order is in the Pending state, ListOrderItems will not return any pricing or promotion
- * information. Once an order has left the Pending state, the following items will be returned:
- *
- * ItemTax, GiftWrapPrice, ItemPrice, PromotionDiscount, GiftWrapTax, ShippingTax, ShippingPrice,
- * ShippingDiscount
- *
- * @public
- * @param {string} AmazonOrderId - 3-7-7 Amazon Order ID formatted string
- * @returns {OrderItemList}
+ * @return {OfferCount}
  */
-const listOrderItems = async (AmazonOrderId) =&gt; {
-    const res = digResponseResult(&apos;ListOrderItems&apos;, await callEndpoint(&apos;ListOrderItems&apos;, { AmazonOrderId }));
-    const arr = forceArray(res.OrderItems);
-    const meh = arr.map(x =&gt; x.OrderItem);
-    const ret = {
-        nextToken: res.nextToken,
-        orderId: res.AmazonOrderId,
-        orderItems: meh,
+const reformatOfferCount = offerCount =&gt; ({
+    count: parseInt(offerCount._, 10),
+    condition: offerCount.$.condition,
+    fulfillmentChannel: offerCount.$.fulfillmentChannel,
+});
+
+/** @typedef SellerFeedbackRating
+ * @param {string} unknown
+ */
+/** @typedef DetailedShippingTime
+ * @param {string} unknown
+ */
+/** @typedef Money
+ * @param {string} unknown
+ */
+/** @typedef ShipsFrom
+ * @param {string} unknown
+ */
+
+/**
+ * @typedef Offer
+ * @param {string} subCondition - The subcondition of the item (New, Mint, Very Good, Good, Acceptable, Poor, Club, OEM, Warranty, Refurbished Warranty, Refurbished, Open Box, or Other)
+ * @param {SellerFeedbackRating} sellerFeedbackRating - Information about the seller&apos;s feedback
+ * @param {DetailedShippingTime} shippingTime - Maximum time within which the item will likely be shipped
+ * @param {Money} listingPrice - The price of the item
+ * @param {Points} [points] - The number of Amazon Points offered with the purchase of an item
+ * @param {Money} shipping - Cost of shipping
+ * @param {ShipsFrom} [shipsFrom] - State and Country where item is shipped from
+ * @param {boolean} isFulfilledByAmazon - True if FBA, False if not
+ * @param {boolean} [isBuyBoxWinner] - True if offer has buy box, False if not
+ * @param {boolean} [isFeaturedMerchant] - True if seller is eligible for Buy Box, False if not
+ */
+
+/**
+ * Reformat an Offer
+ *
+ * @private
+ * @param {object} offer Offer from MWS API
+ * @return {Offer}
+ */
+const reformatOffer = offer =&gt; ({
+    subCondition: offer.SubCondition,
+    sellerFeedbackRating: offer.SellerFeedbackRating,
+    shippingTime: offer.ShippingTime.$,
+    listingPrice: offer.ListingPrice,
+    shipping: offer.Shipping,
+    shipsFrom: offer.ShipsFrom,
+    points: offer.Points,
+    isFulfilledByAmazon: (offer.IsFulfilledByAmazon === &apos;true&apos;),
+    isBuyBoxWinner: (offer.IsBuyBoxWinner === &apos;true&apos;),
+    isFeaturedMerchant: (offer.IsFeaturedMerchant === &apos;true&apos;),
+});
+
+/**
+ * @typedef LowestPrice
+ * @param {string} condition
+ * @param {string} fulfillmentChannel
+ * @param {Money} landedPrice
+ * @param {Money} listingPrice
+ * @param {string} shipping
+ */
+
+/**
+ * Reformat a Lowest Price
+ *
+ * @private
+ * @param {object} lp Lowest Price object from MWS API
+ * returns {LowestPrice}
+ */
+const reformatLowestPrice = lp =&gt; ({
+    condition: lp.$.condition,
+    fulfillmentChannel: lp.$.fulfillmentChannel,
+    landedPrice: lp.LandedPrice,
+    listingPrice: lp.ListingPrice,
+    shipping: lp.Shipping,
+});
+
+/** @typedef BuyBoxPrice
+ * @param {string} condition
+ * @param {Money} landedPrice
+ * @param {Money} listingPrice
+ * @param {Money} shipping
+ */
+
+/**
+ * Reformat a Buy Box Price
+ *
+ * @private
+ * @param {any} bb Buy Box Price object from MWS API
+ * returns {BuyBoxPrice}
+ */
+// TODO: remove this eslint disable someday. i&apos;m constantly mucking inside this function right now, though.
+// eslint-disable-next-line arrow-body-style
+const reformatBuyBoxPrice = (bb) =&gt; {
+    return {
+        condition: bb.$.condition,
+        landedPrice: bb.LandedPrice,
+        listingPrice: bb.ListingPrice,
+        shipping: bb.Shipping,
     };
+};
+// const reformatBuyBoxPrice = bb =&gt; {
+//     console.warn(&apos;**** bb=&apos;, bb.$);
+//     return bb;
+// }
+
+/**
+ * @typedef OfferSummary
+ * @param {number} totalOfferCount
+ * @param {number} numberOfOffers
+ * @param {Money} listPrice
+ * @param {LowestPrice[]} lowestPrices
+ * @param {Array} buyBoxPrices
+ */
+
+/**
+ * reformat an Offer Summary into something a little more sane looking
+ *
+ * @private
+ * @param {object} Offer Summary (has lots of keys)
+ * @return {OfferSummary}
+ */
+const reformatSummary = (summary) =&gt; {
+    const ret = {};
+    ret.totalOfferCount = parseInt(summary.TotalOfferCount, 10);
+
+    const numberOfOffers = forceArray(summary.NumberOfOffers &amp;&amp; summary.NumberOfOffers.OfferCount);
+    ret.numberOfOffers = numberOfOffers.map(reformatOfferCount);
+
+    ret.listPrice = summary.ListPrice;
+    const lowestPrices = forceArray(summary.LowestPrices &amp;&amp; summary.LowestPrices.LowestPrice);
+    ret.lowestPrices = lowestPrices.map(reformatLowestPrice);
+
+    const buyBoxPrices = forceArray(summary.BuyBoxPrices &amp;&amp; summary.BuyBoxPrices.BuyBoxPrice);
+    ret.buyBoxPrices = buyBoxPrices &amp;&amp; buyBoxPrices.map(reformatBuyBoxPrice);
+
+    const buyBoxEligibleOffers = forceArray(summary.BuyBoxEligibleOffers &amp;&amp; summary.BuyBoxEligibleOffers.OfferCount);
+    ret.buyBoxEligibleOffers = buyBoxEligibleOffers.map(reformatOfferCount);
+
     return ret;
 };
 
-module.exports = {
-    listOrderItems,
-};
+/**
+ * @typedef LowestPricedOffers
+ * @param {string} asin - asin returned by request
+ * @param {string} marketplace - marketplace asin is in
+ * @param {string} itemCondition - condition of item requested
+ * @param {OfferSummary} summary -
+ * @param {Offers[]} offers - list of offers
+ */
+
+function parseLowestPricedOffers(offerData) {
+    const identifier = offerData.Identifier;
+    const summary = offerData.Summary;
+
+    const offers = forceArray(offerData.Offers.Offer);
+
+    const ret = {};
+    ret.asin = identifier.ASIN;
+    ret.marketplace = identifier.MarketplaceId;
+    ret.itemCondition = identifier.ItemCondition;
+    ret.summary = reformatSummary(summary);
+    ret.lowestOffers = offers.map(reformatOffer);
+    return ret;
+}
+
+module.exports = parseLowestPricedOffers;
 </code></pre>
 
 </div>
