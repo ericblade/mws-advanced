@@ -58,6 +58,10 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-MWS_ENDPOINTS">MWS_ENDPOINTS</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-MWS_MARKETPLACES">MWS_MARKETPLACES</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-MarketDetail">MarketDetail</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-Estimate">Estimate</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-EstimateRequest">EstimateRequest</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-FeeDetail">FeeDetail</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-FeeIdentifier">FeeIdentifier</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-productCategoryByAsin">productCategoryByAsin</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-productCategoryBySku">productCategoryBySku</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-OrderItemList">OrderItemList</a></span></span></li>
@@ -67,6 +71,7 @@
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#endpoints">endpoints</a><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-REPORT_PROCESSING_STATUS_TYPES">REPORT_PROCESSING_STATUS_TYPES</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-REQUEST_REPORT_TYPES">REQUEST_REPORT_TYPES</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#parsers">parsers</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-parseMarketplaceData">parseMarketplaceData</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-parseMatchingProduct">parseMatchingProduct</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-BuyBoxPrice">BuyBoxPrice</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-DetailedShippingTime">DetailedShippingTime</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-LowestPrice">LowestPrice</a></span></span></li>
@@ -83,8 +88,9 @@
 
 <div class="content" data-ice="content"><h1 data-ice="title">lib/get-matching-product.js</h1>
 <pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">const { callEndpoint } = require(&apos;./callEndpoint&apos;);
-const { forceArray, transformObjectKeys, transformAttributeSetKey } = require(&apos;./util/transformers&apos;);
 const errors = require(&apos;./errors&apos;);
+
+const parseMatchingProduct = require(&apos;./parsers/matchingProduct&apos;);
 
 /**
  * Returns a list of products and their attributes, based on a list of ASIN, GCID, SellerSKU, UPC,
@@ -102,36 +108,7 @@ const getMatchingProductForId = async (options) =&gt; {
     if (result.Error) {
         throw new errors.ServiceError(result.Error.Message);
     }
-    // for a single return, flattenResult will drop this to an object, which is not desireable
-    // in this particular case.
-    const products = forceArray(result);
-    const ret = products.map((p) =&gt; {
-        const type = String(p.$.IdType).toLowerCase();
-        if (p.Error) {
-            return { Error: p.Error, [`${type}`]: p.$.Id };
-        }
-        const transformedResults = forceArray(transformObjectKeys(p.Products.Product, transformAttributeSetKey));
-        const results = transformedResults.map((x) =&gt; {
-            // eslint-disable-next-line no-param-reassign
-            if (x.salesRankings.salesRank) x.salesRankings.salesRank = forceArray(x.salesRankings.salesRank);
-            return x;
-        });
-        return {
-            results,
-            // results: p.Products.Product.map(x =&gt; {
-            //     return {
-            //         ...x,
-            //         attributeSets: transformObjectKeys(x.AttributeSets, transformAttributeSetKey),
-            //     };
-            //     // console.warn(&quot;**************** x&quot;, x);
-            //     // return x;
-            // }),
-            [`${type}`]: p.$.Id,
-            idType: type,
-            id: p.$.Id,
-        };
-    });
-    return ret;
+    return parseMatchingProduct(result);
 };
 
 module.exports = {

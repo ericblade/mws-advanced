@@ -58,6 +58,10 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-MWS_ENDPOINTS">MWS_ENDPOINTS</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-MWS_MARKETPLACES">MWS_MARKETPLACES</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-MarketDetail">MarketDetail</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-Estimate">Estimate</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-EstimateRequest">EstimateRequest</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-FeeDetail">FeeDetail</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-FeeIdentifier">FeeIdentifier</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-productCategoryByAsin">productCategoryByAsin</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-productCategoryBySku">productCategoryBySku</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-OrderItemList">OrderItemList</a></span></span></li>
@@ -67,6 +71,7 @@
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#endpoints">endpoints</a><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-REPORT_PROCESSING_STATUS_TYPES">REPORT_PROCESSING_STATUS_TYPES</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-REQUEST_REPORT_TYPES">REQUEST_REPORT_TYPES</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#parsers">parsers</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-parseMarketplaceData">parseMarketplaceData</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-parseMatchingProduct">parseMatchingProduct</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-BuyBoxPrice">BuyBoxPrice</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-DetailedShippingTime">DetailedShippingTime</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-LowestPrice">LowestPrice</a></span></span></li>
@@ -83,8 +88,57 @@
 
 <div class="content" data-ice="content"><h1 data-ice="title">lib/get-my-fees-estimate.js</h1>
 <pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">const { callEndpoint } = require(&apos;./callEndpoint&apos;);
-const { forceArray } = require(&apos;./util/transformers&apos;);
+const { forceArray, transformObjectKeys } = require(&apos;./util/transformers&apos;);
 
+/**
+ * @typedef EstimateRequest - an Estimate Request object
+ * @param {string} marketplaceId - MWS MarketplaceId to request item within
+ * @param {string} idType - type of identifier for item (ASIN, GCID, SellerSKU, UPC, EAN, ISBN, JAN)
+ * @param {string} idValue - identifier to use (see idType)
+ * @param {boolean} isAmazonFulfilled - true for FBA fees, false for Merchant Fulfilled fees
+ * @param {Money} listingPrice - currencyCode and amount for listing price
+ * @param {Money} shipping - currencyCode and amount for shipping price
+ * @param {object} points - pointsNumber: amazon points for purchase (Japan only?)
+ * @param {string} [identifier] - identifier to attach to request. If not given, will be `FBA.${idValue}` for FBA requests or `MF.${idValue}` for MF requests
+ */
+
+/**
+ * @typedef FeeDetail - a detailed Fee object
+ * @param {string} feeType - The type of fee (ReferralFee, PerItemFee, VariableClosingFee, etc)
+ * @param {Money} feeAmount - Base fee, currencyCode and amount
+ * @param {Money} feePromotion - Discounts applied to fee, currencyCode and amount
+ * @param {Money} finalFee - feeAmount minus feePromotion, currencyCode and amount
+ */
+
+/**
+ * @typedef FeeIdentifier
+ * @param {string} marketplaceId - MWS MarketplaceId requested
+ * @param {string} idType - type of identifier requested
+ * @param {string} sellerId - the seller identifier that requested the estimate
+ * @param {boolean} isAmazonFulfilled - true for FBA, false for Merchant Fulfilled
+ * @param {string} sellerInputIdentifier - identifier from EstimateRequest
+ * @param {string} idValue - the product idValue from EstimateRequest
+ * @param {object} priceToEstimateFees - Money values entered in as listingPrice and shipping to EstimateRequest
+ * @param {Money} priceToEstimateFees.listingPrice - listingPrice from EstimateRequest
+ * @param {Money} priceToEstimateFees.shipping - shipping from EstimateRequest
+ */
+
+/**
+ * @typedef Estimate
+ * @param {Money} totalFees - currencyCode and amount for total fees
+ * @param {string} time - ISO8601 time stamp format time the fee response was created
+ * @param {FeeDetail[]} detail - array of details about each of the fees that make up totalFees
+ * @param {FeeIdentifier} identifier - information about the EstimateRequest
+ * @param {string} success - &quot;Success&quot; for success or &quot;Failure&quot; for request failure
+ * @param {Error} [error] - If an Error occurred (success === &quot;Failure&quot;), a description of the Error
+ */
+
+/**
+ * Get an estimate of fees for an item, based on listing and shipping prices.
+ *
+ * @param {EstimateRequest[]} - Array of EstimateRequest items to get fees for
+ * @returns {Object} - Object of Estimate items, indexed by EstimateRequest Identifier
+ */
 const getMyFeesEstimate = async (estimates) =&gt; {
     const estimateList = forceArray(estimates);
     const query = { };
@@ -107,16 +161,20 @@ const getMyFeesEstimate = async (estimates) =&gt; {
     const ret = {};
     res2.forEach((e) =&gt; {
         const est = e.FeesEstimate || { TotalFeesEstimate: undefined, time: undefined, detail: undefined };
+        const identifier = { ...e.FeesEstimateIdentifier };
+        if (identifier) {
+            identifier.IsAmazonFulfilled = identifier.IsAmazonFulfilled === &apos;true&apos;;
+        }
         ret[e.FeesEstimateIdentifier.SellerInputIdentifier] = {
             totalFees: est.TotalFeesEstimate,
             time: est.TimeOfFeesEstimation,
-            detail: est.FeeDetailList,
-            identifier: e.FeesEstimateIdentifier,
+            detail: forceArray(est.FeeDetailList.FeeDetail),
+            identifier,
             status: e.Status,
             error: e.Error || undefined,
         };
     });
-    return ret;
+    return transformObjectKeys(ret);
 };
 
 module.exports = {
