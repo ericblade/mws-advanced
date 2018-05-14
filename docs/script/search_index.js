@@ -174,6 +174,12 @@ window.esdocSearchIndex = [
     "function"
   ],
   [
+    "mws-advanced/lib/parsers/matchingproduct.js~parsematchingproduct",
+    "function/index.html#static-function-parseMatchingProduct",
+    "<span>parseMatchingProduct</span> <span class=\"search-result-import-path\">mws-advanced/lib/parsers/matchingProduct.js</span>",
+    "function"
+  ],
+  [
     "mws-advanced/lib/reports.js~requestanddownloadreport",
     "function/index.html#static-function-requestAndDownloadReport",
     "<span>requestAndDownloadReport</span> <span class=\"search-result-import-path\">mws-advanced/lib/reports.js</span>",
@@ -642,6 +648,30 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
+    "lib/get-my-fees-estimate.js~estimate",
+    "typedef/index.html#static-typedef-Estimate",
+    "lib/get-my-fees-estimate.js~Estimate",
+    "typedef"
+  ],
+  [
+    "lib/get-my-fees-estimate.js~estimaterequest",
+    "typedef/index.html#static-typedef-EstimateRequest",
+    "lib/get-my-fees-estimate.js~EstimateRequest",
+    "typedef"
+  ],
+  [
+    "lib/get-my-fees-estimate.js~feedetail",
+    "typedef/index.html#static-typedef-FeeDetail",
+    "lib/get-my-fees-estimate.js~FeeDetail",
+    "typedef"
+  ],
+  [
+    "lib/get-my-fees-estimate.js~feeidentifier",
+    "typedef/index.html#static-typedef-FeeIdentifier",
+    "lib/get-my-fees-estimate.js~FeeIdentifier",
+    "typedef"
+  ],
+  [
     "lib/get-product-categories.js",
     "file/lib/get-product-categories.js.html",
     "lib/get-product-categories.js",
@@ -765,6 +795,12 @@ window.esdocSearchIndex = [
     "lib/parsers/marketplacedata.js",
     "file/lib/parsers/marketplaceData.js.html",
     "lib/parsers/marketplaceData.js",
+    "file"
+  ],
+  [
+    "lib/parsers/matchingproduct.js",
+    "file/lib/parsers/matchingProduct.js.html",
+    "lib/parsers/matchingProduct.js",
     "file"
   ],
   [

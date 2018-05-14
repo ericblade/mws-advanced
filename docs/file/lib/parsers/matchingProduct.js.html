@@ -2,8 +2,8 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <base data-ice="baseUrl" href="../../">
-  <title data-ice="title">InvalidUsage | mws-advanced</title>
+  <base data-ice="baseUrl" href="../../../">
+  <title data-ice="title">lib/parsers/matchingProduct.js | mws-advanced</title>
   <link type="text/css" rel="stylesheet" href="css/style.css">
   <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
   <script src="script/prettify/prettify.js"></script>
@@ -86,58 +86,46 @@
 </div>
 </nav>
 
-<div class="content" data-ice="content"><div class="header-notice">
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {InvalidUsage} from &apos;<span><a href="file/lib/errors.js.html#lineNumber9">mws-advanced/lib/errors.js</a></span>&apos;</code></pre></div>
-  <span data-ice="access">public</span>
-  <span data-ice="kind">class</span>
-  
-  
-  
-  <span data-ice="source">| <span><a href="file/lib/errors.js.html#lineNumber9">source</a></span></span>
-</div>
+<div class="content" data-ice="content"><h1 data-ice="title">lib/parsers/matchingProduct.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">const {
+    forceArray,
+    transformObjectKeys,
+    transformAttributeSetKey,
+} = require(&apos;../util/transformers&apos;);
 
-<div class="self-detail detail">
-  <h1 data-ice="name">InvalidUsage</h1>
+/**
+ * Parse MWS product info into Product[] (TODO: document Product[], it&apos;s quite a large potential result)
+ *
+ * @param {any} productData MWS product info
+ * @returns {Product[]}
+ */
+const parseMatchingProduct = (productData) =&gt; {
+    // for a single return, flattenResult will drop this to an object, which is not desireable
+    // in this particular case.
+    const products = forceArray(productData);
+    const ret = products.map((p) =&gt; {
+        const type = String(p.$.IdType).toLowerCase();
+        if (p.Error) {
+            return { Error: p.Error, [`${type}`]: p.$.Id };
+        }
+        const transformedResults = forceArray(transformObjectKeys(p.Products.Product, transformAttributeSetKey));
+        const results = transformedResults.map((x) =&gt; {
+            // eslint-disable-next-line no-param-reassign
+            if (x.salesRankings.salesRank) x.salesRankings.salesRank = forceArray(x.salesRankings.salesRank);
+            return x;
+        });
+        return {
+            results,
+            [`${type}`]: p.$.Id,
+            idType: type,
+            id: p.$.Id,
+        };
+    });
+    return ret;
+};
 
-  
-
-  
-  
-  <div class="flat-list" data-ice="extendsChain"><h4>Extends:</h4><div><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error">Error</a></span> &#x2192; InvalidUsage</div></div>
-  
-  
-  
-  
-  
-  
-
-  
-  
-  <div class="description" data-ice="description"><p>Thrown when completely Invalid Parameters are given and we have no way of making sense of them</p>
-</div>
-  
-
-  
-
-  
-
-  
-
-  
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
+module.exports = parseMatchingProduct;
+</code></pre>
 
 </div>
 
