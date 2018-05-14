@@ -629,7 +629,7 @@ describe('Parsers', function runParserTests() {
         );
         return true;
     });
-    it('getLowestPricedOffers', async function testGetLowestPricedOffersParser() {
+    it('getLowestPricedOffers', function testGetLowestPricedOffersParser() {
         const json = JSON.parse(fs.readFileSync('./test/mock/GetLowestPricedOffersForASIN.json'));
         const parser = require('../lib/parsers/lowestPricedOffers');
 
@@ -659,6 +659,65 @@ describe('Parsers', function runParserTests() {
 
         expect(result.lowestOffers).to.be.an('array');
         return result;
+    });
+    describe('parseMatchingProduct', () => {
+        const parser = require('../lib/parsers/matchingProduct');
+        it('single ASIN response', () => {
+            const json = JSON.parse(fs.readFileSync('./test/mock/GetMatchingProductForId-1.json'));
+            const result = parser(json);
+            expect(result).to.be.an('array');
+            expect(result).to.have.lengthOf(1);
+            expect(result[0]).to.be.an('object');
+            expect(result[0].asin).to.equal('B005NK7VTU');
+            expect(result[0].idType).to.equal('asin');
+            expect(result[0].id).to.equal('B005NK7VTU');
+            return result;
+        });
+        it('2 ASIN response', () => {
+            const json = JSON.parse(fs.readFileSync('./test/mock/GetMatchingProductForId-2.json'));
+            const result = parser(json);
+            expect(result).to.be.an('array');
+            expect(result).to.have.lengthOf(2);
+
+            return result;
+        });
+        it('single UPC response', () => {
+            const json = JSON.parse(fs.readFileSync('./test/mock/GetMatchingProductForId-3.json'));
+            const result = parser(json);
+            expect(result).to.be.an('array');
+            expect(result).to.have.lengthOf(1);
+            expect(result[0]).to.be.an('object');
+            expect(result[0].upc).to.equal('020357122682');
+            expect(result[0].idType).to.equal('upc');
+            expect(result[0].id).to.equal('020357122682');
+
+            return result;
+        });
+        // TODO: the parser doesn't currently parse these results, the receiver does. urgh!
+        // it('invalid UPC response', () => {
+        //     const json = JSON.parse(fs.readFileSync('./test/mock/GetMatchingProductForId-4.json'));
+        //     const result = parser(json);
+
+        //     return result;
+        // });
+        // it('deleted ASIN response', () => {
+        //     const json = JSON.parse(fs.readFileSync('./test/mock/GetMatchingProductForId-5.json'));
+        //     const result = parser(json);
+
+        //     return result;
+        // });
+        // TODO: theoretically, we want to also handle duplicate ASIN errors right here, but that error occurs even higher than this. urgh!
+        it('partial error response (1 asin that works, 1 that doesnt)', () => {
+            const json = JSON.parse(fs.readFileSync('./test/mock/GetMatchingProductForId-6.json'));
+            const result = parser(json);
+            expect(result).to.be.an('array');
+            expect(result[0]).to.be.an('object');
+            expect(result[0].asin).to.equal('B005NK7VTU');
+            expect(result[1]).to.be.an('object');
+            expect(result[1].asin).to.equal('B01FZRFN2C');
+            expect(result[1].Error).to.be.an('object');
+            return result;
+        });
     });
 });
 

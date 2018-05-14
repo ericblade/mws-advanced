@@ -1,0 +1,1 @@
+{"$":{"Id":"012345678900","IdType":"UPC","status":"ClientError"},"Error":{"Type":"Sender","Code":"InvalidParameterValue","Message":"Invalid UPC identifier 012345678900 for marketplace ATVPDKIKX0DER"}}
