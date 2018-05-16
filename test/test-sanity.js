@@ -719,6 +719,123 @@ describe('Parsers', function runParserTests() {
             return result;
         });
     });
+    describe('parseFeesEstimate', () => {
+        const test1 = {
+            marketplaceId: 'ATVPDKIKX0DER',
+            idType: 'ASIN',
+            idValue: 'B002KT3XQM',
+            isAmazonFulfilled: true,
+            identifier: '1',
+            listingPrice: {
+                currencyCode: 'USD',
+                amount: '0.00',
+            },
+            shipping: {
+                currencyCode: 'USD',
+                amount: '0.00',
+            },
+        };
+        const test2 = {
+            ...test1,
+            identifier: '2',
+            idValue: 'B00IDD9TU8',
+            isAmazonFulfilled: false,
+        };
+
+        const parser = require('../lib/parsers/feesEstimate');
+        it('single item parsed correctly', () => {
+            const json = JSON.parse(fs.readFileSync('./test/mock/GetMyFeesEstimate-1.json'));
+            const result = parser(json);
+            expect(result).to.be.an('Object').that.includes.all.keys(test1.identifier);
+            const testRes = result[test1.identifier];
+            expect(testRes).to.be.an('Object').that.includes.all.keys('totalFees', 'time', 'detail', 'identifier', 'status');
+            expect(testRes.totalFees).to.be.an('Object').that.includes.all.keys('currencyCode', 'amount');
+            expect(testRes.time).to.be.a('string');
+            expect(testRes.detail).to.be.an('Array');
+            expect(testRes.identifier).to.be.an('Object').that.includes.all.keys('marketplaceId', 'idType', 'sellerId', 'isAmazonFulfilled', 'sellerInputIdentifier', 'idValue', 'priceToEstimateFees');
+            expect(testRes.status).to.equal('Success');
+            const testId = testRes.identifier;
+            expect(testId.marketplaceId).to.equal(test1.marketplaceId);
+            expect(testId.idType).to.equal(test1.idType);
+            expect(testId.sellerId).to.be.a('string');
+            expect(testId.isAmazonFulfilled).to.equal(test1.isAmazonFulfilled);
+            expect(testId.sellerInputIdentifier).to.equal(test1.identifier);
+            expect(testId.idValue).to.equal(test1.idValue);
+            const prices = testId.priceToEstimateFees;
+            expect(prices.listingPrice).to.deep.equal(test1.listingPrice);
+            expect(prices.shipping).to.deep.equal(test1.shipping);
+        });
+        it('multiple items parsed correctly', () => {
+            const json = JSON.parse(fs.readFileSync('./test/mock/GetMyFeesEstimate-2.json'));
+            const result = parser(json);
+            expect(result).to.be.an('Object').that.includes.all.keys(test1.identifier, test2.identifier);
+            const testRes = result[test1.identifier];
+            expect(testRes).to.be.an('Object').that.includes.all.keys('totalFees', 'time', 'detail', 'identifier', 'status');
+            expect(testRes.totalFees).to.be.an('Object').that.includes.all.keys('currencyCode', 'amount');
+            expect(testRes.time).to.be.a('string');
+            expect(testRes.detail).to.be.an('Array');
+            expect(testRes.identifier).to.be.an('Object').that.includes.all.keys('marketplaceId', 'idType', 'sellerId', 'isAmazonFulfilled', 'sellerInputIdentifier', 'idValue', 'priceToEstimateFees');
+            expect(testRes.status).to.equal('Success');
+            const testId = testRes.identifier;
+            expect(testId.marketplaceId).to.equal(test1.marketplaceId);
+            expect(testId.idType).to.equal(test1.idType);
+            expect(testId.sellerId).to.be.a('string');
+            expect(testId.isAmazonFulfilled).to.equal(test1.isAmazonFulfilled);
+            expect(testId.sellerInputIdentifier).to.equal(test1.identifier);
+            expect(testId.idValue).to.equal(test1.idValue);
+            const prices = testId.priceToEstimateFees;
+            expect(prices.listingPrice).to.deep.equal(test1.listingPrice);
+            expect(prices.shipping).to.deep.equal(test1.shipping);
+
+            const testRes2 = result[test2.identifier];
+            expect(testRes2).to.be.an('Object').that.includes.all.keys('totalFees', 'time', 'detail', 'identifier', 'status');
+            expect(testRes2.totalFees).to.be.an('Object').that.includes.all.keys('currencyCode', 'amount');
+            expect(testRes2.time).to.be.a('string');
+            expect(testRes2.detail).to.be.an('Array');
+            expect(testRes2.identifier).to.be.an('Object').that.includes.all.keys('marketplaceId', 'idType', 'sellerId', 'isAmazonFulfilled', 'sellerInputIdentifier', 'idValue', 'priceToEstimateFees');
+            expect(testRes2.status).to.equal('Success');
+            const testId2 = testRes2.identifier;
+            expect(testId2.marketplaceId).to.equal(test2.marketplaceId);
+            expect(testId2.idType).to.equal(test2.idType);
+            expect(testId2.sellerId).to.be.a('string');
+            expect(testId2.isAmazonFulfilled).to.equal(test2.isAmazonFulfilled);
+            expect(testId2.sellerInputIdentifier).to.equal(test2.identifier);
+            expect(testId2.idValue).to.equal(test2.idValue);
+            const prices2 = testId2.priceToEstimateFees;
+            expect(prices2.listingPrice).to.deep.equal(test2.listingPrice);
+            expect(prices2.shipping).to.deep.equal(test2.shipping);
+        });
+        it('test error handling', () => {
+            const feeTest = {
+                marketplaceId: 'ATVPDKIKX0DER',
+                idType: 'ASIN',
+                idValue: 'B0002APO1I',
+                isAmazonFulfilled: true,
+                listingPrice: {
+                    currencyCode: 'USD',
+                    amount: '0.00',
+                },
+                shipping: {
+                    currencyCode: 'USD',
+                    amount: '0.00',
+                },
+            };
+            const json = JSON.parse(fs.readFileSync('./test/mock/GetMyFeesEstimate-3.json'));
+            const res = parser(json);
+            const test = res[`FBA.${feeTest.idValue}`];
+            expect(test.totalFees).to.equal(undefined);
+            expect(test.time).to.equal(undefined);
+            expect(test.detail).to.equal(undefined);
+            expect(test.identifier).to.be.an('Object');
+            expect(test.identifier.isAmazonFulfilled).to.equal(true);
+            expect(test.status).to.equal('ServerError');
+            expect(test.error).to.be.an('Object').that.includes.all.keys('code', 'message', 'type');
+            expect(test.error.code).to.equal('DataNotAvailable');
+            expect(test.error.message).to.equal('Item shipping weight is not available.');
+            expect(test.error.type).to.equal('Receiver');
+            return res;
+        });
+    });
 });
 
 describe('API', function runAPITests() {
