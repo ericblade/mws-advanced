@@ -168,6 +168,12 @@ window.esdocSearchIndex = [
     "function"
   ],
   [
+    "mws-advanced/lib/parsers/feesestimate.js~parsefeesestimate",
+    "function/index.html#static-function-parseFeesEstimate",
+    "<span>parseFeesEstimate</span> <span class=\"search-result-import-path\">mws-advanced/lib/parsers/feesEstimate.js</span>",
+    "function"
+  ],
+  [
     "mws-advanced/lib/parsers/marketplacedata.js~parsemarketplacedata",
     "function/index.html#static-function-parseMarketplaceData",
     "<span>parseMarketplaceData</span> <span class=\"search-result-import-path\">mws-advanced/lib/parsers/marketplaceData.js</span>",
@@ -690,12 +696,6 @@ window.esdocSearchIndex = [
     "typedef"
   ],
   [
-    "lib/index.js",
-    "file/lib/index.js.html",
-    "lib/index.js",
-    "file"
-  ],
-  [
     "lib/list-financial-events.js",
     "file/lib/list-financial-events.js.html",
     "lib/list-financial-events.js",
@@ -723,6 +723,12 @@ window.esdocSearchIndex = [
     "lib/list-orders.js",
     "file/lib/list-orders.js.html",
     "lib/list-orders.js",
+    "file"
+  ],
+  [
+    "lib/parsers/feesestimate.js",
+    "file/lib/parsers/feesEstimate.js.html",
+    "lib/parsers/feesEstimate.js",
     "file"
   ],
   [

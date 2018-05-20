@@ -483,13 +483,14 @@ describe('mws-advanced sanity', () => {
     // much like was just written in mws-simple
     // TODO: do we need to write a test that tests authToken if it is present?
     describe('mws.init', () => {
+        const initTestParams = {
+            accessKeyId: 'testKeyId',
+            secretAccessKey: 'testSecret',
+            merchantId: 'testMerchantId',
+            authToken: 'authToken',
+        };
         it('init returns a configured mws object', (done) => {
-            const client = mws.init({
-                accessKeyId: 'testKeyId',
-                secretAccessKey: 'testSecret',
-                merchantId: 'testMerchantId',
-                authToken: 'authToken',
-            });
+            const client = mws.init(initTestParams);
             expect(client).to.be.an('object');
             expect(client).to.include.all.keys(
                 'host',
@@ -499,6 +500,26 @@ describe('mws-advanced sanity', () => {
                 'merchantId',
                 'authToken',
             );
+            done();
+        });
+        it('new mws.MWSAdvanced() works like init, but returns a separate mws instance', (done) => {
+            const client = new mws.MWSAdvanced(initTestParams);
+            expect(client.mws).to.be.an('object');
+            expect(client.mws).to.include.all.keys(
+                'host',
+                'port',
+                'accessKeyId',
+                'secretAccessKey',
+                'merchantId',
+                'authToken',
+            );
+            done();
+        });
+        it('multiple instances dont become confused at init', (done) => {
+            const client1 = new mws.MWSAdvanced(initTestParams);
+            const client2 = new mws.MWSAdvanced({ ...initTestParams, accessKeyId: 'Junk' });
+            expect(client1.mws.accessKeyId).to.equal(initTestParams.accessKeyId);
+            expect(client2.mws.accessKeyId).to.equal('Junk');
             done();
         });
         it('init can pick up environment variables for keys', (done) => {
@@ -566,6 +587,25 @@ describe('mws-advanced sanity', () => {
         it('callEndpoint functions', () => {
             mws.init(keys);
             return expect(mws.callEndpoint(testCall, testParams)).to.be.fulfilled;
+        });
+        it('callEndpoint functions using new MWSAdvanced()', () => {
+            const test = new mws.MWSAdvanced(keys);
+            return expect(test.callEndpoint(testCall, testParams)).to.be.fulfilled;
+        });
+        // writing this test with an assumption that converting from a single API instance to
+        // a multiple instance system could end up with access objects getting swapped.
+        it('multiple instances dont become confused at callEndpoint', () => {
+            const test1 = new mws.MWSAdvanced(keys);
+            const test2 = new mws.MWSAdvanced({
+                accessKeyId: 'testKeyId',
+                secretAccessKey: 'testSecret',
+                merchantId: 'testMerchantId',
+                authToken: 'authToken',
+            });
+            return test1.callEndpoint(testCall, testParams).then((res) => {
+                expect(res).to.not.be.undefined;
+                return expect(test2.callEndpoint(testCall, testParams)).to.be.rejectedWith('Forbidden');
+            });
         });
         it('callEndpoint saveRaw/saveParsed options', async () => {
             try {

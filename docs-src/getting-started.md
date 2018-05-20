@@ -45,10 +45,26 @@ npm install --save github:ericblade/mws-advanced
 Before you are able to use the mws-advanced API, you must initialize it with your MWS credentials.
 
 ````
+const mws = require('mws-advanced');
 mws.init({
     accessKeyId: 'Your Amazon MWS Access Key ID',
     secretAccessKey: 'Your Amazon MWS Secret Access Key',
     merchantId: 'Your Amazon MWS Merchant ID',
+});
+````
+
+## Multiple Instances
+
+If you need multiple instances of the MWS API, such as if you are running a service that may be
+making requests for multiple SellerIDs over time, you can now do:
+
+````
+const MWS = require('mws-advanced').MWSAdvanced;
+const mws = new MWS({
+    accessKeyId: 'Your Amazon MWS Access Key ID',
+    secretAccessKey: 'Your Amazon MWS Secret Access Key',
+    merchantId: 'SellerID',
+    authToken: 'Auth Token provided by other Seller',
 });
 ````
 
@@ -122,7 +138,7 @@ back:
                                     "A1MQXOICRS2Z7M"
                                 ],
                                 "SellerId": [
-                                    "A3VRRE5P0AL2IX"
+                                    "YOUR_SELLER_ID"
                                 ],
                                 "HasSellerSuspendedListings": [
                                     "No"
@@ -133,7 +149,7 @@ back:
                                     "A2EUQ1WTGCTBG2"
                                 ],
                                 "SellerId": [
-                                    "A3VRRE5P0AL2IX"
+                                    "YOUR_SELLER_ID"
                                 ],
                                 "HasSellerSuspendedListings": [
                                     "No"
@@ -144,7 +160,7 @@ back:
                                     "A2ZV50J4W1RKNI"
                                 ],
                                 "SellerId": [
-                                    "A3VRRE5P0AL2IX"
+                                    "YOUR_SELLER_ID"
                                 ],
                                 "HasSellerSuspendedListings": [
                                     "No"
@@ -155,7 +171,7 @@ back:
                                     "ATVPDKIKX0DER"
                                 ],
                                 "SellerId": [
-                                    "A3VRRE5P0AL2IX"
+                                    "YOUR_SELLER_ID"
                                 ],
                                 "HasSellerSuspendedListings": [
                                     "No"
