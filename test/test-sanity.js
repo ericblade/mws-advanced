@@ -515,6 +515,13 @@ describe('mws-advanced sanity', () => {
             );
             done();
         });
+        it('init() works when called on a MWSAdvanced instance', (done) => {
+            const client = new mws.MWSAdvanced();
+            const x = client.init(initTestParams);
+            expect(x.accessKeyId).to.equal(initTestParams.accessKeyId);
+            expect(client.mws.accessKeyId).to.equal(initTestParams.accessKeyId);
+            done();
+        });
         it('multiple instances dont become confused at init', (done) => {
             const client1 = new mws.MWSAdvanced(initTestParams);
             const client2 = new mws.MWSAdvanced({ ...initTestParams, accessKeyId: 'Junk' });
