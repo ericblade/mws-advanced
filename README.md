@@ -34,6 +34,10 @@ do that, I needed code that interfaces well with modern code.  I need code that 
 is intuitive to use, and doesn't leave my primary application stuck having to figure out all the
 vagaries of an XML response transformed into a JSON result.  Or worse.
 
+Nice-to-have features: Automatic basic implementation of throttle-retry mechanisms, automatic
+parameter validation, automatic transformation of Javascript Arrays into MWS List format, of Date
+objects into ISO-8601 date stamps, etc.
+
 Most of all, though, this library is here to give you the pieces that I am using to build my
 internal project with.  Enjoy! :-)
 
