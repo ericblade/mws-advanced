@@ -70,7 +70,8 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ReportRequestInfo">ReportRequestInfo</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#endpoints">endpoints</a><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-REPORT_PROCESSING_STATUS_TYPES">REPORT_PROCESSING_STATUS_TYPES</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-REQUEST_REPORT_TYPES">REQUEST_REPORT_TYPES</a></span></span></li>
-<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#parsers">parsers</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-parseMarketplaceData">parseMarketplaceData</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#parsers">parsers</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-parseFeesEstimate">parseFeesEstimate</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-parseMarketplaceData">parseMarketplaceData</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-parseMatchingProduct">parseMatchingProduct</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-BuyBoxPrice">BuyBoxPrice</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-DetailedShippingTime">DetailedShippingTime</a></span></span></li>
@@ -665,6 +666,34 @@ specified.</p>
           
           
           
+          <span class="code" data-ice="name"><span><a href="function/index.html#static-function-parseFeesEstimate">parseFeesEstimate</a></span></span><span class="code" data-ice="signature">(fees: <span>*</span>): <span>*</span></span>
+        </p>
+      </div>
+      <div>
+        
+        
+        
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">public</span>
+      
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+          
+          
+          
           <span class="code" data-ice="name"><span><a href="function/index.html#static-function-parseMarketplaceData">parseMarketplaceData</a></span></span><span class="code" data-ice="signature">(marketplaceData: <span>any</span>): <span>*</span></span>
         </p>
       </div>
@@ -785,11 +814,11 @@ Many optional parameters may be required by MWS! Read <a href="https://docs.deve
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/lib/callEndpoint.js.html#lineNumber129">source</a></span></span>
+      <span data-ice="source"><span><a href="file/lib/callEndpoint.js.html#lineNumber131">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {callEndpoint} from &apos;<span><a href="file/lib/callEndpoint.js.html#lineNumber129">mws-advanced/lib/callEndpoint.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {callEndpoint} from &apos;<span><a href="file/lib/callEndpoint.js.html#lineNumber131">mws-advanced/lib/callEndpoint.js</a></span>&apos;</code></pre></div>
   
   
   <div data-ice="description"><p>Call a known endpoint at MWS, returning the raw data from the function. Parameters are
@@ -1268,11 +1297,11 @@ EAN, ISBN, or JAN values</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/lib/get-my-fees-estimate.js.html#lineNumber53">source</a></span></span>
+      <span data-ice="source"><span><a href="file/lib/get-my-fees-estimate.js.html#lineNumber54">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {getMyFeesEstimate} from &apos;<span><a href="file/lib/get-my-fees-estimate.js.html#lineNumber53">mws-advanced/lib/get-my-fees-estimate.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {getMyFeesEstimate} from &apos;<span><a href="file/lib/get-my-fees-estimate.js.html#lineNumber54">mws-advanced/lib/get-my-fees-estimate.js</a></span>&apos;</code></pre></div>
   
   
   <div data-ice="description"><p>Get an estimate of fees for an item, based on listing and shipping prices.</p>
@@ -2529,11 +2558,11 @@ If you are having trouble, see the official parameter documentation above.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/lib/callEndpoint.js.html#lineNumber208">source</a></span></span>
+      <span data-ice="source"><span><a href="file/lib/callEndpoint.js.html#lineNumber204">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {parseEndpoint} from &apos;<span><a href="file/lib/callEndpoint.js.html#lineNumber208">mws-advanced/lib/callEndpoint.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {parseEndpoint} from &apos;<span><a href="file/lib/callEndpoint.js.html#lineNumber204">mws-advanced/lib/callEndpoint.js</a></span>&apos;</code></pre></div>
   
   
   
@@ -2562,6 +2591,77 @@ If you are having trouble, see the official parameter documentation above.</p>
     </tr>
 <tr data-ice="property" data-depth="0">
       <td data-ice="name" class="code" data-depth="0">opt</td>
+      <td data-ice="type" class="code"><span>*</span></td>
+      <td data-ice="appendix"></td>
+      <td data-ice="description"></td>
+    </tr>
+</tbody>
+  </table>
+</div>
+</div>
+
+  <div class="return-params" data-ice="returnParams">
+    <h4>Return:</h4>
+    <table>
+      <tbody>
+        <tr>
+          <td class="return-type code" data-ice="returnType"><span>*</span></td>
+          
+        </tr>
+      </tbody>
+    </table>
+    <div data-ice="returnProperties">
+</div>
+  </div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+</div>
+<div class="detail" data-ice="detail">
+  <h3 data-ice="anchor" id="static-function-parseFeesEstimate">
+    <span class="access" data-ice="access">public</span>
+    
+    
+    
+    
+    
+    <span class="code" data-ice="name">parseFeesEstimate</span><span class="code" data-ice="signature">(fees: <span>*</span>): <span>*</span></span>
+    <span class="right-info">
+      
+      
+      <span data-ice="source"><span><a href="file/lib/parsers/feesEstimate.js.html#lineNumber3">source</a></span></span>
+    </span>
+  </h3>
+
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import parseFeesEstimate from &apos;<span><a href="file/lib/parsers/feesEstimate.js.html#lineNumber3">mws-advanced/lib/parsers/feesEstimate.js</a></span>&apos;</code></pre></div>
+  
+  
+  
+
+  
+
+  <div data-ice="properties"><div data-ice="properties">
+  <h4 data-ice="title">Params:</h4>
+  <table class="params">
+    <thead>
+    <tr><td>Name</td><td>Type</td><td>Attribute</td><td>Description</td></tr>
+    </thead>
+    <tbody>
+    
+    <tr data-ice="property" data-depth="0">
+      <td data-ice="name" class="code" data-depth="0">fees</td>
       <td data-ice="type" class="code"><span>*</span></td>
       <td data-ice="appendix"></td>
       <td data-ice="description"></td>

@@ -37,6 +37,7 @@
 <li data-ice="manualNav" class="indent-h3" data-link="manual/getting-started.html"><a href="manual/getting-started.html#official-mws-api-documentation" data-ice="link">Official MWS API documentation</a></li>
 <li data-ice="manualNav" class="indent-h2" data-link="manual/getting-started.html"><a href="manual/getting-started.html#installation" data-ice="link">Installation</a></li>
 <li data-ice="manualNav" class="indent-h2" data-link="manual/getting-started.html"><a href="manual/getting-started.html#creating-the-connection-to-mws" data-ice="link">Creating the connection to MWS</a></li>
+<li data-ice="manualNav" class="indent-h2" data-link="manual/getting-started.html"><a href="manual/getting-started.html#multiple-instances" data-ice="link">Multiple Instances</a></li>
 <li data-ice="manualNav" class="indent-h2" data-link="manual/getting-started.html"><a href="manual/getting-started.html#calling-mws-advanced-apis" data-ice="link">Calling mws-advanced APIs</a></li>
 <li data-ice="manualNav" class="indent-h2" data-link="manual/getting-started.html"><a href="manual/getting-started.html#calling-mws-apis-directly" data-ice="link">Calling MWS APIs directly</a></li>
 <li data-ice="manualNav" class="indent-h2" data-link="manual/getting-started.html"><a href="manual/getting-started.html#using-your-api-access-for-a-different-amazon-seller--authtoken-" data-ice="link">Using your API access for a different Amazon Seller (authToken)</a></li>
@@ -117,10 +118,19 @@ then click &quot;View&quot; next to the &quot;Secret Key&quot; field.  Make note
 MWS API.</p><h3>Official MWS API documentation</h3><p>You may find yourself wanting to refer to the official Amazon documentation, to determine how, when,
 or why to use an API, or to find out information about what it returns, or what it is used for:</p><p><a href="https://developer.amazonservices.com/gp/mws/docs.html">Amazon MWS Web Service API Documentation</a></p><h2>Installation</h2><p>As mws-advanced is still under heavy initial development, it is not currently available from the
 global npm repository.  You should install it from the github repo, as:</p><pre><code><code class="source-code prettyprint">npm install --save github:ericblade/mws-advanced</code>
-</code></pre><h2>Creating the connection to MWS</h2><p>Before you are able to use the mws-advanced API, you must initialize it with your MWS credentials.</p><pre><code><code class="source-code prettyprint">mws.init({
+</code></pre><h2>Creating the connection to MWS</h2><p>Before you are able to use the mws-advanced API, you must initialize it with your MWS credentials.</p><pre><code><code class="source-code prettyprint">const mws = require(&apos;mws-advanced&apos;);
+mws.init({
     accessKeyId: &apos;Your Amazon MWS Access Key ID&apos;,
     secretAccessKey: &apos;Your Amazon MWS Secret Access Key&apos;,
     merchantId: &apos;Your Amazon MWS Merchant ID&apos;,
+});</code>
+</code></pre><h2>Multiple Instances</h2><p>If you need multiple instances of the MWS API, such as if you are running a service that may be
+making requests for multiple SellerIDs over time, you can now do:</p><pre><code><code class="source-code prettyprint">const MWS = require(&apos;mws-advanced&apos;).MWSAdvanced;
+const mws = new MWS({
+    accessKeyId: &apos;Your Amazon MWS Access Key ID&apos;,
+    secretAccessKey: &apos;Your Amazon MWS Secret Access Key&apos;,
+    merchantId: &apos;SellerID&apos;,
+    authToken: &apos;Auth Token provided by other Seller&apos;,
 });</code>
 </code></pre><h2>Calling mws-advanced APIs</h2><p>mws-advanced implements several wrappers around the actual MWS API, which parse and process the XML
 responses from MWS into a response format that is more easily readable in Javascript.</p><pre><code><code class="source-code prettyprint">(async function() {
@@ -168,7 +178,7 @@ back:</p><pre><code><code class="source-code prettyprint">{
                                     &quot;A1MQXOICRS2Z7M&quot;
                                 ],
                                 &quot;SellerId&quot;: [
-                                    &quot;A3VRRE5P0AL2IX&quot;
+                                    &quot;YOUR_SELLER_ID&quot;
                                 ],
                                 &quot;HasSellerSuspendedListings&quot;: [
                                     &quot;No&quot;
@@ -179,7 +189,7 @@ back:</p><pre><code><code class="source-code prettyprint">{
                                     &quot;A2EUQ1WTGCTBG2&quot;
                                 ],
                                 &quot;SellerId&quot;: [
-                                    &quot;A3VRRE5P0AL2IX&quot;
+                                    &quot;YOUR_SELLER_ID&quot;
                                 ],
                                 &quot;HasSellerSuspendedListings&quot;: [
                                     &quot;No&quot;
@@ -190,7 +200,7 @@ back:</p><pre><code><code class="source-code prettyprint">{
                                     &quot;A2ZV50J4W1RKNI&quot;
                                 ],
                                 &quot;SellerId&quot;: [
-                                    &quot;A3VRRE5P0AL2IX&quot;
+                                    &quot;YOUR_SELLER_ID&quot;
                                 ],
                                 &quot;HasSellerSuspendedListings&quot;: [
                                     &quot;No&quot;
@@ -201,7 +211,7 @@ back:</p><pre><code><code class="source-code prettyprint">{
                                     &quot;ATVPDKIKX0DER&quot;
                                 ],
                                 &quot;SellerId&quot;: [
-                                    &quot;A3VRRE5P0AL2IX&quot;
+                                    &quot;YOUR_SELLER_ID&quot;
                                 ],
                                 &quot;HasSellerSuspendedListings&quot;: [
                                     &quot;No&quot;

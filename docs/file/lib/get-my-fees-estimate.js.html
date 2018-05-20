@@ -70,7 +70,8 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ReportRequestInfo">ReportRequestInfo</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#endpoints">endpoints</a><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-REPORT_PROCESSING_STATUS_TYPES">REPORT_PROCESSING_STATUS_TYPES</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-REQUEST_REPORT_TYPES">REQUEST_REPORT_TYPES</a></span></span></li>
-<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#parsers">parsers</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-parseMarketplaceData">parseMarketplaceData</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#parsers">parsers</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-parseFeesEstimate">parseFeesEstimate</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-parseMarketplaceData">parseMarketplaceData</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-parseMatchingProduct">parseMatchingProduct</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-BuyBoxPrice">BuyBoxPrice</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-DetailedShippingTime">DetailedShippingTime</a></span></span></li>
@@ -87,8 +88,9 @@
 </nav>
 
 <div class="content" data-ice="content"><h1 data-ice="title">lib/get-my-fees-estimate.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">const { callEndpoint } = require(&apos;./callEndpoint&apos;);
-const { forceArray, transformObjectKeys } = require(&apos;./util/transformers&apos;);
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">const { parseEndpoint } = require(&apos;./callEndpoint&apos;);
+const parseFeesEstimate = require(&apos;./parsers/feesEstimate&apos;);
+const { forceArray } = require(&apos;./util/transformers&apos;);
 
 /**
  * @typedef EstimateRequest - an Estimate Request object
@@ -129,7 +131,7 @@ const { forceArray, transformObjectKeys } = require(&apos;./util/transformers&ap
  * @param {string} time - ISO8601 time stamp format time the fee response was created
  * @param {FeeDetail[]} detail - array of details about each of the fees that make up totalFees
  * @param {FeeIdentifier} identifier - information about the EstimateRequest
- * @param {string} success - &quot;Success&quot; for success or &quot;Failure&quot; for request failure
+ * @param {string} status - &quot;Success&quot; for success or &quot;ServerError&quot; for request failure
  * @param {Error} [error] - If an Error occurred (success === &quot;Failure&quot;), a description of the Error
  */
 
@@ -140,41 +142,23 @@ const { forceArray, transformObjectKeys } = require(&apos;./util/transformers&ap
  * @returns {Object} - Object of Estimate items, indexed by EstimateRequest Identifier
  */
 const getMyFeesEstimate = async (estimates) =&gt; {
-    const estimateList = forceArray(estimates);
-    const query = { };
-    estimateList.forEach((e, index) =&gt; {
-        query[`FeesEstimateRequestList.FeesEstimateRequest.${index + 1}.MarketplaceId`] = e.marketplaceId; // TODO: should there be a default marketplaceId ?!
-        query[`FeesEstimateRequestList.FeesEstimateRequest.${index + 1}.IdType`] = e.idType;
-        query[`FeesEstimateRequestList.FeesEstimateRequest.${index + 1}.IdValue`] = e.idValue;
-        query[`FeesEstimateRequestList.FeesEstimateRequest.${index + 1}.IsAmazonFulfilled`] = !!e.isAmazonFulfilled;
-        query[`FeesEstimateRequestList.FeesEstimateRequest.${index + 1}.Identifier`] = e.identifier || `${(e.isAmazonFulfilled ? &apos;FBA&apos; : &apos;MF&apos;)}.${e.idValue}`;
-        query[`FeesEstimateRequestList.FeesEstimateRequest.${index + 1}.PriceToEstimateFees.ListingPrice.CurrencyCode`] = e.listingPrice.currencyCode;
-        query[`FeesEstimateRequestList.FeesEstimateRequest.${index + 1}.PriceToEstimateFees.ListingPrice.Amount`] = e.listingPrice.amount;
-        query[`FeesEstimateRequestList.FeesEstimateRequest.${index + 1}.PriceToEstimateFees.Shipping.CurrencyCode`] = e.shipping.currencyCode;
-        query[`FeesEstimateRequestList.FeesEstimateRequest.${index + 1}.PriceToEstimateFees.Shipping.Amount`] = e.shipping.amount;
-        query[`FeesEstimateRequestList.FeesEstimateRequest.${index + 1}.Points.PointsNumber`] = e.points ? e.points.pointsNumber : 0;
-    });
+    const query = forceArray(estimates).reduce((acc, e, index) =&gt; {
+        const key = `FeesEstimateRequestList.FeesEstimateRequest.${index + 1}`;
+        acc[`${key}.MarketplaceId`] = e.marketplaceId; // TODO: should there be a default marketplaceId ?!
+        acc[`${key}.IdType`] = e.idType;
+        acc[`${key}.IdValue`] = e.idValue;
+        acc[`${key}.IsAmazonFulfilled`] = !!e.isAmazonFulfilled;
+        acc[`${key}.Identifier`] = e.identifier || `${(e.isAmazonFulfilled ? &apos;FBA&apos; : &apos;MF&apos;)}.${e.idValue}`;
+        acc[`${key}.PriceToEstimateFees.ListingPrice.CurrencyCode`] = e.listingPrice.currencyCode;
+        acc[`${key}.PriceToEstimateFees.ListingPrice.Amount`] = e.listingPrice.amount;
+        acc[`${key}.PriceToEstimateFees.Shipping.CurrencyCode`] = e.shipping.currencyCode;
+        acc[`${key}.PriceToEstimateFees.Shipping.Amount`] = e.shipping.amount;
+        acc[`${key}.Points.PointsNumber`] = e.points ? e.points.pointsNumber : 0;
+        return acc;
+    }, {});
 
-    const res = await callEndpoint(&apos;GetMyFeesEstimate&apos;, query);
-    const res2 = forceArray(res.FeesEstimateResultList.FeesEstimateResult);
-
-    const ret = {};
-    res2.forEach((e) =&gt; {
-        const est = e.FeesEstimate || { TotalFeesEstimate: undefined, time: undefined, detail: undefined };
-        const identifier = { ...e.FeesEstimateIdentifier };
-        if (identifier) {
-            identifier.IsAmazonFulfilled = identifier.IsAmazonFulfilled === &apos;true&apos;;
-        }
-        ret[e.FeesEstimateIdentifier.SellerInputIdentifier] = {
-            totalFees: est.TotalFeesEstimate,
-            time: est.TimeOfFeesEstimation,
-            detail: forceArray(est.FeeDetailList.FeeDetail),
-            identifier,
-            status: e.Status,
-            error: e.Error || undefined,
-        };
-    });
-    return transformObjectKeys(ret);
+    const res = await parseEndpoint(&apos;GetMyFeesEstimate&apos;, query)(parseFeesEstimate);
+    return res;
 };
 
 module.exports = {
