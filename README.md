@@ -10,6 +10,12 @@
 mws-advanced provides a modern, fast, and hopefully sensible APIs to connect your Javascript
 application (node or browser) to the Amazon Merchant Web Services API.
 
+Nice-to-have features:
+ - Automatic throttle-retry mechanism
+ - Automatic parameter validation
+ - Transform Javascript Arrays into MWS List format
+ - Transform Date objects into ISO-8601 date stamps
+
 mws-advanced uses the straight-forward and very basic functionality provided by
 [mws-simple](https://github.com/ericblade/mws-simple) to provide a much more advanced library for
 accessing MWS, than what has previously been available in the past.
@@ -33,10 +39,6 @@ I am writing this to change that. I am writing a project that needs access to th
 do that, I needed code that interfaces well with modern code.  I need code that is documented well,
 is intuitive to use, and doesn't leave my primary application stuck having to figure out all the
 vagaries of an XML response transformed into a JSON result.  Or worse.
-
-Nice-to-have features: Automatic basic implementation of throttle-retry mechanisms, automatic
-parameter validation, automatic transformation of Javascript Arrays into MWS List format, of Date
-objects into ISO-8601 date stamps, etc.
 
 Most of all, though, this library is here to give you the pieces that I am using to build my
 internal project with.  Enjoy! :-)

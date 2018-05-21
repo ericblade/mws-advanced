@@ -46,6 +46,7 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getProductCategoriesForSkus">getProductCategoriesForSkus</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-listFinancialEvents">listFinancialEvents</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-listInventorySupply">listInventorySupply</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-listMatchingProducts">listMatchingProducts</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-listOrderItems">listOrderItems</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-listOrders">listOrders</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getReport">getReport</a></span></span></li>
@@ -83,6 +84,7 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-OfferSummary">OfferSummary</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-SellerFeedbackRating">SellerFeedbackRating</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ShipsFrom">ShipsFrom</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ProductIdentifier">ProductIdentifier</a></span></span></li>
 </ul>
 </div>
 </nav>
@@ -95,6 +97,26 @@
 } = require(&apos;../util/transformers&apos;);
 
 /**
+ * @typedef ProductIdentifier
+ * @param {string} type - Type of Identifier used (asin, upc, ean, jan, etc)
+ * @param {string} id - Product Identifier string
+ */
+
+/**
+ * Determine the product id. GetMatchingProduct* and ListMatchingProducts return VERY similar
+ * results, but GetMatchingProduct includes a list of identifiers as $.IdType and $.Id.
+ * ListMatchingProduct does not return those, as you&apos;re not requesting a list of Ids.
+ *
+ * @param {any} product - information about a single product from *MatchingProduct* APIs
+ * @returns {ProductIdentifier}
+ */
+const getIdFromProductList = (productList) =&gt; {
+    const type = productList.$ ? String(productList.$.IdType).toLowerCase() : undefined;
+    const id = productList.$ ? productList.$.Id : undefined;
+    return { type, id };
+};
+
+/**
  * Parse MWS product info into Product[] (TODO: document Product[], it&apos;s quite a large potential result)
  *
  * @param {any} productData MWS product info
@@ -105,9 +127,9 @@ const parseMatchingProduct = (productData) =&gt; {
     // in this particular case.
     const products = forceArray(productData);
     const ret = products.map((p) =&gt; {
-        const type = String(p.$.IdType).toLowerCase();
+        const { type, id } = getIdFromProductList(p);
         if (p.Error) {
-            return { Error: p.Error, [`${type}`]: p.$.Id };
+            return { Error: p.Error, [`${type}`]: id };
         }
         const transformedResults = forceArray(transformObjectKeys(p.Products.Product, transformAttributeSetKey));
         const results = transformedResults.map((x) =&gt; {
@@ -115,12 +137,15 @@ const parseMatchingProduct = (productData) =&gt; {
             if (x.salesRankings.salesRank) x.salesRankings.salesRank = forceArray(x.salesRankings.salesRank);
             return x;
         });
-        return {
+        const val = {
             results,
-            [`${type}`]: p.$.Id,
             idType: type,
-            id: p.$.Id,
+            id,
         };
+        if (type) {
+            val[type] = id;
+        }
+        return val;
     });
     return ret;
 };

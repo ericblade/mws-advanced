@@ -709,7 +709,20 @@ describe('Parsers', function runParserTests() {
     });
     describe('parseMatchingProduct', () => {
         const parser = require('../lib/parsers/matchingProduct');
-        it('single ASIN response', () => {
+        it('response from ListMatchingProducts', () => {
+            const json = JSON.parse(fs.readFileSync('./test/mock/ListMatchingProducts.json'));
+            const result = parser(json)[0].results;
+            expect(result).to.be.an('array');
+            expect(result).to.have.length.greaterThan(0);
+            const test = result[0];
+            expect(test).to.be.an('object').that.contains.keys(
+                'identifiers',
+                'attributeSets',
+                'relationships',
+                'salesRankings',
+            );
+        });
+        it('single ASIN response from GetMatchingProductForId', () => {
             const json = JSON.parse(fs.readFileSync('./test/mock/GetMatchingProductForId-1.json'));
             const result = parser(json);
             expect(result).to.be.an('array');
@@ -720,7 +733,7 @@ describe('Parsers', function runParserTests() {
             expect(result[0].id).to.equal('B005NK7VTU');
             return result;
         });
-        it('2 ASIN response', () => {
+        it('2 ASIN response from GetMatchingProductForId', () => {
             const json = JSON.parse(fs.readFileSync('./test/mock/GetMatchingProductForId-2.json'));
             const result = parser(json);
             expect(result).to.be.an('array');
@@ -728,7 +741,7 @@ describe('Parsers', function runParserTests() {
 
             return result;
         });
-        it('single UPC response', () => {
+        it('single UPC response from GetMatcingProductForId', () => {
             const json = JSON.parse(fs.readFileSync('./test/mock/GetMatchingProductForId-3.json'));
             const result = parser(json);
             expect(result).to.be.an('array');
@@ -754,7 +767,7 @@ describe('Parsers', function runParserTests() {
         //     return result;
         // });
         // TODO: theoretically, we want to also handle duplicate ASIN errors right here, but that error occurs even higher than this. urgh!
-        it('partial error response (1 asin that works, 1 that doesnt)', () => {
+        it('partial error response (1 asin that works, 1 that doesnt) from GetMatchingProductForId', () => {
             const json = JSON.parse(fs.readFileSync('./test/mock/GetMatchingProductForId-6.json'));
             const result = parser(json);
             expect(result).to.be.an('array');
@@ -999,6 +1012,23 @@ describe('API', function runAPITests() {
         });
     });
     describe('Products Category', () => {
+        describe('listMatchingProducts', () => {
+            it('listMatchingProducts better made special potato sticks original', async function testListMatchingProducts() {
+                const results = await mws.listMatchingProducts({
+                    marketplaceId: 'ATVPDKIKX0DER',
+                    query: 'better made special potato sticks original',
+                });
+                expect(results).to.be.an('array');
+                expect(results).to.have.length.greaterThan(0);
+                const test = results[0];
+                expect(test).to.be.an('object').that.contains.keys(
+                    'identifiers',
+                    'attributeSets',
+                    'relationships',
+                    'salesRankings',
+                );
+            });
+        });
         describe('getMatchingProductForId', () => {
             // TODO: getMatchingProductForId with two duplicate ASINs throws a 400 Bad Request
             // error, which we may need to investigate special handling for.
