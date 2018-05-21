@@ -150,6 +150,12 @@ window.esdocSearchIndex = [
     "function"
   ],
   [
+    "mws-advanced/lib/list-matching-products.js~listmatchingproducts",
+    "function/index.html#static-function-listMatchingProducts",
+    "<span>listMatchingProducts</span> <span class=\"search-result-import-path\">mws-advanced/lib/list-matching-products.js</span>",
+    "function"
+  ],
+  [
     "mws-advanced/lib/list-order-items.js~listorderitems",
     "function/index.html#static-function-listOrderItems",
     "<span>listOrderItems</span> <span class=\"search-result-import-path\">mws-advanced/lib/list-order-items.js</span>",
@@ -708,6 +714,12 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
+    "lib/list-matching-products.js",
+    "file/lib/list-matching-products.js.html",
+    "lib/list-matching-products.js",
+    "file"
+  ],
+  [
     "lib/list-order-items.js",
     "file/lib/list-order-items.js.html",
     "lib/list-order-items.js",
@@ -808,6 +820,12 @@ window.esdocSearchIndex = [
     "file/lib/parsers/matchingProduct.js.html",
     "lib/parsers/matchingProduct.js",
     "file"
+  ],
+  [
+    "lib/parsers/matchingproduct.js~productidentifier",
+    "typedef/index.html#static-typedef-ProductIdentifier",
+    "lib/parsers/matchingProduct.js~ProductIdentifier",
+    "typedef"
   ],
   [
     "lib/reports.js",
