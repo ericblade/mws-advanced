@@ -85,6 +85,9 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-SellerFeedbackRating">SellerFeedbackRating</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ShipsFrom">ShipsFrom</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ProductIdentifier">ProductIdentifier</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-OrderItem">OrderItem</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-OrderItemsList">OrderItemsList</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-orderItemsList">orderItemsList</a></span></span></li>
 </ul>
 </div>
 </nav>
@@ -102,25 +105,25 @@
  * @returns
  */
 const generateEndpoints = (categoryName, version, endpoints, endpointDetails) =&gt; {
-    const ret = {};
-    endpoints.forEach((endpoint) =&gt; {
+    const ret = endpoints.reduce((acc, endpoint) =&gt; {
         let index = endpoint;
-        if (ret[endpoint]) { // TODO: Code coverage is not hitting this if. Is this worrying about a problem with each category having GetServiceStatus, that doesn&apos;t exist? need to test GetServiceStatus everywhere I guess, and see if this if is necessary.
+        if (acc[endpoint]) { // TODO: Code coverage is not hitting this if. Is this worrying about a problem with each category having GetServiceStatus, that doesn&apos;t exist? need to test GetServiceStatus everywhere I guess, and see if this if is necessary.
             index = `${categoryName}/${endpoint}`;
         }
-        ret[index] = {
+        const d = (endpointDetails &amp;&amp; endpointDetails[endpoint]) || {};
+
+        const { params, returns, throttle } = d;
+
+        acc[index] = {
             category: categoryName,
             version,
             action: endpoint,
+            params,
+            returns,
+            throttle,
         };
-        if (endpointDetails &amp;&amp; endpointDetails[endpoint]) {
-            const d = endpointDetails[endpoint];
-            if (d.params) ret[index].params = d.params;
-            if (d.returns) ret[index].returns = d.returns;
-            if (d.throttle) ret[index].throttle = d.throttle;
-        }
-    });
-    // console.warn(&apos;***** generateEndpoints&apos;, JSON.stringify(ret));
+        return acc;
+    }, {});
     return ret;
 };
 

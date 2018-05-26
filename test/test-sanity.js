@@ -51,10 +51,9 @@ describe('Misc Utils', () => {
         expect(result[0]).to.deep.equal({ test: 1, test2: 2 });
         done();
     });
-    it('flattenResult returns object when given object', (done) => {
+    it('flattenResult returns object when given object', () => {
         const result = flattenResult({ test: 1, test2: 2 });
-        expect(result).to.deep.equal({ test: 1, test2: 2 });
-        done();
+        return expect(result).to.deep.equal({ test: 1, test2: 2 });
     });
     it('flattenResult() returns flat results', (done) => {
         const result = flattenResult({
@@ -84,15 +83,16 @@ describe('Misc Utils', () => {
 
         done();
     });
-    it('digResponseResult() returns nameResponse.nameResult', (done) => {
+    it('digResponseResult() returns nameResponse.nameResult', () => {
         const result = digResponseResult('ListMarketplaceParticipations', listMarketplacesData);
-        expect(result).to.be.an('object');
-        expect(result).to.have.keys('ListParticipations', 'ListMarketplaces');
-        done();
+        return expect(result).to.be.an('object').that.has.keys('ListParticipations', 'ListMarketplaces');
     });
-    it('digResponseResult() throws ServiceError on error message (simulated from server)', (done) => {
-        expect(() => digResponseResult('ListMarketplaceParticipations', errorData)).to.throw(errors.ServiceError);
-        done();
+    it('digResponseResult() throws ServiceError on error message (simulated from server)', () => {
+        return expect(() => digResponseResult('ListMarketplaceParticipations', errorData)).to.throw(errors.ServiceError);
+    });
+    it('digResponseResult() returns original input if there is no {name}Response field or ErrorResponse', () => {
+        const result = digResponseResult('test', { xyz: 1 });
+        return expect(result).to.deep.equal({ xyz: 1 });
     });
 });
 
@@ -165,11 +165,10 @@ describe('transformers', () => {
                 },
             };
             const x = transformers.objToValueSub(test);
-            expect(x).to.deep.equal({
+            return expect(x).to.deep.equal({
                 value: '0.20',
                 units: 'inches',
             });
-            return true;
         });
     });
     describe('transformKey', () => {
@@ -179,25 +178,24 @@ describe('transformers', () => {
             return true;
         });
         it('returns input when given probable acronym (UPPERCASE)', () => {
-            expect(transformers.transformKey('UPPERCASE')).to.equal('UPPERCASE');
-            return true;
+            return expect(transformers.transformKey('UPPERCASE')).to.equal('UPPERCASE');
         });
     });
     describe('removeFromString', () => {
         it('returns a string minus a substring', () => {
-            expect(transformers.removeFromString('testString', 'String')).to.equal('test');
+            return expect(transformers.removeFromString('testString', 'String')).to.equal('test');
         });
         it('returns a string minus a regex pattern', () => {
-            expect(transformers.removeFromString('testString', /^test/)).to.equal('String');
+            return expect(transformers.removeFromString('testString', /^test/)).to.equal('String');
         });
     });
     describe('transformAttributeSetKey', () => {
         it('extends transformKey to remove "ns2:" from beginning of key, ns2:ItemAttributes=>itemAttributes', () => {
-            expect(transformers.transformAttributeSetKey('ns2:ItemAttributes')).to.equal('itemAttributes');
+            return expect(transformers.transformAttributeSetKey('ns2:ItemAttributes')).to.equal('itemAttributes');
         });
     });
     describe('transformObjectKeys', () => {
-        it('simple test with getMarketplaces data', () => {
+        it('simple test with getMarketplaces data', (done) => {
             const testData = require('./data/transformObjectKeys-1.json');
             /* eslint-disable dot-notation */
             const res = transformers.transformObjectKeys(testData)['ATVPDKIKX0DER'];
@@ -211,13 +209,15 @@ describe('transformers', () => {
             expect(comp.DefaultLanguageCode).to.equal(res.defaultLanguageCode);
             expect(comp.SellerId).to.equal(res.sellerId);
             expect(comp.HasSellerSuspendedListings).to.equal(res.hasSellerSuspendedListings);
+            done();
         });
-        it('extended test with getMatchingProductForId attribute data, using transformAttributeSetKey, test ns2:MaterialType => materialType', () => {
+        it('extended test with getMatchingProductForId attribute data, using transformAttributeSetKey, test ns2:MaterialType => materialType', (done) => {
             const testData = require('./data/transformObjectKeys-2.json');
             const res = transformers.transformObjectKeys(testData, transformers.transformAttributeSetKey);
             testData.forEach((x, i) => {
                 expect(x.AttributeSets['ns2:ItemAttributes']['ns2:MaterialType']).to.deep.equal(res[i].attributeSets.itemAttributes.materialType);
             });
+            done();
         });
         // TODO: write detailed tests for transformObjectKeys.
         // TODO: should grab actual data from the base API and compare it.
@@ -225,10 +225,7 @@ describe('transformers', () => {
 });
 
 describe('isType', () => {
-    it('unknown type passes as always valid', (done) => {
-        expect(isType('testtype', 'junkdata')).to.be.true;
-        done();
-    });
+    it('unknown type passes as always valid', () => expect(isType('testtype', 'junkdata')).to.be.true);
     it('xs:int', (done) => {
         expect(isType('xs:int', 0)).to.be.true;
         expect(isType('xs:int', 1)).to.be.true;
@@ -270,15 +267,13 @@ describe('isType', () => {
         expect(() => isType('xs:nonNegativeInteger', 1000, range)).to.throw(errors.ValidationError);
         done();
     });
-    it('xs:string accepts regular strings', (done) => {
+    it('xs:string accepts regular strings', () => {
         const valid = isType('xs:string', 'this is a regular string');
-        expect(valid).to.be.true;
-        done();
+        return expect(valid).to.be.true;
     });
-    it('xs:string accepts string objects', (done) => {
+    it('xs:string accepts string objects', () => {
         const valid = isType('xs:string', String('this is a string object'));
-        expect(valid).to.be.true;
-        done();
+        return expect(valid).to.be.true;
     });
     it('xs:string does not accept things that are definitely not strings', (done) => {
         expect(isType('xs:string', { test: true })).to.be.false;
@@ -286,13 +281,11 @@ describe('isType', () => {
         expect(isType('xs:string', new Date())).to.be.false;
         done();
     });
-    it('xs:dateTime fails Date objects (validateAndTransform converts them to ISO)', (done) => {
-        expect(isType('xs:dateTime', new Date())).to.be.false;
-        done();
+    it('xs:dateTime fails Date objects (validateAndTransform converts them to ISO)', () => {
+        return expect(isType('xs:dateTime', new Date())).to.be.false;
     });
-    it('xs:dateTime accepts ISO Strings', (done) => {
-        expect(isType('xs:dateTime', new Date().toISOString())).to.be.true;
-        done();
+    it('xs:dateTime accepts ISO Strings', () => {
+        return expect(isType('xs:dateTime', new Date().toISOString())).to.be.true;
     });
     it('xs:dateTime fails non-ISO strings', (done) => {
         expect(() => isType('xs:dateTime', 'string')).to.throw(RangeError); // Date constructor throws
@@ -323,27 +316,12 @@ describe('validateAndTransformParameters', () => {
             required: false,
         },
     };
-    it('called with undefined first arg returns without parsing', (done) => {
-        expect(validateAndTransformParameters(undefined, 123)).to.equal(123);
-        done();
-    });
-    it('unknown parameter throws', (done) => {
-        expect(() => validateAndTransformParameters(req, { BadTest: 'test' })).to.throw();
-        done();
-    });
-    it('incorrect type throws', (done) => {
-        expect(() => validateAndTransformParameters(req, { ReqTest: 123 })).to.throw();
-        done();
-    });
+    it('called with undefined first arg returns without parsing', () => expect(validateAndTransformParameters(undefined, 123)).to.equal(123));
+    it('unknown parameter throws', () => expect(() => validateAndTransformParameters(req, { BadTest: 'test' })).to.throw());
+    it('incorrect type throws', () => expect(() => validateAndTransformParameters(req, { ReqTest: 123 })).to.throw());
     describe('required parameters', () => {
-        it('required parameter present works', (done) => {
-            expect(validateAndTransformParameters(req, { ReqTest: 'test' })).to.deep.equal({ ReqTest: 'test' });
-            done();
-        });
-        it('required parameter not present throws', (done) => {
-            expect(() => validateAndTransformParameters(req, { NotReqTest: 'test' })).to.throw(errors.ValidationError);
-            done();
-        });
+        it('required parameter present works', () => expect(validateAndTransformParameters(req, { ReqTest: 'test' })).to.deep.equal({ ReqTest: 'test' }));
+        it('required parameter not present throws', () => expect(() => validateAndTransformParameters(req, { NotReqTest: 'test' })).to.throw(errors.ValidationError));
     });
     describe('Array to List transformation', () => {
         const listTest = {
@@ -354,28 +332,15 @@ describe('validateAndTransformParameters', () => {
                 listMax: 2,
             },
         };
-        it('throws on non-Arrays', (done) => {
-            expect(() => validateAndTransformParameters(listTest, { ListTest: 'oops' })).to.throw(errors.ValidationError);
-            done();
-        });
-        it('throws on incorrect list data types', (done) => {
-            expect(() => validateAndTransformParameters(listTest, { ListTest: [123] })).to.throw(errors.ValidationError);
-            done();
-        });
-        it('throws on partial incorrect list data types', (done) => {
-            expect(() => validateAndTransformParameters(listTest, { ListTest: ['a', 1] })).to.throw(errors.ValidationError);
-            done();
-        });
-        it('throws on exceeding listMax items', (done) => {
-            expect(() => validateAndTransformParameters(listTest, { ListTest: ['1', '2', '3'] })).to.throw(errors.ValidationError);
-            done();
-        });
-        it('outputs correct list parameters (ListTest[x] => Test.List.x+1)', (done) => {
-            expect(validateAndTransformParameters(listTest, { ListTest: ['1', '2'] })).to.deep.equal({
+        it('throws on non-Arrays', () => expect(() => validateAndTransformParameters(listTest, { ListTest: 'oops' })).to.throw(errors.ValidationError));
+        it('throws on incorrect list data types', () => expect(() => validateAndTransformParameters(listTest, { ListTest: [123] })).to.throw(errors.ValidationError));
+        it('throws on partial incorrect list data types', () => expect(() => validateAndTransformParameters(listTest, { ListTest: ['a', 1] })).to.throw(errors.ValidationError));
+        it('throws on exceeding listMax items', () => expect(() => validateAndTransformParameters(listTest, { ListTest: ['1', '2', '3'] })).to.throw(errors.ValidationError));
+        it('outputs correct list parameters (ListTest[x] => Test.List.x+1)', () => {
+            return expect(validateAndTransformParameters(listTest, { ListTest: ['1', '2'] })).to.deep.equal({
                 'Test.List.1': '1',
                 'Test.List.2': '2',
             });
-            done();
         });
     });
 });
@@ -657,6 +622,30 @@ describe('mws-advanced sanity', () => {
 });
 
 describe('Parsers', function runParserTests() {
+    it('listOrderItems parser', function testListOrderItemsParser() {
+        const json = JSON.parse(fs.readFileSync('./test/mock/ListOrderItems.json'));
+        const parser = require('../lib/parsers/orderItems');
+        const results = parser(json);
+        expect(results).to.be.an('Object').and.to.include.all.keys(
+            'orderId',
+            'orderItems',
+        );
+        expect(results.orderId).to.equal('112-1275545-4224234');
+        expect(results.orderItems).to.be.an('Array');
+        const orderItem = results.orderItems[0];
+        expect(orderItem).to.deep.equal({
+            title: 'Midnight in the Garden of Good and Evil: A Savannah Story [Paperback] [1999] Berendt, John',
+            ASIN: '0679751521',
+            sellerSKU: 'Y3-8ZR6-ZZ9O',
+            orderItemId: '25379512800154',
+            productInfo: {
+                numberOfItems: 1,
+            },
+            isGift: false,
+            quantityOrdered: 0,
+            quantityShipped: 0,
+        });
+    });
     it('getMarketplaces parser', function testGetMarketplacesParser() {
         const json = JSON.parse(fs.readFileSync('./test/mock/ListMarketplaceParticipations.json'));
         const parser = require('../lib/parsers/marketplaceData');
@@ -898,7 +887,7 @@ describe('Parsers', function runParserTests() {
     });
 });
 
-describe('API', function runAPITests() {
+describe.only('API', function runAPITests() {
     let marketIds = [];
     let testMarketId = '';
     let orderIds = [];
@@ -958,11 +947,10 @@ describe('API', function runAPITests() {
                     return false;
                 }
                 const results = await mws.listOrderItems(orderId);
-                expect(results).to.be.an('Object').and.to.include.all.keys(
+                return expect(results).to.be.an('Object').and.to.include.all.keys(
                     'orderId',
                     'orderItems',
                 );
-                return true;
             });
             // TODO: we need to get a wrap on GetOrder!
             it('endpoint GetOrder', async function testGetOrder() {

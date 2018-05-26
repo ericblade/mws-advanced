@@ -85,6 +85,9 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-SellerFeedbackRating">SellerFeedbackRating</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ShipsFrom">ShipsFrom</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ProductIdentifier">ProductIdentifier</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-OrderItem">OrderItem</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-OrderItemsList">OrderItemsList</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-orderItemsList">orderItemsList</a></span></span></li>
 </ul>
 </div>
 </nav>
@@ -92,25 +95,51 @@
 <div class="content" data-ice="content"><h1 data-ice="title">lib/parsers/feesEstimate.js</h1>
 <pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">const { forceArray, transformObjectKeys } = require(&apos;../util/transformers&apos;);
 
+function getFeesEstimate(e) {
+    return e.FeesEstimate || { TotalFeesEstimate: undefined, time: undefined, detail: undefined };
+}
+
+function getIdentifierData(e) {
+    return e.FeesEstimateIdentifier;
+}
+
+function getSellerInputIdentifier(e) {
+    return getIdentifierData(e).SellerInputIdentifier;
+}
+
+function getTotalFeesEstimate(e) {
+    return getFeesEstimate(e).TotalFeesEstimate;
+}
+
+function getTimeOfFeesEstimation(e) {
+    return getFeesEstimate(e).TimeOfFeesEstimation;
+}
+
+function getFeeDetailList(e) {
+    const list = getFeesEstimate(e).FeeDetailList;
+    return list ? forceArray(list) : undefined;
+}
+
 function parseFeesEstimate(fees) {
     const res2 = forceArray(fees.FeesEstimateResultList.FeesEstimateResult);
+    const feeList = res2.reduce((acc, e) =&gt; {
+        const sellerIdentifier = getSellerInputIdentifier(e);
+        const identifierData = { ...getIdentifierData(e) };
 
-    const ret = {};
-    res2.forEach((e) =&gt; {
-        const est = e.FeesEstimate || { TotalFeesEstimate: undefined, time: undefined, detail: undefined };
-        const identifierData = { ...e.FeesEstimateIdentifier };
-        const { SellerInputIdentifier: sellerIdentifier } = identifierData;
         identifierData.IsAmazonFulfilled = identifierData.IsAmazonFulfilled === &apos;true&apos;;
-        ret[sellerIdentifier] = {
-            totalFees: est.TotalFeesEstimate,
-            time: est.TimeOfFeesEstimation,
-            detail: est.FeeDetailList ? forceArray(est.FeeDetailList.FeeDetail) : undefined,
+
+        acc[sellerIdentifier] = {
+            totalFees: getTotalFeesEstimate(e),
+            time: getTimeOfFeesEstimation(e),
+            detail: getFeeDetailList(e),
             identifier: identifierData,
             status: e.Status,
             error: e.Error || undefined,
         };
-    });
-    return transformObjectKeys(ret);
+        return acc;
+    }, {});
+
+    return transformObjectKeys(feeList);
 }
 
 module.exports = parseFeesEstimate;
