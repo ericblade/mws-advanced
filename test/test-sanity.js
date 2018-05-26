@@ -698,7 +698,7 @@ describe('Parsers', function runParserTests() {
     });
     describe('parseMatchingProduct', () => {
         const parser = require('../lib/parsers/matchingProduct');
-        it('response from ListMatchingProducts', () => {
+        it('response from ListMatchingProducts with a number of products', () => {
             const json = JSON.parse(fs.readFileSync('./test/mock/ListMatchingProducts.json'));
             const result = parser(json)[0].results;
             expect(result).to.be.an('array');
@@ -710,6 +710,11 @@ describe('Parsers', function runParserTests() {
                 'relationships',
                 'salesRankings',
             );
+        });
+        it('response from ListMatchingProducts with zero results', () => {
+            const json = JSON.parse(fs.readFileSync('./test/mock/ListMatchingProducts-2.json'));
+            const result = parser(json)[0].results;
+            return expect(result).to.be.an('array').with.lengthOf(0);
         });
         it('single ASIN response from GetMatchingProductForId', () => {
             const json = JSON.parse(fs.readFileSync('./test/mock/GetMatchingProductForId-1.json'));
@@ -887,7 +892,7 @@ describe('Parsers', function runParserTests() {
     });
 });
 
-describe.only('API', function runAPITests() {
+describe('API', function runAPITests() {
     let marketIds = [];
     let testMarketId = '';
     let orderIds = [];
@@ -1015,6 +1020,13 @@ describe.only('API', function runAPITests() {
                     'relationships',
                     'salesRankings',
                 );
+            });
+            it('listMatchingProducts testjunk (expect empty response here)', async function testListMatchingProducts2() {
+                const results = await mws.listMatchingProducts({
+                    marketplaceId: 'ATVPDKIKX0DER',
+                    query: 'testjunk',
+                });
+                return expect(results).to.be.an('array').with.lengthOf(0);
             });
         });
         describe('getMatchingProductForId', () => {
