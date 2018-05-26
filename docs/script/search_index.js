@@ -828,6 +828,30 @@ window.esdocSearchIndex = [
     "typedef"
   ],
   [
+    "lib/parsers/orderitems.js",
+    "file/lib/parsers/orderItems.js.html",
+    "lib/parsers/orderItems.js",
+    "file"
+  ],
+  [
+    "lib/parsers/orderitems.js~orderitem",
+    "typedef/index.html#static-typedef-OrderItem",
+    "lib/parsers/orderItems.js~OrderItem",
+    "typedef"
+  ],
+  [
+    "lib/parsers/orderitems.js~orderitemslist",
+    "typedef/index.html#static-typedef-OrderItemsList",
+    "lib/parsers/orderItems.js~OrderItemsList",
+    "typedef"
+  ],
+  [
+    "lib/parsers/orderitems.js~orderitemslist",
+    "typedef/index.html#static-typedef-orderItemsList",
+    "lib/parsers/orderItems.js~orderItemsList",
+    "typedef"
+  ],
+  [
     "lib/reports.js",
     "file/lib/reports.js.html",
     "lib/reports.js",

@@ -2,8 +2,8 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <base data-ice="baseUrl" href="../../">
-  <title data-ice="title">lib/reports.js | mws-advanced</title>
+  <base data-ice="baseUrl" href="../../../">
+  <title data-ice="title">lib/parsers/orderItems.js | mws-advanced</title>
   <link type="text/css" rel="stylesheet" href="css/style.css">
   <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
   <script src="script/prettify/prettify.js"></script>
@@ -92,270 +92,67 @@
 </div>
 </nav>
 
-<div class="content" data-ice="content"><h1 data-ice="title">lib/reports.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">/** reporting functions
- * @module mws-advanced
-*/
-
-const { promisify } = require(&apos;util&apos;);
-const fs = require(&apos;fs&apos;);
-
-const errors = require(&apos;./errors&apos;);
+<div class="content" data-ice="content"><h1 data-ice="title">lib/parsers/orderItems.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">const { forceArray, transformObjectKeys } = require(&apos;../util/transformers&apos;);
 
 /**
- * Promisified version of fs.writeFile
- * We like to use Promises. writeFile does not come in a Promise variant, currently.
- * Use util/promisify to make it work with Promises.
- * This is better than using writeFileSync. Trust me. :-)
- * @param {string} fileName - path/filename to write to
- * @param {string|Buffer} contents - what to write to file
+ * @typedef OrderItem - see https://docs.developer.amazonservices.com/en_UK/orders-2013-09-01/Orders_Datatypes.html#OrderItem
  */
-const writeFile = promisify(fs.writeFile);
-
-const { callEndpoint } = require(&apos;./callEndpoint&apos;);
-const sleep = require(&apos;./util/sleep&apos;);
 
 /**
- * @typedef ReportRequestInfo
- * @param {string} ReportType Type of Report Requested @see {@link REQUEST_REPORT_TYPES}
- * @param {string} ReportProcessingStatus Status of Report @see {@link REPORT_PROCESSING_STATUS_TYPES}
- * @param {string} EndDate ISO Date for Date Ending period
- * @param {boolean} Scheduled True if report is scheduled, false if immediate
- * @param {string} ReportRequestId Identifier to use with getReport to fetch the report when ready
- * @param {string} SubmittedDate ISO Date for Date request was submitted
- * @param {string} StartDate ISO Date for Date report begins at
+ * @typedef OrderItemsList - a list of OrderItems - see https://docs.developer.amazonservices.com/en_UK/orders-2013-09-01/Orders_Datatypes.html#OrderItem
  */
-// TODO: convert ISO Dates to Date objects?
 
 /**
- * Request a report from MWS
- * Many optional parameters may be required by MWS! Read [ReportType](https://docs.developer.amazonservices.com/en_US/reports/Reports_ReportType.html) for specifics!
+ * @typedef orderItemsList - the mws-advanced items list
+ * @param {orderItems} - array of OrderItem
+ * @param {nextToken} - string for next token to provide to calls to ListOrderItemsByNextToken
+ * @param {orderId} - string with the Amazon Order ID
+ */
+
+/**
+ * Transform known integer and bool fields from strings to real integer and boolean
  *
- * @async
- * @param {object} options
- * @param {string} options.ReportType Type of Report to Request @see {@link REQUEST_REPORT_TYPES}
- * @param {Date} [options.StartDate] Date to start report
- * @param {Date} [options.EndDate] Date to end report at
- * @param {object} [options.ReportOptions] Reports may have additional options available. Please see the [ReportType](https://docs.developer.amazonservices.com/en_US/reports/Reports_ReportType.html) official docs
- * @param {string[]} [MarketplaceId] Array of marketplace IDs to generate reports covering
- * @returns {ReportRequestInfo}
- */
-const requestReport = async (options) =&gt; {
-    const result = await callEndpoint(&apos;RequestReport&apos;, options);
-    return result.ReportRequestInfo;
-};
-
-// interesting note: there are tons of reports returned by this API,
-// apparently Amazon auto pulls reports, and many reports pulled in the Seller Central
-// interface will also show up here. Somewhere in the docs, it says that Amazon
-// keeps all reports for 90 days.
-
-// TODO: for some reason GetReportRequestListResult showsmentation twice.
-/**
- * @typedef GetReportRequestListResult
- * @param {string} ReportType Type of Report Requested @see {@link REQUEST_REPORT_TYPES}
- * @param {string} ReportProcessingStatus Status of Report @see {@link REPORT_PROCESSING_STATUS_TYPES}
- * @param {string} EndDate ISO Date for Report End Period
- * @param {boolean} Scheduled True if report is scheduled, false if immediate
- * @param {string} ReportRequestId Identifier for the Report Request
- * @param {string} StartedProcessingDate ISO Date for time MWS started processing request
- * @param {string} StartDate ISO Date for Report Start Period
- * @param {string} CompletedDate ISO Date for time MWS completed processing request
- * @param {string} GeneratedReportId Identifier to use with getReport to retrieve the report
+ * @private
+ * @param {OrderItem} item - OrderItem
+ * @returns {OrderItem} - OrderItem with the quantities parseInt()ed, and bools converted from strings
  */
 
+function transformIntsAndBools(item) {
+    const { quantityOrdered, quantityShipped, isGift, productInfo, ...restItem } = item;
+    const { numberOfItems, ...restProductInfo } = productInfo;
+
+    return {
+        ...restItem,
+        isGift: !!(isGift === &apos;true&apos;),
+        quantityOrdered: parseInt(quantityOrdered, 10),
+        quantityShipped: parseInt(quantityShipped, 10),
+        productInfo: {
+            ...restProductInfo,
+            numberOfItems: parseInt(numberOfItems, 10),
+        },
+    };
+}
 /**
- * Returns a list of report requests that you can use to get the ReportRequestId for a report
- * After calling requestReport, you should call this function occasionally to see if/when the report
- * has been processed.
+ * Transform MWS OrderItemsList
  *
- * @async
- * @param {object} [options] Options to pass to GetReportRequestList
- * @param {string[]} [ReportRequestIdList] List of report request IDs @see {@link requestReport}
- * @param {string[]} [ReportTypeList] List of Report Types @see {@link REQUEST_REPORT_TYPES}
- * @param {string[]} [ReportProcessingStatusList] List of Report Processing Status @see {@link REPORT_PROCESSING_STATUS_TYPES}
- * @param {number} [MaxCount=10] Maximum number of report requests to return, max is 100
- * @param {Date} [RequestedFromDate=90-days-past] Oldest date to search for
- * @param {Date} [RequestedToDate=Now] Newest date to search for
- * @returns {GetReportRequestListResult[]}
+ * @private
+ * @param {OrderItemsList} orderItemsList - mws OrderItemsList
+ * @returns {orderItemsList}
  */
-// TODO: make sure we get NextToken out of there and into the main data structure somewhere
-const getReportRequestList = async (options = {}) =&gt; {
-    const result = await callEndpoint(&apos;GetReportRequestList&apos;, options);
-    // NextToken is under result.GetReportRequestListResponse.GetReportRequestListResult
-    return result.ReportRequestInfo;
+const parseOrderItems = (orderItemsList) =&gt; {
+    const { NextToken: nextToken, AmazonOrderId: orderId } = orderItemsList;
+    const arr = forceArray(orderItemsList.OrderItems);
+    const orderItems = arr.map(x =&gt; transformIntsAndBools(transformObjectKeys(x.OrderItem)));
+    const ret = {
+        orderItems,
+        nextToken,
+        orderId,
+    };
+    return ret;
 };
 
-/**
- * Returns the contents of a report
- * @async
- * @param {object} options Options to pass to GetReport
- * @param {string} options.ReportId Report number from @see {@link GetReportList} or GeneratedReportId from @see {@link GetReportRequestListResult}
- * @return {Array|object} Contents of the report to return (format may vary WIDELY between different reports generated, see [ReportType](https://docs.developer.amazonservices.com/en_US/reports/Reports_ReportType.html))
- */
-const getReport = async (options) =&gt; {
-    const result = await callEndpoint(&apos;GetReport&apos;, options);
-    return result;
-};
-
-/**
- * TODO: write documentation for getReportList
- */
-const getReportList = async (options = {}) =&gt; {
-    const result = await callEndpoint(&apos;GetReportList&apos;, options);
-    // NextToken should be in result.GetReportListResponse.GetReportListResult
-    try {
-        const ret = {
-            result: result.ReportInfo,
-            nextToken: result.HasNext &amp;&amp; result.NextToken,
-        };
-        return ret;
-    } catch (err) {
-        return result;
-    }
-};
-
-/**
- * TODO: write documentation for getReportListByNextToken
- * (or just roll getReportList and getReportListByNextToken into the same wrapper)
- * (that wrapper might be getReportListAll, and just rename it)
- */
-const getReportListByNextToken = async (options) =&gt; {
-    const result = await callEndpoint(&apos;GetReportListByNextToken&apos;, options);
-    try {
-        const ret = {
-            result: result.ReportInfo,
-            nextToken: result.HasNext &amp;&amp; result.NextToken,
-        };
-        return ret;
-    } catch (err) {
-        return result;
-    }
-};
-
-/**
- * TODO: write documentation for getReportListAll (or see comment on getReportListByNextToken)
- */
-const getReportListAll = async (options = {}) =&gt; {
-    let reports = [];
-    const reportList = await getReportList(options);
-    reports = reports.concat(reportList.result);
-    let { nextToken } = reportList;
-    /* eslint-disable no-await-in-loop */
-    while (nextToken) {
-        const nextPage = await getReportListByNextToken({ NextToken: nextToken });
-        // eslint-disable-next-line prefer-destructuring
-        nextToken = nextPage.nextToken;
-        reports = reports.concat(nextPage.result);
-        await sleep(2000);
-    }
-    /* eslint-enable no-await-in-loop */
-    return reports;
-};
-
-// TODO: should we emit events notifying of things happening inside here?
-// TODO: need to test all report types with this function, because not all reports return
-// the same set of data - some are not giving a ReportRequestId for some reason?!
-// perhaps there was an error in requestReport() regarding this.
-
-// TODO: _GET_FLAT_FILE_ORDERS_DATA_ seems to always result in a cancelled report
-// TODO: _GET_FLAT_FILE_PENDING_ORDERS_DATA_ results in undefined reportRequestId
-// TODO: undefined reportRequestId results in us downloading a large list of reports
-// when we call getReportRequestList()
-// TODO: need to improve the throttling mechanism, waiting 45 seconds per test minimum sucks.
-
-// known to work if given a StartDate: _GET_FLAT_FILE_ORDERS_DATA_, _GET_AMAZON_FULFILLED_SHIPMENTS_DATA_
-// known to require calling GetReportList (therefore not yet working): _GET_SELLER_FEEDBACK_DATA_
-// _GET_AMAZON_FULFILLED_SHIPMENTS_DATA_
-//
-// unsure why not working: _GET_FLAT_FILE_ACTIONABLE_ORDER_DATA_ - i may not have any data.
-// may require parameters? just cancells if not given parameters.
-//  _GET_CONVERGED_FLAT_FILE_SOLD_LISTINGS_DATA_
-//  _GET_CONVERGED_FLAT_FILE_ORDER_REPORT_DATA_
-//  _GET_FLAT_FILE_ALL_ORDERS_DATA_BY_LAST_UPDATE_
-//  _GET_FLAT_FILE_ALL_RDERS_DATA_BY_ORDER_DATE_
-//  _GET_XML_ALL_ORDERS_DATA_BY_LAST_UPDATE_
-//  _GET_XML_ALL_ORDERS_DATA_BY_ORDER_DATE_
-//  _GET_FLAT_FILE_PENDING_ORDERS_DATA_ - may also have failed due to not having any pending orders?
-// after I got to _GET_FLAT_FILE_PENDING_ORDERS_DATA_ .. getReportRequestList started throwing out
-// &quot;undefined&quot; as a status. wtf?
-//  _GET_FLAT_FILE_ALL_ORDERS_DATA_BY_LAST_UPDATE_
-//  _GET_FLAT_FILE_ALL_ORDERS_DATA_BY_ORDER_DATE_
-//  _GET_XML_ALL_ORDERS_DATA_BY_LAST_UPDATE_
-//  _GET_XML_ALL_ORDERS_DATA_BY_ORDER_DATE_
-
-
-/**
- * TODO: Document requestAndDownloadReport
- */
-const requestAndDownloadReport = async (ReportType, file, reportParams = {}) =&gt; {
-    async function checkReportComplete(reportRequestId) {
-        console.log(`-- checking if report is complete ${reportRequestId}`);
-        /* eslint-disable no-await-in-loop */
-        while (true) {
-            const report = await getReportRequestList({
-                ReportRequestIdList: [reportRequestId],
-            });
-            switch (report.ReportProcessingStatus) {
-                case &apos;_IN_PROGRESS_&apos;: // fallthrough intentional
-                case &apos;_SUBMITTED_&apos;: // fallthrough intentional
-                    console.log(`-- retrying report ${reportRequestId} in 45 sec`);
-                    await sleep(45000); // GetReportRequestList throttles to at most 10 requests, you get 1 back every 45 seconds
-                    break;
-                case &apos;_CANCELLED_&apos;:
-                    console.log(`-- cancelled: ${reportRequestId}`, report);
-                    return { cancelled: true };
-                case &apos;_DONE_&apos;:
-                    return report;
-                case &apos;_DONE_NO_DATA_&apos;:
-                    return null;
-                default:
-                    console.log(`-- unknown status retry in 45 sec: ${report.ReportProcessingStatus}`, report);
-                    await sleep(45000);
-                    break;
-            }
-        }
-        /* eslint-enable no-await-in-loop */
-    }
-
-    console.log(`-- requesting report ${ReportType}`);
-    const request = await requestReport({
-        ReportType,
-        ...reportParams,
-    });
-    const reportRequestId = request.ReportRequestId;
-    await sleep(20000); // some requests may be available quickly, check after 20 sec
-    const reportCheck = await checkReportComplete(reportRequestId);
-    if (reportCheck.cancelled) {
-        console.warn(&apos;******** report request cancelled by server&apos;, ReportType);
-        throw new errors.RequestCancelled(&apos;Report cancelled by server&apos;);
-    }
-    let ReportId = reportCheck.GeneratedReportId;
-
-    // When no ReportId is received, then call getReportList to find it.
-    if (!ReportId) {
-        const reportList = await getReportList({
-            ReportTypeList: [ReportType],
-        });
-
-        ReportId = reportList[reportList.length - 1].ReportId;
-    }
-    const report = await getReport({ ReportId });
-    if (file) {
-        await writeFile(file, JSON.stringify(report, null, 4));
-    }
-    return report;
-};
-
-module.exports = {
-    getReport,
-    getReportList,
-    getReportListAll,
-    getReportListByNextToken,
-    getReportRequestList,
-    requestAndDownloadReport,
-    requestReport,
-};
+module.exports = parseOrderItems;
 </code></pre>
 
 </div>
