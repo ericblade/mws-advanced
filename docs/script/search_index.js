@@ -12,6 +12,12 @@ window.esdocSearchIndex = [
     "class"
   ],
   [
+    "mws-advanced/lib/constants.js~market_currency",
+    "variable/index.html#static-variable-MARKET_CURRENCY",
+    "<span>MARKET_CURRENCY</span> <span class=\"search-result-import-path\">mws-advanced/lib/constants.js</span>",
+    "variable"
+  ],
+  [
     "mws-advanced/lib/constants.js~mws_endpoints",
     "variable/index.html#static-variable-MWS_ENDPOINTS",
     "<span>MWS_ENDPOINTS</span> <span class=\"search-result-import-path\">mws-advanced/lib/constants.js</span>",

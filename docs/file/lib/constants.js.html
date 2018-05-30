@@ -56,6 +56,7 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getReportRequestList">getReportRequestList</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-requestAndDownloadReport">requestAndDownloadReport</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-requestReport">requestReport</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-MARKET_CURRENCY">MARKET_CURRENCY</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-MWS_ENDPOINTS">MWS_ENDPOINTS</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-MWS_MARKETPLACES">MWS_MARKETPLACES</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-MarketDetail">MarketDetail</a></span></span></li>
@@ -102,6 +103,7 @@
 
 /**
  * A list of Marketplace IDs hashed by their country code.
+ * @constant
  */
 const MWS_MARKETPLACES = {
     CA: &apos;A2EUQ1WTGCTBG2&apos;,
@@ -119,7 +121,24 @@ const MWS_MARKETPLACES = {
 };
 
 /**
+ * A list of the default currency codes for markets, indexed by country code.
+ * Calling, for example, getMyFeesEstimate in Canada, using USD will fail with
+ * &quot;status&quot;:&quot;ClientError&quot;,
+ * &quot;error&quot;:{
+ *     &quot;code&quot;:&quot;InvalidParameterValue&quot;,
+ *     &quot;message&quot;:&quot;There is an client-side error. Please verify your inputs.&quot;
+ * }
+ * so you need to use CAD when calling getMyFeesEstimate for Canada.
+ * @constant
+ */
+const MARKET_CURRENCY = {
+    US: &apos;USD&apos;,
+    CA: &apos;CAD&apos;,
+};
+
+/**
  * A list of hosts you can use with the mws-advanced &quot;host&quot; option, hashed by MWS Region Name.
+ * @constant
  */
 const MWS_ENDPOINTS = {
     NA: &apos;mws.amazonservices.com&apos;,
@@ -134,6 +153,7 @@ const MWS_ENDPOINTS = {
 module.exports = {
     MWS_MARKETPLACES,
     MWS_ENDPOINTS,
+    MARKET_CURRENCY,
 };
 </code></pre>
 

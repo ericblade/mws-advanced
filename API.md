@@ -10,71 +10,72 @@
 -   [init][6]
 -   [endpoints][7]
 -   [callEndpoint][8]
--   [MWS_MARKETPLACES][9]
--   [MWS_ENDPOINTS][10]
--   [InvalidUsage][11]
--   [ServiceError][12]
--   [InvalidIdentifier][13]
--   [RequestCancelled][14]
--   [ValidationError][15]
--   [recursionCount][16]
--   [rootWasArray][17]
--   [validateInteger][18]
--   [feeds][19]
--   [REQUEST_REPORT_TYPES][20]
--   [REPORT_PROCESSING_STATUS_TYPES][21]
--   [getMarketplaces][22]
--   [getMarketplaces][23]
--   [parseMarketplaceData][24]
--   [listOrderItems][25]
--   [listOrderItems][26]
+-   [InvalidUsage][9]
+-   [ServiceError][10]
+-   [InvalidIdentifier][11]
+-   [RequestCancelled][12]
+-   [ValidationError][13]
+-   [recursionCount][14]
+-   [rootWasArray][15]
+-   [validateInteger][16]
+-   [feeds][17]
+-   [REQUEST_REPORT_TYPES][18]
+-   [REPORT_PROCESSING_STATUS_TYPES][19]
+-   [getMarketplaces][20]
+-   [getMarketplaces][21]
+-   [parseMarketplaceData][22]
+-   [listOrderItems][23]
+-   [listOrderItems][24]
+-   [transformIntsAndBools][25]
+-   [transformIntsAndBools][26]
 -   [transformIntsAndBools][27]
--   [transformIntsAndBools][28]
--   [transformIntsAndBools][29]
--   [listOrders][30]
--   [listFinancialEvents][31]
--   [forceArray][32]
--   [removeFromString][33]
--   [transformAttributeSetKey][34]
--   [transformObjectKeys][35]
--   [listInventorySupply][36]
--   [getMatchingProductForId][37]
--   [getIdFromProductList][38]
--   [getIdFromProductList][39]
--   [parseMatchingProduct][40]
--   [getLowestPricedOffersForASIN][41]
--   [getLowestPricedOffersForSKU][42]
--   [reformatOfferCount][43]
+-   [listOrders][28]
+-   [listFinancialEvents][29]
+-   [forceArray][30]
+-   [removeFromString][31]
+-   [transformAttributeSetKey][32]
+-   [transformObjectKeys][33]
+-   [listInventorySupply][34]
+-   [getMatchingProductForId][35]
+-   [getIdFromProductList][36]
+-   [getIdFromProductList][37]
+-   [parseMatchingProduct][38]
+-   [getLowestPricedOffersForASIN][39]
+-   [getLowestPricedOffersForSKU][40]
+-   [reformatOfferCount][41]
+-   [reformatOffer][42]
+-   [reformatOffer][43]
 -   [reformatOffer][44]
 -   [reformatOffer][45]
 -   [reformatOffer][46]
--   [reformatOffer][47]
--   [reformatOffer][48]
--   [reformatLowestPrice][49]
--   [reformatBuyBoxPrice][50]
--   [reformatSummary][51]
--   [parseLowestPricedOffers][52]
+-   [reformatLowestPrice][47]
+-   [reformatBuyBoxPrice][48]
+-   [reformatSummary][49]
+-   [parseLowestPricedOffers][50]
+-   [getProductCategoriesForAsins][51]
+-   [getProductCategoriesForAsins][52]
 -   [getProductCategoriesForAsins][53]
 -   [getProductCategoriesForAsins][54]
--   [getProductCategoriesForAsins][55]
--   [getProductCategoriesForAsins][56]
--   [getProductCategoriesForSkus][57]
+-   [getProductCategoriesForSkus][55]
+-   [getMyFeesEstimate][56]
+-   [getMyFeesEstimate][57]
 -   [getMyFeesEstimate][58]
 -   [getMyFeesEstimate][59]
 -   [getMyFeesEstimate][60]
--   [getMyFeesEstimate][61]
--   [getMyFeesEstimate][62]
--   [listMatchingProducts][63]
--   [writeFile][64]
--   [requestReport][65]
+-   [listMatchingProducts][61]
+-   [MWS_MARKETPLACES][62]
+-   [MARKET_CURRENCY][63]
+-   [MWS_ENDPOINTS][64]
+-   [writeFile][65]
 -   [requestReport][66]
--   [getReportRequestList][67]
+-   [requestReport][67]
 -   [getReportRequestList][68]
--   [getReport][69]
--   [getReportList][70]
--   [getReportListByNextToken][71]
--   [getReportListAll][72]
--   [requestAndDownloadReport][73]
+-   [getReportRequestList][69]
+-   [getReport][70]
+-   [getReportList][71]
+-   [getReportListByNextToken][72]
+-   [getReportListAll][73]
+-   [requestAndDownloadReport][74]
 
 ## mws-advanced
 
@@ -93,9 +94,9 @@ to this instance of MWSAdvanced.
 
 **Parameters**
 
--   `rest` **[object][74]** passed on to @see [#init][6]
+-   `rest` **[object][75]** passed on to @see [#init][6]
 
-Returns **[MWSAdvanced][75]** new instance of MWSAdvanced
+Returns **[MWSAdvanced][76]** new instance of MWSAdvanced
 
 ## mws
 
@@ -109,15 +110,15 @@ the environment variables MWS_ACESS_KEY, MWS_SECRET_ACCESS_KEY, and MWS_MERCHANT
 
 **Parameters**
 
--   `config` **[object][74]** Contains your MWS Access Keys/Tokens and options to configure the API (optional, default `{}`)
-    -   `config.region` **[string][76]** One of the Amazon regions as specified in [https://docs.developer.amazonservices.com/en_US/dev_guide/DG_Endpoints.html][77] (optional, default `'NA'`)
-    -   `config.accessKeyId` **[string][76]** Your MWS Access Key (optional, default `process.env.MWS_ACCESS_KEY`)
-    -   `config.secretAccessKey` **[string][76]** Your MWS Secret Access Key (optional, default `process.env.MWS_SECRET_ACCESS_KEY`)
-    -   `config.merchantId` **[string][76]** Your MWS Merchant ID (optional, default `process.env.MWS_MERCHANT_ID`)
-    -   `config.authToken` **[string][76]?** If making a call for a third party account, the Auth Token provided
+-   `config` **[object][75]** Contains your MWS Access Keys/Tokens and options to configure the API (optional, default `{}`)
+    -   `config.region` **[string][77]** One of the Amazon regions as specified in [https://docs.developer.amazonservices.com/en_US/dev_guide/DG_Endpoints.html][78] (optional, default `'NA'`)
+    -   `config.accessKeyId` **[string][77]** Your MWS Access Key (optional, default `process.env.MWS_ACCESS_KEY`)
+    -   `config.secretAccessKey` **[string][77]** Your MWS Secret Access Key (optional, default `process.env.MWS_SECRET_ACCESS_KEY`)
+    -   `config.merchantId` **[string][77]** Your MWS Merchant ID (optional, default `process.env.MWS_MERCHANT_ID`)
+    -   `config.authToken` **[string][77]?** If making a call for a third party account, the Auth Token provided
                                   for the third party account
-    -   `config.host` **[string][76]** Set MWS host server name, see [https://docs.developer.amazonservices.com/en_US/dev_guide/DG_Endpoints.html][77] (optional, default `'mws.amazonservices.com'`)
-    -   `config.port` **[number][78]** Set MWS host port (optional, default `443`)
+    -   `config.host` **[string][77]** Set MWS host server name, see [https://docs.developer.amazonservices.com/en_US/dev_guide/DG_Endpoints.html][78] (optional, default `'mws.amazonservices.com'`)
+    -   `config.port` **[number][79]** Set MWS host port (optional, default `443`)
 
 **Examples**
 
@@ -141,25 +142,17 @@ transformed and validated according to the rules defined in lib/endpoints
 
 **Parameters**
 
--   `name` **[string][76]** name of MWS API function to call
--   `callOptions` **[object][74]?** named hash object of the parameters to pass to the API (optional, default `{}`)
-    -   `callOptions.feedContent` **[string][76]?** if calling a function that submits a feed, supply the feed data here
--   `opt` **[object][74]?** options for callEndpoint (optional, default `{maxThrottleRetries:2}`)
-    -   `opt.noFlatten` **[boolean][79]?** do not flatten results
-    -   `opt.returnRaw` **[boolean][79]?** return only the raw data (may or may not be flattened)
-    -   `opt.saveRaw` **[string][76]?** filename to save raw data to (may or may not be flattened)
-    -   `opt.saveParsed` **[string][76]?** filename to save final parsed data to (not compatible with returnRaw, since parsing won't happen)
+-   `name` **[string][77]** name of MWS API function to call
+-   `callOptions` **[object][75]?** named hash object of the parameters to pass to the API (optional, default `{}`)
+    -   `callOptions.feedContent` **[string][77]?** if calling a function that submits a feed, supply the feed data here
+-   `opt` **[object][75]?** options for callEndpoint (optional, default `{maxThrottleRetries:2}`)
+    -   `opt.noFlatten` **[boolean][80]?** do not flatten results
+    -   `opt.returnRaw` **[boolean][80]?** return only the raw data (may or may not be flattened)
+    -   `opt.saveRaw` **[string][77]?** filename to save raw data to (may or may not be flattened)
+    -   `opt.saveParsed` **[string][77]?** filename to save final parsed data to (not compatible with returnRaw, since parsing won't happen)
     -   `opt.maxThrottleRetries` **int** maximum number of retries for throttling (optional, default `2`)
 
 Returns **any** Results of the call to MWS
-
-## MWS_MARKETPLACES
-
-A list of Marketplace IDs hashed by their country code.
-
-## MWS_ENDPOINTS
-
-A list of hosts you can use with the mws-advanced "host" option, hashed by MWS Region Name.
 
 ## InvalidUsage
 
@@ -206,9 +199,9 @@ determine if flattenResult was called with an Array as the root
 
 **Parameters**
 
--   `type` **[string][76]** type of integer to validate (xs:int, xs:positiveInteger, etc)
+-   `type` **[string][77]** type of integer to validate (xs:int, xs:positiveInteger, etc)
 -   `test` **any** value to test
--   `minmax` **[object][74]** minimum and maximum values to test for (optional, default `{}`)
+-   `minmax` **[object][75]** minimum and maximum values to test for (optional, default `{}`)
     -   `minmax.minValue` **integer** minimum value to test for
     -   `minmax.maxValue` **integer** maximum value to test for
 
@@ -230,13 +223,13 @@ status indicators for report processing status updates
 
 **Parameters**
 
--   `marketplaceId` **[string][76]** id of marketplace. should be same as hash index.
--   `defaultCountryCode` **[string][76]** country code for marketplace (US, CA, etc)
--   `domainName` **[string][76]** domain name used by customers to access this market (amazon.com, .ca, .mx)
--   `defaultCurrencyCode` **[string][76]** currency code (USD, CAD, etc)
--   `defaultLanguageCode` **[string][76]** Language setting (en_US, en_CA, etc)
--   `sellerId` **[string][76]** your seller ID in this marketplace
--   `hasSellerSuspendedListings` **[boolean][79]** true if there are seller suspended listings in this account on this market
+-   `marketplaceId` **[string][77]** id of marketplace. should be same as hash index.
+-   `defaultCountryCode` **[string][77]** country code for marketplace (US, CA, etc)
+-   `domainName` **[string][77]** domain name used by customers to access this market (amazon.com, .ca, .mx)
+-   `defaultCurrencyCode` **[string][77]** currency code (USD, CAD, etc)
+-   `defaultLanguageCode` **[string][77]** Language setting (en_US, en_CA, etc)
+-   `sellerId` **[string][77]** your seller ID in this marketplace
+-   `hasSellerSuspendedListings` **[boolean][80]** true if there are seller suspended listings in this account on this market
 
 ## getMarketplaces
 
@@ -256,20 +249,11 @@ Returns **MarketDetail**
 
 ## parseMarketplaceData
 
-Turn a mess of XML from ListMarketplaceParticipations into a @see [MarketDetail][80]
+Turn a mess of XML from ListMarketplaceParticipations into a @see [MarketDetail][81]
 
 **Parameters**
 
 -   `marketplaceData` **any** 
-
-## listOrderItems
-
-**Parameters**
-
--   `AmazonOrderId`  
--   `orderId` **[string][76]** Amazon Order ID
--   `nextToken` **[string][76]** Token to provide to ListOrderItemsByNextToken if needed (no token = no need)
--   `orderItems` **[Array][81]** Array of all the items in the order
 
 ## listOrderItems
 
@@ -289,9 +273,30 @@ ShippingDiscount
 
 **Parameters**
 
--   `AmazonOrderId` **[string][76]** 3-7-7 Amazon Order ID formatted string
+-   `AmazonOrderId` **[string][77]** 3-7-7 Amazon Order ID formatted string
 
 Returns **OrderItemList** 
+
+## listOrderItems
+
+**Parameters**
+
+-   `AmazonOrderId`  
+-   `orderId` **[string][77]** Amazon Order ID
+-   `nextToken` **[string][77]** Token to provide to ListOrderItemsByNextToken if needed (no token = no need)
+-   `orderItems` **[Array][83]** Array of all the items in the order
+
+## transformIntsAndBools
+
+**Parameters**
+
+-   `item`  
+
+## transformIntsAndBools
+
+**Parameters**
+
+-   `item`  
 
 ## transformIntsAndBools
 
@@ -302,58 +307,46 @@ Returns **OrderItemList**
 -   `null-null` **nextToken** string for next token to provide to calls to ListOrderItemsByNextToken
 -   `null-null` **orderId** string with the Amazon Order ID
 
-## transformIntsAndBools
-
-**Parameters**
-
--   `item`  
-
-## transformIntsAndBools
-
-**Parameters**
-
--   `item`  
-
 ## listOrders
 
 Return orders created or updated during a specific time frame
-see [https://docs.developer.amazonservices.com/en_UK/orders-2013-09-01/Orders_ListOrders.html][83]
+see [https://docs.developer.amazonservices.com/en_UK/orders-2013-09-01/Orders_ListOrders.html][84]
 At least ONE of the search options (and maybe more depending on which ones you select) must be
 specified. Error messages may or may not return information on what parameters you are missing.
 If you are having trouble, see the official parameter documentation above.
 
 **Parameters**
 
--   `options` **[object][74]** 
-    -   `options.MarketplaceId` **[Array][81]&lt;[string][76]>** Array of Marketplace IDs to search @see [MWS_MARKETPLACES][9]
-    -   `options.CreatedAfter` **[Date][84]?** Select orders created at or after the given Date
-    -   `options.CreatedBefore` **[Date][84]?** Select orders created at or before the given Date
-    -   `options.LastUpdatedAfter` **[Date][84]?** Select orders updated at or after the given Date
-    -   `options.LastUpdatedBefore` **[Date][84]?** Select orders updated at or before the given Date
-    -   `options.OrderStatus` **[string][76]?** OrderStatus, see MWS doc page
-    -   `options.FulfillmentChannel` **[string][76]?** AFN for Amazon fulfillment, MFN for merchant
-    -   `options.PaymentMethod` **[string][76]?** All, COD, CVS, Other
-    -   `options.BuyerEmail` **[string][76]?** Search for orders with given Email address
-    -   `options.SellerOrderId` **[string][76]?** Specified seller order ID
-    -   `options.MaxResultsPerPage` **[string][76]** Max number of results to return, 1 &lt;=> 100 (optional, default `100`)
-    -   `options.TFMShipmentStatus` **[string][76]?** See MWS doc page
+-   `options` **[object][75]** 
+    -   `options.MarketplaceId` **[Array][83]&lt;[string][77]>** Array of Marketplace IDs to search @see [MWS_MARKETPLACES][62]
+    -   `options.CreatedAfter` **[Date][85]?** Select orders created at or after the given Date
+    -   `options.CreatedBefore` **[Date][85]?** Select orders created at or before the given Date
+    -   `options.LastUpdatedAfter` **[Date][85]?** Select orders updated at or after the given Date
+    -   `options.LastUpdatedBefore` **[Date][85]?** Select orders updated at or before the given Date
+    -   `options.OrderStatus` **[string][77]?** OrderStatus, see MWS doc page
+    -   `options.FulfillmentChannel` **[string][77]?** AFN for Amazon fulfillment, MFN for merchant
+    -   `options.PaymentMethod` **[string][77]?** All, COD, CVS, Other
+    -   `options.BuyerEmail` **[string][77]?** Search for orders with given Email address
+    -   `options.SellerOrderId` **[string][77]?** Specified seller order ID
+    -   `options.MaxResultsPerPage` **[string][77]** Max number of results to return, 1 &lt;=> 100 (optional, default `100`)
+    -   `options.TFMShipmentStatus` **[string][77]?** See MWS doc page
 
-Returns **[object][74]** 
+Returns **[object][75]** 
 
 ## listFinancialEvents
 
-[https://docs.developer.amazonservices.com/en_UK/finances/Finances_ListFinancialEvents.html][85]
+[https://docs.developer.amazonservices.com/en_UK/finances/Finances_ListFinancialEvents.html][86]
 
 **Parameters**
 
--   `options` **[object][74]** 
-    -   `options.MaxResultsPerPage` **[number][78]** Maximum number of results to return (1 &lt;=> 100)
-    -   `options.AmazonOrderId` **[string][76]** An order number to search for
-    -   `options.FinancialEventGroupId` **[string][76]** Type of Financial Event to search for
-    -   `options.PostedAfter` **[Date][84]** When to search for events after
-    -   `options.PostedBefore` **[Date][84]** When to search for events prior to
+-   `options` **[object][75]** 
+    -   `options.MaxResultsPerPage` **[number][79]** Maximum number of results to return (1 &lt;=> 100)
+    -   `options.AmazonOrderId` **[string][77]** An order number to search for
+    -   `options.FinancialEventGroupId` **[string][77]** Type of Financial Event to search for
+    -   `options.PostedAfter` **[Date][85]** When to search for events after
+    -   `options.PostedBefore` **[Date][85]** When to search for events prior to
 
-Returns **[object][74]** 
+Returns **[object][75]** 
 
 ## forceArray
 
@@ -367,10 +360,10 @@ remove a string pattern from a string
 
 **Parameters**
 
--   `str` **[string][76]** string to remove pattern from
--   `pattern` **([string][76] | regex)** pattern to remove
+-   `str` **[string][77]** string to remove pattern from
+-   `pattern` **([string][77] | regex)** pattern to remove
 
-Returns **[string][76]** string with the pattern removed
+Returns **[string][77]** string with the pattern removed
 
 ## transformAttributeSetKey
 
@@ -409,13 +402,13 @@ Return information about the availability of a seller's FBA inventory
 
 **Parameters**
 
--   `options` **[object][74]** 
-    -   `options.SellerSkus` **[Array][81]&lt;[String][76]>** A list of SKUs for items to get inventory info for
-    -   `options.QueryStartDateTime` **[Date][84]** Date to begin searching at
-    -   `options.ResponseGroup` **[string][76]** 'Basic' = Do not include SupplyDetail, 'Detailed' = Do
-    -   `options.MarketplaceId` **[string][76]** Marketplace ID to search
+-   `options` **[object][75]** 
+    -   `options.SellerSkus` **[Array][83]&lt;[String][77]>** A list of SKUs for items to get inventory info for
+    -   `options.QueryStartDateTime` **[Date][85]** Date to begin searching at
+    -   `options.ResponseGroup` **[string][77]** 'Basic' = Do not include SupplyDetail, 'Detailed' = Do
+    -   `options.MarketplaceId` **[string][77]** Marketplace ID to search
 
-Returns **{nextToken: [string][76], supplyList: [Array][81]&lt;[object][74]>}** 
+Returns **{nextToken: [string][77], supplyList: [Array][83]&lt;[object][75]>}** 
 
 ## getMatchingProductForId
 
@@ -424,12 +417,12 @@ EAN, ISBN, or JAN values
 
 **Parameters**
 
--   `options` **[Object][74]** see [https://docs.developer.amazonservices.com/en_UK/products/Products_GetMatchingProductForId.html][86]
-    -   `options.MarketplaceId` **[string][76]** Identifier for marketplace (see getMarketplaces)
-    -   `options.IdType` **[string][76]** Type of lookup to perform: ASIN, GCID, SellerSKU, UPC, EAN, ISBN, JAN
-    -   `options.IdList` **[Array][81]&lt;[string][76]>** List of codes to perform lookup on
+-   `options` **[Object][75]** see [https://docs.developer.amazonservices.com/en_UK/products/Products_GetMatchingProductForId.html][87]
+    -   `options.MarketplaceId` **[string][77]** Identifier for marketplace (see getMarketplaces)
+    -   `options.IdType` **[string][77]** Type of lookup to perform: ASIN, GCID, SellerSKU, UPC, EAN, ISBN, JAN
+    -   `options.IdList` **[Array][83]&lt;[string][77]>** List of codes to perform lookup on
 
-Returns **[Array][81]&lt;Product>** 
+Returns **[Array][83]&lt;Product>** 
 
 ## getIdFromProductList
 
@@ -449,8 +442,8 @@ Returns **ProductIdentifier**
 **Parameters**
 
 -   `productList`  
--   `type` **[string][76]** Type of Identifier used (asin, upc, ean, jan, etc)
--   `id` **[string][76]** Product Identifier string
+-   `type` **[string][77]** Type of Identifier used (asin, upc, ean, jan, etc)
+-   `id` **[string][77]** Product Identifier string
 
 ## parseMatchingProduct
 
@@ -460,7 +453,7 @@ Parse MWS product info into Product\[] (TODO: document Product\[], it's quite a 
 
 -   `productData` **any** MWS product info
 
-Returns **[Array][81]&lt;Product>** 
+Returns **[Array][83]&lt;Product>** 
 
 ## getLowestPricedOffersForASIN
 
@@ -470,10 +463,10 @@ Calls GetLowestPricedOffersForASIN, reformats results, and returns the data
 
 **Parameters**
 
--   `options` **[object][74]** see [https://docs.developer.amazonservices.com/en_UK/products/Products_GetLowestPricedOffersForASIN.html][87]
-    -   `options.MarketplaceId` **[string][76]** Marketplace ID to search
-    -   `options.ASIN` **[string][76]** ASIN to search for
-    -   `options.ItemCondition` **[string][76]** Listing Condition: New, Used, Collectible, Refurbished, Club
+-   `options` **[object][75]** see [https://docs.developer.amazonservices.com/en_UK/products/Products_GetLowestPricedOffersForASIN.html][88]
+    -   `options.MarketplaceId` **[string][77]** Marketplace ID to search
+    -   `options.ASIN` **[string][77]** ASIN to search for
+    -   `options.ItemCondition` **[string][77]** Listing Condition: New, Used, Collectible, Refurbished, Club
 
 Returns **LowestPricedOffers** 
 
@@ -485,10 +478,10 @@ Calls GetLowestPricedOffersForASIN, reformats results, and returns the data
 
 **Parameters**
 
--   `options` **[object][74]** see [https://docs.developer.amazonservices.com/en_UK/products/Products_GetLowestPricedOffersForASIN.html][87]
-    -   `options.MarketplaceId` **[string][76]** Marketplace ID to search
-    -   `options.SellerSKU` **[string][76]** SKU to search for
-    -   `options.ItemCondition` **[string][76]** Listing Condition: New, Used, Collectible, Refurbished, Club
+-   `options` **[object][75]** see [https://docs.developer.amazonservices.com/en_UK/products/Products_GetLowestPricedOffersForASIN.html][88]
+    -   `options.MarketplaceId` **[string][77]** Marketplace ID to search
+    -   `options.SellerSKU` **[string][77]** SKU to search for
+    -   `options.ItemCondition` **[string][77]** Listing Condition: New, Used, Collectible, Refurbished, Club
 
 Returns **LowestPricedOffers** 
 
@@ -497,71 +490,71 @@ Returns **LowestPricedOffers**
 **Parameters**
 
 -   `offerCount`  
--   `count` **[number][78]** 
--   `condition` **[string][76]** 
--   `fulfillmentChannel` **[string][76]** 
+-   `count` **[number][79]** 
+-   `condition` **[string][77]** 
+-   `fulfillmentChannel` **[string][77]** 
 
 ## reformatOffer
 
 **Parameters**
 
 -   `offer`  
--   `unknown` **[string][76]** 
+-   `unknown` **[string][77]** 
 
 ## reformatOffer
 
 **Parameters**
 
 -   `offer`  
--   `unknown` **[string][76]** 
+-   `unknown` **[string][77]** 
 
 ## reformatOffer
 
 **Parameters**
 
 -   `offer`  
--   `unknown` **[string][76]** 
-
-## reformatOffer
-
-**Parameters**
-
--   `offer`  
--   `unknown` **[string][76]** 
-
-## reformatOffer
-
-**Parameters**
-
--   `offer`  
--   `subCondition` **[string][76]** The subcondition of the item (New, Mint, Very Good, Good, Acceptable, Poor, Club, OEM, Warranty, Refurbished Warranty, Refurbished, Open Box, or Other)
+-   `subCondition` **[string][77]** The subcondition of the item (New, Mint, Very Good, Good, Acceptable, Poor, Club, OEM, Warranty, Refurbished Warranty, Refurbished, Open Box, or Other)
 -   `sellerFeedbackRating` **SellerFeedbackRating** Information about the seller's feedback
 -   `shippingTime` **DetailedShippingTime** Maximum time within which the item will likely be shipped
 -   `listingPrice` **Money** The price of the item
 -   `points` **Points?** The number of Amazon Points offered with the purchase of an item
 -   `shipping` **Money** Cost of shipping
 -   `shipsFrom` **ShipsFrom?** State and Country where item is shipped from
--   `isFulfilledByAmazon` **[boolean][79]** True if FBA, False if not
--   `isBuyBoxWinner` **[boolean][79]?** True if offer has buy box, False if not
--   `isFeaturedMerchant` **[boolean][79]?** True if seller is eligible for Buy Box, False if not
+-   `isFulfilledByAmazon` **[boolean][80]** True if FBA, False if not
+-   `isBuyBoxWinner` **[boolean][80]?** True if offer has buy box, False if not
+-   `isFeaturedMerchant` **[boolean][80]?** True if seller is eligible for Buy Box, False if not
+
+## reformatOffer
+
+**Parameters**
+
+-   `offer`  
+-   `unknown` **[string][77]** 
+
+## reformatOffer
+
+**Parameters**
+
+-   `offer`  
+-   `unknown` **[string][77]** 
 
 ## reformatLowestPrice
 
 **Parameters**
 
 -   `lp`  
--   `condition` **[string][76]** 
--   `fulfillmentChannel` **[string][76]** 
+-   `condition` **[string][77]** 
+-   `fulfillmentChannel` **[string][77]** 
 -   `landedPrice` **Money** 
 -   `listingPrice` **Money** 
--   `shipping` **[string][76]** 
+-   `shipping` **[string][77]** 
 
 ## reformatBuyBoxPrice
 
 **Parameters**
 
 -   `bb`  
--   `condition` **[string][76]** 
+-   `condition` **[string][77]** 
 -   `landedPrice` **Money** 
 -   `listingPrice` **Money** 
 -   `shipping` **Money** 
@@ -571,57 +564,43 @@ Returns **LowestPricedOffers**
 **Parameters**
 
 -   `summary`  
--   `totalOfferCount` **[number][78]** 
--   `numberOfOffers` **[number][78]** 
+-   `totalOfferCount` **[number][79]** 
+-   `numberOfOffers` **[number][79]** 
 -   `listPrice` **Money** 
--   `lowestPrices` **[Array][81]&lt;LowestPrice>** 
--   `buyBoxPrices` **[Array][81]** 
+-   `lowestPrices` **[Array][83]&lt;LowestPrice>** 
+-   `buyBoxPrices` **[Array][83]** 
 
 ## parseLowestPricedOffers
 
 **Parameters**
 
 -   `offerData`  
--   `asin` **[string][76]** asin returned by request
--   `marketplace` **[string][76]** marketplace asin is in
--   `itemCondition` **[string][76]** condition of item requested
+-   `asin` **[string][77]** asin returned by request
+-   `marketplace` **[string][77]** marketplace asin is in
+-   `itemCondition` **[string][77]** condition of item requested
 -   `summary` **OfferSummary** \-
--   `offers` **[Array][81]&lt;Offers>** list of offers
-
-## getProductCategoriesForAsins
-
-productCategory
-Product Category Information
-
-**Parameters**
-
--   `$0` **[Object][74]** 
-    -   `$0.marketplaceId`  
-    -   `$0.asins`  
--   `ProductCategoryId` **[string][76]** The string or numeric-string category identifier for the category
--   `ProductCategoryName` **[string][76]** The string human readable description of the category
--   `Parent` **productCategory?** Parent product category. This will not be present if this category is the root.
+-   `offers` **[Array][83]&lt;Offers>** list of offers
 
 ## getProductCategoriesForAsins
 
 **Parameters**
 
--   `$0` **[Object][74]** 
+-   `$0` **[Object][75]** 
     -   `$0.marketplaceId`  
     -   `$0.asins`  
--   `asin` **[string][76]** ASIN that this category information belongs to
--   `error` **[object][74]?** This field is set when a server error is returned, see error.code and error.body for further info. Server Errors may be returned for invalid ASINs or other reasons.
+-   `asin` **[string][77]** ASIN that this category information belongs to
+-   `error` **[object][75]?** This field is set when a server error is returned, see error.code and error.body for further info. Server Errors may be returned for invalid ASINs or other reasons.
 -   `Self` **productCategory?** The product category this ASIN belongs to - if not present, may be an invalid ASIN
 
 ## getProductCategoriesForAsins
 
 **Parameters**
 
--   `$0` **[Object][74]** 
+-   `$0` **[Object][75]** 
     -   `$0.marketplaceId`  
     -   `$0.asins`  
--   `sku` **[string][76]** SKU that this category information belongs to
--   `error` **[object][74]?** This field is set when a server error is returned, see error.code and error.body for further info. Server Errors may be returned for invalid SKUs or other reasons.
+-   `sku` **[string][77]** SKU that this category information belongs to
+-   `error` **[object][75]?** This field is set when a server error is returned, see error.code and error.body for further info. Server Errors may be returned for invalid SKUs or other reasons.
 -   `Self` **productCategory?** The product category that this SKU belongs to - if not present, may be an invalid ASIN
 
 ## getProductCategoriesForAsins
@@ -630,11 +609,25 @@ return product categories for multiple asins
 
 **Parameters**
 
--   `parameters` **[object][74]** 
-    -   `parameters.marketplaceId` **[string][76]** marketplace identifier to run query on
-    -   `parameters.asins` **[Array][81]&lt;[string][76]>** Array of string ASINs to query for
+-   `parameters` **[object][75]** 
+    -   `parameters.marketplaceId` **[string][77]** marketplace identifier to run query on
+    -   `parameters.asins` **[Array][83]&lt;[string][77]>** Array of string ASINs to query for
 
-Returns **[Array][81]&lt;productCategoryByAsin>** Array of product category information
+Returns **[Array][83]&lt;productCategoryByAsin>** Array of product category information
+
+## getProductCategoriesForAsins
+
+productCategory
+Product Category Information
+
+**Parameters**
+
+-   `$0` **[Object][75]** 
+    -   `$0.marketplaceId`  
+    -   `$0.asins`  
+-   `ProductCategoryId` **[string][77]** The string or numeric-string category identifier for the category
+-   `ProductCategoryName` **[string][77]** The string human readable description of the category
+-   `Parent` **productCategory?** Parent product category. This will not be present if this category is the root.
 
 ## getProductCategoriesForSkus
 
@@ -642,55 +635,18 @@ return product categories for multiple asins
 
 **Parameters**
 
--   `parameters` **[object][74]** 
-    -   `parameters.marketplaceId` **[string][76]** marketplace identifier to run query on
-    -   `parameters.skus` **[Array][81]&lt;[string][76]>** Array of string SKUs to query for
+-   `parameters` **[object][75]** 
+    -   `parameters.marketplaceId` **[string][77]** marketplace identifier to run query on
+    -   `parameters.skus` **[Array][83]&lt;[string][77]>** Array of string SKUs to query for
 
-Returns **[Array][81]&lt;productCategoryBySku>** Array of product category information
-
-## getMyFeesEstimate
-
-Get an estimate of fees for an item, based on listing and shipping prices.
-
-**Parameters**
-
--   `estimates`  
--   `null-null` **[Array][81]&lt;EstimateRequest>** Array of EstimateRequest items to get fees for
-
-Returns **[Object][74]** Object of Estimate items, indexed by EstimateRequest Identifier
+Returns **[Array][83]&lt;productCategoryBySku>** Array of product category information
 
 ## getMyFeesEstimate
 
 **Parameters**
 
 -   `estimates`  
--   `marketplaceId` **[string][76]** MWS MarketplaceId to request item within
--   `idType` **[string][76]** type of identifier for item (ASIN, GCID, SellerSKU, UPC, EAN, ISBN, JAN)
--   `idValue` **[string][76]** identifier to use (see idType)
--   `isAmazonFulfilled` **[boolean][79]** true for FBA fees, false for Merchant Fulfilled fees
--   `listingPrice` **Money** currencyCode and amount for listing price
--   `shipping` **Money** currencyCode and amount for shipping price
--   `points` **[object][74]** pointsNumber: amazon points for purchase (Japan only?)
--   `identifier` **[string][76]?** identifier to attach to request. If not given, will be `FBA.${idValue}` for FBA requests or `MF.${idValue}` for MF requests
-
-## getMyFeesEstimate
-
-**Parameters**
-
--   `estimates`  
--   `totalFees` **Money** currencyCode and amount for total fees
--   `time` **[string][76]** ISO8601 time stamp format time the fee response was created
--   `detail` **[Array][81]&lt;FeeDetail>** array of details about each of the fees that make up totalFees
--   `identifier` **FeeIdentifier** information about the EstimateRequest
--   `status` **[string][76]** "Success" for success or "ServerError" for request failure
--   `error` **[Error][88]?** If an Error occurred (success === "Failure"), a description of the Error
-
-## getMyFeesEstimate
-
-**Parameters**
-
--   `estimates`  
--   `feeType` **[string][76]** The type of fee (ReferralFee, PerItemFee, VariableClosingFee, etc)
+-   `feeType` **[string][77]** The type of fee (ReferralFee, PerItemFee, VariableClosingFee, etc)
 -   `feeAmount` **Money** Base fee, currencyCode and amount
 -   `feePromotion` **Money** Discounts applied to fee, currencyCode and amount
 -   `finalFee` **Money** feeAmount minus feePromotion, currencyCode and amount
@@ -700,15 +656,52 @@ Returns **[Object][74]** Object of Estimate items, indexed by EstimateRequest Id
 **Parameters**
 
 -   `estimates`  
--   `marketplaceId` **[string][76]** MWS MarketplaceId requested
--   `idType` **[string][76]** type of identifier requested
--   `sellerId` **[string][76]** the seller identifier that requested the estimate
--   `isAmazonFulfilled` **[boolean][79]** true for FBA, false for Merchant Fulfilled
--   `sellerInputIdentifier` **[string][76]** identifier from EstimateRequest
--   `idValue` **[string][76]** the product idValue from EstimateRequest
--   `priceToEstimateFees` **[object][74]** Money values entered in as listingPrice and shipping to EstimateRequest
+-   `marketplaceId` **[string][77]** MWS MarketplaceId to request item within
+-   `idType` **[string][77]** type of identifier for item (ASIN, GCID, SellerSKU, UPC, EAN, ISBN, JAN)
+-   `idValue` **[string][77]** identifier to use (see idType)
+-   `isAmazonFulfilled` **[boolean][80]** true for FBA fees, false for Merchant Fulfilled fees
+-   `listingPrice` **Money** currencyCode and amount for listing price
+-   `shipping` **Money** currencyCode and amount for shipping price
+-   `points` **[object][75]** pointsNumber: amazon points for purchase (Japan only?)
+-   `identifier` **[string][77]?** identifier to attach to request. If not given, will be `FBA.${idValue}` for FBA requests or `MF.${idValue}` for MF requests
+
+## getMyFeesEstimate
+
+**Parameters**
+
+-   `estimates`  
+-   `marketplaceId` **[string][77]** MWS MarketplaceId requested
+-   `idType` **[string][77]** type of identifier requested
+-   `sellerId` **[string][77]** the seller identifier that requested the estimate
+-   `isAmazonFulfilled` **[boolean][80]** true for FBA, false for Merchant Fulfilled
+-   `sellerInputIdentifier` **[string][77]** identifier from EstimateRequest
+-   `idValue` **[string][77]** the product idValue from EstimateRequest
+-   `priceToEstimateFees` **[object][75]** Money values entered in as listingPrice and shipping to EstimateRequest
     -   `priceToEstimateFees.listingPrice` **Money** listingPrice from EstimateRequest
     -   `priceToEstimateFees.shipping` **Money** shipping from EstimateRequest
+
+## getMyFeesEstimate
+
+**Parameters**
+
+-   `estimates`  
+-   `totalFees` **Money** currencyCode and amount for total fees
+-   `time` **[string][77]** ISO8601 time stamp format time the fee response was created
+-   `detail` **[Array][83]&lt;FeeDetail>** array of details about each of the fees that make up totalFees
+-   `identifier` **FeeIdentifier** information about the EstimateRequest
+-   `status` **[string][77]** "Success" for success or "ServerError" for request failure
+-   `error` **[Error][89]?** If an Error occurred (success === "Failure"), a description of the Error
+
+## getMyFeesEstimate
+
+Get an estimate of fees for an item, based on listing and shipping prices.
+
+**Parameters**
+
+-   `estimates`  
+-   `null-null` **[Array][83]&lt;EstimateRequest>** Array of EstimateRequest items to get fees for
+
+Returns **[Object][75]** Object of Estimate items, indexed by EstimateRequest Identifier
 
 ## listMatchingProducts
 
@@ -716,12 +709,31 @@ Return a list of products and their attributes, based on a text query and contex
 
 **Parameters**
 
--   `options` **[object][74]** 
-    -   `options.marketplaceId` **[string][76]** marketplace identifier to search
-    -   `options.query` **[string][76]** a search string "with the same support as that provided on Amazon marketplace websites"
-    -   `options.queryContextId` **[string][76]?** context in which to limit search. Not specified will mean "search everywhere". See [https://docs.developer.amazonservices.com/en_UK/products/Products_QueryContextIDs.html][89]
+-   `options` **[object][75]** 
+    -   `options.marketplaceId` **[string][77]** marketplace identifier to search
+    -   `options.query` **[string][77]** a search string "with the same support as that provided on Amazon marketplace websites"
+    -   `options.queryContextId` **[string][77]?** context in which to limit search. Not specified will mean "search everywhere". See [https://docs.developer.amazonservices.com/en_UK/products/Products_QueryContextIDs.html][90]
 
-Returns **[Array][81]&lt;Product>** Array of product information
+Returns **[Array][83]&lt;Product>** Array of product information
+
+## MWS_MARKETPLACES
+
+A list of Marketplace IDs hashed by their country code.
+
+## MARKET_CURRENCY
+
+A list of the default currency codes for markets, indexed by country code.
+Calling, for example, getMyFeesEstimate in Canada, using USD will fail with
+"status":"ClientError",
+"error":{
+    "code":"InvalidParameterValue",
+    "message":"There is an client-side error. Please verify your inputs."
+}
+so you need to use CAD when calling getMyFeesEstimate for Canada.
+
+## MWS_ENDPOINTS
+
+A list of hosts you can use with the mws-advanced "host" option, hashed by MWS Region Name.
 
 ## writeFile
 
@@ -732,35 +744,35 @@ This is better than using writeFileSync. Trust me. :-)
 
 **Parameters**
 
--   `fileName` **[string][76]** path/filename to write to
--   `contents` **([string][76] \| [Buffer][90])** what to write to file
+-   `fileName` **[string][77]** path/filename to write to
+-   `contents` **([string][77] \| [Buffer][91])** what to write to file
 
 ## requestReport
 
 **Parameters**
 
 -   `options`  
--   `ReportType` **[string][76]** Type of Report Requested @see [REQUEST_REPORT_TYPES][20]
--   `ReportProcessingStatus` **[string][76]** Status of Report @see [REPORT_PROCESSING_STATUS_TYPES][21]
--   `EndDate` **[string][76]** ISO Date for Date Ending period
--   `Scheduled` **[boolean][79]** True if report is scheduled, false if immediate
--   `ReportRequestId` **[string][76]** Identifier to use with getReport to fetch the report when ready
--   `SubmittedDate` **[string][76]** ISO Date for Date request was submitted
--   `StartDate` **[string][76]** ISO Date for Date report begins at
+-   `ReportType` **[string][77]** Type of Report Requested @see [REQUEST_REPORT_TYPES][18]
+-   `ReportProcessingStatus` **[string][77]** Status of Report @see [REPORT_PROCESSING_STATUS_TYPES][19]
+-   `EndDate` **[string][77]** ISO Date for Date Ending period
+-   `Scheduled` **[boolean][80]** True if report is scheduled, false if immediate
+-   `ReportRequestId` **[string][77]** Identifier to use with getReport to fetch the report when ready
+-   `SubmittedDate` **[string][77]** ISO Date for Date request was submitted
+-   `StartDate` **[string][77]** ISO Date for Date report begins at
 
 ## requestReport
 
 Request a report from MWS
-Many optional parameters may be required by MWS! Read [ReportType][91] for specifics!
+Many optional parameters may be required by MWS! Read [ReportType][92] for specifics!
 
 **Parameters**
 
--   `options` **[object][74]** 
-    -   `options.ReportType` **[string][76]** Type of Report to Request @see [REQUEST_REPORT_TYPES][20]
-    -   `options.StartDate` **[Date][84]?** Date to start report
-    -   `options.EndDate` **[Date][84]?** Date to end report at
-    -   `options.ReportOptions` **[object][74]?** Reports may have additional options available. Please see the [ReportType][91] official docs
--   `MarketplaceId` **[Array][81]&lt;[string][76]>?** Array of marketplace IDs to generate reports covering
+-   `options` **[object][75]** 
+    -   `options.ReportType` **[string][77]** Type of Report to Request @see [REQUEST_REPORT_TYPES][18]
+    -   `options.StartDate` **[Date][85]?** Date to start report
+    -   `options.EndDate` **[Date][85]?** Date to end report at
+    -   `options.ReportOptions` **[object][75]?** Reports may have additional options available. Please see the [ReportType][92] official docs
+-   `MarketplaceId` **[Array][83]&lt;[string][77]>?** Array of marketplace IDs to generate reports covering
 
 Returns **ReportRequestInfo** 
 
@@ -772,30 +784,30 @@ has been processed.
 
 **Parameters**
 
--   `options` **[object][74]?** Options to pass to GetReportRequestList (optional, default `{}`)
--   `ReportRequestIdList` **[Array][81]&lt;[string][76]>?** List of report request IDs @see [requestReport][65]
--   `ReportTypeList` **[Array][81]&lt;[string][76]>?** List of Report Types @see [REQUEST_REPORT_TYPES][20]
--   `ReportProcessingStatusList` **[Array][81]&lt;[string][76]>?** List of Report Processing Status @see [REPORT_PROCESSING_STATUS_TYPES][21]
--   `MaxCount` **[number][78]** Maximum number of report requests to return, max is 100 (optional, default `10`)
--   `RequestedFromDate` **[Date][84]** Oldest date to search for (optional, default `90-days-past`)
--   `RequestedToDate` **[Date][84]** Newest date to search for (optional, default `Now`)
+-   `options` **[object][75]?** Options to pass to GetReportRequestList (optional, default `{}`)
+-   `ReportRequestIdList` **[Array][83]&lt;[string][77]>?** List of report request IDs @see [requestReport][66]
+-   `ReportTypeList` **[Array][83]&lt;[string][77]>?** List of Report Types @see [REQUEST_REPORT_TYPES][18]
+-   `ReportProcessingStatusList` **[Array][83]&lt;[string][77]>?** List of Report Processing Status @see [REPORT_PROCESSING_STATUS_TYPES][19]
+-   `MaxCount` **[number][79]** Maximum number of report requests to return, max is 100 (optional, default `10`)
+-   `RequestedFromDate` **[Date][85]** Oldest date to search for (optional, default `90-days-past`)
+-   `RequestedToDate` **[Date][85]** Newest date to search for (optional, default `Now`)
 
-Returns **[Array][81]&lt;GetReportRequestListResult>** 
+Returns **[Array][83]&lt;GetReportRequestListResult>** 
 
 ## getReportRequestList
 
 **Parameters**
 
 -   `options`   (optional, default `{}`)
--   `ReportType` **[string][76]** Type of Report Requested @see [REQUEST_REPORT_TYPES][20]
--   `ReportProcessingStatus` **[string][76]** Status of Report @see [REPORT_PROCESSING_STATUS_TYPES][21]
--   `EndDate` **[string][76]** ISO Date for Report End Period
--   `Scheduled` **[boolean][79]** True if report is scheduled, false if immediate
--   `ReportRequestId` **[string][76]** Identifier for the Report Request
--   `StartedProcessingDate` **[string][76]** ISO Date for time MWS started processing request
--   `StartDate` **[string][76]** ISO Date for Report Start Period
--   `CompletedDate` **[string][76]** ISO Date for time MWS completed processing request
--   `GeneratedReportId` **[string][76]** Identifier to use with getReport to retrieve the report
+-   `ReportType` **[string][77]** Type of Report Requested @see [REQUEST_REPORT_TYPES][18]
+-   `ReportProcessingStatus` **[string][77]** Status of Report @see [REPORT_PROCESSING_STATUS_TYPES][19]
+-   `EndDate` **[string][77]** ISO Date for Report End Period
+-   `Scheduled` **[boolean][80]** True if report is scheduled, false if immediate
+-   `ReportRequestId` **[string][77]** Identifier for the Report Request
+-   `StartedProcessingDate` **[string][77]** ISO Date for time MWS started processing request
+-   `StartDate` **[string][77]** ISO Date for Report Start Period
+-   `CompletedDate` **[string][77]** ISO Date for time MWS completed processing request
+-   `GeneratedReportId` **[string][77]** Identifier to use with getReport to retrieve the report
 
 ## getReport
 
@@ -803,10 +815,10 @@ Returns the contents of a report
 
 **Parameters**
 
--   `options` **[object][74]** Options to pass to GetReport
-    -   `options.ReportId` **[string][76]** Report number from @see [GetReportList][92] or GeneratedReportId from @see [GetReportRequestListResult][93]
+-   `options` **[object][75]** Options to pass to GetReport
+    -   `options.ReportId` **[string][77]** Report number from @see [GetReportList][93] or GeneratedReportId from @see [GetReportRequestListResult][94]
 
-Returns **([Array][81] \| [object][74])** Contents of the report to return (format may vary WIDELY between different reports generated, see [ReportType][91])
+Returns **([Array][83] \| [object][75])** Contents of the report to return (format may vary WIDELY between different reports generated, see [ReportType][92])
 
 ## getReportList
 
@@ -860,172 +872,174 @@ TODO: Document requestAndDownloadReport
 
 [8]: #callendpoint
 
-[9]: #mws_marketplaces
+[9]: #invalidusage
 
-[10]: #mws_endpoints
+[10]: #serviceerror
 
-[11]: #invalidusage
+[11]: #invalididentifier
 
-[12]: #serviceerror
+[12]: #requestcancelled
 
-[13]: #invalididentifier
+[13]: #validationerror
 
-[14]: #requestcancelled
+[14]: #recursioncount
 
-[15]: #validationerror
+[15]: #rootwasarray
 
-[16]: #recursioncount
+[16]: #validateinteger
 
-[17]: #rootwasarray
+[17]: #feeds
 
-[18]: #validateinteger
+[18]: #request_report_types
 
-[19]: #feeds
+[19]: #report_processing_status_types
 
-[20]: #request_report_types
+[20]: #getmarketplaces
 
-[21]: #report_processing_status_types
+[21]: #getmarketplaces-1
 
-[22]: #getmarketplaces
+[22]: #parsemarketplacedata
 
-[23]: #getmarketplaces-1
+[23]: #listorderitems
 
-[24]: #parsemarketplacedata
+[24]: #listorderitems-1
 
-[25]: #listorderitems
+[25]: #transformintsandbools
 
-[26]: #listorderitems-1
+[26]: #transformintsandbools-1
 
-[27]: #transformintsandbools
+[27]: #transformintsandbools-2
 
-[28]: #transformintsandbools-1
+[28]: #listorders
 
-[29]: #transformintsandbools-2
+[29]: #listfinancialevents
 
-[30]: #listorders
+[30]: #forcearray
 
-[31]: #listfinancialevents
+[31]: #removefromstring
 
-[32]: #forcearray
+[32]: #transformattributesetkey
 
-[33]: #removefromstring
+[33]: #transformobjectkeys
 
-[34]: #transformattributesetkey
+[34]: #listinventorysupply
 
-[35]: #transformobjectkeys
+[35]: #getmatchingproductforid
 
-[36]: #listinventorysupply
+[36]: #getidfromproductlist
 
-[37]: #getmatchingproductforid
+[37]: #getidfromproductlist-1
 
-[38]: #getidfromproductlist
+[38]: #parsematchingproduct
 
-[39]: #getidfromproductlist-1
+[39]: #getlowestpricedoffersforasin
 
-[40]: #parsematchingproduct
+[40]: #getlowestpricedoffersforsku
 
-[41]: #getlowestpricedoffersforasin
+[41]: #reformatoffercount
 
-[42]: #getlowestpricedoffersforsku
+[42]: #reformatoffer
 
-[43]: #reformatoffercount
+[43]: #reformatoffer-1
 
-[44]: #reformatoffer
+[44]: #reformatoffer-2
 
-[45]: #reformatoffer-1
+[45]: #reformatoffer-3
 
-[46]: #reformatoffer-2
+[46]: #reformatoffer-4
 
-[47]: #reformatoffer-3
+[47]: #reformatlowestprice
 
-[48]: #reformatoffer-4
+[48]: #reformatbuyboxprice
 
-[49]: #reformatlowestprice
+[49]: #reformatsummary
 
-[50]: #reformatbuyboxprice
+[50]: #parselowestpricedoffers
 
-[51]: #reformatsummary
+[51]: #getproductcategoriesforasins
 
-[52]: #parselowestpricedoffers
+[52]: #getproductcategoriesforasins-1
 
-[53]: #getproductcategoriesforasins
+[53]: #getproductcategoriesforasins-2
 
-[54]: #getproductcategoriesforasins-1
+[54]: #getproductcategoriesforasins-3
 
-[55]: #getproductcategoriesforasins-2
+[55]: #getproductcategoriesforskus
 
-[56]: #getproductcategoriesforasins-3
+[56]: #getmyfeesestimate
 
-[57]: #getproductcategoriesforskus
+[57]: #getmyfeesestimate-1
 
-[58]: #getmyfeesestimate
+[58]: #getmyfeesestimate-2
 
-[59]: #getmyfeesestimate-1
+[59]: #getmyfeesestimate-3
 
-[60]: #getmyfeesestimate-2
+[60]: #getmyfeesestimate-4
 
-[61]: #getmyfeesestimate-3
+[61]: #listmatchingproducts
 
-[62]: #getmyfeesestimate-4
+[62]: #mws_marketplaces
 
-[63]: #listmatchingproducts
+[63]: #market_currency
 
-[64]: #writefile
+[64]: #mws_endpoints
 
-[65]: #requestreport
+[65]: #writefile
 
-[66]: #requestreport-1
+[66]: #requestreport
 
-[67]: #getreportrequestlist
+[67]: #requestreport-1
 
-[68]: #getreportrequestlist-1
+[68]: #getreportrequestlist
 
-[69]: #getreport
+[69]: #getreportrequestlist-1
 
-[70]: #getreportlist
+[70]: #getreport
 
-[71]: #getreportlistbynexttoken
+[71]: #getreportlist
 
-[72]: #getreportlistall
+[72]: #getreportlistbynexttoken
 
-[73]: #requestanddownloadreport
+[73]: #getreportlistall
 
-[74]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object
+[74]: #requestanddownloadreport
 
-[75]: #mwsadvanced
+[75]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object
 
-[76]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String
+[76]: #mwsadvanced
 
-[77]: https://docs.developer.amazonservices.com/en_US/dev_guide/DG_Endpoints.html
+[77]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String
 
-[78]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number
+[78]: https://docs.developer.amazonservices.com/en_US/dev_guide/DG_Endpoints.html
 
-[79]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean
+[79]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number
 
-[80]: MarketDetail
+[80]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean
 
-[81]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array
+[81]: MarketDetail
 
 [82]: ListOrders
 
-[83]: https://docs.developer.amazonservices.com/en_UK/orders-2013-09-01/Orders_ListOrders.html
+[83]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array
 
-[84]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Date
+[84]: https://docs.developer.amazonservices.com/en_UK/orders-2013-09-01/Orders_ListOrders.html
 
-[85]: https://docs.developer.amazonservices.com/en_UK/finances/Finances_ListFinancialEvents.html
+[85]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Date
 
-[86]: https://docs.developer.amazonservices.com/en_UK/products/Products_GetMatchingProductForId.html
+[86]: https://docs.developer.amazonservices.com/en_UK/finances/Finances_ListFinancialEvents.html
 
-[87]: https://docs.developer.amazonservices.com/en_UK/products/Products_GetLowestPricedOffersForASIN.html
+[87]: https://docs.developer.amazonservices.com/en_UK/products/Products_GetMatchingProductForId.html
 
-[88]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Error
+[88]: https://docs.developer.amazonservices.com/en_UK/products/Products_GetLowestPricedOffersForASIN.html
 
-[89]: https://docs.developer.amazonservices.com/en_UK/products/Products_QueryContextIDs.html
+[89]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Error
 
-[90]: https://nodejs.org/api/buffer.html
+[90]: https://docs.developer.amazonservices.com/en_UK/products/Products_QueryContextIDs.html
 
-[91]: https://docs.developer.amazonservices.com/en_US/reports/Reports_ReportType.html
+[91]: https://nodejs.org/api/buffer.html
 
-[92]: GetReportList
+[92]: https://docs.developer.amazonservices.com/en_US/reports/Reports_ReportType.html
 
-[93]: GetReportRequestListResult
+[93]: GetReportList
+
+[94]: GetReportRequestListResult

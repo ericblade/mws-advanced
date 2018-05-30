@@ -56,6 +56,7 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getReportRequestList">getReportRequestList</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-requestAndDownloadReport">requestAndDownloadReport</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-requestReport">requestReport</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-MARKET_CURRENCY">MARKET_CURRENCY</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-MWS_ENDPOINTS">MWS_ENDPOINTS</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-MWS_MARKETPLACES">MWS_MARKETPLACES</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-MarketDetail">MarketDetail</a></span></span></li>
@@ -98,6 +99,35 @@
   <tbody>
   
   <tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">public</span>
+      
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+          
+          
+          
+          <span class="code" data-ice="name"><span><a href="variable/index.html#static-variable-MARKET_CURRENCY">MARKET_CURRENCY</a></span></span><span class="code" data-ice="signature">: {&quot;US&quot;: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>, &quot;CA&quot;: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>}</span>
+        </p>
+      </div>
+      <div>
+        
+        
+        <div data-ice="description"><p>A list of the default currency codes for markets, indexed by country code.</p>
+</div>
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+<tr data-ice="target">
     <td>
       <span class="access" data-ice="access">public</span>
       
@@ -219,6 +249,57 @@
 <div data-ice="details"><h2 data-ice="title">Static Public </h2>
 
 <div class="detail" data-ice="detail">
+  <h3 data-ice="anchor" id="static-variable-MARKET_CURRENCY">
+    <span class="access" data-ice="access">public</span>
+    
+    
+    
+    
+    
+    <span class="code" data-ice="name">MARKET_CURRENCY</span><span class="code" data-ice="signature">: {&quot;US&quot;: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>, &quot;CA&quot;: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>}</span>
+    <span class="right-info">
+      
+      
+      <span data-ice="source"><span><a href="file/lib/constants.js.html#lineNumber38">source</a></span></span>
+    </span>
+  </h3>
+
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {MARKET_CURRENCY} from &apos;<span><a href="file/lib/constants.js.html#lineNumber38">mws-advanced/lib/constants.js</a></span>&apos;</code></pre></div>
+  
+  
+  <div data-ice="description"><p>A list of the default currency codes for markets, indexed by country code.
+Calling, for example, getMyFeesEstimate in Canada, using USD will fail with
+&quot;status&quot;:&quot;ClientError&quot;,
+&quot;error&quot;:{
+    &quot;code&quot;:&quot;InvalidParameterValue&quot;,
+    &quot;message&quot;:&quot;There is an client-side error. Please verify your inputs.&quot;
+}
+so you need to use CAD when calling getMyFeesEstimate for Canada.</p>
+</div>
+
+  
+
+  <div data-ice="properties">
+</div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+</div>
+<div class="detail" data-ice="detail">
   <h3 data-ice="anchor" id="static-variable-MWS_ENDPOINTS">
     <span class="access" data-ice="access">public</span>
     
@@ -230,11 +311,11 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/lib/constants.js.html#lineNumber29">source</a></span></span>
+      <span data-ice="source"><span><a href="file/lib/constants.js.html#lineNumber47">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {MWS_ENDPOINTS} from &apos;<span><a href="file/lib/constants.js.html#lineNumber29">mws-advanced/lib/constants.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {MWS_ENDPOINTS} from &apos;<span><a href="file/lib/constants.js.html#lineNumber47">mws-advanced/lib/constants.js</a></span>&apos;</code></pre></div>
   
   
   <div data-ice="description"><p>A list of hosts you can use with the mws-advanced &quot;host&quot; option, hashed by MWS Region Name.</p>
@@ -274,11 +355,11 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/lib/constants.js.html#lineNumber11">source</a></span></span>
+      <span data-ice="source"><span><a href="file/lib/constants.js.html#lineNumber12">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {MWS_MARKETPLACES} from &apos;<span><a href="file/lib/constants.js.html#lineNumber11">mws-advanced/lib/constants.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {MWS_MARKETPLACES} from &apos;<span><a href="file/lib/constants.js.html#lineNumber12">mws-advanced/lib/constants.js</a></span>&apos;</code></pre></div>
   
   
   <div data-ice="description"><p>A list of Marketplace IDs hashed by their country code.</p>
