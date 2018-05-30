@@ -480,6 +480,9 @@ describe('mws-advanced sanity', () => {
             );
             done();
         });
+        it('calling MWSAdvanced() without new returns a new object anyway', () => {
+            return expect(mws.MWSAdvanced(initTestParams)).to.be.an('object'); // eslint-disable-line
+        });
         it('init() works when called on a MWSAdvanced instance', (done) => {
             const client = new mws.MWSAdvanced();
             const x = client.init(initTestParams);
