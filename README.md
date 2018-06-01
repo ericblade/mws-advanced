@@ -5,6 +5,8 @@
 [![Coverage Status](https://coveralls.io/repos/ericblade/mws-advanced/badge.svg?branch=master)](https://coveralls.io/r/ericblade/mws-advanced?branch=master)
 # mws-advanced -- A modern Amazon Merchant Web Services API Interface for Javascript
 
+[![Join the chat at https://gitter.im/mws-advanced/Lobby](https://badges.gitter.im/mws-advanced/Lobby.svg)](https://gitter.im/mws-advanced/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 ## What does it do?
 
 mws-advanced provides a modern, fast, and hopefully sensible APIs to connect your Javascript
