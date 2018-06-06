@@ -29,7 +29,7 @@
   "license": "Apache",
   "dependencies": {
     "es6-error": "^4.1.1",
-    "mws-simple": "github:ericblade/mws-simple#2.2.3"
+    "mws-simple": "github:ericblade/mws-simple#2.3.0"
   },
   "devDependencies": {
     "chai": "^4.1.2",
