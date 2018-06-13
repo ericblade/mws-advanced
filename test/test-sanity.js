@@ -17,11 +17,11 @@ chai.use(chaiAsPromised);
 const expect = chai.expect;
 
 const sleep = require('../lib/util/sleep');
-const isType = require('../lib/validation').isType;
-const validate = require('../lib/validation').validate;
-const validateAndTransformParameters = require('../lib/validation').validateAndTransformParameters;
-const flattenResult = require('../lib/flatten-result').flattenResult;
-const { digResponseResult } = require('../lib/dig-response-result');
+const isType = require('../lib/util/validation').isType;
+const validate = require('../lib/util/validation').validate;
+const validateAndTransformParameters = require('../lib/util/validation').validateAndTransformParameters;
+const flattenResult = require('../lib/util/flatten-result').flattenResult;
+const { digResponseResult } = require('../lib/util/dig-response-result');
 
 const listMarketplacesData = require('./ListMarketplaces.json');
 const errorData = require('./errorData.json');
@@ -900,7 +900,7 @@ describe('API', function runAPITests() {
     let testMarketId = '';
     let orderIds = [];
 
-    this.timeout(5000);
+    this.timeout(10000);
 
     beforeEach(function checkSkipAPITests() {
         if (SkipAPITests) {
