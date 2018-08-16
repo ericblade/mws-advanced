@@ -13,6 +13,11 @@ mws.init(keys);
  * e.g. a processing function
  */
 async function main(ReportType, Schedule, callbackProcessReports) {
+    // NOTE: HIGHLY EXPERIMENTAL!
+    // This function should work, but doesn't. For more information also
+    // see the comments in ./lib/reports.js. Some reports are cancelled automatically
+    // other reports do get scheduled but they return _DONE_NO_DATA_ even if data
+    // is available!
     let timer;
 
     switch (Schedule) {
