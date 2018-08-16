@@ -67,33 +67,39 @@ window.esdocSearchIndex = [
   ],
   [
     "mws-advanced/lib/get-lowest-priced-offers.js~getlowestpricedoffersforasin",
-    "function/index.html#static-function-getLowestPricedOffersForASIN",
+    "variable/index.html#static-variable-getLowestPricedOffersForASIN",
     "<span>getLowestPricedOffersForASIN</span> <span class=\"search-result-import-path\">mws-advanced/lib/get-lowest-priced-offers.js</span>",
-    "function"
+    "variable"
   ],
   [
     "mws-advanced/lib/get-lowest-priced-offers.js~getlowestpricedoffersforsku",
-    "function/index.html#static-function-getLowestPricedOffersForSKU",
+    "variable/index.html#static-variable-getLowestPricedOffersForSKU",
     "<span>getLowestPricedOffersForSKU</span> <span class=\"search-result-import-path\">mws-advanced/lib/get-lowest-priced-offers.js</span>",
-    "function"
+    "variable"
   ],
   [
     "mws-advanced/lib/get-marketplaces.js~getmarketplaces",
-    "function/index.html#static-function-getMarketplaces",
+    "variable/index.html#static-variable-getMarketplaces",
     "<span>getMarketplaces</span> <span class=\"search-result-import-path\">mws-advanced/lib/get-marketplaces.js</span>",
-    "function"
+    "variable"
   ],
   [
     "mws-advanced/lib/get-matching-product.js~getmatchingproductforid",
-    "function/index.html#static-function-getMatchingProductForId",
+    "variable/index.html#static-variable-getMatchingProductForId",
     "<span>getMatchingProductForId</span> <span class=\"search-result-import-path\">mws-advanced/lib/get-matching-product.js</span>",
-    "function"
+    "variable"
   ],
   [
     "mws-advanced/lib/get-my-fees-estimate.js~getmyfeesestimate",
-    "function/index.html#static-function-getMyFeesEstimate",
+    "variable/index.html#static-variable-getMyFeesEstimate",
     "<span>getMyFeesEstimate</span> <span class=\"search-result-import-path\">mws-advanced/lib/get-my-fees-estimate.js</span>",
-    "function"
+    "variable"
+  ],
+  [
+    "mws-advanced/lib/get-order.js~getorder",
+    "variable/index.html#static-variable-getOrder",
+    "<span>getOrder</span> <span class=\"search-result-import-path\">mws-advanced/lib/get-order.js</span>",
+    "variable"
   ],
   [
     "mws-advanced/lib/get-product-categories.js~getproductcategoriesforasins",
@@ -109,15 +115,15 @@ window.esdocSearchIndex = [
   ],
   [
     "mws-advanced/lib/reports.js~getreport",
-    "function/index.html#static-function-getReport",
+    "variable/index.html#static-variable-getReport",
     "<span>getReport</span> <span class=\"search-result-import-path\">mws-advanced/lib/reports.js</span>",
-    "function"
+    "variable"
   ],
   [
     "mws-advanced/lib/reports.js~getreportlist",
-    "function/index.html#static-function-getReportList",
+    "variable/index.html#static-variable-getReportList",
     "<span>getReportList</span> <span class=\"search-result-import-path\">mws-advanced/lib/reports.js</span>",
-    "function"
+    "variable"
   ],
   [
     "mws-advanced/lib/reports.js~getreportlistall",
@@ -127,15 +133,21 @@ window.esdocSearchIndex = [
   ],
   [
     "mws-advanced/lib/reports.js~getreportlistbynexttoken",
-    "function/index.html#static-function-getReportListByNextToken",
+    "variable/index.html#static-variable-getReportListByNextToken",
     "<span>getReportListByNextToken</span> <span class=\"search-result-import-path\">mws-advanced/lib/reports.js</span>",
-    "function"
+    "variable"
   ],
   [
     "mws-advanced/lib/reports.js~getreportrequestlist",
-    "function/index.html#static-function-getReportRequestList",
+    "variable/index.html#static-variable-getReportRequestList",
     "<span>getReportRequestList</span> <span class=\"search-result-import-path\">mws-advanced/lib/reports.js</span>",
-    "function"
+    "variable"
+  ],
+  [
+    "mws-advanced/lib/reports.js~getreportschedulelist",
+    "variable/index.html#static-variable-getReportScheduleList",
+    "<span>getReportScheduleList</span> <span class=\"search-result-import-path\">mws-advanced/lib/reports.js</span>",
+    "variable"
   ],
   [
     "mws-advanced/lib/callendpoint.js~init",
@@ -145,38 +157,44 @@ window.esdocSearchIndex = [
   ],
   [
     "mws-advanced/lib/list-financial-events.js~listfinancialevents",
-    "function/index.html#static-function-listFinancialEvents",
+    "variable/index.html#static-variable-listFinancialEvents",
     "<span>listFinancialEvents</span> <span class=\"search-result-import-path\">mws-advanced/lib/list-financial-events.js</span>",
-    "function"
+    "variable"
   ],
   [
     "mws-advanced/lib/list-inventory-supply.js~listinventorysupply",
-    "function/index.html#static-function-listInventorySupply",
+    "variable/index.html#static-variable-listInventorySupply",
     "<span>listInventorySupply</span> <span class=\"search-result-import-path\">mws-advanced/lib/list-inventory-supply.js</span>",
-    "function"
+    "variable"
   ],
   [
     "mws-advanced/lib/list-matching-products.js~listmatchingproducts",
-    "function/index.html#static-function-listMatchingProducts",
+    "variable/index.html#static-variable-listMatchingProducts",
     "<span>listMatchingProducts</span> <span class=\"search-result-import-path\">mws-advanced/lib/list-matching-products.js</span>",
-    "function"
+    "variable"
   ],
   [
     "mws-advanced/lib/list-order-items.js~listorderitems",
-    "function/index.html#static-function-listOrderItems",
+    "variable/index.html#static-variable-listOrderItems",
     "<span>listOrderItems</span> <span class=\"search-result-import-path\">mws-advanced/lib/list-order-items.js</span>",
-    "function"
+    "variable"
   ],
   [
     "mws-advanced/lib/list-orders.js~listorders",
-    "function/index.html#static-function-listOrders",
+    "variable/index.html#static-variable-listOrders",
     "<span>listOrders</span> <span class=\"search-result-import-path\">mws-advanced/lib/list-orders.js</span>",
-    "function"
+    "variable"
   ],
   [
-    "mws-advanced/lib/callendpoint.js~parseendpoint",
+    "mws-advanced/lib/reports.js~managereportschedule",
+    "variable/index.html#static-variable-manageReportSchedule",
+    "<span>manageReportSchedule</span> <span class=\"search-result-import-path\">mws-advanced/lib/reports.js</span>",
+    "variable"
+  ],
+  [
+    "mws-advanced/lib/parseendpoint.js~parseendpoint",
     "function/index.html#static-function-parseEndpoint",
-    "<span>parseEndpoint</span> <span class=\"search-result-import-path\">mws-advanced/lib/callEndpoint.js</span>",
+    "<span>parseEndpoint</span> <span class=\"search-result-import-path\">mws-advanced/lib/parseEndpoint.js</span>",
     "function"
   ],
   [
@@ -205,9 +223,15 @@ window.esdocSearchIndex = [
   ],
   [
     "mws-advanced/lib/reports.js~requestreport",
-    "function/index.html#static-function-requestReport",
+    "variable/index.html#static-variable-requestReport",
     "<span>requestReport</span> <span class=\"search-result-import-path\">mws-advanced/lib/reports.js</span>",
-    "function"
+    "variable"
+  ],
+  [
+    "mws-advanced/lib/reports.js~updatereportacknowledgements",
+    "variable/index.html#static-variable-updateReportAcknowledgements",
+    "<span>updateReportAcknowledgements</span> <span class=\"search-result-import-path\">mws-advanced/lib/reports.js</span>",
+    "variable"
   ],
   [
     "lib/.external-ecmascript.js~array",
@@ -504,12 +528,6 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
-    "lib/dig-response-result.js",
-    "file/lib/dig-response-result.js.html",
-    "lib/dig-response-result.js",
-    "file"
-  ],
-  [
     "lib/endpoints/constants.js",
     "file/lib/endpoints/constants.js.html",
     "lib/endpoints/constants.js",
@@ -630,12 +648,6 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
-    "lib/flatten-result.js",
-    "file/lib/flatten-result.js.html",
-    "lib/flatten-result.js",
-    "file"
-  ],
-  [
     "lib/get-lowest-priced-offers.js",
     "file/lib/get-lowest-priced-offers.js.html",
     "lib/get-lowest-priced-offers.js",
@@ -690,10 +702,22 @@ window.esdocSearchIndex = [
     "typedef"
   ],
   [
+    "lib/get-order.js",
+    "file/lib/get-order.js.html",
+    "lib/get-order.js",
+    "file"
+  ],
+  [
     "lib/get-product-categories.js",
     "file/lib/get-product-categories.js.html",
     "lib/get-product-categories.js",
     "file"
+  ],
+  [
+    "lib/get-product-categories.js~productcategory",
+    "typedef/index.html#static-typedef-productCategory",
+    "lib/get-product-categories.js~productCategory",
+    "typedef"
   ],
   [
     "lib/get-product-categories.js~productcategorybyasin",
@@ -741,6 +765,12 @@ window.esdocSearchIndex = [
     "lib/list-orders.js",
     "file/lib/list-orders.js.html",
     "lib/list-orders.js",
+    "file"
+  ],
+  [
+    "lib/parseendpoint.js",
+    "file/lib/parseEndpoint.js.html",
+    "lib/parseEndpoint.js",
     "file"
   ],
   [
@@ -870,16 +900,22 @@ window.esdocSearchIndex = [
     "typedef"
   ],
   [
-    "lib/reports.js~getreportrequestlistresult",
-    "typedef/index.html#static-typedef-GetReportRequestListResult",
-    "lib/reports.js~GetReportRequestListResult",
-    "typedef"
-  ],
-  [
     "lib/reports.js~reportrequestinfo",
     "typedef/index.html#static-typedef-ReportRequestInfo",
     "lib/reports.js~ReportRequestInfo",
     "typedef"
+  ],
+  [
+    "lib/util/dig-response-result.js",
+    "file/lib/util/dig-response-result.js.html",
+    "lib/util/dig-response-result.js",
+    "file"
+  ],
+  [
+    "lib/util/flatten-result.js",
+    "file/lib/util/flatten-result.js.html",
+    "lib/util/flatten-result.js",
+    "file"
   ],
   [
     "lib/util/sleep.js",
@@ -888,9 +924,9 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
-    "lib/validation.js",
-    "file/lib/validation.js.html",
-    "lib/validation.js",
+    "lib/util/validation.js",
+    "file/lib/util/validation.js.html",
+    "lib/util/validation.js",
     "file"
   ]
 ]
