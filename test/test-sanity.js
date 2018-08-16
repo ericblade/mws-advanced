@@ -960,17 +960,15 @@ describe('API', function runAPITests() {
                     'orderItems',
                 );
             });
-            // TODO: we need to get a wrap on GetOrder!
             it('endpoint GetOrder', async function testGetOrder() {
                 if (!orderIds || !orderIds.length) {
                     this.skip();
                     return false;
                 }
-                const params = {
-                    AmazonOrderId: orderIds,
-                };
-                const results = await mws.callEndpoint('GetOrder', params);
-
+                const cappedOrderIdsLength = orderIds.length >= 50 ? orderIds.slice(0, 49) : orderIds;
+                const results = await mws.getOrder({ AmazonOrderId: cappedOrderIdsLength });
+                expect(results).to.be.an('array');
+                expect(results).to.have.lengthOf.above(0);
                 return results;
             });
         });
