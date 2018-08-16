@@ -969,7 +969,7 @@ describe('API', function runAPITests() {
                 const params = {
                     AmazonOrderId: orderIds,
                 };
-                const results = await mws.callEndpoint('GetOrder', params);
+                const results = await mws.getOrder(params);
 
                 return results;
             });

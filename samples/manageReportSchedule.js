@@ -1,18 +1,16 @@
 const mws = require('..');
 const keys = require('../test/keys.json');
-const { promisify } = require('util');
-const fs = require('fs');
-
-const writeFile = promisify(fs.writeFile);
 
 mws.init(keys);
 
 /**
  * Example of how the report scheduler could work.
  * TO DO: This function could be broken out as a wrapper function to create and download scheduled reports.
- * @param {string} ReportType MWS' reporttype enumeration of the report to be requested. See https://docs.developer.amazonservices.com/en_US/reports/Reports_ReportType.html
+ * @param {string} ReportType MWS' reporttype enumeration of the report to be requested.
+ * See https://docs.developer.amazonservices.com/en_US/reports/Reports_ReportType.html
  * @param {string} Schedule
- * @param {Function} callbackProcessReports function which is called when reports are retrieved, e.g. a processing function
+ * @param {Function} callbackProcessReports function which is called when reports are retrieved,
+ * e.g. a processing function
  */
 async function main(ReportType, Schedule, callbackProcessReports) {
     let timer;
