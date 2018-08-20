@@ -78,6 +78,7 @@ async function main(ReportType, Schedule, callbackProcessReports) {
                 console.log('1. Scheduling report ===');
                 try {
                     await mws.manageReportSchedule({ ReportType, Schedule });
+
                     if (Schedule === '_NEVER_') {
                         console.log('Success: report is no longer scheduled.');
                         return; // the scheduled report is deleted, there is no need to try to
@@ -91,7 +92,7 @@ async function main(ReportType, Schedule, callbackProcessReports) {
             console.log('2. Get a list of the reports ready to be downloaded ===');
             const reportList = await mws.getReportListAll({
                 Acknowledged: false,
-                ReportTypeList: ['_GET_FLAT_FILE_ORDERS_DATA_'],
+                ReportTypeList: ReportType instanceof Array ? ReportType : [ReportType],
             });
 
             console.log('3. Process the reports ===');
@@ -111,4 +112,4 @@ async function main(ReportType, Schedule, callbackProcessReports) {
     }());
 }
 
-main('_GET_FLAT_FILE_ORDERS_DATA_', '_15_MINUTES_', console.log);
+main('_GET_ORDERS_DATA_', '_1_DAY_', console.log);
