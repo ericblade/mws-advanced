@@ -988,6 +988,8 @@ describe('API', function runAPITests() {
                 'SAFETReimbursementEventList', 'GuaranteeClaimEventList', 'ImagingServicesFeeEventList',
                 'ChargebackEventList', 'FBALiquidationEventList', 'LoanServicingEventList',
                 'RefundEventList', 'AdjustmentEventList', 'PerformanceBondRefundEventList',
+                'AffordabilityExpenseEventList', 'AffordabilityExpenseReversalEventList',
+                'NetworkComminglingTransactionEventList',
             );
             return result;
         });
@@ -1095,7 +1097,11 @@ describe('API', function runAPITests() {
                     IdType: 'ASIN',
                     IdList: ['B005NK7VTU', 'B00OB8EYZE', 'B005NK7VTU', 'B00OB8EYZE'],
                 };
-                return expect(mws.getMatchingProductForId(params)).to.be.rejectedWith(mws.ServiceError);
+                const p = await mws.getMatchingProductForId(params);
+                return expect(p).to.be.an('array').with.lengthOf(2);
+                // at some point MWS decided this was no longer an error condition, and they would
+                // just return the results for the items sans duplicates.
+                // return expect(p).to.eventually.be.rejectedWith(mws.ServiceError);
             });
             it('getMatchingProductForId with partial error (1 asin that works, 1 that doesnt)', async function testGetMatchingProductForId7() {
                 const params = {
