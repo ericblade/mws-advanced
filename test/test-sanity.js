@@ -422,7 +422,7 @@ describe('Endpoint Utils', () => {
     });
 });
 
-const mws = require('..');
+const MWS = require('..');
 
 let SkipAPITests = false;
 let keys;
@@ -455,7 +455,7 @@ describe('mws-advanced sanity', () => {
             authToken: 'authToken',
         };
         it('init returns a configured mws object', (done) => {
-            const client = mws.init(initTestParams);
+            const client = MWS.init(initTestParams);
             expect(client).to.be.an('object');
             expect(client).to.include.all.keys(
                 'host',
@@ -467,8 +467,8 @@ describe('mws-advanced sanity', () => {
             );
             done();
         });
-        it('new mws.MWSAdvanced() works like init, but returns a separate mws instance', (done) => {
-            const client = new mws.MWSAdvanced(initTestParams);
+        it('new MWSAdvanced works', (done) => {
+            const client = new MWS(initTestParams);
             expect(client.mws).to.be.an('object');
             expect(client.mws).to.include.all.keys(
                 'host',
@@ -480,19 +480,16 @@ describe('mws-advanced sanity', () => {
             );
             done();
         });
-        it('calling MWSAdvanced() without new returns a new object anyway', () => {
-            return expect(mws.MWSAdvanced(initTestParams)).to.be.an('object'); // eslint-disable-line
-        });
         it('init() works when called on a MWSAdvanced instance', (done) => {
-            const client = new mws.MWSAdvanced();
+            const client = new MWS.MWSAdvanced();
             const x = client.init(initTestParams);
             expect(x.accessKeyId).to.equal(initTestParams.accessKeyId);
             expect(client.mws.accessKeyId).to.equal(initTestParams.accessKeyId);
             done();
         });
         it('multiple instances dont become confused at init', (done) => {
-            const client1 = new mws.MWSAdvanced(initTestParams);
-            const client2 = new mws.MWSAdvanced({ ...initTestParams, accessKeyId: 'Junk' });
+            const client1 = new MWS.MWSAdvanced(initTestParams);
+            const client2 = new MWS.MWSAdvanced({ ...initTestParams, accessKeyId: 'Junk' });
             expect(client1.mws.accessKeyId).to.equal(initTestParams.accessKeyId);
             expect(client2.mws.accessKeyId).to.equal('Junk');
             done();
@@ -504,7 +501,7 @@ describe('mws-advanced sanity', () => {
             process.env.MWS_SECRET_ACCESS_KEY = 'testSecret';
             const oldMerchant = process.env.MWS_MERCHANT_ID;
             process.env.MWS_MERCHANT_ID = 'testMerchant';
-            const client = mws.init();
+            const client = MWS.init();
             expect(client.accessKeyId).to.equal('testAccessKey');
             expect(client.secretAccessKey).to.equal('testSecret');
             expect(client.merchantId).to.equal('testMerchant');
@@ -514,24 +511,24 @@ describe('mws-advanced sanity', () => {
             done();
         });
         it('init marketplaces', (done) => {
-            let client = mws.init({ region: 'CN', marketplace: 'CN' });
+            let client = MWS.init({ region: 'CN', marketplace: 'CN' });
             expect(client.host).to.equal('mws.amazonservices.com.cn');
-            client = mws.init({ region: 'AU', marketplace: 'AU' });
+            client = MWS.init({ region: 'AU', marketplace: 'AU' });
             expect(client.host).to.equal('mws.amazonservices.com.au');
-            client = mws.init({ region: 'JP', marketplace: 'JP' });
+            client = MWS.init({ region: 'JP', marketplace: 'JP' });
             expect(client.host).to.equal('mws.amazonservices.jp');
-            client = mws.init({ region: 'IN', marketplace: 'IN' });
+            client = MWS.init({ region: 'IN', marketplace: 'IN' });
             expect(client.host).to.equal('mws.amazonservices.in');
-            client = mws.init({ region: 'EU', marketplace: 'DE' });
+            client = MWS.init({ region: 'EU', marketplace: 'DE' });
             expect(client.host).to.equal('mws-eu.amazonservices.com');
-            client = mws.init({ region: 'BR', marketplace: 'BR' });
+            client = MWS.init({ region: 'BR', marketplace: 'BR' });
             expect(client.host).to.equal('mws.amazonservices.com');
-            client = mws.init({ region: 'NA', marketplace: 'US' });
+            client = MWS.init({ region: 'NA', marketplace: 'US' });
             expect(client.host).to.equal('mws.amazonservices.com');
             done();
         });
         it('init w/ junk marketplace uses default host', (done) => {
-            const client = mws.init({ region: 'TestJunk' });
+            const client = MWS.init({ region: 'TestJunk' });
             expect(client.host).to.equal('mws.amazonservices.com');
             done();
         });
@@ -560,18 +557,18 @@ describe('mws-advanced sanity', () => {
             done();
         });
         it('callEndpoint functions', () => {
-            mws.init(keys);
-            return expect(mws.callEndpoint(testCall, testParams)).to.be.fulfilled;
+            MWS.init(keys);
+            return expect(MWS.callEndpoint(testCall, testParams)).to.be.fulfilled;
         });
         it('callEndpoint functions using new MWSAdvanced()', () => {
-            const test = new mws.MWSAdvanced(keys);
+            const test = new MWS.MWSAdvanced(keys);
             return expect(test.callEndpoint(testCall, testParams)).to.be.fulfilled;
         });
         // writing this test with an assumption that converting from a single API instance to
         // a multiple instance system could end up with access objects getting swapped.
         it('multiple instances dont become confused at callEndpoint', () => {
-            const test1 = new mws.MWSAdvanced(keys);
-            const test2 = new mws.MWSAdvanced({
+            const test1 = new MWS.MWSAdvanced(keys);
+            const test2 = new MWS.MWSAdvanced({
                 accessKeyId: 'testKeyId',
                 secretAccessKey: 'testSecret',
                 merchantId: 'testMerchantId',
@@ -589,8 +586,8 @@ describe('mws-advanced sanity', () => {
             } catch (err) {
                 //
             }
-            mws.init(keys);
-            await mws.callEndpoint(testCall, testParams, { noFlatten: true, saveRaw: './testRaw.json', saveParsed: './testParsed.json' });
+            MWS.init(keys);
+            await MWS.callEndpoint(testCall, testParams, { noFlatten: true, saveRaw: './testRaw.json', saveParsed: './testParsed.json' });
             expect(fs.existsSync('./testRaw.json')).to.equal(true);
             expect(fs.existsSync('./testParsed.json')).to.equal(true);
             try {
@@ -601,25 +598,25 @@ describe('mws-advanced sanity', () => {
             }
         });
         it('callEndpoint returnRaw option', async () => {
-            mws.init(keys);
-            const x = await mws.callEndpoint(testCall, testParams, { returnRaw: true });
+            MWS.init(keys);
+            const x = await MWS.callEndpoint(testCall, testParams, { returnRaw: true });
             expect(x).to.be.an('Object');
             expect(x).to.include.all.keys('GetMatchingProductForIdResponse');
             expect(x.GetMatchingProductForIdResponse).to.include.all.keys('$', 'GetMatchingProductForIdResult', 'ResponseMetadata');
             return true;
         });
         it('callEndpoint noFlatten option', async () => {
-            mws.init(keys);
-            const x = await mws.callEndpoint(testCall, testParams, { noFlatten: true });
+            MWS.init(keys);
+            const x = await MWS.callEndpoint(testCall, testParams, { noFlatten: true });
             expect(x).to.be.an('Array');
             expect(x[0]).to.include.all.keys('$', 'Products');
             return true;
         });
         it('callEndpoint throws on unknown endpoint', () => {
-            return expect(mws.callEndpoint('/test/endpoint', {})).to.be.rejectedWith(errors.InvalidUsage);
+            return expect(MWS.callEndpoint('/test/endpoint', {})).to.be.rejectedWith(errors.InvalidUsage);
         });
         it('callEndpoint throws on garbage parameters', () => {
-            return expect(mws.callEndpoint('GetOrder', { junkTest: true })).to.be.rejectedWith(errors.ValidationError);
+            return expect(MWS.callEndpoint('GetOrder', { junkTest: true })).to.be.rejectedWith(errors.ValidationError);
         });
     });
 });
@@ -906,12 +903,12 @@ describe('API', function runAPITests() {
         if (SkipAPITests) {
             this.skip();
         } else {
-            mws.init(keys);
+            MWS.init(keys);
         }
     });
     describe('Seller Category', () => {
         it('getMarketplaces', async function testGetMarketplaces() {
-            const marketplaceResults = await mws.getMarketplaces();
+            const marketplaceResults = await MWS.getMarketplaces();
             expect(marketplaceResults).to.be.an('object');
 
             marketIds = Object.keys(marketplaceResults);
@@ -942,7 +939,7 @@ describe('API', function runAPITests() {
                     MarketplaceId: marketIds,
                     CreatedAfter: startDate,
                 };
-                const results = await mws.listOrders(params);
+                const results = await MWS.listOrders(params);
                 expect(results).to.have.lengthOf.above(0);
                 orderIds = Object.keys(results).map(order => results[order].AmazonOrderId);
                 expect(orderIds).to.have.lengthOf.above(0);
@@ -954,7 +951,7 @@ describe('API', function runAPITests() {
                     this.skip();
                     return false;
                 }
-                const results = await mws.listOrderItems(orderId);
+                const results = await MWS.listOrderItems(orderId);
                 return expect(results).to.be.an('Object').and.to.include.all.keys(
                     'orderId',
                     'orderItems',
@@ -966,7 +963,7 @@ describe('API', function runAPITests() {
                     return false;
                 }
                 const cappedOrderIdsLength = orderIds.length >= 50 ? orderIds.slice(0, 49) : orderIds;
-                const results = await mws.getOrder({ AmazonOrderId: cappedOrderIdsLength });
+                const results = await MWS.getOrder({ AmazonOrderId: cappedOrderIdsLength });
                 expect(results).to.be.an('array');
                 expect(results).to.have.lengthOf.above(0);
                 return results;
@@ -977,7 +974,7 @@ describe('API', function runAPITests() {
         it('listFinancialEvents', async function testListFinancialEvents() {
             const startDate = new Date();
             startDate.setDate(startDate.getDate() - 7);
-            const result = await mws.listFinancialEvents({ PostedAfter: startDate });
+            const result = await MWS.listFinancialEvents({ PostedAfter: startDate });
             expect(result).to.be.an('object');
             expect(result).to.have.keys(
                 'ProductAdsPaymentEventList', 'RentalTransactionEventList',
@@ -998,7 +995,7 @@ describe('API', function runAPITests() {
         it('listInventorySupply', async function testListInventorySupply() {
             const startDate = new Date();
             startDate.setDate(startDate.getDate() - 7);
-            const result = await mws.listInventorySupply({
+            const result = await MWS.listInventorySupply({
                 QueryStartDateTime: startDate,
             });
             expect(result).to.be.an('object');
@@ -1010,7 +1007,7 @@ describe('API', function runAPITests() {
     describe('Products Category', () => {
         describe('listMatchingProducts', () => {
             it('listMatchingProducts better made special potato sticks original', async function testListMatchingProducts() {
-                const results = await mws.listMatchingProducts({
+                const results = await MWS.listMatchingProducts({
                     marketplaceId: 'ATVPDKIKX0DER',
                     query: 'better made special potato sticks original',
                 });
@@ -1025,7 +1022,7 @@ describe('API', function runAPITests() {
                 );
             });
             it('listMatchingProducts testjunk (expect empty response here)', async function testListMatchingProducts2() {
-                const results = await mws.listMatchingProducts({
+                const results = await MWS.listMatchingProducts({
                     marketplaceId: 'ATVPDKIKX0DER',
                     query: 'testjunk',
                 });
@@ -1036,7 +1033,7 @@ describe('API', function runAPITests() {
             // TODO: getMatchingProductForId with two duplicate ASINs throws a 400 Bad Request
             // error, which we may need to investigate special handling for.
             it('getMatchingProductForId single ASIN', async function testGetMatchingProductForId() {
-                const result = await mws.getMatchingProductForId({
+                const result = await MWS.getMatchingProductForId({
                     MarketplaceId: 'ATVPDKIKX0DER',
                     IdType: 'ASIN',
                     IdList: ['B005NK7VTU'],
@@ -1050,7 +1047,7 @@ describe('API', function runAPITests() {
                 return result;
             });
             it('getMatchingProductForId 2 ASINs', async function testGetMatchingProductForId2() {
-                const result = await mws.getMatchingProductForId({
+                const result = await MWS.getMatchingProductForId({
                     MarketplaceId: 'ATVPDKIKX0DER',
                     IdType: 'ASIN',
                     IdList: ['B005NK7VTU', 'B00OB8EYZE'],
@@ -1060,7 +1057,7 @@ describe('API', function runAPITests() {
                 return result;
             });
             it('getMatchingProductForId single UPC', async function testGetMatchingProductForId3() {
-                const result = await mws.getMatchingProductForId({
+                const result = await MWS.getMatchingProductForId({
                     MarketplaceId: 'ATVPDKIKX0DER',
                     IdType: 'UPC',
                     IdList: ['020357122682'],
@@ -1080,7 +1077,7 @@ describe('API', function runAPITests() {
                     IdList: ['012345678900'],
                 };
                 // Error: {"Type":"Sender","Code":"InvalidParameterValue","Message":"Invalid UPC identifier 000000000000 for marketplace ATVPDKIKX0DER"}
-                return expect(mws.getMatchingProductForId(params)).to.be.rejectedWith(errors.ServiceError);
+                return expect(MWS.getMatchingProductForId(params)).to.be.rejectedWith(errors.ServiceError);
             });
             it('getMatchingProductForId with ASIN that has been deleted', async function testGetMatchingProductForId5() {
                 const params = {
@@ -1088,7 +1085,7 @@ describe('API', function runAPITests() {
                     IdType: 'ASIN',
                     IdList: ['B01FZRFN2C'],
                 };
-                return expect(mws.getMatchingProductForId(params)).to.be.rejectedWith(errors.ServiceError);
+                return expect(MWS.getMatchingProductForId(params)).to.be.rejectedWith(errors.ServiceError);
             });
             // oddly, the Amazon API throws Error 400 from the server if you give it duplicate items, instead of ignoring dupes or throwing individual errors, or returning multiple copies.
             it('getMatchingProductForId with duplicate ASINs in list', async function testGetMatchingProductForId6() {
@@ -1097,7 +1094,7 @@ describe('API', function runAPITests() {
                     IdType: 'ASIN',
                     IdList: ['B005NK7VTU', 'B00OB8EYZE', 'B005NK7VTU', 'B00OB8EYZE'],
                 };
-                const p = await mws.getMatchingProductForId(params);
+                const p = await MWS.getMatchingProductForId(params);
                 return expect(p).to.be.an('array').with.lengthOf(2);
                 // at some point MWS decided this was no longer an error condition, and they would
                 // just return the results for the items sans duplicates.
@@ -1109,7 +1106,7 @@ describe('API', function runAPITests() {
                     IdType: 'ASIN',
                     IdList: ['B005NK7VTU', 'B01FZRFN2C'],
                 };
-                const result = await mws.getMatchingProductForId(params);
+                const result = await MWS.getMatchingProductForId(params);
                 expect(result).to.be.an('array');
                 expect(result[0]).to.be.an('object');
                 expect(result[0].asin).to.equal('B005NK7VTU');
@@ -1131,7 +1128,7 @@ describe('API', function runAPITests() {
                     ASIN: 'B010YSIKKY',
                     ItemCondition: 'New',
                 };
-                const result = await mws.getLowestPricedOffersForASIN(params);
+                const result = await MWS.getLowestPricedOffersForASIN(params);
                 expect(result).to.be.an('object').with.keys(
                     'asin',
                     'marketplace',
@@ -1160,7 +1157,7 @@ describe('API', function runAPITests() {
         });
         describe('getProductCategories*', () => {
             it('getProductCategoriesForAsins returns single result', async function testCategoriesAsins() {
-                const result = await mws.getProductCategoriesForAsins({
+                const result = await MWS.getProductCategoriesForAsins({
                     marketplaceId: 'ATVPDKIKX0DER',
                     asins: ['B00IDD9TU8'],
                 });
@@ -1169,7 +1166,7 @@ describe('API', function runAPITests() {
                 expect(result[0].asin).to.equal('B00IDD9TU8');
             });
             it('getProductCategoriesForAsins returns multiple results', async function testCategoriesAsins2() {
-                const result = await mws.getProductCategoriesForAsins({
+                const result = await MWS.getProductCategoriesForAsins({
                     marketplaceId: 'ATVPDKIKX0DER',
                     asins: ['B00IDD9TU8', 'B00IH00CN0'],
                 });
@@ -1213,7 +1210,7 @@ describe('API', function runAPITests() {
             // TODO: write tests for potential failure conditions, make sure code handles them as expected
             // TODO: write a function to compare (input [test1/test2] and output [testRes, testRes2]) so that code isn't so needlessly duplicated
             it('getMyFeesEstimate returns object indexed by request Identifier', async function testFeesSingle() {
-                const result = await mws.getMyFeesEstimate([test1]);
+                const result = await MWS.getMyFeesEstimate([test1]);
                 expect(result).to.be.an('Object').that.includes.all.keys(test1.identifier);
                 const testRes = result[test1.identifier];
                 expect(testRes).to.be.an('Object').that.includes.all.keys('totalFees', 'time', 'detail', 'identifier', 'status');
@@ -1234,7 +1231,7 @@ describe('API', function runAPITests() {
                 expect(prices.shipping).to.deep.equal(test1.shipping);
             });
             it('getMyFeesEstimate returns correctly for multiple items', async function testFeesMultiple() {
-                const result = await mws.getMyFeesEstimate([test1, test2]);
+                const result = await MWS.getMyFeesEstimate([test1, test2]);
                 expect(result).to.be.an('Object').that.includes.all.keys(test1.identifier, test2.identifier);
                 const testRes = result[test1.identifier];
                 expect(testRes).to.be.an('Object').that.includes.all.keys('totalFees', 'time', 'detail', 'identifier', 'status');
@@ -1287,7 +1284,7 @@ describe('API', function runAPITests() {
                         amount: '0.00',
                     },
                 };
-                const res = await mws.getMyFeesEstimate([feeTest]);
+                const res = await MWS.getMyFeesEstimate([feeTest]);
                 const test = res[`FBA.${feeTest.idValue}`];
                 expect(test.totalFees).to.equal(undefined);
                 expect(test.time).to.equal(undefined);
@@ -1313,7 +1310,7 @@ describe('API', function runAPITests() {
                 this.skip();
                 return false;
             }
-            const report = await mws.requestReport({
+            const report = await MWS.requestReport({
                 ReportType: '_GET_V1_SELLER_PERFORMANCE_REPORT_',
             });
             expect(report).to.be.an('object').with.keys(
@@ -1344,7 +1341,7 @@ describe('API', function runAPITests() {
             let list;
             while (!reportComplete) {
                 // eslint-disable-next-line no-await-in-loop
-                list = await mws.getReportRequestList({
+                list = await MWS.getReportRequestList({
                     ReportRequestIdList: [ReportRequestId],
                 });
                 const status = list.ReportProcessingStatus;
@@ -1363,7 +1360,7 @@ describe('API', function runAPITests() {
                 this.skip();
                 return false;
             }
-            reportList = await mws.getReportListAll({
+            reportList = await MWS.getReportListAll({
                 ReportTypeList: ['_GET_V2_SETTLEMENT_REPORT_DATA_FLAT_FILE_'],
             });
             expect(reportList).to.be.an('array');
@@ -1381,7 +1378,7 @@ describe('API', function runAPITests() {
                 return false;
             }
 
-            const report = await mws.getReport({
+            const report = await MWS.getReport({
                 ReportId: reportList[0].ReportId,
             });
             fs.writeFileSync('settlement.json', JSON.stringify(report, null, 4));
@@ -1404,7 +1401,7 @@ describe('API', function runAPITests() {
                 return false;
             }
             this.timeout(120 * 1000);
-            await mws.requestAndDownloadReport('_GET_FLAT_FILE_OPEN_LISTINGS_DATA_', './test-listings.json');
+            await MWS.requestAndDownloadReport('_GET_FLAT_FILE_OPEN_LISTINGS_DATA_', './test-listings.json');
             expect(fs.existsSync('./test-listings.json')).to.equal(true);
             try {
                 fs.unlinkSync('./test-listings.json');
