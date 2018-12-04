@@ -467,7 +467,7 @@ describe('mws-advanced sanity', () => {
             );
             done();
         });
-        it('new MWSAdvanced works', (done) => {
+        it('new MWS works', (done) => {
             const client = new MWS(initTestParams);
             expect(client.mws).to.be.an('object');
             expect(client.mws).to.include.all.keys(
@@ -481,15 +481,15 @@ describe('mws-advanced sanity', () => {
             done();
         });
         it('init() works when called on a MWSAdvanced instance', (done) => {
-            const client = new MWS.MWSAdvanced();
+            const client = new MWS();
             const x = client.init(initTestParams);
             expect(x.accessKeyId).to.equal(initTestParams.accessKeyId);
             expect(client.mws.accessKeyId).to.equal(initTestParams.accessKeyId);
             done();
         });
         it('multiple instances dont become confused at init', (done) => {
-            const client1 = new MWS.MWSAdvanced(initTestParams);
-            const client2 = new MWS.MWSAdvanced({ ...initTestParams, accessKeyId: 'Junk' });
+            const client1 = new MWS(initTestParams);
+            const client2 = new MWS({ ...initTestParams, accessKeyId: 'Junk' });
             expect(client1.mws.accessKeyId).to.equal(initTestParams.accessKeyId);
             expect(client2.mws.accessKeyId).to.equal('Junk');
             done();
@@ -560,15 +560,15 @@ describe('mws-advanced sanity', () => {
             MWS.init(keys);
             return expect(MWS.callEndpoint(testCall, testParams)).to.be.fulfilled;
         });
-        it('callEndpoint functions using new MWSAdvanced()', () => {
-            const test = new MWS.MWSAdvanced(keys);
+        it('callEndpoint functions using new MWS()', () => {
+            const test = new MWS(keys);
             return expect(test.callEndpoint(testCall, testParams)).to.be.fulfilled;
         });
         // writing this test with an assumption that converting from a single API instance to
         // a multiple instance system could end up with access objects getting swapped.
         it('multiple instances dont become confused at callEndpoint', () => {
-            const test1 = new MWS.MWSAdvanced(keys);
-            const test2 = new MWS.MWSAdvanced({
+            const test1 = new MWS(keys);
+            const test2 = new MWS({
                 accessKeyId: 'testKeyId',
                 secretAccessKey: 'testSecret',
                 merchantId: 'testMerchantId',
@@ -893,8 +893,8 @@ describe('Parsers', function runParserTests() {
 });
 
 describe('API', function runAPITests() {
-    let marketIds = [];
-    let testMarketId = '';
+    let marketIds = ['ATVPDKIKX0DER'];
+    let testMarketId = 'ATVPDKIKX0DER';
     let orderIds = [];
 
     this.timeout(10000);
@@ -1117,18 +1117,18 @@ describe('API', function runAPITests() {
             });
         });
         describe('getLowestPricedOffers', () => {
-            it('getLowestPricedOffersForSKU', function () {
+            it('getLowestPricedOffersForSku', function () {
                 // console.warn('* test for getLowestPricedOffersForSKU not yet implemented, requires fetching a valid SellerSKU');
                 this.skip();
                 return false;
             });
-            it('getLowestPricedOffersForASIN', async function testGetLowestPricedOffersForASIN() {
+            it('getLowestPricedOffersForAsin', async function testGetLowestPricedOffersForASIN() {
                 const params = {
                     MarketplaceId: 'ATVPDKIKX0DER',
                     ASIN: 'B010YSIKKY',
                     ItemCondition: 'New',
                 };
-                const result = await MWS.getLowestPricedOffersForASIN(params);
+                const result = await MWS.getLowestPricedOffersForAsin(params);
                 expect(result).to.be.an('object').with.keys(
                     'asin',
                     'marketplace',
