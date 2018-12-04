@@ -1117,18 +1117,18 @@ describe('API', function runAPITests() {
             });
         });
         describe('getLowestPricedOffers', () => {
-            it('getLowestPricedOffersForSKU', function () {
+            it('getLowestPricedOffersForSku', function () {
                 // console.warn('* test for getLowestPricedOffersForSKU not yet implemented, requires fetching a valid SellerSKU');
                 this.skip();
                 return false;
             });
-            it('getLowestPricedOffersForASIN', async function testGetLowestPricedOffersForASIN() {
+            it('getLowestPricedOffersForAsin', async function testGetLowestPricedOffersForASIN() {
                 const params = {
                     MarketplaceId: 'ATVPDKIKX0DER',
                     ASIN: 'B010YSIKKY',
                     ItemCondition: 'New',
                 };
-                const result = await MWS.getLowestPricedOffersForASIN(params);
+                const result = await MWS.getLowestPricedOffersForAsin(params);
                 expect(result).to.be.an('object').with.keys(
                     'asin',
                     'marketplace',
