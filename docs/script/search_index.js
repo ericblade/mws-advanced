@@ -30,6 +30,12 @@ window.esdocSearchIndex = [
     "variable"
   ],
   [
+    "mws-advanced~mwsadvanced",
+    "class/lib/index.js~MwsAdvanced.html",
+    "<span>MwsAdvanced</span> <span class=\"search-result-import-path\">mws-advanced</span>",
+    "class"
+  ],
+  [
     "mws-advanced/lib/endpoints/constants.js~report_processing_status_types",
     "variable/index.html#static-variable-REPORT_PROCESSING_STATUS_TYPES",
     "<span>REPORT_PROCESSING_STATUS_TYPES</span> <span class=\"search-result-import-path\">mws-advanced/lib/endpoints/constants.js</span>",
@@ -60,141 +66,105 @@ window.esdocSearchIndex = [
     "class"
   ],
   [
-    "mws-advanced/lib/callendpoint.js~callendpoint",
-    "function/index.html#static-function-callEndpoint",
-    "<span>callEndpoint</span> <span class=\"search-result-import-path\">mws-advanced/lib/callEndpoint.js</span>",
+    "mws-advanced/lib/helpers/getlowestpricedoffers.js~getlowestpricedoffersforasin",
+    "function/index.html#static-function-getLowestPricedOffersForASIN",
+    "<span>getLowestPricedOffersForASIN</span> <span class=\"search-result-import-path\">mws-advanced/lib/helpers/getLowestPricedOffers.js</span>",
     "function"
   ],
   [
-    "mws-advanced/lib/get-lowest-priced-offers.js~getlowestpricedoffersforasin",
-    "variable/index.html#static-variable-getLowestPricedOffersForASIN",
-    "<span>getLowestPricedOffersForASIN</span> <span class=\"search-result-import-path\">mws-advanced/lib/get-lowest-priced-offers.js</span>",
-    "variable"
-  ],
-  [
-    "mws-advanced/lib/get-lowest-priced-offers.js~getlowestpricedoffersforsku",
-    "variable/index.html#static-variable-getLowestPricedOffersForSKU",
-    "<span>getLowestPricedOffersForSKU</span> <span class=\"search-result-import-path\">mws-advanced/lib/get-lowest-priced-offers.js</span>",
-    "variable"
-  ],
-  [
-    "mws-advanced/lib/get-marketplaces.js~getmarketplaces",
-    "variable/index.html#static-variable-getMarketplaces",
-    "<span>getMarketplaces</span> <span class=\"search-result-import-path\">mws-advanced/lib/get-marketplaces.js</span>",
-    "variable"
-  ],
-  [
-    "mws-advanced/lib/get-matching-product.js~getmatchingproductforid",
-    "variable/index.html#static-variable-getMatchingProductForId",
-    "<span>getMatchingProductForId</span> <span class=\"search-result-import-path\">mws-advanced/lib/get-matching-product.js</span>",
-    "variable"
-  ],
-  [
-    "mws-advanced/lib/get-my-fees-estimate.js~getmyfeesestimate",
-    "variable/index.html#static-variable-getMyFeesEstimate",
-    "<span>getMyFeesEstimate</span> <span class=\"search-result-import-path\">mws-advanced/lib/get-my-fees-estimate.js</span>",
-    "variable"
-  ],
-  [
-    "mws-advanced/lib/get-order.js~getorder",
-    "variable/index.html#static-variable-getOrder",
-    "<span>getOrder</span> <span class=\"search-result-import-path\">mws-advanced/lib/get-order.js</span>",
-    "variable"
-  ],
-  [
-    "mws-advanced/lib/get-product-categories.js~getproductcategoriesforasins",
-    "function/index.html#static-function-getProductCategoriesForAsins",
-    "<span>getProductCategoriesForAsins</span> <span class=\"search-result-import-path\">mws-advanced/lib/get-product-categories.js</span>",
+    "mws-advanced/lib/helpers/getlowestpricedoffers.js~getlowestpricedoffersforsku",
+    "function/index.html#static-function-getLowestPricedOffersForSKU",
+    "<span>getLowestPricedOffersForSKU</span> <span class=\"search-result-import-path\">mws-advanced/lib/helpers/getLowestPricedOffers.js</span>",
     "function"
   ],
   [
-    "mws-advanced/lib/get-product-categories.js~getproductcategoriesforskus",
+    "mws-advanced/lib/helpers/getmatchingproduct.js~getmatchingproductforid",
+    "function/index.html#static-function-getMatchingProductForId",
+    "<span>getMatchingProductForId</span> <span class=\"search-result-import-path\">mws-advanced/lib/helpers/getMatchingProduct.js</span>",
+    "function"
+  ],
+  [
+    "mws-advanced/lib/helpers/getmyfeesestimate.js~getmyfeesestimate",
+    "function/index.html#static-function-getMyFeesEstimate",
+    "<span>getMyFeesEstimate</span> <span class=\"search-result-import-path\">mws-advanced/lib/helpers/getMyFeesEstimate.js</span>",
+    "function"
+  ],
+  [
+    "mws-advanced/lib/helpers/getorder.js~getorder",
+    "function/index.html#static-function-getOrder",
+    "<span>getOrder</span> <span class=\"search-result-import-path\">mws-advanced/lib/helpers/getOrder.js</span>",
+    "function"
+  ],
+  [
+    "mws-advanced/lib/helpers/getproductcategories.js~getproductcategoriesforskus",
     "function/index.html#static-function-getProductCategoriesForSkus",
-    "<span>getProductCategoriesForSkus</span> <span class=\"search-result-import-path\">mws-advanced/lib/get-product-categories.js</span>",
+    "<span>getProductCategoriesForSkus</span> <span class=\"search-result-import-path\">mws-advanced/lib/helpers/getProductCategories.js</span>",
     "function"
   ],
   [
-    "mws-advanced/lib/reports.js~getreport",
-    "variable/index.html#static-variable-getReport",
-    "<span>getReport</span> <span class=\"search-result-import-path\">mws-advanced/lib/reports.js</span>",
-    "variable"
+    "mws-advanced/lib/helpers/reports.js~getreport",
+    "function/index.html#static-function-getReport",
+    "<span>getReport</span> <span class=\"search-result-import-path\">mws-advanced/lib/helpers/reports.js</span>",
+    "function"
   ],
   [
-    "mws-advanced/lib/reports.js~getreportlist",
-    "variable/index.html#static-variable-getReportList",
-    "<span>getReportList</span> <span class=\"search-result-import-path\">mws-advanced/lib/reports.js</span>",
-    "variable"
+    "mws-advanced/lib/helpers/reports.js~getreportlist",
+    "function/index.html#static-function-getReportList",
+    "<span>getReportList</span> <span class=\"search-result-import-path\">mws-advanced/lib/helpers/reports.js</span>",
+    "function"
   ],
   [
-    "mws-advanced/lib/reports.js~getreportlistall",
+    "mws-advanced/lib/helpers/reports.js~getreportlistall",
     "function/index.html#static-function-getReportListAll",
-    "<span>getReportListAll</span> <span class=\"search-result-import-path\">mws-advanced/lib/reports.js</span>",
+    "<span>getReportListAll</span> <span class=\"search-result-import-path\">mws-advanced/lib/helpers/reports.js</span>",
     "function"
   ],
   [
-    "mws-advanced/lib/reports.js~getreportlistbynexttoken",
-    "variable/index.html#static-variable-getReportListByNextToken",
-    "<span>getReportListByNextToken</span> <span class=\"search-result-import-path\">mws-advanced/lib/reports.js</span>",
-    "variable"
-  ],
-  [
-    "mws-advanced/lib/reports.js~getreportrequestlist",
-    "variable/index.html#static-variable-getReportRequestList",
-    "<span>getReportRequestList</span> <span class=\"search-result-import-path\">mws-advanced/lib/reports.js</span>",
-    "variable"
-  ],
-  [
-    "mws-advanced/lib/reports.js~getreportschedulelist",
-    "variable/index.html#static-variable-getReportScheduleList",
-    "<span>getReportScheduleList</span> <span class=\"search-result-import-path\">mws-advanced/lib/reports.js</span>",
-    "variable"
-  ],
-  [
-    "mws-advanced/lib/callendpoint.js~init",
-    "function/index.html#static-function-init",
-    "<span>init</span> <span class=\"search-result-import-path\">mws-advanced/lib/callEndpoint.js</span>",
+    "mws-advanced/lib/helpers/reports.js~getreportlistbynexttoken",
+    "function/index.html#static-function-getReportListByNextToken",
+    "<span>getReportListByNextToken</span> <span class=\"search-result-import-path\">mws-advanced/lib/helpers/reports.js</span>",
     "function"
   ],
   [
-    "mws-advanced/lib/list-financial-events.js~listfinancialevents",
-    "variable/index.html#static-variable-listFinancialEvents",
-    "<span>listFinancialEvents</span> <span class=\"search-result-import-path\">mws-advanced/lib/list-financial-events.js</span>",
-    "variable"
+    "mws-advanced/lib/helpers/reports.js~getreportrequestlist",
+    "function/index.html#static-function-getReportRequestList",
+    "<span>getReportRequestList</span> <span class=\"search-result-import-path\">mws-advanced/lib/helpers/reports.js</span>",
+    "function"
   ],
   [
-    "mws-advanced/lib/list-inventory-supply.js~listinventorysupply",
-    "variable/index.html#static-variable-listInventorySupply",
-    "<span>listInventorySupply</span> <span class=\"search-result-import-path\">mws-advanced/lib/list-inventory-supply.js</span>",
-    "variable"
+    "mws-advanced/lib/helpers/reports.js~getreportschedulelist",
+    "function/index.html#static-function-getReportScheduleList",
+    "<span>getReportScheduleList</span> <span class=\"search-result-import-path\">mws-advanced/lib/helpers/reports.js</span>",
+    "function"
   ],
   [
-    "mws-advanced/lib/list-matching-products.js~listmatchingproducts",
-    "variable/index.html#static-variable-listMatchingProducts",
-    "<span>listMatchingProducts</span> <span class=\"search-result-import-path\">mws-advanced/lib/list-matching-products.js</span>",
-    "variable"
+    "mws-advanced/lib/helpers/listfinancialevents.js~listfinancialevents",
+    "function/index.html#static-function-listFinancialEvents",
+    "<span>listFinancialEvents</span> <span class=\"search-result-import-path\">mws-advanced/lib/helpers/listFinancialEvents.js</span>",
+    "function"
   ],
   [
-    "mws-advanced/lib/list-order-items.js~listorderitems",
-    "variable/index.html#static-variable-listOrderItems",
-    "<span>listOrderItems</span> <span class=\"search-result-import-path\">mws-advanced/lib/list-order-items.js</span>",
-    "variable"
+    "mws-advanced/lib/helpers/listinventorysupply.js~listinventorysupply",
+    "function/index.html#static-function-listInventorySupply",
+    "<span>listInventorySupply</span> <span class=\"search-result-import-path\">mws-advanced/lib/helpers/listInventorySupply.js</span>",
+    "function"
   ],
   [
-    "mws-advanced/lib/list-orders.js~listorders",
-    "variable/index.html#static-variable-listOrders",
-    "<span>listOrders</span> <span class=\"search-result-import-path\">mws-advanced/lib/list-orders.js</span>",
-    "variable"
+    "mws-advanced/lib/helpers/listmatchingproducts.js~listmatchingproducts",
+    "function/index.html#static-function-listMatchingProducts",
+    "<span>listMatchingProducts</span> <span class=\"search-result-import-path\">mws-advanced/lib/helpers/listMatchingProducts.js</span>",
+    "function"
   ],
   [
-    "mws-advanced/lib/reports.js~managereportschedule",
-    "variable/index.html#static-variable-manageReportSchedule",
-    "<span>manageReportSchedule</span> <span class=\"search-result-import-path\">mws-advanced/lib/reports.js</span>",
-    "variable"
+    "mws-advanced/lib/helpers/listorders.js~listorders",
+    "function/index.html#static-function-listOrders",
+    "<span>listOrders</span> <span class=\"search-result-import-path\">mws-advanced/lib/helpers/listOrders.js</span>",
+    "function"
   ],
   [
-    "mws-advanced/lib/parseendpoint.js~parseendpoint",
-    "function/index.html#static-function-parseEndpoint",
-    "<span>parseEndpoint</span> <span class=\"search-result-import-path\">mws-advanced/lib/parseEndpoint.js</span>",
+    "mws-advanced/lib/helpers/reports.js~managereportschedule",
+    "function/index.html#static-function-manageReportSchedule",
+    "<span>manageReportSchedule</span> <span class=\"search-result-import-path\">mws-advanced/lib/helpers/reports.js</span>",
     "function"
   ],
   [
@@ -216,22 +186,16 @@ window.esdocSearchIndex = [
     "function"
   ],
   [
-    "mws-advanced/lib/reports.js~requestanddownloadreport",
+    "mws-advanced/lib/helpers/reports.js~requestanddownloadreport",
     "function/index.html#static-function-requestAndDownloadReport",
-    "<span>requestAndDownloadReport</span> <span class=\"search-result-import-path\">mws-advanced/lib/reports.js</span>",
+    "<span>requestAndDownloadReport</span> <span class=\"search-result-import-path\">mws-advanced/lib/helpers/reports.js</span>",
     "function"
   ],
   [
-    "mws-advanced/lib/reports.js~requestreport",
-    "variable/index.html#static-variable-requestReport",
-    "<span>requestReport</span> <span class=\"search-result-import-path\">mws-advanced/lib/reports.js</span>",
-    "variable"
-  ],
-  [
-    "mws-advanced/lib/reports.js~updatereportacknowledgements",
-    "variable/index.html#static-variable-updateReportAcknowledgements",
-    "<span>updateReportAcknowledgements</span> <span class=\"search-result-import-path\">mws-advanced/lib/reports.js</span>",
-    "variable"
+    "mws-advanced/lib/helpers/reports.js~updatereportacknowledgements",
+    "function/index.html#static-function-updateReportAcknowledgements",
+    "<span>updateReportAcknowledgements</span> <span class=\"search-result-import-path\">mws-advanced/lib/helpers/reports.js</span>",
+    "function"
   ],
   [
     "lib/.external-ecmascript.js~array",
@@ -516,12 +480,6 @@ window.esdocSearchIndex = [
     "external"
   ],
   [
-    "lib/callendpoint.js",
-    "file/lib/callEndpoint.js.html",
-    "lib/callEndpoint.js",
-    "file"
-  ],
-  [
     "lib/constants.js",
     "file/lib/constants.js.html",
     "lib/constants.js",
@@ -642,136 +600,472 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
-    "lib/feeds/listingloader.js",
-    "file/lib/feeds/ListingLoader.js.html",
-    "lib/feeds/ListingLoader.js",
+    "lib/helpers/getlowestpricedoffers.js",
+    "file/lib/helpers/getLowestPricedOffers.js.html",
+    "lib/helpers/getLowestPricedOffers.js",
     "file"
   ],
   [
-    "lib/get-lowest-priced-offers.js",
-    "file/lib/get-lowest-priced-offers.js.html",
-    "lib/get-lowest-priced-offers.js",
+    "lib/helpers/getmarketplaces.js",
+    "file/lib/helpers/getMarketplaces.js.html",
+    "lib/helpers/getMarketplaces.js",
     "file"
   ],
   [
-    "lib/get-marketplaces.js",
-    "file/lib/get-marketplaces.js.html",
-    "lib/get-marketplaces.js",
-    "file"
-  ],
-  [
-    "lib/get-marketplaces.js~marketdetail",
+    "lib/helpers/getmarketplaces.js~marketdetail",
     "typedef/index.html#static-typedef-MarketDetail",
-    "lib/get-marketplaces.js~MarketDetail",
+    "lib/helpers/getMarketplaces.js~MarketDetail",
     "typedef"
   ],
   [
-    "lib/get-matching-product.js",
-    "file/lib/get-matching-product.js.html",
-    "lib/get-matching-product.js",
+    "lib/helpers/getmatchingproduct.js",
+    "file/lib/helpers/getMatchingProduct.js.html",
+    "lib/helpers/getMatchingProduct.js",
     "file"
   ],
   [
-    "lib/get-my-fees-estimate.js",
-    "file/lib/get-my-fees-estimate.js.html",
-    "lib/get-my-fees-estimate.js",
+    "lib/helpers/getmyfeesestimate.js",
+    "file/lib/helpers/getMyFeesEstimate.js.html",
+    "lib/helpers/getMyFeesEstimate.js",
     "file"
   ],
   [
-    "lib/get-my-fees-estimate.js~estimate",
+    "lib/helpers/getmyfeesestimate.js~estimate",
     "typedef/index.html#static-typedef-Estimate",
-    "lib/get-my-fees-estimate.js~Estimate",
+    "lib/helpers/getMyFeesEstimate.js~Estimate",
     "typedef"
   ],
   [
-    "lib/get-my-fees-estimate.js~estimaterequest",
+    "lib/helpers/getmyfeesestimate.js~estimaterequest",
     "typedef/index.html#static-typedef-EstimateRequest",
-    "lib/get-my-fees-estimate.js~EstimateRequest",
+    "lib/helpers/getMyFeesEstimate.js~EstimateRequest",
     "typedef"
   ],
   [
-    "lib/get-my-fees-estimate.js~feedetail",
+    "lib/helpers/getmyfeesestimate.js~feedetail",
     "typedef/index.html#static-typedef-FeeDetail",
-    "lib/get-my-fees-estimate.js~FeeDetail",
+    "lib/helpers/getMyFeesEstimate.js~FeeDetail",
     "typedef"
   ],
   [
-    "lib/get-my-fees-estimate.js~feeidentifier",
+    "lib/helpers/getmyfeesestimate.js~feeidentifier",
     "typedef/index.html#static-typedef-FeeIdentifier",
-    "lib/get-my-fees-estimate.js~FeeIdentifier",
+    "lib/helpers/getMyFeesEstimate.js~FeeIdentifier",
     "typedef"
   ],
   [
-    "lib/get-order.js",
-    "file/lib/get-order.js.html",
-    "lib/get-order.js",
+    "lib/helpers/getorder.js",
+    "file/lib/helpers/getOrder.js.html",
+    "lib/helpers/getOrder.js",
     "file"
   ],
   [
-    "lib/get-product-categories.js",
-    "file/lib/get-product-categories.js.html",
-    "lib/get-product-categories.js",
+    "lib/helpers/getproductcategories.js",
+    "file/lib/helpers/getProductCategories.js.html",
+    "lib/helpers/getProductCategories.js",
     "file"
   ],
   [
-    "lib/get-product-categories.js~productcategory",
+    "lib/helpers/getproductcategories.js~productcategory",
     "typedef/index.html#static-typedef-productCategory",
-    "lib/get-product-categories.js~productCategory",
+    "lib/helpers/getProductCategories.js~productCategory",
     "typedef"
   ],
   [
-    "lib/get-product-categories.js~productcategorybyasin",
+    "lib/helpers/getproductcategories.js~productcategorybyasin",
     "typedef/index.html#static-typedef-productCategoryByAsin",
-    "lib/get-product-categories.js~productCategoryByAsin",
+    "lib/helpers/getProductCategories.js~productCategoryByAsin",
     "typedef"
   ],
   [
-    "lib/get-product-categories.js~productcategorybysku",
+    "lib/helpers/getproductcategories.js~productcategorybysku",
     "typedef/index.html#static-typedef-productCategoryBySku",
-    "lib/get-product-categories.js~productCategoryBySku",
+    "lib/helpers/getProductCategories.js~productCategoryBySku",
     "typedef"
   ],
   [
-    "lib/list-financial-events.js",
-    "file/lib/list-financial-events.js.html",
-    "lib/list-financial-events.js",
+    "lib/helpers/listfinancialevents.js",
+    "file/lib/helpers/listFinancialEvents.js.html",
+    "lib/helpers/listFinancialEvents.js",
     "file"
   ],
   [
-    "lib/list-inventory-supply.js",
-    "file/lib/list-inventory-supply.js.html",
-    "lib/list-inventory-supply.js",
+    "lib/helpers/listinventorysupply.js",
+    "file/lib/helpers/listInventorySupply.js.html",
+    "lib/helpers/listInventorySupply.js",
     "file"
   ],
   [
-    "lib/list-matching-products.js",
-    "file/lib/list-matching-products.js.html",
-    "lib/list-matching-products.js",
+    "lib/helpers/listmatchingproducts.js",
+    "file/lib/helpers/listMatchingProducts.js.html",
+    "lib/helpers/listMatchingProducts.js",
     "file"
   ],
   [
-    "lib/list-order-items.js",
-    "file/lib/list-order-items.js.html",
-    "lib/list-order-items.js",
+    "lib/helpers/listorderitems.js",
+    "file/lib/helpers/listOrderItems.js.html",
+    "lib/helpers/listOrderItems.js",
     "file"
   ],
   [
-    "lib/list-order-items.js~orderitemlist",
+    "lib/helpers/listorderitems.js~orderitemlist",
     "typedef/index.html#static-typedef-OrderItemList",
-    "lib/list-order-items.js~OrderItemList",
+    "lib/helpers/listOrderItems.js~OrderItemList",
     "typedef"
   ],
   [
-    "lib/list-orders.js",
-    "file/lib/list-orders.js.html",
-    "lib/list-orders.js",
+    "lib/helpers/listorders.js",
+    "file/lib/helpers/listOrders.js.html",
+    "lib/helpers/listOrders.js",
     "file"
   ],
   [
-    "lib/parseendpoint.js",
-    "file/lib/parseEndpoint.js.html",
-    "lib/parseEndpoint.js",
+    "lib/helpers/reports.js",
+    "file/lib/helpers/reports.js.html",
+    "lib/helpers/reports.js",
     "file"
+  ],
+  [
+    "lib/helpers/reports.js~getreportrequestlistresult",
+    "typedef/index.html#static-typedef-GetReportRequestListResult",
+    "lib/helpers/reports.js~GetReportRequestListResult",
+    "typedef"
+  ],
+  [
+    "lib/helpers/reports.js~reportrequestinfo",
+    "typedef/index.html#static-typedef-ReportRequestInfo",
+    "lib/helpers/reports.js~ReportRequestInfo",
+    "typedef"
+  ],
+  [
+    "lib/index.js",
+    "file/lib/index.js.html",
+    "lib/index.js",
+    "file"
+  ],
+  [
+    "lib/index.js~mwsadvanced#callendpoint",
+    "class/lib/index.js~MwsAdvanced.html#instance-method-callEndpoint",
+    "lib/index.js~MwsAdvanced#callEndpoint",
+    "method"
+  ],
+  [
+    "lib/index.js~mwsadvanced#constructor",
+    "class/lib/index.js~MwsAdvanced.html#instance-constructor-constructor",
+    "lib/index.js~MwsAdvanced#constructor",
+    "method"
+  ],
+  [
+    "lib/index.js~mwsadvanced#getlowestpricedoffersforasin",
+    "class/lib/index.js~MwsAdvanced.html#instance-method-getLowestPricedOffersForAsin",
+    "lib/index.js~MwsAdvanced#getLowestPricedOffersForAsin",
+    "method"
+  ],
+  [
+    "lib/index.js~mwsadvanced#getlowestpricedoffersforsku",
+    "class/lib/index.js~MwsAdvanced.html#instance-method-getLowestPricedOffersForSku",
+    "lib/index.js~MwsAdvanced#getLowestPricedOffersForSku",
+    "method"
+  ],
+  [
+    "lib/index.js~mwsadvanced#getmarketplaces",
+    "class/lib/index.js~MwsAdvanced.html#instance-method-getMarketplaces",
+    "lib/index.js~MwsAdvanced#getMarketplaces",
+    "method"
+  ],
+  [
+    "lib/index.js~mwsadvanced#getmatchingproductforid",
+    "class/lib/index.js~MwsAdvanced.html#instance-method-getMatchingProductForId",
+    "lib/index.js~MwsAdvanced#getMatchingProductForId",
+    "method"
+  ],
+  [
+    "lib/index.js~mwsadvanced#getmyfeesestimate",
+    "class/lib/index.js~MwsAdvanced.html#instance-method-getMyFeesEstimate",
+    "lib/index.js~MwsAdvanced#getMyFeesEstimate",
+    "method"
+  ],
+  [
+    "lib/index.js~mwsadvanced#getorder",
+    "class/lib/index.js~MwsAdvanced.html#instance-method-getOrder",
+    "lib/index.js~MwsAdvanced#getOrder",
+    "method"
+  ],
+  [
+    "lib/index.js~mwsadvanced#getproductcategoriesforasins",
+    "class/lib/index.js~MwsAdvanced.html#instance-method-getProductCategoriesForAsins",
+    "lib/index.js~MwsAdvanced#getProductCategoriesForAsins",
+    "method"
+  ],
+  [
+    "lib/index.js~mwsadvanced#getproductcategoriesforskus",
+    "class/lib/index.js~MwsAdvanced.html#instance-method-getProductCategoriesForSkus",
+    "lib/index.js~MwsAdvanced#getProductCategoriesForSkus",
+    "method"
+  ],
+  [
+    "lib/index.js~mwsadvanced#getreport",
+    "class/lib/index.js~MwsAdvanced.html#instance-method-getReport",
+    "lib/index.js~MwsAdvanced#getReport",
+    "method"
+  ],
+  [
+    "lib/index.js~mwsadvanced#getreportlist",
+    "class/lib/index.js~MwsAdvanced.html#instance-method-getReportList",
+    "lib/index.js~MwsAdvanced#getReportList",
+    "method"
+  ],
+  [
+    "lib/index.js~mwsadvanced#getreportlistall",
+    "class/lib/index.js~MwsAdvanced.html#instance-method-getReportListAll",
+    "lib/index.js~MwsAdvanced#getReportListAll",
+    "method"
+  ],
+  [
+    "lib/index.js~mwsadvanced#getreportlistbynexttoken",
+    "class/lib/index.js~MwsAdvanced.html#instance-method-getReportListByNextToken",
+    "lib/index.js~MwsAdvanced#getReportListByNextToken",
+    "method"
+  ],
+  [
+    "lib/index.js~mwsadvanced#getreportrequestlist",
+    "class/lib/index.js~MwsAdvanced.html#instance-method-getReportRequestList",
+    "lib/index.js~MwsAdvanced#getReportRequestList",
+    "method"
+  ],
+  [
+    "lib/index.js~mwsadvanced#getreportschedulelist",
+    "class/lib/index.js~MwsAdvanced.html#instance-method-getReportScheduleList",
+    "lib/index.js~MwsAdvanced#getReportScheduleList",
+    "method"
+  ],
+  [
+    "lib/index.js~mwsadvanced#init",
+    "class/lib/index.js~MwsAdvanced.html#instance-method-init",
+    "lib/index.js~MwsAdvanced#init",
+    "method"
+  ],
+  [
+    "lib/index.js~mwsadvanced#listfinancialevents",
+    "class/lib/index.js~MwsAdvanced.html#instance-method-listFinancialEvents",
+    "lib/index.js~MwsAdvanced#listFinancialEvents",
+    "method"
+  ],
+  [
+    "lib/index.js~mwsadvanced#listinventorysupply",
+    "class/lib/index.js~MwsAdvanced.html#instance-method-listInventorySupply",
+    "lib/index.js~MwsAdvanced#listInventorySupply",
+    "method"
+  ],
+  [
+    "lib/index.js~mwsadvanced#listmatchingproducts",
+    "class/lib/index.js~MwsAdvanced.html#instance-method-listMatchingProducts",
+    "lib/index.js~MwsAdvanced#listMatchingProducts",
+    "method"
+  ],
+  [
+    "lib/index.js~mwsadvanced#listorderitems",
+    "class/lib/index.js~MwsAdvanced.html#instance-method-listOrderItems",
+    "lib/index.js~MwsAdvanced#listOrderItems",
+    "method"
+  ],
+  [
+    "lib/index.js~mwsadvanced#listorders",
+    "class/lib/index.js~MwsAdvanced.html#instance-method-listOrders",
+    "lib/index.js~MwsAdvanced#listOrders",
+    "method"
+  ],
+  [
+    "lib/index.js~mwsadvanced#managereportschedule",
+    "class/lib/index.js~MwsAdvanced.html#instance-method-manageReportSchedule",
+    "lib/index.js~MwsAdvanced#manageReportSchedule",
+    "method"
+  ],
+  [
+    "lib/index.js~mwsadvanced#mws",
+    "class/lib/index.js~MwsAdvanced.html#instance-member-mws",
+    "lib/index.js~MwsAdvanced#mws",
+    "member"
+  ],
+  [
+    "lib/index.js~mwsadvanced#parseendpoint",
+    "class/lib/index.js~MwsAdvanced.html#instance-method-parseEndpoint",
+    "lib/index.js~MwsAdvanced#parseEndpoint",
+    "method"
+  ],
+  [
+    "lib/index.js~mwsadvanced#requestanddownloadreport",
+    "class/lib/index.js~MwsAdvanced.html#instance-method-requestAndDownloadReport",
+    "lib/index.js~MwsAdvanced#requestAndDownloadReport",
+    "method"
+  ],
+  [
+    "lib/index.js~mwsadvanced#requestpromise",
+    "class/lib/index.js~MwsAdvanced.html#instance-method-requestPromise",
+    "lib/index.js~MwsAdvanced#requestPromise",
+    "method"
+  ],
+  [
+    "lib/index.js~mwsadvanced#requestreport",
+    "class/lib/index.js~MwsAdvanced.html#instance-method-requestReport",
+    "lib/index.js~MwsAdvanced#requestReport",
+    "method"
+  ],
+  [
+    "lib/index.js~mwsadvanced#updatereportacknowledgements",
+    "class/lib/index.js~MwsAdvanced.html#instance-method-updateReportAcknowledgements",
+    "lib/index.js~MwsAdvanced#updateReportAcknowledgements",
+    "method"
+  ],
+  [
+    "lib/index.js~mwsadvanced.callendpoint",
+    "class/lib/index.js~MwsAdvanced.html#static-method-callEndpoint",
+    "lib/index.js~MwsAdvanced.callEndpoint",
+    "method"
+  ],
+  [
+    "lib/index.js~mwsadvanced.getlowestpricedoffersforasin",
+    "class/lib/index.js~MwsAdvanced.html#static-method-getLowestPricedOffersForAsin",
+    "lib/index.js~MwsAdvanced.getLowestPricedOffersForAsin",
+    "method"
+  ],
+  [
+    "lib/index.js~mwsadvanced.getlowestpricedoffersforsku",
+    "class/lib/index.js~MwsAdvanced.html#static-method-getLowestPricedOffersForSku",
+    "lib/index.js~MwsAdvanced.getLowestPricedOffersForSku",
+    "method"
+  ],
+  [
+    "lib/index.js~mwsadvanced.getmarketplaces",
+    "class/lib/index.js~MwsAdvanced.html#static-method-getMarketplaces",
+    "lib/index.js~MwsAdvanced.getMarketplaces",
+    "method"
+  ],
+  [
+    "lib/index.js~mwsadvanced.getmatchingproductforid",
+    "class/lib/index.js~MwsAdvanced.html#static-method-getMatchingProductForId",
+    "lib/index.js~MwsAdvanced.getMatchingProductForId",
+    "method"
+  ],
+  [
+    "lib/index.js~mwsadvanced.getmyfeesestimate",
+    "class/lib/index.js~MwsAdvanced.html#static-method-getMyFeesEstimate",
+    "lib/index.js~MwsAdvanced.getMyFeesEstimate",
+    "method"
+  ],
+  [
+    "lib/index.js~mwsadvanced.getorder",
+    "class/lib/index.js~MwsAdvanced.html#static-method-getOrder",
+    "lib/index.js~MwsAdvanced.getOrder",
+    "method"
+  ],
+  [
+    "lib/index.js~mwsadvanced.getproductcategoriesforasins",
+    "class/lib/index.js~MwsAdvanced.html#static-method-getProductCategoriesForAsins",
+    "lib/index.js~MwsAdvanced.getProductCategoriesForAsins",
+    "method"
+  ],
+  [
+    "lib/index.js~mwsadvanced.getproductcategoriesforskus",
+    "class/lib/index.js~MwsAdvanced.html#static-method-getProductCategoriesForSkus",
+    "lib/index.js~MwsAdvanced.getProductCategoriesForSkus",
+    "method"
+  ],
+  [
+    "lib/index.js~mwsadvanced.getreport",
+    "class/lib/index.js~MwsAdvanced.html#static-method-getReport",
+    "lib/index.js~MwsAdvanced.getReport",
+    "method"
+  ],
+  [
+    "lib/index.js~mwsadvanced.getreportlist",
+    "class/lib/index.js~MwsAdvanced.html#static-method-getReportList",
+    "lib/index.js~MwsAdvanced.getReportList",
+    "method"
+  ],
+  [
+    "lib/index.js~mwsadvanced.getreportlistall",
+    "class/lib/index.js~MwsAdvanced.html#static-method-getReportListAll",
+    "lib/index.js~MwsAdvanced.getReportListAll",
+    "method"
+  ],
+  [
+    "lib/index.js~mwsadvanced.getreportlistbynexttoken",
+    "class/lib/index.js~MwsAdvanced.html#static-method-getReportListByNextToken",
+    "lib/index.js~MwsAdvanced.getReportListByNextToken",
+    "method"
+  ],
+  [
+    "lib/index.js~mwsadvanced.getreportrequestlist",
+    "class/lib/index.js~MwsAdvanced.html#static-method-getReportRequestList",
+    "lib/index.js~MwsAdvanced.getReportRequestList",
+    "method"
+  ],
+  [
+    "lib/index.js~mwsadvanced.getreportschedulelist",
+    "class/lib/index.js~MwsAdvanced.html#static-method-getReportScheduleList",
+    "lib/index.js~MwsAdvanced.getReportScheduleList",
+    "method"
+  ],
+  [
+    "lib/index.js~mwsadvanced.init",
+    "class/lib/index.js~MwsAdvanced.html#static-method-init",
+    "lib/index.js~MwsAdvanced.init",
+    "method"
+  ],
+  [
+    "lib/index.js~mwsadvanced.listfinancialevents",
+    "class/lib/index.js~MwsAdvanced.html#static-method-listFinancialEvents",
+    "lib/index.js~MwsAdvanced.listFinancialEvents",
+    "method"
+  ],
+  [
+    "lib/index.js~mwsadvanced.listinventorysupply",
+    "class/lib/index.js~MwsAdvanced.html#static-method-listInventorySupply",
+    "lib/index.js~MwsAdvanced.listInventorySupply",
+    "method"
+  ],
+  [
+    "lib/index.js~mwsadvanced.listmatchingproducts",
+    "class/lib/index.js~MwsAdvanced.html#static-method-listMatchingProducts",
+    "lib/index.js~MwsAdvanced.listMatchingProducts",
+    "method"
+  ],
+  [
+    "lib/index.js~mwsadvanced.listorderitems",
+    "class/lib/index.js~MwsAdvanced.html#static-method-listOrderItems",
+    "lib/index.js~MwsAdvanced.listOrderItems",
+    "method"
+  ],
+  [
+    "lib/index.js~mwsadvanced.listorders",
+    "class/lib/index.js~MwsAdvanced.html#static-method-listOrders",
+    "lib/index.js~MwsAdvanced.listOrders",
+    "method"
+  ],
+  [
+    "lib/index.js~mwsadvanced.managereportschedule",
+    "class/lib/index.js~MwsAdvanced.html#static-method-manageReportSchedule",
+    "lib/index.js~MwsAdvanced.manageReportSchedule",
+    "method"
+  ],
+  [
+    "lib/index.js~mwsadvanced.requestanddownloadreport",
+    "class/lib/index.js~MwsAdvanced.html#static-method-requestAndDownloadReport",
+    "lib/index.js~MwsAdvanced.requestAndDownloadReport",
+    "method"
+  ],
+  [
+    "lib/index.js~mwsadvanced.requestreport",
+    "class/lib/index.js~MwsAdvanced.html#static-method-requestReport",
+    "lib/index.js~MwsAdvanced.requestReport",
+    "method"
+  ],
+  [
+    "lib/index.js~mwsadvanced.updatereportacknowledgements",
+    "class/lib/index.js~MwsAdvanced.html#static-method-updateReportAcknowledgements",
+    "lib/index.js~MwsAdvanced.updateReportAcknowledgements",
+    "method"
   ],
   [
     "lib/parsers/feesestimate.js",
@@ -885,24 +1179,6 @@ window.esdocSearchIndex = [
     "lib/parsers/orderitems.js~orderitemslist",
     "typedef/index.html#static-typedef-orderItemsList",
     "lib/parsers/orderItems.js~orderItemsList",
-    "typedef"
-  ],
-  [
-    "lib/reports.js",
-    "file/lib/reports.js.html",
-    "lib/reports.js",
-    "file"
-  ],
-  [
-    "lib/reports.js~getreportrequestlistresult",
-    "typedef/index.html#static-typedef-GetReportRequestListResult",
-    "lib/reports.js~GetReportRequestListResult",
-    "typedef"
-  ],
-  [
-    "lib/reports.js~reportrequestinfo",
-    "typedef/index.html#static-typedef-ReportRequestInfo",
-    "lib/reports.js~ReportRequestInfo",
     "typedef"
   ],
   [
