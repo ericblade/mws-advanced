@@ -2,8 +2,8 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <base data-ice="baseUrl" href="../../">
-  <title data-ice="title">lib/errors.js | mws-advanced</title>
+  <base data-ice="baseUrl" href="../../../">
+  <title data-ice="title">lib/endpoints/Queue.js | mws-advanced</title>
   <link type="text/css" rel="stylesheet" href="css/style.css">
   <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
   <script src="script/prettify/prettify.js"></script>
@@ -102,80 +102,224 @@
 </div>
 </nav>
 
-<div class="content" data-ice="content"><h1 data-ice="title">lib/errors.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">const extError = require(&apos;es6-error&apos;);
+<div class="content" data-ice="content"><h1 data-ice="title">lib/endpoints/Queue.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">// TODO: Product category at least has a hourly request quota that is
+// not tracked anywhere currently.
 
-/**
- * Thrown when completely Invalid Parameters are given and we have no way of making sense of them
- *
- * @class InvalidUsage
- * @extends {Error}
- */
-class InvalidUsage extends extError {}
+// TODO: so, it turns out that the throttle headers don&apos;t come through on throttled requests
+// only on the request that was last successful.
+// So, we need to fix mws-simple to give headers (does it already do that?) for non-throttled
+// requests, so that we can keep track of actual throttle in Queue.
+// We need to do this because we can not guarantee that our Queue instance is the only
+// thing in existence that is potentially affecting Quota (previous instances may have, or
+// completely external accesses from other tools), so we need to make sure that our data is
+// adjusted to compensate for what Amazon tells us regarding quota information.
 
-/**
- * Thrown when an Error response comes from the Service (not a mws-simple.ServerError though)
- *
- * @class ServiceError
- * @extends {Error}
- */
-class ServiceError extends extError {
-    constructor(message) {
-        super(message);
-        // if this should go to a sub-class, then choose that. note that this creates a bit of a
-        // chicken and egg problem, requiring disabling eslint no-use-before-define.
-        // I want subclasses to extend ServiceError, but I also want ServiceError to figure out
-        // which subclass to use automagically.
-        if (this.constructor === ServiceError) {
-            const test = message.match(/Invalid (.*) identifier (.*) for marketplace (.*)/);
-            if (test &amp;&amp; test.length === 4) {
-                // eslint-disable-next-line no-use-before-define
-                return new InvalidIdentifier(message, test[1], test[2], test[3]);
-            }
+class QueueItem {
+    constructor({
+        api,
+        category,
+        action,
+        params,
+        options,
+        resolver,
+        rejecter,
+        onComplete,
+        onFailure,
+    }) {
+        this.api = api;
+        this.category = category;
+        this.action = action;
+        this.params = params;
+        this.options = options;
+        this.resolver = resolver;
+        this.rejecter = rejecter;
+        this.onComplete = onComplete;
+        this.onFailure = onFailure;
+
+        this.run = this.run.bind(this);
+    }
+
+    async run() {
+        try {
+            const res = await this.api.requestPromise(this.params, this.options);
+            this.resolver(res);
+            this.onComplete();
+        } catch (err) {
+            // notify Queue that the request failed, so Queue can determine if it should reject
+            // or retry.
+            this.onFailure(err, this);
         }
     }
 }
 
-/**
- * Thrown when receiving an &quot;Invalid&quot; identifier message, which is also the same as &quot;identifier
- * does not exist&quot; -- when calling something like getMatchingProductForId, MWS will return
- * &quot;Invalid Identifier&quot; for any situation in which an identifier is not found. It may or may not
- * be technically valid, but it definitely doesn&apos;t exist on their side.
- *
- * @class InvalidIdentifier
- * @extends {ServiceError}
- */
-class InvalidIdentifier extends ServiceError {
-    constructor(message, type, identifier, marketplace) {
-        super(message);
-        this.type = type;
-        this.identifier = identifier;
-        this.marketplace = marketplace;
+class Queue {
+    constructor({
+        api,
+        category,
+        action,
+        maxInFlight,
+        restoreRate,
+    }) {
+        this.api = api;
+        this.category = category;
+        this.action = action;
+        this.inFlight = 0;
+        this.maxInFlight = maxInFlight || 20;
+        this.restoreRate = restoreRate || 0;
+        this.queue = [];
+        this.queueTimer = null;
+        // toggle this to true when we hit a throttle, toggle false when queue inFlight === 0
+        // TODO: remove this when we can keep track of throttling from headers
+        this.singleDrain = false;
+
+        this.throttle = this.throttle.bind(this);
+        this.setThrottleTimer = this.setThrottleTimer.bind(this);
+        this.onQueueTimer = this.onQueueTimer.bind(this);
+        this.drainQueue = this.drainQueue.bind(this);
+        this.complete = this.complete.bind(this);
+        this.fail = this.fail.bind(this);
+        this.runQueue = this.runQueue.bind(this);
+        this.request = this.request.bind(this);
+        this.throttleCalls = 0;
+    }
+
+    throttle() {
+        this.throttleCalls += 1;
+        this.singleDrain = true;
+        this.setThrottleTimer();
+    }
+
+    setThrottleTimer() {
+        if (this.queueTimer) {
+            clearTimeout(this.queueTimer);
+        }
+        const time = (((60 / this.restoreRate) || 1) * 1000) + 250;
+        // console.warn(&apos;* setThrottleTimer&apos;, time, this.throttleCalls);
+        this.queueTimer = setTimeout(this.onQueueTimer, time);
+    }
+
+    onQueueTimer() {
+        // console.warn(&apos;* throttle timeout, draining&apos;);
+        this.queueTimer = null;
+        this.drainQueue();
+    }
+
+    drainQueue() {
+        if (this.queueTimer) {
+            // console.warn(&apos;* ignoring drain request, waiting on throttle timer&apos;);
+            return;
+        }
+        if (!this.queue.length) {
+            // console.warn(&apos;* ignoring drain request, queue empty&apos;);
+            return;
+        }
+
+        // TODO: this should schedule staggered runs, so that if we get another
+        // throttle response, we get halted.
+        // console.warn(&apos;* drainQueue length at start&apos;, this.queue.length);
+
+        if (!this.singleDrain &amp;&amp; this.queue.length &gt; 1) {
+            while (this.queue.length &amp;&amp; this.inFlight &lt; this.maxInFlight - 1) {
+                this.runQueue();
+            }
+        } else {
+            this.runQueue();
+        }
+
+        if (this.inFlight &gt;= this.maxInFlight * 0.5) {
+            this.throttle();
+        }
+        // console.warn(&apos;* drainQueue at end&apos;, this.queue.length, this.inFlight);
+    }
+
+    complete() {
+        this.inFlight -= 1;
+        if (this.inFlight &lt; 1) {
+            this.inFlight = 0;
+            if (this.singleDrain) {
+                // assume quota was blown, enforce a max restoreRate timeout before clearing singleDrain
+                const time = (((60 / this.restoreRate) || 1) * 1000 * this.maxInFlight) + 250;
+                if (this.resetDrainTimeout) {
+                    clearTimeout(this.resetDrainTimeout);
+                }
+                this.resetDrainTimeout = setTimeout(() =&gt; { this.singleDrain = false; }, time);
+            }
+        }
+        setImmediate(this.drainQueue);
+    }
+
+    fail(err, failedItem) {
+        // console.warn(&apos;* Queue.fail&apos;, failedItem.category, failedItem.action, err);
+        const { error } = err;
+        if (error instanceof this.api.mws.ServerError) {
+            if (error.code === 503) {
+                console.warn(&apos;* retry -- throttle hit for&apos;, failedItem.category, failedItem.action);
+                this.throttle();
+                this.queue.unshift(failedItem);
+                this.inFlight -= 1;
+                // setTimeout(() =&gt; { this.inFlight -= 1; }, 10000);
+                return;
+            }
+        }
+        // console.warn(&apos;* non-throttle failure&apos;, error);
+        failedItem.rejecter(err);
+        this.complete();
+    }
+
+    runQueue() {
+        if (this.queueTimer) {
+            // console.warn(&apos;* ignoring run request, throttle timer running&apos;);
+            return;
+        }
+        if (this.inFlight &gt;= this.maxInFlight) {
+            console.warn(&apos;* RUNQUEUE ERROR, INFLIGHT  &gt;= MAXINFLIGHT&apos;);
+            return;
+        }
+        const item = this.queue.shift();
+        if (item) {
+            // console.warn(&apos;* runQueue&apos;, item.category, item.action, this.queue.length);
+            this.inFlight += 1;
+            item.run();
+        }
+    }
+
+    request(params, options) {
+        // console.warn(&apos;* request&apos;, this.category, this.action);
+        return new Promise((resolve, reject) =&gt; {
+            const action = new QueueItem({
+                api: this.api,
+                category: this.category,
+                action: this.action,
+                params,
+                options,
+                resolver: resolve,
+                rejecter: reject,
+                onComplete: this.complete,
+                onFailure: this.fail,
+            });
+            this.queue.push(action);
+            setImmediate(this.drainQueue);
+        });
     }
 }
 
-/**
- * Thrown when a request is cancelled by MWS -- we have no way of knowing automatically if we should retry or not
- *
- * @class RequestCancelled
- * @extends {Error}
- */
-class RequestCancelled extends extError {}
+const queueMap = new Map();
 
-/**
- * Thrown when parameters fail validation locally, before being sent to MWS
- *
- * @class ValidationError
- * @extends {Error}
- */
-class ValidationError extends extError {}
+const getQueue = (category, action, seller) =&gt; {
+    const lookupKey = `${seller}/${category}/${action}`;
+    return queueMap.get(lookupKey);
+};
+
+const registerQueue = (q, category, action, seller) =&gt; {
+    const lookupKey = `${seller}/${category}/${action}`;
+    queueMap.set(lookupKey, q);
+};
 
 module.exports = {
-    InvalidUsage,
-    InvalidIdentifier,
-    RequestCancelled,
-    ServiceError,
-    ValidationError,
+    Queue,
+    getQueue,
+    registerQueue,
 };
 </code></pre>
 
