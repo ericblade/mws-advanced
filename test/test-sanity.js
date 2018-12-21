@@ -134,7 +134,7 @@ describe('mws-advanced sanity', () => {
         });
         // writing this test with an assumption that converting from a single API instance to
         // a multiple instance system could end up with access objects getting swapped.
-        it('multiple instances dont become confused at callEndpoint', () => {
+        it('multiple instances dont become confused at callEndpoint', async () => {
             const test1 = new MWS(MWSAPIKeys);
             const test2 = new MWS({
                 accessKeyId: 'testKeyId',
@@ -142,10 +142,17 @@ describe('mws-advanced sanity', () => {
                 merchantId: 'testMerchantId',
                 authToken: 'authToken',
             });
-            return test1.callEndpoint(testCall, testParams).then((res) => {
-                expect(res).to.not.be.undefined;
-                return expect(test2.callEndpoint(testCall, testParams)).to.be.rejectedWith('Forbidden');
-            });
+            const res = await test1.callEndpoint(testCall, testParams);
+            expect(res).to.not.be.undefined;
+
+            try {
+                const x = await test2.callEndpoint(testCall, testParams);
+                // this SHOULD be an assert, but i don't think we have assert loaded here.
+                return expect(x).to.equal(undefined);
+            } catch (err) {
+                expect(err).to.be.an.instanceOf(test2.mws.ServerError);
+                return expect(err.code).to.equal(403); // Forbidden
+            }
         });
         it('callEndpoint saveRaw/saveParsed options', async () => {
             try {
