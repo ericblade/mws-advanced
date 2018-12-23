@@ -36,6 +36,12 @@ window.esdocSearchIndex = [
     "class"
   ],
   [
+    "mws-advanced/lib/endpoints/queue.js~queue",
+    "class/lib/endpoints/Queue.js~Queue.html",
+    "<span>Queue</span> <span class=\"search-result-import-path\">mws-advanced/lib/endpoints/Queue.js</span>",
+    "class"
+  ],
+  [
     "mws-advanced/lib/endpoints/constants.js~report_processing_status_types",
     "variable/index.html#static-variable-REPORT_PROCESSING_STATUS_TYPES",
     "<span>REPORT_PROCESSING_STATUS_TYPES</span> <span class=\"search-result-import-path\">mws-advanced/lib/endpoints/constants.js</span>",
@@ -99,6 +105,12 @@ window.esdocSearchIndex = [
     "mws-advanced/lib/helpers/getproductcategories.js~getproductcategoriesforskus",
     "function/index.html#static-function-getProductCategoriesForSkus",
     "<span>getProductCategoriesForSkus</span> <span class=\"search-result-import-path\">mws-advanced/lib/helpers/getProductCategories.js</span>",
+    "function"
+  ],
+  [
+    "mws-advanced/lib/endpoints/queue.js~getqueue",
+    "function/index.html#static-function-getQueue",
+    "<span>getQueue</span> <span class=\"search-result-import-path\">mws-advanced/lib/endpoints/Queue.js</span>",
     "function"
   ],
   [
@@ -186,9 +198,63 @@ window.esdocSearchIndex = [
     "function"
   ],
   [
+    "mws-advanced/lib/endpoints/queue.js~registerqueue",
+    "function/index.html#static-function-registerQueue",
+    "<span>registerQueue</span> <span class=\"search-result-import-path\">mws-advanced/lib/endpoints/Queue.js</span>",
+    "function"
+  ],
+  [
     "mws-advanced/lib/helpers/reports.js~requestanddownloadreport",
     "function/index.html#static-function-requestAndDownloadReport",
     "<span>requestAndDownloadReport</span> <span class=\"search-result-import-path\">mws-advanced/lib/helpers/reports.js</span>",
+    "function"
+  ],
+  [
+    "mws-advanced/lib/util/transformers.js~stringtobool",
+    "function/index.html#static-function-stringToBool",
+    "<span>stringToBool</span> <span class=\"search-result-import-path\">mws-advanced/lib/util/transformers.js</span>",
+    "function"
+  ],
+  [
+    "mws-advanced/lib/util/transformers.js~stringtofloat",
+    "function/index.html#static-function-stringToFloat",
+    "<span>stringToFloat</span> <span class=\"search-result-import-path\">mws-advanced/lib/util/transformers.js</span>",
+    "function"
+  ],
+  [
+    "mws-advanced/lib/util/transformers.js~stringtoint",
+    "function/index.html#static-function-stringToInt",
+    "<span>stringToInt</span> <span class=\"search-result-import-path\">mws-advanced/lib/util/transformers.js</span>",
+    "function"
+  ],
+  [
+    "mws-advanced/lib/util/transformers.js~stringtoprimitives",
+    "function/index.html#static-function-stringToPrimitives",
+    "<span>stringToPrimitives</span> <span class=\"search-result-import-path\">mws-advanced/lib/util/transformers.js</span>",
+    "function"
+  ],
+  [
+    "mws-advanced/lib/util/transformers.js~transformattributesetkey",
+    "function/index.html#static-function-transformAttributeSetKey",
+    "<span>transformAttributeSetKey</span> <span class=\"search-result-import-path\">mws-advanced/lib/util/transformers.js</span>",
+    "function"
+  ],
+  [
+    "mws-advanced/lib/util/transformers.js~transformkey",
+    "function/index.html#static-function-transformKey",
+    "<span>transformKey</span> <span class=\"search-result-import-path\">mws-advanced/lib/util/transformers.js</span>",
+    "function"
+  ],
+  [
+    "mws-advanced/lib/util/transformers.js~transformobjectkeys",
+    "function/index.html#static-function-transformObjectKeys",
+    "<span>transformObjectKeys</span> <span class=\"search-result-import-path\">mws-advanced/lib/util/transformers.js</span>",
+    "function"
+  ],
+  [
+    "mws-advanced/lib/util/transformers.js~transformobjecttoprimitives",
+    "function/index.html#static-function-transformObjectToPrimitives",
+    "<span>transformObjectToPrimitives</span> <span class=\"search-result-import-path\">mws-advanced/lib/util/transformers.js</span>",
     "function"
   ],
   [
@@ -484,6 +550,132 @@ window.esdocSearchIndex = [
     "file/lib/constants.js.html",
     "lib/constants.js",
     "file"
+  ],
+  [
+    "lib/endpoints/queue.js",
+    "file/lib/endpoints/Queue.js.html",
+    "lib/endpoints/Queue.js",
+    "file"
+  ],
+  [
+    "lib/endpoints/queue.js~queue#action",
+    "class/lib/endpoints/Queue.js~Queue.html#instance-member-action",
+    "lib/endpoints/Queue.js~Queue#action",
+    "member"
+  ],
+  [
+    "lib/endpoints/queue.js~queue#api",
+    "class/lib/endpoints/Queue.js~Queue.html#instance-member-api",
+    "lib/endpoints/Queue.js~Queue#api",
+    "member"
+  ],
+  [
+    "lib/endpoints/queue.js~queue#category",
+    "class/lib/endpoints/Queue.js~Queue.html#instance-member-category",
+    "lib/endpoints/Queue.js~Queue#category",
+    "member"
+  ],
+  [
+    "lib/endpoints/queue.js~queue#complete",
+    "class/lib/endpoints/Queue.js~Queue.html#instance-method-complete",
+    "lib/endpoints/Queue.js~Queue#complete",
+    "method"
+  ],
+  [
+    "lib/endpoints/queue.js~queue#constructor",
+    "class/lib/endpoints/Queue.js~Queue.html#instance-constructor-constructor",
+    "lib/endpoints/Queue.js~Queue#constructor",
+    "method"
+  ],
+  [
+    "lib/endpoints/queue.js~queue#drainqueue",
+    "class/lib/endpoints/Queue.js~Queue.html#instance-method-drainQueue",
+    "lib/endpoints/Queue.js~Queue#drainQueue",
+    "method"
+  ],
+  [
+    "lib/endpoints/queue.js~queue#fail",
+    "class/lib/endpoints/Queue.js~Queue.html#instance-method-fail",
+    "lib/endpoints/Queue.js~Queue#fail",
+    "method"
+  ],
+  [
+    "lib/endpoints/queue.js~queue#inflight",
+    "class/lib/endpoints/Queue.js~Queue.html#instance-member-inFlight",
+    "lib/endpoints/Queue.js~Queue#inFlight",
+    "member"
+  ],
+  [
+    "lib/endpoints/queue.js~queue#maxinflight",
+    "class/lib/endpoints/Queue.js~Queue.html#instance-member-maxInFlight",
+    "lib/endpoints/Queue.js~Queue#maxInFlight",
+    "member"
+  ],
+  [
+    "lib/endpoints/queue.js~queue#onqueuetimer",
+    "class/lib/endpoints/Queue.js~Queue.html#instance-method-onQueueTimer",
+    "lib/endpoints/Queue.js~Queue#onQueueTimer",
+    "method"
+  ],
+  [
+    "lib/endpoints/queue.js~queue#queue",
+    "class/lib/endpoints/Queue.js~Queue.html#instance-member-queue",
+    "lib/endpoints/Queue.js~Queue#queue",
+    "member"
+  ],
+  [
+    "lib/endpoints/queue.js~queue#queuetimer",
+    "class/lib/endpoints/Queue.js~Queue.html#instance-member-queueTimer",
+    "lib/endpoints/Queue.js~Queue#queueTimer",
+    "member"
+  ],
+  [
+    "lib/endpoints/queue.js~queue#request",
+    "class/lib/endpoints/Queue.js~Queue.html#instance-method-request",
+    "lib/endpoints/Queue.js~Queue#request",
+    "method"
+  ],
+  [
+    "lib/endpoints/queue.js~queue#resetdraintimeout",
+    "class/lib/endpoints/Queue.js~Queue.html#instance-member-resetDrainTimeout",
+    "lib/endpoints/Queue.js~Queue#resetDrainTimeout",
+    "member"
+  ],
+  [
+    "lib/endpoints/queue.js~queue#restorerate",
+    "class/lib/endpoints/Queue.js~Queue.html#instance-member-restoreRate",
+    "lib/endpoints/Queue.js~Queue#restoreRate",
+    "member"
+  ],
+  [
+    "lib/endpoints/queue.js~queue#runqueue",
+    "class/lib/endpoints/Queue.js~Queue.html#instance-method-runQueue",
+    "lib/endpoints/Queue.js~Queue#runQueue",
+    "method"
+  ],
+  [
+    "lib/endpoints/queue.js~queue#setthrottletimer",
+    "class/lib/endpoints/Queue.js~Queue.html#instance-method-setThrottleTimer",
+    "lib/endpoints/Queue.js~Queue#setThrottleTimer",
+    "method"
+  ],
+  [
+    "lib/endpoints/queue.js~queue#singledrain",
+    "class/lib/endpoints/Queue.js~Queue.html#instance-member-singleDrain",
+    "lib/endpoints/Queue.js~Queue#singleDrain",
+    "member"
+  ],
+  [
+    "lib/endpoints/queue.js~queue#throttle",
+    "class/lib/endpoints/Queue.js~Queue.html#instance-method-throttle",
+    "lib/endpoints/Queue.js~Queue#throttle",
+    "method"
+  ],
+  [
+    "lib/endpoints/queue.js~queue#throttlecalls",
+    "class/lib/endpoints/Queue.js~Queue.html#instance-member-throttleCalls",
+    "lib/endpoints/Queue.js~Queue#throttleCalls",
+    "member"
   ],
   [
     "lib/endpoints/constants.js",
@@ -1050,6 +1242,12 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
+    "lib/index.js~mwsadvanced.parseendpoint",
+    "class/lib/index.js~MwsAdvanced.html#static-method-parseEndpoint",
+    "lib/index.js~MwsAdvanced.parseEndpoint",
+    "method"
+  ],
+  [
     "lib/index.js~mwsadvanced.requestanddownloadreport",
     "class/lib/index.js~MwsAdvanced.html#static-method-requestAndDownloadReport",
     "lib/index.js~MwsAdvanced.requestAndDownloadReport",
@@ -1197,6 +1395,12 @@ window.esdocSearchIndex = [
     "lib/util/sleep.js",
     "file/lib/util/sleep.js.html",
     "lib/util/sleep.js",
+    "file"
+  ],
+  [
+    "lib/util/transformers.js",
+    "file/lib/util/transformers.js.html",
+    "lib/util/transformers.js",
     "file"
   ],
   [

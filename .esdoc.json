@@ -11,6 +11,12 @@
                 "accessor": {
                     "access": [ "public" ]
                 },
+                "unexportIdentifier": {
+                    "enable": true
+                },
+                "test": {
+                    "source": "./test"
+                },
                 "manual": {
                     "globalIndex": true,
                     "badge": false,

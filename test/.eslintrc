@@ -1,0 +1,23 @@
+{
+    "env": {
+        "node": true,
+        "mocha": true
+    },
+    "globals": {
+        "expect": true,
+        "assert": true,
+        "SkipAPITests": true,
+        "MWSAPIKeys": true
+    },
+    "rules": {
+        "arrow-body": "off",
+        "no-unused-expressions": "off",
+        "import/no-extraneous-dependencies": "off",
+        "prefer-destructuring": "off",
+        "prefer-arrow-callback": "off",
+        "global-require": "off",
+        "no-empty": "off",
+        "func-names": "off",
+        "arrow-body-style": "off"
+    }
+}
