@@ -62,22 +62,22 @@ describe('mws-advanced sanity', () => {
             expect(client2.mws.accessKeyId).to.equal('Junk');
             done();
         });
-        it('multiple instances, created asynchronously, connect to the inteded marketplace/region', async () => {
+        it('multiple instances, created asynchronously, connect to the intended marketplace/region', async () => {
+            const allInitParams = [initTestParams, { ...initTestParams, accessKeyId: 'Junk', host: 'https://mws.amazonservices.jp' }];
+
             const createMWSAdvancedAsync = async (initParams) => {
                 const mws = new MWS(initParams);
                 return mws;
             };
 
-            const allInitParams = [initTestParams, { ...initTestParams, accessKeyId: 'Junk', host: 'https://mws.amazonservices.jp' }];
-
             const allMWSObjectsUsedForRequest = await Promise.all(allInitParams.map(async (initParams) => {
                 const MWSClient = createMWSAdvancedAsync(initParams);
                 MWSClient.mockRequest = async () => {
-                    return Promise.resolve(MWS);
+                    return Promise.resolve(MWSClient);
                 };
-                const MWSObjectUsedForRequest = await MWSClient.mockRequest();
-                return MWSObjectUsedForRequest;
+                return MWSClient.mockRequest();
             }));
+
             expect(allMWSObjectsUsedForRequest[0]).not.to.deep.equal(allMWSObjectsUsedForRequest[1]);
         });
         it('init can pick up environment variables for keys', (done) => {
