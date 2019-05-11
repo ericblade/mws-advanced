@@ -315,9 +315,10 @@ describe('API', function runAPITests() {
             const test2 = {
                 ...test1,
                 identifier: '2',
-                idValue: 'B00IDD9TU8',
+                idValue: 'B0774JLFLW',
                 isAmazonFulfilled: false,
             };
+            // TODO: should build a test for deleted/invalid B00IDD9TU8 to ensure bad items come back in an expected fashion
 
             // TODO: write tests for potential failure conditions, make sure code handles them as expected
             // TODO: write a function to compare (input [test1/test2] and output [testRes, testRes2]) so that code isn't so needlessly duplicated
