@@ -28,8 +28,8 @@
   "author": "Eric Blade <blade.eric@gmail.com>",
   "license": "Apache",
   "dependencies": {
-    "es6-error": "^4.1.1",
-    "mws-simple": "github:ericblade/mws-simple#4.0.0"
+    "@ericblade/mws-simple": "^4.0.0",
+    "es6-error": "^4.1.1"
   },
   "devDependencies": {
     "chai": "^4.2.0",
