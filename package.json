@@ -1,36 +1,44 @@
 {
-  "name": "mws-advanced",
-  "version": "1.0.0",
-  "description": "",
-  "main": "lib/index.js",
-  "scripts": {
-    "test": "./node_modules/.bin/mocha --timeout=7000",
-    "coverage": "./node_modules/.bin/nyc --reporter=lcov ./node_modules/.bin/mocha --timeout=5000",
-    "coveralls": "cat ./coverage/lcov.info | ./node_modules/.bin/coveralls",
-    "coverage-codebeat": "./send-coverage",
-    "lint-staged": "npx lint-staged",
-    "push-master": "npm run coverage && git push origin master && send-coverage.cmd",
-    "make-docs": "npx esdoc && documentation build -f md > API.md"
-  },
-  "lint-staged": {
-    "*.js": "eslint"
-  },
-  "pre-commit": [
-    "lint-staged"
+  "_args": [
+    [
+      "github:ericblade/mws-advanced",
+      "/Users/christian/Desktop/101Commerce"
+    ]
   ],
-  "keywords": [
-    "amazon",
-    "amazon.com",
-    "mws",
-    "seller",
-    "marketplace"
+  "_from": "github:ericblade/mws-advanced",
+  "_id": "mws-advanced@github:ericblade/mws-advanced#3f5a14438935534d9418874606cedf69836b11cf",
+  "_inBundle": false,
+  "_integrity": "",
+  "_location": "/mws-advanced",
+  "_phantomChildren": {
+    "csv-parse": "2.5.0",
+    "query-string": "6.1.0",
+    "request": "2.88.0",
+    "xml2js": "0.4.19"
+  },
+  "_requested": {
+    "type": "git",
+    "raw": "github:ericblade/mws-advanced",
+    "rawSpec": "github:ericblade/mws-advanced",
+    "saveSpec": "github:ericblade/mws-advanced",
+    "fetchSpec": null,
+    "gitCommittish": null
+  },
+  "_requiredBy": [
+    "/"
   ],
-  "author": "Eric Blade <blade.eric@gmail.com>",
-  "license": "Apache",
+  "_resolved": "github:ericblade/mws-advanced#3f5a14438935534d9418874606cedf69836b11cf",
+  "_spec": "github:ericblade/mws-advanced",
+  "_where": "/Users/christian/Desktop/101Commerce",
+  "author": {
+    "name": "Eric Blade",
+    "email": "blade.eric@gmail.com"
+  },
   "dependencies": {
     "es6-error": "^4.1.1",
     "mws-simple": "github:ericblade/mws-simple#2.3.0"
   },
+  "description": "[![Build Status](https://travis-ci.org/ericblade/mws-advanced.svg?branch=master)](https://travis-ci.org/ericblade/mws-advanced) [![codebeat badge](https://codebeat.co/badges/83ea05b8-db4e-4765-ae00-63169ef19c2e)](https://codebeat.co/projects/github-com-ericblade-mws-advanced-master) [![Greenkeeper badge](https://badges.greenkeeper.io/ericblade/mws-advanced.svg)](https://greenkeeper.io/) [![Documentation badge](./docs/badge.svg)](https://esdoc.org) [![Coverage Status](https://coveralls.io/repos/ericblade/mws-advanced/badge.svg?branch=master)](https://coveralls.io/r/ericblade/mws-advanced?branch=master) # mws-advanced -- A modern Amazon Merchant Web Services API Interface for Javascript",
   "devDependencies": {
     "chai": "^4.1.2",
     "chai-as-promised": "^7.1.1",
@@ -39,12 +47,38 @@
     "esdoc-ecmascript-proposal-plugin": "^1.0.0",
     "esdoc-node": "^1.0.3",
     "esdoc-standard-plugin": "^1.0.0",
-    "eslint": "^5.0.0",
+    "eslint": "^5.16.0",
     "eslint-config-airbnb-base": "^13.0.0",
     "eslint-plugin-import": "^2.13.0",
     "lint-staged": "^7.2.0",
     "mocha": "^5.2.0",
-    "nyc": "^12.0.2",
+    "nyc": "^14.1.1",
     "pre-commit": "^1.2.2"
-  }
+  },
+  "keywords": [
+    "amazon",
+    "amazon.com",
+    "mws",
+    "seller",
+    "marketplace"
+  ],
+  "license": "Apache",
+  "lint-staged": {
+    "*.js": "eslint"
+  },
+  "main": "lib/index.js",
+  "name": "mws-advanced",
+  "pre-commit": [
+    "lint-staged"
+  ],
+  "scripts": {
+    "coverage": "nyc --reporter=lcov ./node_modules/.bin/mocha --timeout=5000",
+    "coverage-codebeat": "./send-coverage",
+    "coveralls": "cat ./coverage/lcov.info | ./node_modules/.bin/coveralls",
+    "lint-staged": "npx lint-staged",
+    "make-docs": "npx esdoc && documentation build -f md > API.md",
+    "push-master": "npm run coverage && git push origin master && send-coverage.cmd",
+    "test": "mocha --timeout=7000"
+  },
+  "version": "1.0.0"
 }
