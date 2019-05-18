@@ -93,7 +93,11 @@ describe('Parsers', function runParserTests() {
                     testSku2: { error: 'testError2' },
                     testAsin:
                     {
-                        sku: 'testSku',
+                        guidance: 'InboundOK',
+                        reason: 'NoApplicableGuidance',
+                    },
+                    testSku: {
+                        asin: 'testAsin',
                         guidance: 'InboundOK',
                         reason: 'NoApplicableGuidance',
                     },

@@ -58,7 +58,7 @@ const MockAPI = class MockApi {
     }
 };
 
-describe.only('Mock API Testing', () => {
+describe('Mock API Testing', () => {
     // it('getLowestPricedOffersForSKU', () => {
     //     const { getLowestPricedOffersForSKU } = require('../lib/helpers/getLowestPricedOffers');
     //     return getLowestPricedOffersForSKU(new MockAPI())();
@@ -79,10 +79,10 @@ describe.only('Mock API Testing', () => {
         const res = await (new MockAPI().parseEndpoint(parser.parseAnyInboundGuidance)('GetInboundGuidanceForSKU')());
         expect(res).to.be.an('object').that.deep.equals({
             InvalidSKUString: { error: 'ErrorString' },
-            ValidASINString: {
+            ValidSKUString: {
                 guidance: 'GuidanceString',
                 reason: 'ReasonString',
-                sku: 'ValidSKUString',
+                asin: 'ValidASINString',
             },
         });
     });
