@@ -1,38 +1,50 @@
+/* eslint-disable max-len */
+
 const fs = require('fs');
 
 describe('Parsers', function runParserTests() {
-    describe.only('inbound guidance parsers', () => {
+    describe('inbound guidance parsers', () => {
         const parser = require('../lib/parsers/inboundGuidance');
+        const invalidAsin1 = { ASIN: 'testAsin1', ErrorReason: 'testError1' };
+        const invalidAsin2 = { ASIN: 'testAsin2', ErrorReason: 'testError2' };
+        const invalidAsinList = { InvalidASIN: [invalidAsin1, invalidAsin2] };
+        const invalidSku1 = { SellerSKU: 'testSku1', ErrorReason: 'testError1' };
+        const invalidSku2 = { SellerSKU: 'testSku2', ErrorReason: 'testError2' };
+        const invalidSkuList = { InvalidSKU: [invalidSku1, invalidSku2] };
+        const guidanceReasonList = { GuidanceReason: 'NoApplicableGuidance' };
+        const inboundGuidance = {
+            GuidanceReasonList: guidanceReasonList,
+            ASIN: 'testAsin',
+            SellerSKU: 'testSku',
+            InboundGuidance: 'InboundOK',
+        };
+        const asinInboundGuidanceList = {
+            ASINInboundGuidance: [inboundGuidance],
+        };
+        const skuInboundGuidanceList = {
+            SKUInboundGuidance: [inboundGuidance],
+        };
+
         it('parseInvalidAsin', () => {
-            const result = parser.parseInvalidAsin({ ASIN: 'testasin', ErrorReason: 'testerror' });
+            const result = parser.parseInvalidAsin(invalidAsin1);
             expect(result).to.be.an('object').with.keys(['asin', 'error']);
-            expect(result.asin).to.equal('testasin');
-            expect(result.error).to.equal('testerror');
+            expect(result.asin).to.equal('testAsin1');
+            expect(result.error).to.equal('testError1');
         });
         it('parseInvalidAsinList', () => {
-            const result = parser.parseInvalidAsinList({
-                InvalidASIN: [
-                    { ASIN: 'testAsin1', ErrorReason: 'testError1' },
-                    { ASIN: 'testAsin2', ErrorReason: 'testError2' },
-                ],
-            });
+            const result = parser.parseInvalidAsinList(invalidAsinList);
             expect(result).to.be.an('array').with.lengthOf(2);
             expect(result[0]).to.be.an('object').that.deep.equals({ asin: 'testAsin1', error: 'testError1' });
             expect(result[1]).to.be.an('object').that.deep.equals({ asin: 'testAsin2', error: 'testError2' });
         });
         it('parseInvalidSku', () => {
-            const result = parser.parseInvalidSku({ SellerSKU: 'testsku', ErrorReason: 'testerror' });
+            const result = parser.parseInvalidSku(invalidSku1);
             expect(result).to.be.an('object').with.keys(['sku', 'error']);
-            expect(result.sku).to.equal('testsku');
-            expect(result.error).to.equal('testerror');
+            expect(result.sku).to.equal('testSku1');
+            expect(result.error).to.equal('testError1');
         });
         it('parseInvalidSkuList', () => {
-            const result = parser.parseInvalidSkuList({
-                InvalidSKU: [
-                    { SellerSKU: 'testSku1', ErrorReason: 'testError1' },
-                    { SellerSKU: 'testSku2', ErrorReason: 'testError2' },
-                ],
-            });
+            const result = parser.parseInvalidSkuList(invalidSkuList);
             expect(result).to.be.an('array').with.lengthOf(2);
             expect(result[0]).to.be.an('object').that.deep.equals({ sku: 'testSku1', error: 'testError1' });
             expect(result[1]).to.be.an('object').that.deep.equals({ sku: 'testSku2', error: 'testError2' });
@@ -42,22 +54,51 @@ describe('Parsers', function runParserTests() {
             expect(result).to.equal('test guidance');
         });
         it('parseAsinInboundGuidance', () => {
-            // TODO: complete
+            const result = parser.parseAsinInboundGuidance(inboundGuidance);
+            expect(result).to.be.an('object').with.keys(['asin', 'guidance', 'reason']);
+            expect(result.asin).to.equal('testAsin');
+            expect(result.guidance).to.equal('InboundOK');
+            expect(result.reason).to.equal('NoApplicableGuidance');
         });
         it('parseAsinInboundGuidanceList', () => {
-            // TODO: complete
-            // use complete mock data if can find
+            const result = parser.parseAsinInboundGuidanceList(asinInboundGuidanceList);
+            expect(result).to.be.an('array').with.lengthOf(1);
+            expect(result[0]).to.be.an('object').with.keys(['asin', 'guidance', 'reason']);
         });
         it('parseSkuInboundGuidance', () => {
-            // TODO: complete
+            const result = parser.parseSkuInboundGuidance(inboundGuidance);
+            expect(result).to.be.an('object').with.keys(['asin', 'sku', 'guidance', 'reason']);
+            expect(result.asin).to.equal('testAsin');
+            expect(result.guidance).to.equal('InboundOK');
+            expect(result.reason).to.equal('NoApplicableGuidance');
+            expect(result.sku).to.equal('testSku');
         });
         it('parseSkuInboundGuidanceList', () => {
-            // TODO: complete
-            // use complete mock data if can find
+            const result = parser.parseSkuInboundGuidanceList(skuInboundGuidanceList);
+            expect(result).to.be.an('array').with.lengthOf(1);
+            expect(result[0]).to.be.an('object').with.keys(['asin', 'sku', 'guidance', 'reason']);
         });
         it('parseAnyInboundGuidance', () => {
-            // TODO: complete
-            // use complete mock data if can find
+            const result = parser.parseAnyInboundGuidance({
+                InvalidASINList: invalidAsinList,
+                InvalidSKUList: invalidSkuList,
+                ASINInboundGuidanceList: asinInboundGuidanceList,
+                SKUInboundGuidanceList: skuInboundGuidanceList,
+            });
+            expect(result).to.be.an('object').that.deep.equals(
+                {
+                    testAsin1: { error: 'testError1' },
+                    testAsin2: { error: 'testError2' },
+                    testSku1: { error: 'testError1' },
+                    testSku2: { error: 'testError2' },
+                    testAsin:
+                    {
+                        sku: 'testSku',
+                        guidance: 'InboundOK',
+                        reason: 'NoApplicableGuidance',
+                    },
+                },
+            );
         });
     });
     it('listOrderItems parser', function testListOrderItemsParser() {
