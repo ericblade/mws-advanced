@@ -596,15 +596,15 @@ reporting functions
 **Parameters**
 
 -   `item`  
+-   `null-null` **orderItems** array of OrderItem
+-   `null-null` **nextToken** string for next token to provide to calls to ListOrderItemsByNextToken
+-   `null-null` **orderId** string with the Amazon Order ID
 
 ## transformIntsAndBools
 
 **Parameters**
 
 -   `item`  
--   `null-null` **orderItems** array of OrderItem
--   `null-null` **nextToken** string for next token to provide to calls to ListOrderItemsByNextToken
--   `null-null` **orderId** string with the Amazon Order ID
 
 ## transformIntsAndBools
 
@@ -662,6 +662,14 @@ Returns **any** transformed object
 
 ## getIdFromProductList
 
+**Parameters**
+
+-   `productList`  
+-   `type` **[string][82]** Type of Identifier used (asin, upc, ean, jan, etc)
+-   `id` **[string][82]** Product Identifier string
+
+## getIdFromProductList
+
 Determine the product id. GetMatchingProduct\* and ListMatchingProducts return VERY similar
 results, but GetMatchingProduct includes a list of identifiers as $.IdType and $.Id.
 ListMatchingProduct does not return those, as you're not requesting a list of Ids.
@@ -672,14 +680,6 @@ ListMatchingProduct does not return those, as you're not requesting a list of Id
 -   `product` **any** information about a single product from _MatchingProduct_ APIs
 
 Returns **ProductIdentifier** 
-
-## getIdFromProductList
-
-**Parameters**
-
--   `productList`  
--   `type` **[string][82]** Type of Identifier used (asin, upc, ean, jan, etc)
--   `id` **[string][82]** Product Identifier string
 
 ## parseMatchingProduct
 
@@ -705,34 +705,6 @@ Returns **[Array][87]&lt;Product>**
 **Parameters**
 
 -   `offer`  
--   `unknown` **[string][82]** 
-
-## reformatOffer
-
-**Parameters**
-
--   `offer`  
--   `unknown` **[string][82]** 
-
-## reformatOffer
-
-**Parameters**
-
--   `offer`  
--   `unknown` **[string][82]** 
-
-## reformatOffer
-
-**Parameters**
-
--   `offer`  
--   `unknown` **[string][82]** 
-
-## reformatOffer
-
-**Parameters**
-
--   `offer`  
 -   `subCondition` **[string][82]** The subcondition of the item (New, Mint, Very Good, Good, Acceptable, Poor, Club, OEM, Warranty, Refurbished Warranty, Refurbished, Open Box, or Other)
 -   `sellerFeedbackRating` **SellerFeedbackRating** Information about the seller's feedback
 -   `shippingTime` **DetailedShippingTime** Maximum time within which the item will likely be shipped
@@ -743,6 +715,34 @@ Returns **[Array][87]&lt;Product>**
 -   `isFulfilledByAmazon` **[boolean][85]** True if FBA, False if not
 -   `isBuyBoxWinner` **[boolean][85]?** True if offer has buy box, False if not
 -   `isFeaturedMerchant` **[boolean][85]?** True if seller is eligible for Buy Box, False if not
+
+## reformatOffer
+
+**Parameters**
+
+-   `offer`  
+-   `unknown` **[string][82]** 
+
+## reformatOffer
+
+**Parameters**
+
+-   `offer`  
+-   `unknown` **[string][82]** 
+
+## reformatOffer
+
+**Parameters**
+
+-   `offer`  
+-   `unknown` **[string][82]** 
+
+## reformatOffer
+
+**Parameters**
+
+-   `offer`  
+-   `unknown` **[string][82]** 
 
 ## reformatLowestPrice
 
@@ -792,9 +792,9 @@ Returns **[Array][87]&lt;Product>**
 **Parameters**
 
 -   `api`  
--   `ProductCategoryId` **[string][82]** The string or numeric-string category identifier for the category
--   `ProductCategoryName` **[string][82]** The string human readable description of the category
--   `Parent` **productCategory?** Parent product category. This will not be present if this category is the root.
+-   `sku` **[string][82]** SKU that this category information belongs to
+-   `error` **[object][81]?** This field is set when a server error is returned, see error.code and error.body for further info. Server Errors may be returned for invalid SKUs or other reasons.
+-   `Self` **productCategory?** The product category that this SKU belongs to - if not present, may be an invalid ASIN
 
 ## getProductCategoriesForAsins
 
@@ -810,9 +810,19 @@ Returns **[Array][87]&lt;Product>**
 **Parameters**
 
 -   `api`  
--   `sku` **[string][82]** SKU that this category information belongs to
--   `error` **[object][81]?** This field is set when a server error is returned, see error.code and error.body for further info. Server Errors may be returned for invalid SKUs or other reasons.
--   `Self` **productCategory?** The product category that this SKU belongs to - if not present, may be an invalid ASIN
+-   `ProductCategoryId` **[string][82]** The string or numeric-string category identifier for the category
+-   `ProductCategoryName` **[string][82]** The string human readable description of the category
+-   `Parent` **productCategory?** Parent product category. This will not be present if this category is the root.
+
+## estimateRequestParser
+
+**Parameters**
+
+-   `estimates`  
+-   `feeType` **[string][82]** The type of fee (ReferralFee, PerItemFee, VariableClosingFee, etc)
+-   `feeAmount` **Money** Base fee, currencyCode and amount
+-   `feePromotion` **Money** Discounts applied to fee, currencyCode and amount
+-   `finalFee` **Money** feeAmount minus feePromotion, currencyCode and amount
 
 ## estimateRequestParser
 
@@ -854,16 +864,6 @@ Returns **[Array][87]&lt;Product>**
 -   `priceToEstimateFees` **[object][81]** Money values entered in as listingPrice and shipping to EstimateRequest
     -   `priceToEstimateFees.listingPrice` **Money** listingPrice from EstimateRequest
     -   `priceToEstimateFees.shipping` **Money** shipping from EstimateRequest
-
-## estimateRequestParser
-
-**Parameters**
-
--   `estimates`  
--   `feeType` **[string][82]** The type of fee (ReferralFee, PerItemFee, VariableClosingFee, etc)
--   `feeAmount` **Money** Base fee, currencyCode and amount
--   `feePromotion` **Money** Discounts applied to fee, currencyCode and amount
--   `finalFee` **Money** feeAmount minus feePromotion, currencyCode and amount
 
 ## writeFile
 
