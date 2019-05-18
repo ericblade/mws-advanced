@@ -3,12 +3,12 @@
 <head>
   <meta charset="utf-8">
   <base data-ice="baseUrl" href="../../">
-  <title data-ice="title">MwsAdvanced | mws-advanced</title>
+  <title data-ice="title">MwsAdvanced | @ericblade/mws-advanced</title>
   <link type="text/css" rel="stylesheet" href="css/style.css">
   <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
   <script src="script/prettify/prettify.js"></script>
   <script src="script/manual.js"></script>
-</head>
+<meta name="description" content="Modern, fully featured, very opinionated node javascript Amazon MWS API based on @ericblade/mws-simple"><meta property="twitter:card" content="summary"><meta property="twitter:title" content="@ericblade/mws-advanced"><meta property="twitter:description" content="Modern, fully featured, very opinionated node javascript Amazon MWS API based on @ericblade/mws-simple"></head>
 <body class="layout-container" data-ice="rootContainer">
 
 <header>
@@ -90,26 +90,18 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-OrderItem">OrderItem</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-OrderItemsList">OrderItemsList</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-orderItemsList">orderItemsList</a></span></span></li>
-<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#util">util</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-stringToBool">stringToBool</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-stringToFloat">stringToFloat</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-stringToInt">stringToInt</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-stringToPrimitives">stringToPrimitives</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-transformAttributeSetKey">transformAttributeSetKey</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-transformKey">transformKey</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-transformObjectKeys">transformObjectKeys</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-transformObjectToPrimitives">transformObjectToPrimitives</a></span></span></li>
 </ul>
 </div>
 </nav>
 
 <div class="content" data-ice="content"><div class="header-notice">
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import MwsAdvanced from &apos;<span><a href="file/lib/index.js.html#lineNumber46">mws-advanced</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import MwsAdvanced from &apos;<span><a href="file/lib/index.js.html#lineNumber48">@ericblade/mws-advanced</a></span>&apos;</code></pre></div>
   <span data-ice="access">public</span>
   <span data-ice="kind">class</span>
   
   
   
-  <span data-ice="source">| <span><a href="file/lib/index.js.html#lineNumber46">source</a></span></span>
+  <span data-ice="source">| <span><a href="file/lib/index.js.html#lineNumber48">source</a></span></span>
 </div>
 
 <div class="self-detail detail">
@@ -994,6 +986,34 @@ to this instance of MWSAdvanced.</p>
       <div>
         <p>
           
+          <span data-ice="async">async</span>
+          
+          <span class="code" data-ice="name"><span><a href="class/lib/index.js~MwsAdvanced.html#instance-method-doRequest">doRequest</a></span></span><span class="code" data-ice="signature">(requestData: <span>*</span>, options: {}): <span>*</span></span>
+        </p>
+      </div>
+      <div>
+        
+        
+        
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">public</span>
+      
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+          
           
           
           <span class="code" data-ice="name"><span><a href="class/lib/index.js~MwsAdvanced.html#instance-method-getLowestPricedOffersForAsin">getLowestPricedOffersForAsin</a></span></span><span class="code" data-ice="signature">(options: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></span>): <span><a href="typedef/index.html#static-typedef-LowestPricedOffers">LowestPricedOffers</a></span></span>
@@ -1235,7 +1255,7 @@ EAN, ISBN, or JAN values</p>
       <div>
         
         
-        <div data-ice="description"><p>Returns the contents of a report</p>
+        <div data-ice="description"><p>Download a specific report identified by the ReportId and return it</p>
 </div>
       </div>
     </td>
@@ -1672,34 +1692,6 @@ specified.</p>
           
           
           
-          <span class="code" data-ice="name"><span><a href="class/lib/index.js~MwsAdvanced.html#instance-method-requestPromise">requestPromise</a></span></span><span class="code" data-ice="signature">(requestData: <span>*</span>, options: {}): <span>*</span></span>
-        </p>
-      </div>
-      <div>
-        
-        
-        
-      </div>
-    </td>
-    <td>
-      
-      
-    </td>
-  </tr>
-<tr data-ice="target">
-    <td>
-      <span class="access" data-ice="access">public</span>
-      
-      
-      
-      <span class="override" data-ice="override"></span>
-    </td>
-    <td>
-      <div>
-        <p>
-          
-          
-          
           <span class="code" data-ice="name"><span><a href="class/lib/index.js~MwsAdvanced.html#instance-method-requestReport">requestReport</a></span></span><span class="code" data-ice="signature">(options: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></span>, MarketplaceId: <span><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span><span>[]</span></span>): <span><a href="typedef/index.html#static-typedef-ReportRequestInfo">ReportRequestInfo</a></span></span>
         </p>
       </div>
@@ -1837,7 +1829,7 @@ Many optional parameters may be required by MWS! Read <a href="https://docs.deve
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/lib/index.js.html#lineNumber417">source</a></span></span>
+      <span data-ice="source"><span><a href="file/lib/index.js.html#lineNumber413">source</a></span></span>
     </span>
   </h3>
 
@@ -1908,7 +1900,7 @@ Many optional parameters may be required by MWS! Read <a href="https://docs.deve
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/lib/index.js.html#lineNumber438">source</a></span></span>
+      <span data-ice="source"><span><a href="file/lib/index.js.html#lineNumber434">source</a></span></span>
     </span>
   </h3>
 
@@ -1979,7 +1971,7 @@ Many optional parameters may be required by MWS! Read <a href="https://docs.deve
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/lib/index.js.html#lineNumber256">source</a></span></span>
+      <span data-ice="source"><span><a href="file/lib/index.js.html#lineNumber252">source</a></span></span>
     </span>
   </h3>
 
@@ -2050,7 +2042,7 @@ Many optional parameters may be required by MWS! Read <a href="https://docs.deve
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/lib/index.js.html#lineNumber398">source</a></span></span>
+      <span data-ice="source"><span><a href="file/lib/index.js.html#lineNumber394">source</a></span></span>
     </span>
   </h3>
 
@@ -2121,7 +2113,7 @@ Many optional parameters may be required by MWS! Read <a href="https://docs.deve
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/lib/index.js.html#lineNumber487">source</a></span></span>
+      <span data-ice="source"><span><a href="file/lib/index.js.html#lineNumber483">source</a></span></span>
     </span>
   </h3>
 
@@ -2192,7 +2184,7 @@ Many optional parameters may be required by MWS! Read <a href="https://docs.deve
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/lib/index.js.html#lineNumber328">source</a></span></span>
+      <span data-ice="source"><span><a href="file/lib/index.js.html#lineNumber324">source</a></span></span>
     </span>
   </h3>
 
@@ -2263,7 +2255,7 @@ Many optional parameters may be required by MWS! Read <a href="https://docs.deve
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/lib/index.js.html#lineNumber455">source</a></span></span>
+      <span data-ice="source"><span><a href="file/lib/index.js.html#lineNumber451">source</a></span></span>
     </span>
   </h3>
 
@@ -2334,7 +2326,7 @@ Many optional parameters may be required by MWS! Read <a href="https://docs.deve
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/lib/index.js.html#lineNumber472">source</a></span></span>
+      <span data-ice="source"><span><a href="file/lib/index.js.html#lineNumber468">source</a></span></span>
     </span>
   </h3>
 
@@ -2405,7 +2397,7 @@ Many optional parameters may be required by MWS! Read <a href="https://docs.deve
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/lib/index.js.html#lineNumber545">source</a></span></span>
+      <span data-ice="source"><span><a href="file/lib/index.js.html#lineNumber544">source</a></span></span>
     </span>
   </h3>
 
@@ -2476,7 +2468,7 @@ Many optional parameters may be required by MWS! Read <a href="https://docs.deve
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/lib/index.js.html#lineNumber555">source</a></span></span>
+      <span data-ice="source"><span><a href="file/lib/index.js.html#lineNumber554">source</a></span></span>
     </span>
   </h3>
 
@@ -2547,7 +2539,7 @@ Many optional parameters may be required by MWS! Read <a href="https://docs.deve
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/lib/index.js.html#lineNumber579">source</a></span></span>
+      <span data-ice="source"><span><a href="file/lib/index.js.html#lineNumber578">source</a></span></span>
     </span>
   </h3>
 
@@ -2618,7 +2610,7 @@ Many optional parameters may be required by MWS! Read <a href="https://docs.deve
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/lib/index.js.html#lineNumber567">source</a></span></span>
+      <span data-ice="source"><span><a href="file/lib/index.js.html#lineNumber566">source</a></span></span>
     </span>
   </h3>
 
@@ -2689,7 +2681,7 @@ Many optional parameters may be required by MWS! Read <a href="https://docs.deve
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/lib/index.js.html#lineNumber530">source</a></span></span>
+      <span data-ice="source"><span><a href="file/lib/index.js.html#lineNumber526">source</a></span></span>
     </span>
   </h3>
 
@@ -2760,7 +2752,7 @@ Many optional parameters may be required by MWS! Read <a href="https://docs.deve
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/lib/index.js.html#lineNumber623">source</a></span></span>
+      <span data-ice="source"><span><a href="file/lib/index.js.html#lineNumber622">source</a></span></span>
     </span>
   </h3>
 
@@ -2831,7 +2823,7 @@ Many optional parameters may be required by MWS! Read <a href="https://docs.deve
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/lib/index.js.html#lineNumber89">source</a></span></span>
+      <span data-ice="source"><span><a href="file/lib/index.js.html#lineNumber91">source</a></span></span>
     </span>
   </h3>
 
@@ -2902,7 +2894,7 @@ Many optional parameters may be required by MWS! Read <a href="https://docs.deve
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/lib/index.js.html#lineNumber346">source</a></span></span>
+      <span data-ice="source"><span><a href="file/lib/index.js.html#lineNumber342">source</a></span></span>
     </span>
   </h3>
 
@@ -2973,7 +2965,7 @@ Many optional parameters may be required by MWS! Read <a href="https://docs.deve
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/lib/index.js.html#lineNumber364">source</a></span></span>
+      <span data-ice="source"><span><a href="file/lib/index.js.html#lineNumber360">source</a></span></span>
     </span>
   </h3>
 
@@ -3044,7 +3036,7 @@ Many optional parameters may be required by MWS! Read <a href="https://docs.deve
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/lib/index.js.html#lineNumber380">source</a></span></span>
+      <span data-ice="source"><span><a href="file/lib/index.js.html#lineNumber376">source</a></span></span>
     </span>
   </h3>
 
@@ -3115,7 +3107,7 @@ Many optional parameters may be required by MWS! Read <a href="https://docs.deve
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/lib/index.js.html#lineNumber313">source</a></span></span>
+      <span data-ice="source"><span><a href="file/lib/index.js.html#lineNumber309">source</a></span></span>
     </span>
   </h3>
 
@@ -3186,7 +3178,7 @@ Many optional parameters may be required by MWS! Read <a href="https://docs.deve
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/lib/index.js.html#lineNumber287">source</a></span></span>
+      <span data-ice="source"><span><a href="file/lib/index.js.html#lineNumber283">source</a></span></span>
     </span>
   </h3>
 
@@ -3257,7 +3249,7 @@ Many optional parameters may be required by MWS! Read <a href="https://docs.deve
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/lib/index.js.html#lineNumber601">source</a></span></span>
+      <span data-ice="source"><span><a href="file/lib/index.js.html#lineNumber600">source</a></span></span>
     </span>
   </h3>
 
@@ -3399,7 +3391,7 @@ Many optional parameters may be required by MWS! Read <a href="https://docs.deve
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/lib/index.js.html#lineNumber589">source</a></span></span>
+      <span data-ice="source"><span><a href="file/lib/index.js.html#lineNumber588">source</a></span></span>
     </span>
   </h3>
 
@@ -3470,7 +3462,7 @@ Many optional parameters may be required by MWS! Read <a href="https://docs.deve
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/lib/index.js.html#lineNumber507">source</a></span></span>
+      <span data-ice="source"><span><a href="file/lib/index.js.html#lineNumber503">source</a></span></span>
     </span>
   </h3>
 
@@ -3541,7 +3533,7 @@ Many optional parameters may be required by MWS! Read <a href="https://docs.deve
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/lib/index.js.html#lineNumber611">source</a></span></span>
+      <span data-ice="source"><span><a href="file/lib/index.js.html#lineNumber610">source</a></span></span>
     </span>
   </h3>
 
@@ -3615,7 +3607,7 @@ Many optional parameters may be required by MWS! Read <a href="https://docs.deve
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/lib/index.js.html#lineNumber54">source</a></span></span>
+      <span data-ice="source"><span><a href="file/lib/index.js.html#lineNumber56">source</a></span></span>
     </span>
   </h3>
 
@@ -3693,7 +3685,7 @@ to this instance of MWSAdvanced.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/lib/index.js.html#lineNumber125">source</a></span></span>
+      <span data-ice="source"><span><a href="file/lib/index.js.html#lineNumber127">source</a></span></span>
     </span>
   </h3>
 
@@ -3867,6 +3859,84 @@ transformed and validated according to the rules defined in lib/endpoints</p>
   
 </div>
 <div class="detail" data-ice="detail">
+  <h3 data-ice="anchor" id="instance-method-doRequest">
+    <span class="access" data-ice="access">public</span>
+    
+    
+    
+    <span data-ice="async">async</span>
+    
+    <span class="code" data-ice="name">doRequest</span><span class="code" data-ice="signature">(requestData: <span>*</span>, options: {}): <span>*</span></span>
+    <span class="right-info">
+      
+      
+      <span data-ice="source"><span><a href="file/lib/index.js.html#lineNumber138">source</a></span></span>
+    </span>
+  </h3>
+
+  
+  
+  
+  
+
+  
+
+  <div data-ice="properties"><div data-ice="properties">
+  <h4 data-ice="title">Params:</h4>
+  <table class="params">
+    <thead>
+    <tr><td>Name</td><td>Type</td><td>Attribute</td><td>Description</td></tr>
+    </thead>
+    <tbody>
+    
+    <tr data-ice="property" data-depth="0">
+      <td data-ice="name" class="code" data-depth="0">requestData</td>
+      <td data-ice="type" class="code"><span>*</span></td>
+      <td data-ice="appendix"></td>
+      <td data-ice="description"></td>
+    </tr>
+<tr data-ice="property" data-depth="0">
+      <td data-ice="name" class="code" data-depth="0">options</td>
+      <td data-ice="type" class="code">{}</td>
+      <td data-ice="appendix"><ul><li>optional</li>
+<li>default: {}</li></ul></td>
+      <td data-ice="description"></td>
+    </tr>
+</tbody>
+  </table>
+</div>
+</div>
+
+  <div class="return-params" data-ice="returnParams">
+    <h4>Return:</h4>
+    <table>
+      <tbody>
+        <tr>
+          <td class="return-type code" data-ice="returnType"><span>*</span></td>
+          
+        </tr>
+      </tbody>
+    </table>
+    <div data-ice="returnProperties">
+</div>
+  </div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+</div>
+<div class="detail" data-ice="detail">
   <h3 data-ice="anchor" id="instance-method-getLowestPricedOffersForAsin">
     <span class="access" data-ice="access">public</span>
     
@@ -3878,7 +3948,7 @@ transformed and validated according to the rules defined in lib/endpoints</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/lib/index.js.html#lineNumber412">source</a></span></span>
+      <span data-ice="source"><span><a href="file/lib/index.js.html#lineNumber408">source</a></span></span>
     </span>
   </h3>
 
@@ -3973,7 +4043,7 @@ transformed and validated according to the rules defined in lib/endpoints</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/lib/index.js.html#lineNumber433">source</a></span></span>
+      <span data-ice="source"><span><a href="file/lib/index.js.html#lineNumber429">source</a></span></span>
     </span>
   </h3>
 
@@ -4068,7 +4138,7 @@ transformed and validated according to the rules defined in lib/endpoints</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/lib/index.js.html#lineNumber251">source</a></span></span>
+      <span data-ice="source"><span><a href="file/lib/index.js.html#lineNumber247">source</a></span></span>
     </span>
   </h3>
 
@@ -4151,7 +4221,7 @@ transformed and validated according to the rules defined in lib/endpoints</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/lib/index.js.html#lineNumber393">source</a></span></span>
+      <span data-ice="source"><span><a href="file/lib/index.js.html#lineNumber389">source</a></span></span>
     </span>
   </h3>
 
@@ -4246,7 +4316,7 @@ EAN, ISBN, or JAN values</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/lib/index.js.html#lineNumber482">source</a></span></span>
+      <span data-ice="source"><span><a href="file/lib/index.js.html#lineNumber478">source</a></span></span>
     </span>
   </h3>
 
@@ -4320,7 +4390,7 @@ EAN, ISBN, or JAN values</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/lib/index.js.html#lineNumber323">source</a></span></span>
+      <span data-ice="source"><span><a href="file/lib/index.js.html#lineNumber319">source</a></span></span>
     </span>
   </h3>
 
@@ -4401,7 +4471,7 @@ see <a href="https://docs.developer.amazonservices.com/en_UK/orders-2013-09-01/O
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/lib/index.js.html#lineNumber450">source</a></span></span>
+      <span data-ice="source"><span><a href="file/lib/index.js.html#lineNumber446">source</a></span></span>
     </span>
   </h3>
 
@@ -4488,7 +4558,7 @@ see <a href="https://docs.developer.amazonservices.com/en_UK/orders-2013-09-01/O
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/lib/index.js.html#lineNumber467">source</a></span></span>
+      <span data-ice="source"><span><a href="file/lib/index.js.html#lineNumber463">source</a></span></span>
     </span>
   </h3>
 
@@ -4575,14 +4645,14 @@ see <a href="https://docs.developer.amazonservices.com/en_UK/orders-2013-09-01/O
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/lib/index.js.html#lineNumber540">source</a></span></span>
+      <span data-ice="source"><span><a href="file/lib/index.js.html#lineNumber539">source</a></span></span>
     </span>
   </h3>
 
   
   
   
-  <div data-ice="description"><p>Returns the contents of a report</p>
+  <div data-ice="description"><p>Download a specific report identified by the ReportId and return it</p>
 </div>
 
   
@@ -4599,15 +4669,14 @@ see <a href="https://docs.developer.amazonservices.com/en_UK/orders-2013-09-01/O
       <td data-ice="name" class="code" data-depth="0">options</td>
       <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></span></td>
       <td data-ice="appendix"></td>
-      <td data-ice="description"><p>Options to pass to GetReport</p>
+      <td data-ice="description"><p>GetReport options, should contain a [ReportId]</p>
 </td>
     </tr>
 <tr data-ice="property" data-depth="1">
       <td data-ice="name" class="code" data-depth="1">options.ReportId</td>
       <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span></td>
       <td data-ice="appendix"></td>
-      <td data-ice="description"><p>Report number
-from @see <span>GetReportList</span> or GeneratedReportId from @see <span><a href="typedef/index.html#static-typedef-GetReportRequestListResult">GetReportRequestListResult</a></span></p>
+      <td data-ice="description"><p>Report number from [GetReportList] or [GeneratedReportId] from [GetReportRequestListResult]</p>
 </td>
     </tr>
 </tbody>
@@ -4638,7 +4707,14 @@ from @see <span>GetReportList</span> or GeneratedReportId from @see <span><a hre
 
   
 
-  
+  <div data-ice="example">
+    <h4>Example:</h4>
+    
+  <div class="example-doc" data-ice="exampleDoc">
+      
+      <pre class="prettyprint source-code"><code data-ice="exampleCode">mws.getReport({ ReportId: &apos;12660293969017879&apos; });</code></pre>
+    </div>
+</div>
 
   
 
@@ -4657,7 +4733,7 @@ from @see <span>GetReportList</span> or GeneratedReportId from @see <span><a hre
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/lib/index.js.html#lineNumber550">source</a></span></span>
+      <span data-ice="source"><span><a href="file/lib/index.js.html#lineNumber549">source</a></span></span>
     </span>
   </h3>
 
@@ -4729,7 +4805,7 @@ from @see <span>GetReportList</span> or GeneratedReportId from @see <span><a hre
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/lib/index.js.html#lineNumber574">source</a></span></span>
+      <span data-ice="source"><span><a href="file/lib/index.js.html#lineNumber573">source</a></span></span>
     </span>
   </h3>
 
@@ -4801,7 +4877,7 @@ from @see <span>GetReportList</span> or GeneratedReportId from @see <span><a hre
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/lib/index.js.html#lineNumber562">source</a></span></span>
+      <span data-ice="source"><span><a href="file/lib/index.js.html#lineNumber561">source</a></span></span>
     </span>
   </h3>
 
@@ -4875,7 +4951,7 @@ from @see <span>GetReportList</span> or GeneratedReportId from @see <span><a hre
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/lib/index.js.html#lineNumber525">source</a></span></span>
+      <span data-ice="source"><span><a href="file/lib/index.js.html#lineNumber521">source</a></span></span>
     </span>
   </h3>
 
@@ -4996,7 +5072,7 @@ Status @see <span><a href="variable/index.html#static-variable-REPORT_PROCESSING
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/lib/index.js.html#lineNumber618">source</a></span></span>
+      <span data-ice="source"><span><a href="file/lib/index.js.html#lineNumber617">source</a></span></span>
     </span>
   </h3>
 
@@ -5068,7 +5144,7 @@ Status @see <span><a href="variable/index.html#static-variable-REPORT_PROCESSING
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/lib/index.js.html#lineNumber116">source</a></span></span>
+      <span data-ice="source"><span><a href="file/lib/index.js.html#lineNumber118">source</a></span></span>
     </span>
   </h3>
 
@@ -5210,7 +5286,7 @@ const mws = MWS.init({ host: &apos;alternate-mws-server.com&apos;, accessKeyId, 
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/lib/index.js.html#lineNumber341">source</a></span></span>
+      <span data-ice="source"><span><a href="file/lib/index.js.html#lineNumber337">source</a></span></span>
     </span>
   </h3>
 
@@ -5317,7 +5393,7 @@ const mws = MWS.init({ host: &apos;alternate-mws-server.com&apos;, accessKeyId, 
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/lib/index.js.html#lineNumber359">source</a></span></span>
+      <span data-ice="source"><span><a href="file/lib/index.js.html#lineNumber355">source</a></span></span>
     </span>
   </h3>
 
@@ -5417,7 +5493,7 @@ const mws = MWS.init({ host: &apos;alternate-mws-server.com&apos;, accessKeyId, 
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/lib/index.js.html#lineNumber375">source</a></span></span>
+      <span data-ice="source"><span><a href="file/lib/index.js.html#lineNumber371">source</a></span></span>
     </span>
   </h3>
 
@@ -5511,7 +5587,7 @@ const mws = MWS.init({ host: &apos;alternate-mws-server.com&apos;, accessKeyId, 
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/lib/index.js.html#lineNumber308">source</a></span></span>
+      <span data-ice="source"><span><a href="file/lib/index.js.html#lineNumber304">source</a></span></span>
     </span>
   </h3>
 
@@ -5593,7 +5669,7 @@ ShippingDiscount</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/lib/index.js.html#lineNumber282">source</a></span></span>
+      <span data-ice="source"><span><a href="file/lib/index.js.html#lineNumber278">source</a></span></span>
     </span>
   </h3>
 
@@ -5754,7 +5830,7 @@ If you are having trouble, see the official parameter documentation above.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/lib/index.js.html#lineNumber596">source</a></span></span>
+      <span data-ice="source"><span><a href="file/lib/index.js.html#lineNumber595">source</a></span></span>
     </span>
   </h3>
 
@@ -5903,7 +5979,7 @@ If you are having trouble, see the official parameter documentation above.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/lib/index.js.html#lineNumber584">source</a></span></span>
+      <span data-ice="source"><span><a href="file/lib/index.js.html#lineNumber583">source</a></span></span>
     </span>
   </h3>
 
@@ -5964,84 +6040,6 @@ If you are having trouble, see the official parameter documentation above.</p>
   
 </div>
 <div class="detail" data-ice="detail">
-  <h3 data-ice="anchor" id="instance-method-requestPromise">
-    <span class="access" data-ice="access">public</span>
-    
-    
-    
-    
-    
-    <span class="code" data-ice="name">requestPromise</span><span class="code" data-ice="signature">(requestData: <span>*</span>, options: {}): <span>*</span></span>
-    <span class="right-info">
-      
-      
-      <span data-ice="source"><span><a href="file/lib/index.js.html#lineNumber136">source</a></span></span>
-    </span>
-  </h3>
-
-  
-  
-  
-  
-
-  
-
-  <div data-ice="properties"><div data-ice="properties">
-  <h4 data-ice="title">Params:</h4>
-  <table class="params">
-    <thead>
-    <tr><td>Name</td><td>Type</td><td>Attribute</td><td>Description</td></tr>
-    </thead>
-    <tbody>
-    
-    <tr data-ice="property" data-depth="0">
-      <td data-ice="name" class="code" data-depth="0">requestData</td>
-      <td data-ice="type" class="code"><span>*</span></td>
-      <td data-ice="appendix"></td>
-      <td data-ice="description"></td>
-    </tr>
-<tr data-ice="property" data-depth="0">
-      <td data-ice="name" class="code" data-depth="0">options</td>
-      <td data-ice="type" class="code">{}</td>
-      <td data-ice="appendix"><ul><li>optional</li>
-<li>default: {}</li></ul></td>
-      <td data-ice="description"></td>
-    </tr>
-</tbody>
-  </table>
-</div>
-</div>
-
-  <div class="return-params" data-ice="returnParams">
-    <h4>Return:</h4>
-    <table>
-      <tbody>
-        <tr>
-          <td class="return-type code" data-ice="returnType"><span>*</span></td>
-          
-        </tr>
-      </tbody>
-    </table>
-    <div data-ice="returnProperties">
-</div>
-  </div>
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-  
-</div>
-<div class="detail" data-ice="detail">
   <h3 data-ice="anchor" id="instance-method-requestReport">
     <span class="access" data-ice="access">public</span>
     
@@ -6053,7 +6051,7 @@ If you are having trouble, see the official parameter documentation above.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/lib/index.js.html#lineNumber502">source</a></span></span>
+      <span data-ice="source"><span><a href="file/lib/index.js.html#lineNumber498">source</a></span></span>
     </span>
   </h3>
 
@@ -6161,7 +6159,7 @@ Many optional parameters may be required by MWS! Read <a href="https://docs.deve
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/lib/index.js.html#lineNumber606">source</a></span></span>
+      <span data-ice="source"><span><a href="file/lib/index.js.html#lineNumber605">source</a></span></span>
     </span>
   </h3>
 

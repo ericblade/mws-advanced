@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <base data-ice="baseUrl" href="../../../">
-  <title data-ice="title">lib/parsers/feesEstimate.js | @ericblade/mws-advanced</title>
+  <title data-ice="title">lib/endpoints/recommendations.js | @ericblade/mws-advanced</title>
   <link type="text/css" rel="stylesheet" href="css/style.css">
   <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
   <script src="script/prettify/prettify.js"></script>
@@ -94,58 +94,63 @@
 </div>
 </nav>
 
-<div class="content" data-ice="content"><h1 data-ice="title">lib/parsers/feesEstimate.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">const { forceArray, transformObjectKeys } = require(&apos;../util/transformers&apos;);
+<div class="content" data-ice="content"><h1 data-ice="title">lib/endpoints/recommendations.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">const generateEndpoints = require(&apos;./endpoints-utils&apos;);
 
-function getFeesEstimate(e) {
-    return e.FeesEstimate || { TotalFeesEstimate: undefined, time: undefined, detail: undefined };
-}
+const categoryName = &apos;Recommendations&apos;;
 
-function getIdentifierData(e) {
-    return e.FeesEstimateIdentifier;
-}
+const apiVersion = &apos;2013-04-01&apos;;
 
-function getSellerInputIdentifier(e) {
-    return getIdentifierData(e).SellerInputIdentifier;
-}
+const endpointList = [
+    &apos;GetLastUpdatedTimeForRecommendations&apos;,
+    &apos;ListRecommendations&apos;,
+    &apos;ListRecommendationsByNextToken&apos;,
+    &apos;GetServiceStatus&apos;,
+];
 
-function getTotalFeesEstimate(e) {
-    return getFeesEstimate(e).TotalFeesEstimate;
-}
+const newEndpointList = {
+    ListRecommendations: {
+        throttle: {
+            maxInFlight: 8,
+            restoreRate: 30,
+        },
+        params: {
+            MarketplaceId: {
+                type: &apos;xs:string&apos;,
+                required: true,
+            },
+            RecommendationCategory: {
+                type: &apos;xs:string&apos;,
+                values: [
+                    &apos;Inventory&apos;,
+                    &apos;Selection&apos;,
+                    &apos;Pricing&apos;,
+                    &apos;Fulfillment&apos;,
+                    &apos;ListingQuality&apos;,
+                    &apos;GlobalSelling&apos;,
+                    &apos;Advertising&apos;,
+                ],
+                required: false,
+            },
+            CategoryQueryList: {
+                list: &apos;CategoryQueryList.CategoryQuery&apos;,
+                required: false,
+                // TODO: This is going to require some pretty serious work to validate, it&apos;s
+                // TODO: apparently expecting array of objects, sort of???
+                // TODO: we may need to implement a &quot;just accept the user string, no validation&quot;
+                // TODO: type to handle this if anyone needs it before validation can be upgraded
+            },
+        },
+        // TODO: fill in returns here
+    },
+};
 
-function getTimeOfFeesEstimation(e) {
-    return getFeesEstimate(e).TimeOfFeesEstimation;
-}
-
-function getFeeDetailList(e) {
-    const x = getFeesEstimate(e).FeeDetailList;
-    const list = x ? x.FeeDetail : x;
-    return list ? forceArray(list) : undefined;
-}
-
-function parseFeesEstimate(fees) {
-    const res2 = forceArray(fees.FeesEstimateResultList.FeesEstimateResult);
-    const feeList = res2.reduce((acc, e) =&gt; {
-        const sellerIdentifier = getSellerInputIdentifier(e);
-        const identifierData = { ...getIdentifierData(e) };
-
-        identifierData.IsAmazonFulfilled = identifierData.IsAmazonFulfilled === &apos;true&apos;;
-
-        acc[sellerIdentifier] = {
-            totalFees: getTotalFeesEstimate(e),
-            time: getTimeOfFeesEstimation(e),
-            detail: getFeeDetailList(e),
-            identifier: identifierData,
-            status: e.Status,
-            error: e.Error || undefined,
-        };
-        return acc;
-    }, {});
-
-    return transformObjectKeys(feeList);
-}
-
-module.exports = parseFeesEstimate;
+module.exports = generateEndpoints(
+    categoryName,
+    apiVersion,
+    endpointList,
+    newEndpointList,
+);
 </code></pre>
 
 </div>

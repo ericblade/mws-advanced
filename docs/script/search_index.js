@@ -1,266 +1,218 @@
 window.esdocSearchIndex = [
   [
-    "mws-advanced/lib/errors.js~invalididentifier",
+    "@ericblade/mws-advanced/lib/errors.js~invalididentifier",
     "class/lib/errors.js~InvalidIdentifier.html",
-    "<span>InvalidIdentifier</span> <span class=\"search-result-import-path\">mws-advanced/lib/errors.js</span>",
+    "<span>InvalidIdentifier</span> <span class=\"search-result-import-path\">@ericblade/mws-advanced/lib/errors.js</span>",
     "class"
   ],
   [
-    "mws-advanced/lib/errors.js~invalidusage",
+    "@ericblade/mws-advanced/lib/errors.js~invalidusage",
     "class/lib/errors.js~InvalidUsage.html",
-    "<span>InvalidUsage</span> <span class=\"search-result-import-path\">mws-advanced/lib/errors.js</span>",
+    "<span>InvalidUsage</span> <span class=\"search-result-import-path\">@ericblade/mws-advanced/lib/errors.js</span>",
     "class"
   ],
   [
-    "mws-advanced/lib/constants.js~market_currency",
+    "@ericblade/mws-advanced/lib/constants.js~market_currency",
     "variable/index.html#static-variable-MARKET_CURRENCY",
-    "<span>MARKET_CURRENCY</span> <span class=\"search-result-import-path\">mws-advanced/lib/constants.js</span>",
+    "<span>MARKET_CURRENCY</span> <span class=\"search-result-import-path\">@ericblade/mws-advanced/lib/constants.js</span>",
     "variable"
   ],
   [
-    "mws-advanced/lib/constants.js~mws_endpoints",
+    "@ericblade/mws-advanced/lib/constants.js~mws_endpoints",
     "variable/index.html#static-variable-MWS_ENDPOINTS",
-    "<span>MWS_ENDPOINTS</span> <span class=\"search-result-import-path\">mws-advanced/lib/constants.js</span>",
+    "<span>MWS_ENDPOINTS</span> <span class=\"search-result-import-path\">@ericblade/mws-advanced/lib/constants.js</span>",
     "variable"
   ],
   [
-    "mws-advanced/lib/constants.js~mws_marketplaces",
+    "@ericblade/mws-advanced/lib/constants.js~mws_marketplaces",
     "variable/index.html#static-variable-MWS_MARKETPLACES",
-    "<span>MWS_MARKETPLACES</span> <span class=\"search-result-import-path\">mws-advanced/lib/constants.js</span>",
+    "<span>MWS_MARKETPLACES</span> <span class=\"search-result-import-path\">@ericblade/mws-advanced/lib/constants.js</span>",
     "variable"
   ],
   [
-    "mws-advanced~mwsadvanced",
+    "@ericblade/mws-advanced~mwsadvanced",
     "class/lib/index.js~MwsAdvanced.html",
-    "<span>MwsAdvanced</span> <span class=\"search-result-import-path\">mws-advanced</span>",
+    "<span>MwsAdvanced</span> <span class=\"search-result-import-path\">@ericblade/mws-advanced</span>",
     "class"
   ],
   [
-    "mws-advanced/lib/endpoints/queue.js~queue",
+    "@ericblade/mws-advanced/lib/endpoints/queue.js~queue",
     "class/lib/endpoints/Queue.js~Queue.html",
-    "<span>Queue</span> <span class=\"search-result-import-path\">mws-advanced/lib/endpoints/Queue.js</span>",
+    "<span>Queue</span> <span class=\"search-result-import-path\">@ericblade/mws-advanced/lib/endpoints/Queue.js</span>",
     "class"
   ],
   [
-    "mws-advanced/lib/endpoints/constants.js~report_processing_status_types",
+    "@ericblade/mws-advanced/lib/endpoints/constants.js~report_processing_status_types",
     "variable/index.html#static-variable-REPORT_PROCESSING_STATUS_TYPES",
-    "<span>REPORT_PROCESSING_STATUS_TYPES</span> <span class=\"search-result-import-path\">mws-advanced/lib/endpoints/constants.js</span>",
+    "<span>REPORT_PROCESSING_STATUS_TYPES</span> <span class=\"search-result-import-path\">@ericblade/mws-advanced/lib/endpoints/constants.js</span>",
     "variable"
   ],
   [
-    "mws-advanced/lib/endpoints/constants.js~request_report_types",
+    "@ericblade/mws-advanced/lib/endpoints/constants.js~request_report_types",
     "variable/index.html#static-variable-REQUEST_REPORT_TYPES",
-    "<span>REQUEST_REPORT_TYPES</span> <span class=\"search-result-import-path\">mws-advanced/lib/endpoints/constants.js</span>",
+    "<span>REQUEST_REPORT_TYPES</span> <span class=\"search-result-import-path\">@ericblade/mws-advanced/lib/endpoints/constants.js</span>",
     "variable"
   ],
   [
-    "mws-advanced/lib/errors.js~requestcancelled",
+    "@ericblade/mws-advanced/lib/errors.js~requestcancelled",
     "class/lib/errors.js~RequestCancelled.html",
-    "<span>RequestCancelled</span> <span class=\"search-result-import-path\">mws-advanced/lib/errors.js</span>",
+    "<span>RequestCancelled</span> <span class=\"search-result-import-path\">@ericblade/mws-advanced/lib/errors.js</span>",
     "class"
   ],
   [
-    "mws-advanced/lib/errors.js~serviceerror",
+    "@ericblade/mws-advanced/lib/errors.js~serviceerror",
     "class/lib/errors.js~ServiceError.html",
-    "<span>ServiceError</span> <span class=\"search-result-import-path\">mws-advanced/lib/errors.js</span>",
+    "<span>ServiceError</span> <span class=\"search-result-import-path\">@ericblade/mws-advanced/lib/errors.js</span>",
     "class"
   ],
   [
-    "mws-advanced/lib/errors.js~validationerror",
+    "@ericblade/mws-advanced/lib/errors.js~validationerror",
     "class/lib/errors.js~ValidationError.html",
-    "<span>ValidationError</span> <span class=\"search-result-import-path\">mws-advanced/lib/errors.js</span>",
+    "<span>ValidationError</span> <span class=\"search-result-import-path\">@ericblade/mws-advanced/lib/errors.js</span>",
     "class"
   ],
   [
-    "mws-advanced/lib/helpers/getlowestpricedoffers.js~getlowestpricedoffersforasin",
+    "@ericblade/mws-advanced/lib/helpers/getlowestpricedoffers.js~getlowestpricedoffersforasin",
     "function/index.html#static-function-getLowestPricedOffersForASIN",
-    "<span>getLowestPricedOffersForASIN</span> <span class=\"search-result-import-path\">mws-advanced/lib/helpers/getLowestPricedOffers.js</span>",
+    "<span>getLowestPricedOffersForASIN</span> <span class=\"search-result-import-path\">@ericblade/mws-advanced/lib/helpers/getLowestPricedOffers.js</span>",
     "function"
   ],
   [
-    "mws-advanced/lib/helpers/getlowestpricedoffers.js~getlowestpricedoffersforsku",
+    "@ericblade/mws-advanced/lib/helpers/getlowestpricedoffers.js~getlowestpricedoffersforsku",
     "function/index.html#static-function-getLowestPricedOffersForSKU",
-    "<span>getLowestPricedOffersForSKU</span> <span class=\"search-result-import-path\">mws-advanced/lib/helpers/getLowestPricedOffers.js</span>",
+    "<span>getLowestPricedOffersForSKU</span> <span class=\"search-result-import-path\">@ericblade/mws-advanced/lib/helpers/getLowestPricedOffers.js</span>",
     "function"
   ],
   [
-    "mws-advanced/lib/helpers/getmatchingproduct.js~getmatchingproductforid",
+    "@ericblade/mws-advanced/lib/helpers/getmatchingproduct.js~getmatchingproductforid",
     "function/index.html#static-function-getMatchingProductForId",
-    "<span>getMatchingProductForId</span> <span class=\"search-result-import-path\">mws-advanced/lib/helpers/getMatchingProduct.js</span>",
+    "<span>getMatchingProductForId</span> <span class=\"search-result-import-path\">@ericblade/mws-advanced/lib/helpers/getMatchingProduct.js</span>",
     "function"
   ],
   [
-    "mws-advanced/lib/helpers/getmyfeesestimate.js~getmyfeesestimate",
+    "@ericblade/mws-advanced/lib/helpers/getmyfeesestimate.js~getmyfeesestimate",
     "function/index.html#static-function-getMyFeesEstimate",
-    "<span>getMyFeesEstimate</span> <span class=\"search-result-import-path\">mws-advanced/lib/helpers/getMyFeesEstimate.js</span>",
+    "<span>getMyFeesEstimate</span> <span class=\"search-result-import-path\">@ericblade/mws-advanced/lib/helpers/getMyFeesEstimate.js</span>",
     "function"
   ],
   [
-    "mws-advanced/lib/helpers/getorder.js~getorder",
+    "@ericblade/mws-advanced/lib/helpers/getorder.js~getorder",
     "function/index.html#static-function-getOrder",
-    "<span>getOrder</span> <span class=\"search-result-import-path\">mws-advanced/lib/helpers/getOrder.js</span>",
+    "<span>getOrder</span> <span class=\"search-result-import-path\">@ericblade/mws-advanced/lib/helpers/getOrder.js</span>",
     "function"
   ],
   [
-    "mws-advanced/lib/helpers/getproductcategories.js~getproductcategoriesforskus",
+    "@ericblade/mws-advanced/lib/helpers/getproductcategories.js~getproductcategoriesforskus",
     "function/index.html#static-function-getProductCategoriesForSkus",
-    "<span>getProductCategoriesForSkus</span> <span class=\"search-result-import-path\">mws-advanced/lib/helpers/getProductCategories.js</span>",
+    "<span>getProductCategoriesForSkus</span> <span class=\"search-result-import-path\">@ericblade/mws-advanced/lib/helpers/getProductCategories.js</span>",
     "function"
   ],
   [
-    "mws-advanced/lib/endpoints/queue.js~getqueue",
+    "@ericblade/mws-advanced/lib/endpoints/queue.js~getqueue",
     "function/index.html#static-function-getQueue",
-    "<span>getQueue</span> <span class=\"search-result-import-path\">mws-advanced/lib/endpoints/Queue.js</span>",
+    "<span>getQueue</span> <span class=\"search-result-import-path\">@ericblade/mws-advanced/lib/endpoints/Queue.js</span>",
     "function"
   ],
   [
-    "mws-advanced/lib/helpers/reports.js~getreport",
+    "@ericblade/mws-advanced/lib/helpers/reports.js~getreport",
     "function/index.html#static-function-getReport",
-    "<span>getReport</span> <span class=\"search-result-import-path\">mws-advanced/lib/helpers/reports.js</span>",
+    "<span>getReport</span> <span class=\"search-result-import-path\">@ericblade/mws-advanced/lib/helpers/reports.js</span>",
     "function"
   ],
   [
-    "mws-advanced/lib/helpers/reports.js~getreportlist",
+    "@ericblade/mws-advanced/lib/helpers/reports.js~getreportlist",
     "function/index.html#static-function-getReportList",
-    "<span>getReportList</span> <span class=\"search-result-import-path\">mws-advanced/lib/helpers/reports.js</span>",
+    "<span>getReportList</span> <span class=\"search-result-import-path\">@ericblade/mws-advanced/lib/helpers/reports.js</span>",
     "function"
   ],
   [
-    "mws-advanced/lib/helpers/reports.js~getreportlistall",
+    "@ericblade/mws-advanced/lib/helpers/reports.js~getreportlistall",
     "function/index.html#static-function-getReportListAll",
-    "<span>getReportListAll</span> <span class=\"search-result-import-path\">mws-advanced/lib/helpers/reports.js</span>",
+    "<span>getReportListAll</span> <span class=\"search-result-import-path\">@ericblade/mws-advanced/lib/helpers/reports.js</span>",
     "function"
   ],
   [
-    "mws-advanced/lib/helpers/reports.js~getreportlistbynexttoken",
+    "@ericblade/mws-advanced/lib/helpers/reports.js~getreportlistbynexttoken",
     "function/index.html#static-function-getReportListByNextToken",
-    "<span>getReportListByNextToken</span> <span class=\"search-result-import-path\">mws-advanced/lib/helpers/reports.js</span>",
+    "<span>getReportListByNextToken</span> <span class=\"search-result-import-path\">@ericblade/mws-advanced/lib/helpers/reports.js</span>",
     "function"
   ],
   [
-    "mws-advanced/lib/helpers/reports.js~getreportrequestlist",
+    "@ericblade/mws-advanced/lib/helpers/reports.js~getreportrequestlist",
     "function/index.html#static-function-getReportRequestList",
-    "<span>getReportRequestList</span> <span class=\"search-result-import-path\">mws-advanced/lib/helpers/reports.js</span>",
+    "<span>getReportRequestList</span> <span class=\"search-result-import-path\">@ericblade/mws-advanced/lib/helpers/reports.js</span>",
     "function"
   ],
   [
-    "mws-advanced/lib/helpers/reports.js~getreportschedulelist",
+    "@ericblade/mws-advanced/lib/helpers/reports.js~getreportschedulelist",
     "function/index.html#static-function-getReportScheduleList",
-    "<span>getReportScheduleList</span> <span class=\"search-result-import-path\">mws-advanced/lib/helpers/reports.js</span>",
+    "<span>getReportScheduleList</span> <span class=\"search-result-import-path\">@ericblade/mws-advanced/lib/helpers/reports.js</span>",
     "function"
   ],
   [
-    "mws-advanced/lib/helpers/listfinancialevents.js~listfinancialevents",
+    "@ericblade/mws-advanced/lib/helpers/listfinancialevents.js~listfinancialevents",
     "function/index.html#static-function-listFinancialEvents",
-    "<span>listFinancialEvents</span> <span class=\"search-result-import-path\">mws-advanced/lib/helpers/listFinancialEvents.js</span>",
+    "<span>listFinancialEvents</span> <span class=\"search-result-import-path\">@ericblade/mws-advanced/lib/helpers/listFinancialEvents.js</span>",
     "function"
   ],
   [
-    "mws-advanced/lib/helpers/listinventorysupply.js~listinventorysupply",
+    "@ericblade/mws-advanced/lib/helpers/listinventorysupply.js~listinventorysupply",
     "function/index.html#static-function-listInventorySupply",
-    "<span>listInventorySupply</span> <span class=\"search-result-import-path\">mws-advanced/lib/helpers/listInventorySupply.js</span>",
+    "<span>listInventorySupply</span> <span class=\"search-result-import-path\">@ericblade/mws-advanced/lib/helpers/listInventorySupply.js</span>",
     "function"
   ],
   [
-    "mws-advanced/lib/helpers/listmatchingproducts.js~listmatchingproducts",
+    "@ericblade/mws-advanced/lib/helpers/listmatchingproducts.js~listmatchingproducts",
     "function/index.html#static-function-listMatchingProducts",
-    "<span>listMatchingProducts</span> <span class=\"search-result-import-path\">mws-advanced/lib/helpers/listMatchingProducts.js</span>",
+    "<span>listMatchingProducts</span> <span class=\"search-result-import-path\">@ericblade/mws-advanced/lib/helpers/listMatchingProducts.js</span>",
     "function"
   ],
   [
-    "mws-advanced/lib/helpers/listorders.js~listorders",
+    "@ericblade/mws-advanced/lib/helpers/listorders.js~listorders",
     "function/index.html#static-function-listOrders",
-    "<span>listOrders</span> <span class=\"search-result-import-path\">mws-advanced/lib/helpers/listOrders.js</span>",
+    "<span>listOrders</span> <span class=\"search-result-import-path\">@ericblade/mws-advanced/lib/helpers/listOrders.js</span>",
     "function"
   ],
   [
-    "mws-advanced/lib/helpers/reports.js~managereportschedule",
+    "@ericblade/mws-advanced/lib/helpers/reports.js~managereportschedule",
     "function/index.html#static-function-manageReportSchedule",
-    "<span>manageReportSchedule</span> <span class=\"search-result-import-path\">mws-advanced/lib/helpers/reports.js</span>",
+    "<span>manageReportSchedule</span> <span class=\"search-result-import-path\">@ericblade/mws-advanced/lib/helpers/reports.js</span>",
     "function"
   ],
   [
-    "mws-advanced/lib/parsers/feesestimate.js~parsefeesestimate",
+    "@ericblade/mws-advanced/lib/parsers/feesestimate.js~parsefeesestimate",
     "function/index.html#static-function-parseFeesEstimate",
-    "<span>parseFeesEstimate</span> <span class=\"search-result-import-path\">mws-advanced/lib/parsers/feesEstimate.js</span>",
+    "<span>parseFeesEstimate</span> <span class=\"search-result-import-path\">@ericblade/mws-advanced/lib/parsers/feesEstimate.js</span>",
     "function"
   ],
   [
-    "mws-advanced/lib/parsers/marketplacedata.js~parsemarketplacedata",
+    "@ericblade/mws-advanced/lib/parsers/marketplacedata.js~parsemarketplacedata",
     "function/index.html#static-function-parseMarketplaceData",
-    "<span>parseMarketplaceData</span> <span class=\"search-result-import-path\">mws-advanced/lib/parsers/marketplaceData.js</span>",
+    "<span>parseMarketplaceData</span> <span class=\"search-result-import-path\">@ericblade/mws-advanced/lib/parsers/marketplaceData.js</span>",
     "function"
   ],
   [
-    "mws-advanced/lib/parsers/matchingproduct.js~parsematchingproduct",
+    "@ericblade/mws-advanced/lib/parsers/matchingproduct.js~parsematchingproduct",
     "function/index.html#static-function-parseMatchingProduct",
-    "<span>parseMatchingProduct</span> <span class=\"search-result-import-path\">mws-advanced/lib/parsers/matchingProduct.js</span>",
+    "<span>parseMatchingProduct</span> <span class=\"search-result-import-path\">@ericblade/mws-advanced/lib/parsers/matchingProduct.js</span>",
     "function"
   ],
   [
-    "mws-advanced/lib/endpoints/queue.js~registerqueue",
+    "@ericblade/mws-advanced/lib/endpoints/queue.js~registerqueue",
     "function/index.html#static-function-registerQueue",
-    "<span>registerQueue</span> <span class=\"search-result-import-path\">mws-advanced/lib/endpoints/Queue.js</span>",
+    "<span>registerQueue</span> <span class=\"search-result-import-path\">@ericblade/mws-advanced/lib/endpoints/Queue.js</span>",
     "function"
   ],
   [
-    "mws-advanced/lib/helpers/reports.js~requestanddownloadreport",
+    "@ericblade/mws-advanced/lib/helpers/reports.js~requestanddownloadreport",
     "function/index.html#static-function-requestAndDownloadReport",
-    "<span>requestAndDownloadReport</span> <span class=\"search-result-import-path\">mws-advanced/lib/helpers/reports.js</span>",
+    "<span>requestAndDownloadReport</span> <span class=\"search-result-import-path\">@ericblade/mws-advanced/lib/helpers/reports.js</span>",
     "function"
   ],
   [
-    "mws-advanced/lib/util/transformers.js~stringtobool",
-    "function/index.html#static-function-stringToBool",
-    "<span>stringToBool</span> <span class=\"search-result-import-path\">mws-advanced/lib/util/transformers.js</span>",
-    "function"
-  ],
-  [
-    "mws-advanced/lib/util/transformers.js~stringtofloat",
-    "function/index.html#static-function-stringToFloat",
-    "<span>stringToFloat</span> <span class=\"search-result-import-path\">mws-advanced/lib/util/transformers.js</span>",
-    "function"
-  ],
-  [
-    "mws-advanced/lib/util/transformers.js~stringtoint",
-    "function/index.html#static-function-stringToInt",
-    "<span>stringToInt</span> <span class=\"search-result-import-path\">mws-advanced/lib/util/transformers.js</span>",
-    "function"
-  ],
-  [
-    "mws-advanced/lib/util/transformers.js~stringtoprimitives",
-    "function/index.html#static-function-stringToPrimitives",
-    "<span>stringToPrimitives</span> <span class=\"search-result-import-path\">mws-advanced/lib/util/transformers.js</span>",
-    "function"
-  ],
-  [
-    "mws-advanced/lib/util/transformers.js~transformattributesetkey",
-    "function/index.html#static-function-transformAttributeSetKey",
-    "<span>transformAttributeSetKey</span> <span class=\"search-result-import-path\">mws-advanced/lib/util/transformers.js</span>",
-    "function"
-  ],
-  [
-    "mws-advanced/lib/util/transformers.js~transformkey",
-    "function/index.html#static-function-transformKey",
-    "<span>transformKey</span> <span class=\"search-result-import-path\">mws-advanced/lib/util/transformers.js</span>",
-    "function"
-  ],
-  [
-    "mws-advanced/lib/util/transformers.js~transformobjectkeys",
-    "function/index.html#static-function-transformObjectKeys",
-    "<span>transformObjectKeys</span> <span class=\"search-result-import-path\">mws-advanced/lib/util/transformers.js</span>",
-    "function"
-  ],
-  [
-    "mws-advanced/lib/util/transformers.js~transformobjecttoprimitives",
-    "function/index.html#static-function-transformObjectToPrimitives",
-    "<span>transformObjectToPrimitives</span> <span class=\"search-result-import-path\">mws-advanced/lib/util/transformers.js</span>",
-    "function"
-  ],
-  [
-    "mws-advanced/lib/helpers/reports.js~updatereportacknowledgements",
+    "@ericblade/mws-advanced/lib/helpers/reports.js~updatereportacknowledgements",
     "function/index.html#static-function-updateReportAcknowledgements",
-    "<span>updateReportAcknowledgements</span> <span class=\"search-result-import-path\">mws-advanced/lib/helpers/reports.js</span>",
+    "<span>updateReportAcknowledgements</span> <span class=\"search-result-import-path\">@ericblade/mws-advanced/lib/helpers/reports.js</span>",
     "function"
   ],
   [
@@ -744,6 +696,12 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
+    "lib/endpoints/recommendations.js",
+    "file/lib/endpoints/recommendations.js.html",
+    "lib/endpoints/recommendations.js",
+    "file"
+  ],
+  [
     "lib/endpoints/reports.js",
     "file/lib/endpoints/reports.js.html",
     "lib/endpoints/reports.js",
@@ -948,6 +906,12 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
+    "lib/index.js~mwsadvanced#dorequest",
+    "class/lib/index.js~MwsAdvanced.html#instance-method-doRequest",
+    "lib/index.js~MwsAdvanced#doRequest",
+    "method"
+  ],
+  [
     "lib/index.js~mwsadvanced#getlowestpricedoffersforasin",
     "class/lib/index.js~MwsAdvanced.html#instance-method-getLowestPricedOffersForAsin",
     "lib/index.js~MwsAdvanced#getLowestPricedOffersForAsin",
@@ -1089,12 +1053,6 @@ window.esdocSearchIndex = [
     "lib/index.js~mwsadvanced#requestanddownloadreport",
     "class/lib/index.js~MwsAdvanced.html#instance-method-requestAndDownloadReport",
     "lib/index.js~MwsAdvanced#requestAndDownloadReport",
-    "method"
-  ],
-  [
-    "lib/index.js~mwsadvanced#requestpromise",
-    "class/lib/index.js~MwsAdvanced.html#instance-method-requestPromise",
-    "lib/index.js~MwsAdvanced#requestPromise",
     "method"
   ],
   [
@@ -1395,12 +1353,6 @@ window.esdocSearchIndex = [
     "lib/util/sleep.js",
     "file/lib/util/sleep.js.html",
     "lib/util/sleep.js",
-    "file"
-  ],
-  [
-    "lib/util/transformers.js",
-    "file/lib/util/transformers.js.html",
-    "lib/util/transformers.js",
     "file"
   ],
   [
