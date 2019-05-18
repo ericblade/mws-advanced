@@ -1,16 +1,16 @@
 {
-  "name": "mws-advanced",
-  "version": "1.0.0",
-  "description": "",
+  "name": "@ericblade/mws-advanced",
+  "version": "2.0.0",
+  "description": "Modern, fully featured, very opinionated node javascript Amazon MWS API based on @ericblade/mws-simple",
   "main": "lib/index.js",
   "scripts": {
-    "test": "./node_modules/.bin/mocha --timeout=60000",
+    "coverage-codebeat": "./send-coverage",
     "coverage": "./node_modules/.bin/nyc --reporter=lcov ./node_modules/.bin/mocha --timeout=60000",
     "coveralls": "cat ./coverage/lcov.info | ./node_modules/.bin/coveralls",
-    "coverage-codebeat": "./send-coverage",
     "lint-staged": "npx lint-staged",
+    "make-docs": "npx esdoc && documentation build -f md > API.md",
     "push-master": "npm run coverage && git push origin master && send-coverage.cmd",
-    "make-docs": "npx esdoc && documentation build -f md > API.md"
+    "test": "./node_modules/.bin/mocha --timeout=60000"
   },
   "lint-staged": {
     "*.js": "eslint"
@@ -18,34 +18,70 @@
   "pre-commit": [
     "lint-staged"
   ],
-  "keywords": [
-    "amazon",
-    "amazon.com",
-    "mws",
-    "seller",
-    "marketplace"
-  ],
   "author": "Eric Blade <blade.eric@gmail.com>",
   "license": "Apache",
   "dependencies": {
-    "@ericblade/mws-simple": "^4.0.0",
+    "@ericblade/mws-simple": "^4.0.1",
     "es6-error": "^4.1.1"
   },
   "devDependencies": {
-    "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
-    "coveralls": "^3.0.2",
-    "esdoc": "^1.1.0",
+    "chai": "^4.2.0",
+    "coveralls": "^3.0.3",
     "esdoc-ecmascript-proposal-plugin": "^1.0.0",
-    "esdoc-node": "^1.0.3",
+    "esdoc-node": "^1.0.4",
     "esdoc-standard-plugin": "^1.0.0",
-    "eslint": "^5.16.0",
+    "esdoc": "^1.1.0",
     "eslint-config-airbnb-base": "^13.1.0",
-    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-import": "^2.17.2",
+    "eslint": "^5.16.0",
     "lint-staged": "^8.1.6",
     "mocha": "^6.0.0",
     "nyc": "^14.1.1",
     "pre-commit": "^1.2.2",
     "xml2js": "^0.4.19"
-  }
+  },
+  "keywords": [
+    "amazon merchant web services",
+    "amazon mws feeds",
+    "amazon mws finances",
+    "amazon mws fulfillment inbound shipment",
+    "amazon mws fulfillment inventory",
+    "amazon mws fulfillment outbound shipment",
+    "amazon mws orders",
+    "amazon mws products",
+    "amazon mws sellers",
+    "amazon mws",
+    "amazon-mws-async",
+    "amazon-mws-await",
+    "amazon-mws-client",
+    "amazon-mws-node-api",
+    "amazon-mws",
+    "amazon.com",
+    "amazon",
+    "amzn-mws",
+    "asin",
+    "async",
+    "es6",
+    "es7",
+    "fba",
+    "fbm",
+    "fullfilment by amazon",
+    "marketplace",
+    "mws-api-info",
+    "mws-api",
+    "mws-product",
+    "mws-sdk-async",
+    "mws-sdk-promises",
+    "mws",
+    "node-mws-sdk-meteor",
+    "node-mws-sdk",
+    "node-mws",
+    "node",
+    "nodejs",
+    "promise",
+    "promises",
+    "seller",
+    "sku"
+  ]
 }
