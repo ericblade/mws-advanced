@@ -3,12 +3,12 @@
 <head>
   <meta charset="utf-8">
   <base data-ice="baseUrl" href="../../../">
-  <title data-ice="title">lib/endpoints/inbound.js | @ericblade/mws-advanced</title>
+  <title data-ice="title">lib/parsers/inboundGuidance.js | mws-advanced</title>
   <link type="text/css" rel="stylesheet" href="css/style.css">
   <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
   <script src="script/prettify/prettify.js"></script>
   <script src="script/manual.js"></script>
-<meta name="description" content="Modern, fully featured, very opinionated node javascript Amazon MWS API based on @ericblade/mws-simple"><meta property="twitter:card" content="summary"><meta property="twitter:title" content="@ericblade/mws-advanced"><meta property="twitter:description" content="Modern, fully featured, very opinionated node javascript Amazon MWS API based on @ericblade/mws-simple"></head>
+</head>
 <body class="layout-container" data-ice="rootContainer">
 
 <header>
@@ -111,89 +111,236 @@
 </div>
 </nav>
 
-<div class="content" data-ice="content"><h1 data-ice="title">lib/endpoints/inbound.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">
-const generateEndpoints = require(&apos;./endpoints-utils&apos;);
-
-const categoryName = &apos;FulfillmentInboundShipment&apos;;
-
-const apiVersion = &apos;2010-10-01&apos;;
-
-const endpointList = [
-    &apos;GetInboundGuidanceForSKU&apos;,
-    &apos;GetInboundGuidanceForASIN&apos;,
-    &apos;CreateInboundShipmentPlan&apos;,
-    &apos;CreateInboundShipment&apos;,
-    &apos;UpdateInboundShipment&apos;,
-    &apos;GetPreorderInfo&apos;,
-    &apos;ConfirmPreorder&apos;,
-    &apos;GetPrepInstructionsForSKU&apos;,
-    &apos;GetPrepInstructionsForASIN&apos;,
-    &apos;PutTransportContent&apos;,
-    &apos;EstimateTransportRequest&apos;,
-    &apos;GetTransportContent&apos;,
-    &apos;ConfirmTransportRequest&apos;,
-    &apos;VoidTransportRequest&apos;,
-    &apos;GetPackageLabels&apos;,
-    &apos;GetUniquePackageLabels&apos;,
-    &apos;GetPalletLabels&apos;,
-    &apos;GetBillOfLading&apos;,
-    &apos;ListInboundShipments&apos;,
-    &apos;ListInboundShipmentsByNextToken&apos;,
-    &apos;ListInboundShipmentItems&apos;,
-    &apos;ListInboundShipmentItemsByNextToken&apos;,
-    &apos;GetServiceStatus&apos;,
-];
-
-const newEndpointList = {
-    GetInboundGuidanceForASIN: {
-        throttle: {
-            maxInFlight: 200,
-            restoreRate: 200,
-        },
-        params: {
-            MarketplaceId: {
-                type: &apos;xs:string&apos;,
-                required: true,
-            },
-            ASINList: {
-                type: &apos;xs:string&apos;,
-                required: true,
-                list: &apos;ASINList.Id&apos;,
-            },
-        },
-    },
-    GetInboundGuidanceForSKU: {
-        throttle: {
-            maxInFlight: 200,
-            restoreRate: 200,
-        },
-        params: {
-            MarketplaceId: {
-                type: &apos;xs:string&apos;,
-                required: true,
-            },
-            SellerSKUList: {
-                type: &apos;xs:string&apos;,
-                required: true,
-                list: &apos;SellerSKUList.Id&apos;,
-            },
-        },
-    },
-};
+<div class="content" data-ice="content"><h1 data-ice="title">lib/parsers/inboundGuidance.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">const { forceArray, reduceArrayIntoObjBy } = require(&apos;../util/transformers&apos;);
 
 /**
- * @private
+ * http://docs.developer.amazonservices.com/en_US/fba_inbound/FBAInbound_Datatypes.html#InvalidASIN
+ * @typedef {object} MWSInvalidASIN
+ * @property {string} ASIN
+ * @property {string} ErrorReason
  */
 
-const endpoints = generateEndpoints(
-    categoryName,
-    apiVersion,
-    endpointList,
-    newEndpointList,
-);
+/**
+ * @typedef {MWSInvalidASIN[]} MWSInvalidASINList
+ */
 
-module.exports = endpoints;
+/**
+ * @typedef {object} invalidAsin
+ * @property {string} asin
+ * @property {string} error
+ */
+
+/**
+ * converts MWSInvalidASIN to invalidAsin
+ *
+ * @param {MWSInvalidASIN} mwsInvalidAsin invalid ASIN data from amazon
+ * @returns invalidAsin
+ */
+function parseInvalidAsin(mwsInvalidAsin) {
+    return { asin: mwsInvalidAsin.ASIN, error: mwsInvalidAsin.ErrorReason };
+}
+
+/**
+ * convers MWSInvalidASINList to invalidAsin[]
+ *
+ * @param {MWSInvalidASINList} mwsInvalidAsinList
+ * @returns
+ */
+function parseInvalidAsinList(mwsInvalidAsinList) {
+    let { InvalidASIN: list } = mwsInvalidAsinList;
+    list = forceArray(list);
+    return list.map(parseInvalidAsin);
+}
+
+/**
+ * http://docs.developer.amazonservices.com/en_US/fba_inbound/FBAInbound_Datatypes.html#InvalidSKU
+ * @typedef MWSInvalidSKU
+ * @property {string} SellerSKU SellerSKU for item
+ * @property {string} ErrorReason Reason for error
+ */
+
+/**
+ * @typedef invalidSku
+ * @property {string} sku seller&apos;s sku for item
+ * @property {string} error reason for error
+ */
+
+/**
+ * @typedef {MWSInvaludSku[]} MWSInvalidSKUList
+ */
+
+/**
+ * convert MWSInvalidSKU to invalidSku
+ *
+ * @param {MWSInvalidSKU} mwsInvalidSku
+ * @returns {invalidSku}
+ */
+function parseInvalidSku(mwsInvalidSku) {
+    console.warn(&apos;* invalidSku=&apos;, mwsInvalidSku);
+    return { sku: mwsInvalidSku.SellerSKU, error: mwsInvalidSku.ErrorReason };
+}
+
+/**
+ * Convert MWSInvalidSKUList to invalidSku[]
+ *
+ * @param {MWSInvalidSKUList} mwsInvalidSkuList
+ * @returns {invalidSku[]}
+ */
+function parseInvalidSkuList(mwsInvalidSkuList) {
+    let { InvalidSKU: list } = mwsInvalidSkuList;
+    list = forceArray(list);
+    return list.map(parseInvalidSku);
+}
+
+/**
+ * https://docs.developer.amazonservices.com/en_UK/fba_inbound/FBAInbound_Datatypes.html#GuidanceReason
+ * Amazon says this is a list, but I can only get it to return as a single item.
+ * This might be a bug in Amazon or docs or us, not sure.
+ * @typedef MWSGuidanceReasonList
+ * @property {string} GuidanceReason reason for amazon guidance
+ */
+
+/**
+ * @typedef {string} guidanceReason reason for amazon guidance
+ */
+
+/**
+ * convert MWSGuidanceReasonList to guidanceReason
+ *
+ * @param {MWSGuidanceReasonList} mwsGuidanceReasonList
+ * @returns {guidanceReason}
+ */
+function parseGuidanceReasonList(mwsGuidanceReasonList) {
+    const { GuidanceReason } = mwsGuidanceReasonList;
+    return GuidanceReason;
+}
+
+/**
+ * https://docs.developer.amazonservices.com/en_UK/fba_inbound/FBAInbound_Datatypes.html#InboundGuidance
+ * @typedef {string} MWSInboundGuidance may contain &quot;InboundOK&quot; or &quot;InboundNotRecommended&quot;
+ */
+
+// TODO: typedef sku and asin somewhere in docs
+/**
+ * @typedef inboundGuidance
+ * @property {string} [sku] seller SKU
+ * @property {string} asin amazon ASIN
+ * @property {MWSInboundGuidance} guidance type of guidance
+ * @property {guidanceReason} reason reason for the guidance, empty for &apos;InboundOK&apos;
+ */
+
+/**
+ * https://docs.developer.amazonservices.com/en_UK/fba_inbound/FBAInbound_Datatypes.html#ASINInboundGuidance
+ * @typedef MWSASINInboundGuidance
+ * @property {string} ASIN
+ * @property {MWSInboundGuidance} InboundGuidence
+ * @property {MWSGuidanceReasonList} GuidanceReasonList
+ */
+function parseAsinInboundGuidance(mwsAsinInboundGuidance) {
+    const { GuidanceReasonList } = mwsAsinInboundGuidance;
+    const reason = GuidanceReasonList ? parseGuidanceReasonList(GuidanceReasonList) : &apos;&apos;;
+    return {
+        asin: mwsAsinInboundGuidance.ASIN,
+        guidance: mwsAsinInboundGuidance.InboundGuidance,
+        reason,
+    };
+}
+
+/**
+ * @typedef {MWSInboundGuidance[]} MWSASINInboundGuidanceList
+ */
+
+/**
+ * convert MWSASINInboundGuidanceList to inboundGuidance[]
+ *
+ * @param {MWSASINInboundGuidanceList} mwsAsinInboundGuidanceList
+ * @returns {inboundGuidance[]}
+ */
+function parseAsinInboundGuidanceList(mwsAsinInboundGuidanceList) {
+    let { ASINInboundGuidance: list } = mwsAsinInboundGuidanceList;
+    list = forceArray(list);
+    return list.map(parseAsinInboundGuidance);
+}
+
+/**
+ * https://docs.developer.amazonservices.com/en_UK/fba_inbound/FBAInbound_Datatypes.html#SKUInboundGuidance
+ * @typedef MWSSKUInboundGuidance
+ * @property {string} SellerSKU
+ * @property {string} ASIN
+ * @property {MWSInboundGuidance} InboundGuidance
+ * @property {MWSGuidanceReasonList} GuidanceReasonList
+ */
+
+/**
+ * convert MWSSKUInboundGuidance to inboundGuidance
+ *
+ * @param {MWSSKUInboundGuidance} mwsSkuInboundGuidance
+ * @returns {inboundGuidance}
+ */
+function parseSkuInboundGuidance(mwsSkuInboundGuidance) {
+    const { GuidanceReasonList } = mwsSkuInboundGuidance;
+    const reason = GuidanceReasonList ? parseGuidanceReasonList(GuidanceReasonList) : &apos;&apos;;
+    return {
+        sku: mwsSkuInboundGuidance.SellerSKU,
+        asin: mwsSkuInboundGuidance.ASIN,
+        guidance: mwsSkuInboundGuidance.InboundGuidance,
+        reason,
+    };
+}
+
+/**
+ * @typedef {MWSSKUInboundGuidance[]} MWSSKUInboundGuidanceList
+ */
+
+/**
+ * convert MWSSKUInboundGuidanceList to inboundGuidance[]
+ *
+ * @param {MWSSkuInboundGuidanceList} guidanceList
+ * @returns {inboundGuidance[]}
+ */
+function parseSkuInboundGuidanceList(guidanceList) {
+    let { SKUInboundGuidance: list } = guidanceList;
+    list = forceArray(list);
+    return list.map(parseSkuInboundGuidance);
+}
+
+/*
+ * Determine if a passed guidance is a SKUInboundGuidance or an ASINInboundGuidance, and
+ * parse it with the appropriate subparser.
+ *
+ * @param {object} guidance contains SKUInboundGuidance/ASINInboundGuidance/InvalidASINList/InvalidSKUList
+ * @param {MWSInvalidASINList} [InvalidASINList]
+ * @param {MWSInvalidSKUList} [InvalidSKUList]
+ * @param {MWSASINInboundGuidanceList} [ASINInboundGuidanceList]
+ * @param {MWSSKUInboundGuidanceList} [SKUInboundGuidanceList]
+ * @return {object} formatted inbound guidance
+ */
+function parseAnyInboundGuidance(guidance) {
+    // console.warn(&apos;* inbound guidance=%o&apos;, guidance);
+    const {
+        InvalidASINList,
+        InvalidSKUList,
+        ASINInboundGuidanceList,
+        SKUInboundGuidanceList,
+    } = guidance;
+    let results = {};
+    if (InvalidASINList) {
+        results = reduceArrayIntoObjBy(parseInvalidAsinList(InvalidASINList), results, &apos;asin&apos;);
+    }
+    if (InvalidSKUList) {
+        results = reduceArrayIntoObjBy(parseInvalidSkuList(InvalidSKUList), results, &apos;sku&apos;);
+    }
+    if (ASINInboundGuidanceList) {
+        results = reduceArrayIntoObjBy(parseAsinInboundGuidanceList(ASINInboundGuidanceList), results, &apos;asin&apos;);
+    }
+    if (SKUInboundGuidanceList) {
+        results = reduceArrayIntoObjBy(parseSkuInboundGuidanceList(SKUInboundGuidanceList), results, &apos;asin&apos;);
+    }
+    return results;
+}
+
+module.exports = parseAnyInboundGuidance;
 </code></pre>
 
 </div>
