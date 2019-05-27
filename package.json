@@ -1,6 +1,6 @@
 {
   "name": "@ericblade/mws-advanced",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "Modern, fully featured, very opinionated node javascript Amazon MWS API based on @ericblade/mws-simple",
   "main": "lib/index.js",
   "scripts": {
@@ -8,7 +8,9 @@
     "coverage": "./node_modules/.bin/nyc --reporter=lcov ./node_modules/.bin/mocha --timeout=60000",
     "coveralls": "cat ./coverage/lcov.info | ./node_modules/.bin/coveralls",
     "lint-staged": "npx lint-staged",
-    "make-docs": "npx esdoc && documentation build -f md > API.md",
+    "make-docs-old": "npx esdoc && documentation build -f md > API.md",
+    "make-docs": "echo # Public API > docs-src/public-api.md && documentation build lib/index.js -f md --shallow >> docs-src/public-api.md && npx esdoc",
+    "make-docs-public": "documentation build lib/index.js lib/typedefs-public.js lib/constants.js --shallow --theme node_modules/documentation-devseed-theme -f html -o docs-src/public",
     "push-master": "npm run coverage && git push origin master && send-coverage.cmd",
     "test": "./node_modules/.bin/mocha --timeout=60000"
   },
@@ -21,20 +23,21 @@
   "author": "Eric Blade <blade.eric@gmail.com>",
   "license": "Apache",
   "dependencies": {
-    "@ericblade/mws-simple": "^4.0.1",
+    "@ericblade/mws-simple": "^4.1.0",
     "es6-error": "^4.1.1"
   },
   "devDependencies": {
-    "chai-as-promised": "^7.1.1",
     "chai": "^4.2.0",
+    "chai-as-promised": "^7.1.1",
     "coveralls": "^3.0.3",
+    "documentation-devseed-theme": "^0.1.6",
+    "esdoc": "^1.1.0",
     "esdoc-ecmascript-proposal-plugin": "^1.0.0",
     "esdoc-node": "^1.0.4",
     "esdoc-standard-plugin": "^1.0.0",
-    "esdoc": "^1.1.0",
+    "eslint": "^5.16.0",
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-plugin-import": "^2.17.2",
-    "eslint": "^5.16.0",
     "lint-staged": "^8.1.6",
     "mocha": "^6.0.0",
     "nyc": "^14.1.1",
