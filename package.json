@@ -1,6 +1,6 @@
 {
   "name": "@ericblade/mws-advanced",
-  "version": "2.0.3",
+  "version": "2.0.4",
   "description": "Modern, fully featured, very opinionated node javascript Amazon MWS API based on @ericblade/mws-simple",
   "main": "lib/index.js",
   "scripts": {
@@ -23,7 +23,7 @@
   "author": "Eric Blade <blade.eric@gmail.com>",
   "license": "Apache",
   "dependencies": {
-    "@ericblade/mws-simple": "^4.1.0",
+    "@ericblade/mws-simple": "^4.1.1",
     "es6-error": "^4.1.1"
   },
   "devDependencies": {
