@@ -10,7 +10,6 @@ const {
 // TODO: THIS MAY BE A BAD IDEA CONSIDERING THAT SOME CATEGORIES SHARE SOME ENDPOINT NAMES
 // TODO: WE MAY NEED TO COME UP WITH A WAY TO DEAL WITH THAT.
 
-/** simple flat list of all the endpoints required from individual modules above */
 const endpoints = {
     ...feeds,
     ...finances,
