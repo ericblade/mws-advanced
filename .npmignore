@@ -1,3 +1,5 @@
+out/*
+site/*
 *.json
 !test/*.json
 !test/data/*
