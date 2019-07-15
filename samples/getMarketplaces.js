@@ -8,7 +8,7 @@ async function main() {
         const marketplaces = await mws.getMarketplaces();
         console.warn(marketplaces);
     } catch (err) {
-        console.warn('* error', err);
+        console.warn('* error', err.body);
     }
 }
 
