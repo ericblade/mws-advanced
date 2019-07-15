@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 const fs = require('fs');
 
 const MWS = require('..');
@@ -28,6 +29,7 @@ describe('API', function runAPITests() {
 
             testMarketId = marketIds.includes('ATVPDKIKX0DER') ? 'ATVPDKIKX0DER' : marketIds[0];
             const testMarket = marketplaceResults[testMarketId];
+            // eslint-disable-next-line no-console
             console.warn('* using test markets', marketIds);
             expect(testMarket).to.include.all.keys(
                 'marketplaceId', 'defaultCountryCode', 'domainName', 'name',
@@ -74,7 +76,9 @@ describe('API', function runAPITests() {
                     this.skip();
                     return false;
                 }
-                const cappedOrderIdsLength = orderIds.length >= 50 ? orderIds.slice(0, 49) : orderIds;
+                const cappedOrderIdsLength = orderIds.length >= 50
+                    ? orderIds.slice(0, 49)
+                    : orderIds;
                 const results = await MWS.getOrder({ AmazonOrderId: cappedOrderIdsLength });
                 expect(results).to.be.an('array');
                 expect(results).to.have.lengthOf.above(0);
@@ -94,7 +98,8 @@ describe('API', function runAPITests() {
                 'CouponPaymentEventList', 'ServiceProviderCreditEventList',
                 'SellerDealPaymentEventList', 'SellerReviewEnrollmentPaymentEventList',
                 'DebtRecoveryEventList', 'ShipmentEventList', 'RetrochargeEventList',
-                'SAFETReimbursementEventList', 'GuaranteeClaimEventList', 'ImagingServicesFeeEventList',
+                'SAFETReimbursementEventList', 'GuaranteeClaimEventList',
+                'ImagingServicesFeeEventList',
                 'ChargebackEventList', 'FBALiquidationEventList', 'LoanServicingEventList',
                 'RefundEventList', 'AdjustmentEventList', 'PerformanceBondRefundEventList',
                 'AffordabilityExpenseEventList', 'AffordabilityExpenseReversalEventList',
@@ -118,28 +123,30 @@ describe('API', function runAPITests() {
     });
     describe('Products Category', () => {
         describe('listMatchingProducts', () => {
-            it('listMatchingProducts better made special potato sticks original', async function testListMatchingProducts() {
-                const results = await MWS.listMatchingProducts({
-                    marketplaceId: 'ATVPDKIKX0DER',
-                    query: 'better made special potato sticks original',
+            it('listMatchingProducts better made special potato sticks original',
+                async function testListMatchingProducts() {
+                    const results = await MWS.listMatchingProducts({
+                        marketplaceId: 'ATVPDKIKX0DER',
+                        query: 'better made special potato sticks original',
+                    });
+                    expect(results).to.be.an('array');
+                    expect(results).to.have.length.greaterThan(0);
+                    const test = results[0];
+                    expect(test).to.be.an('object').that.contains.keys(
+                        'identifiers',
+                        'attributeSets',
+                        'relationships',
+                        'salesRankings',
+                    );
                 });
-                expect(results).to.be.an('array');
-                expect(results).to.have.length.greaterThan(0);
-                const test = results[0];
-                expect(test).to.be.an('object').that.contains.keys(
-                    'identifiers',
-                    'attributeSets',
-                    'relationships',
-                    'salesRankings',
-                );
-            });
-            it('listMatchingProducts testjunk (expect empty response here)', async function testListMatchingProducts2() {
-                const results = await MWS.listMatchingProducts({
-                    marketplaceId: 'ATVPDKIKX0DER',
-                    query: 'testjunk',
+            it('listMatchingProducts testjunk (expect empty response here)',
+                async function testListMatchingProducts2() {
+                    const results = await MWS.listMatchingProducts({
+                        marketplaceId: 'ATVPDKIKX0DER',
+                        query: 'testjunk',
+                    });
+                    return expect(results).to.be.an('array').with.lengthOf(0);
                 });
-                return expect(results).to.be.an('array').with.lengthOf(0);
-            });
         });
         describe('getMatchingProductForId', () => {
             // TODO: getMatchingProductForId with two duplicate ASINs throws a 400 Bad Request
@@ -188,7 +195,6 @@ describe('API', function runAPITests() {
                     IdType: 'UPC',
                     IdList: ['012345678900'],
                 };
-                // Error: {"Type":"Sender","Code":"InvalidParameterValue","Message":"Invalid UPC identifier 000000000000 for marketplace ATVPDKIKX0DER"}
                 return expect(MWS.getMatchingProductForId(params)).to.be.rejectedWith(errors.ServiceError);
             });
             it('getMatchingProductForId with ASIN that has been deleted', async function testGetMatchingProductForId5() {
@@ -315,9 +321,10 @@ describe('API', function runAPITests() {
             const test2 = {
                 ...test1,
                 identifier: '2',
-                idValue: 'B00IDD9TU8',
+                idValue: 'B0774JLFLW',
                 isAmazonFulfilled: false,
             };
+            // TODO: should build a test for deleted/invalid B00IDD9TU8 to ensure bad items come back in an expected fashion
 
             // TODO: write tests for potential failure conditions, make sure code handles them as expected
             // TODO: write a function to compare (input [test1/test2] and output [testRes, testRes2]) so that code isn't so needlessly duplicated
@@ -418,7 +425,6 @@ describe('API', function runAPITests() {
         let ReportRequestId = null;
         it('requestReport', async function () {
             if (!process.env.REPORTS_TESTS) {
-                console.warn('* skipping reports tests (set env REPORTS_TESTS=true to perform)');
                 this.skip();
                 return false;
             }
@@ -435,7 +441,6 @@ describe('API', function runAPITests() {
                 'StartDate',
             );
             ({ ReportRequestId } = report);
-            console.warn('* setting future report request id to', ReportRequestId);
             return true;
         });
         it('getReportRequestList (timeout disabled, retries until status shows a done or cancelled state)', async function testGetReportRequestList() {
@@ -444,7 +449,6 @@ describe('API', function runAPITests() {
                 return false;
             }
             if (!process.env.REPORTS_TESTS) {
-                console.warn('* skipping reports tests');
                 this.skip();
                 return false;
             }
@@ -468,7 +472,6 @@ describe('API', function runAPITests() {
         });
         it('getReportListAll', async function testGetReportListAll() {
             if (!process.env.REPORTS_TESTS) {
-                console.warn('* skipping reports tests');
                 this.skip();
                 return false;
             }
@@ -485,7 +488,6 @@ describe('API', function runAPITests() {
                 return false;
             }
             if (!process.env.REPORTS_TESTS) {
-                console.warn('* skipping reports tests');
                 this.skip();
                 return false;
             }
@@ -503,12 +505,10 @@ describe('API', function runAPITests() {
             );
             const amount = parseFloat(settlement['total-amount']);
             expect(amount).to.be.a('number');
-            console.warn(`* Found settlement of ${amount}`);
             return settlement;
         });
         it('requestAndDownloadReport (timeout 120sec)', async function testRequestDownloadReport() {
             if (!process.env.REPORTS_TESTS) {
-                console.warn('* skipping reports tests');
                 this.skip();
                 return false;
             }

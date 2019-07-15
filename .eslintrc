@@ -1,56 +1,62 @@
 {
-    "extends": "airbnb-base",
-    "parserOptions": {
-    },
-    "env": {
-        "node": true
-    },
-    "globals": {
-    },
-    "rules": {
-        "no-restricted-syntax": 0,
-        "indent": [ "error", 4, { "SwitchCase": 1 } ],
-        "linebreak-style": 0,
-        "max-len": [
-            "warn",
-            {
-                "code": 100,
-                "comments": 120,
-                "ignoreTrailingComments": true,
-                "ignoreUrls": true
-            }
-        ],
-        "new-cap": [
-            "error",
-            { "capIsNewExceptions":
-                [
-                ]
-            }
-        ],
-        "no-underscore-dangle": [
-            "error",
-            {
-                "allow": [
-                ]
-            }
-        ],
-        "import/named": [ 2 ],
-        "import/no-unresolved": [ 0 ],
-        "prefer-destructuring": [
-            "error",
-            {
-                "VariableDeclarator": {
-                    "array": false,
-                    "object": true
-                },
-                "AssignmentExpression": {
-                    "array": false,
-                    "object": false
-                }
-            },
-            {
-                "enforceForRenamedProperties": false
-            }
-        ]
-    }
+	"extends": "airbnb-base",
+	"parserOptions": {},
+	"env": {
+		"node": true
+	},
+	"globals": {},
+	"rules": {
+		"no-restricted-syntax": 0,
+		"indent": [
+			"error",
+			4,
+			{
+				"SwitchCase": 1
+			}
+		],
+		"linebreak-style": 0,
+		"max-len": [
+			"warn",
+			{
+				"code": 100,
+				"comments": 120,
+				"ignoreTrailingComments": true,
+				"ignoreUrls": true
+			}
+		],
+		"new-cap": [
+			"error",
+			{
+				"capIsNewExceptions": []
+			}
+		],
+		"no-underscore-dangle": [
+			"error",
+			{
+				"allow": []
+			}
+		],
+		"import/named": [
+			2
+		],
+		"import/no-unresolved": [
+			0
+		],
+		"prefer-destructuring": [
+			"error",
+			{
+				"VariableDeclarator": {
+					"array": false,
+					"object": true
+				},
+				"AssignmentExpression": {
+					"array": false,
+					"object": false
+				}
+			},
+			{
+				"enforceForRenamedProperties": false
+			}
+		]
+	}
 }
