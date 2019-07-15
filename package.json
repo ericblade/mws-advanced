@@ -17,9 +17,9 @@
 	"lint-staged": {
 		"*.js": "eslint --fix"
 	},
-	/* "pre-commit": [
+	"pre-commit": [
 		"lint-staged"
-	],*/
+	],
 	"author": "Eric Blade <blade.eric@gmail.com>",
 	"license": "Apache",
 	"dependencies": {
@@ -30,11 +30,7 @@
 		"chai": "^4.2.0",
 		"chai-as-promised": "^7.1.1",
 		"coveralls": "^3.0.4",
-		"documentation-devseed-theme": "^0.1.6",
-		"esdoc": "^1.1.0",
-		"esdoc-ecmascript-proposal-plugin": "^1.0.0",
 		"esdoc-node": "^1.0.4",
-		"esdoc-standard-plugin": "^1.0.0",
 		"eslint": "^5.16.0",
 		"eslint-config-airbnb-base": "^13.2.0",
 		"eslint-plugin-import": "^2.18.0",
