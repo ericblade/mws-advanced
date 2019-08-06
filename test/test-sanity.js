@@ -62,6 +62,24 @@ describe('mws-advanced sanity', () => {
             expect(client2.mws.accessKeyId).to.equal('Junk');
             done();
         });
+        it('multiple instances, created asynchronously, connect to the intended marketplace/region', async () => {
+            const allInitParams = [initTestParams, { ...initTestParams, accessKeyId: 'Junk', host: 'https://mws.amazonservices.jp' }];
+
+            const createMWSAdvancedAsync = async (initParams) => {
+                const mws = new MWS(initParams);
+                return mws;
+            };
+
+            const allMWSObjectsUsedForRequest = await Promise.all(allInitParams.map(async (initParams) => {
+                const MWSClient = createMWSAdvancedAsync(initParams);
+                MWSClient.mockRequest = async () => {
+                    return Promise.resolve(MWSClient);
+                };
+                return MWSClient.mockRequest();
+            }));
+
+            expect(allMWSObjectsUsedForRequest[0]).not.to.deep.equal(allMWSObjectsUsedForRequest[1]);
+        });
         it('init can pick up environment variables for keys', (done) => {
             const oldkey = process.env.MWS_ACCESS_KEY;
             process.env.MWS_ACCESS_KEY = 'testAccessKey';
