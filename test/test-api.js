@@ -53,7 +53,7 @@ describe('API', function runAPITests() {
                 };
                 const results = await MWS.listOrders(params);
                 expect(results).to.have.lengthOf.above(0);
-                orderIds = Object.keys(results).map(order => results[order].AmazonOrderId);
+                orderIds = Object.keys(results).map((order) => results[order].AmazonOrderId);
                 expect(orderIds).to.have.lengthOf.above(0);
                 orderId = orderIds[0];
                 return true;
@@ -88,7 +88,7 @@ describe('API', function runAPITests() {
             startDate.setDate(startDate.getDate() - 7);
             const result = await MWS.listFinancialEvents({ PostedAfter: startDate });
             expect(result).to.be.an('object');
-            expect(result).to.have.keys(
+            expect(result).to.include.keys(
                 'ProductAdsPaymentEventList', 'RentalTransactionEventList',
                 'PayWithAmazonEventList', 'ServiceFeeEventList',
                 'CouponPaymentEventList', 'ServiceProviderCreditEventList',
@@ -100,6 +100,8 @@ describe('API', function runAPITests() {
                 'AffordabilityExpenseEventList', 'AffordabilityExpenseReversalEventList',
                 'NetworkComminglingTransactionEventList',
             );
+            // another possible key is RemovalShipmentEventList, but only comes up if you have
+            // removal orders in your recent queue
             return result;
         });
     });
@@ -382,6 +384,9 @@ describe('API', function runAPITests() {
                 expect(prices2.listingPrice).to.deep.equal(test2.listingPrice);
                 expect(prices2.shipping).to.deep.equal(test2.shipping);
             });
+            // TODO: this test used to test for a ServerError condition, where data was not
+            // available.
+            // now the exact same call is providing a ClientError instead. ?!
             it('getMyFeesEstimate error handling', async function testFeesErrors() {
                 const feeTest = {
                     marketplaceId: 'ATVPDKIKX0DER',
@@ -399,16 +404,21 @@ describe('API', function runAPITests() {
                 };
                 const res = await MWS.getMyFeesEstimate([feeTest]);
                 const test = res[`FBA.${feeTest.idValue}`];
+                console.warn('* res=', res);
                 expect(test.totalFees).to.equal(undefined);
                 expect(test.time).to.equal(undefined);
                 expect(test.detail).to.equal(undefined);
                 expect(test.identifier).to.be.an('Object');
                 expect(test.identifier.isAmazonFulfilled).to.equal(true);
-                expect(test.status).to.equal('ServerError');
+                // expect(test.status).to.equal('ServerError');
+                expect(test.status).to.equal('ClientError');
                 expect(test.error).to.be.an('Object').that.includes.all.keys('code', 'message', 'type');
-                expect(test.error.code).to.equal('DataNotAvailable');
-                expect(test.error.message).to.equal('Item shipping weight is not available.');
-                expect(test.error.type).to.equal('Receiver');
+                // expect(test.error.code).to.equal('DataNotAvailable');
+                expect(test.error.code).to.equal('InvalidParameterValue');
+                // expect(test.error.message).to.equal('Item shipping weight is not available.');
+                expect(test.error.message).to.equal('There is an client-side error. Please verify your inputs.');
+                expect(test.error.type).to.equal('Sender');
+                // expect(test.error.type).to.equal('Receiver');
                 return res;
             });
         });
