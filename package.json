@@ -1,6 +1,6 @@
 {
   "name": "@ericblade/mws-advanced",
-  "version": "2.0.8",
+  "version": "2.0.9",
   "description": "Modern, fully featured, very opinionated node javascript Amazon MWS API based on @ericblade/mws-simple",
   "main": "lib/index.js",
   "repository": {
@@ -26,26 +26,26 @@
   "author": "Eric Blade <blade.eric@gmail.com>",
   "license": "Apache-2.0",
   "dependencies": {
-    "@ericblade/mws-simple": "^4.1.4",
+    "@ericblade/mws-simple": "^4.1.5",
     "es6-error": "^4.1.1"
   },
   "devDependencies": {
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
-    "coveralls": "^3.0.6",
+    "coveralls": "^3.0.7",
     "documentation-devseed-theme": "^0.1.7",
     "esdoc": "^1.1.0",
     "esdoc-ecmascript-proposal-plugin": "^1.0.0",
-    "esdoc-node": "^1.0.4",
+    "esdoc-node": "^1.0.5",
     "esdoc-standard-plugin": "^1.0.0",
-    "eslint": "^6.1.0",
+    "eslint": "^6.6.0",
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-plugin-import": "^2.18.2",
-    "lint-staged": "^9.0.0",
-    "mocha": "^6.2.0",
+    "lint-staged": "^9.4.2",
+    "mocha": "^6.2.2",
     "nyc": "^14.1.1",
     "pre-commit": "^1.2.2",
-    "xml2js": "^0.4.19"
+    "xml2js": "^0.4.22"
   },
   "keywords": [
     "amazon merchant web services",
