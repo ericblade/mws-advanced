@@ -404,7 +404,7 @@ describe('API', function runAPITests() {
                 };
                 const res = await MWS.getMyFeesEstimate([feeTest]);
                 const test = res[`FBA.${feeTest.idValue}`];
-                console.warn('* res=', res);
+                // console.warn('* res=', res);
                 expect(test.totalFees).to.equal(undefined);
                 expect(test.time).to.equal(undefined);
                 expect(test.detail).to.equal(undefined);
