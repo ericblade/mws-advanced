@@ -43,7 +43,7 @@
     "eslint-plugin-import": "^2.19.1",
     "lint-staged": "^9.5.0",
     "mocha": "^6.2.2",
-    "nyc": "^14.1.1",
+    "nyc": "^15.0.0",
     "pre-commit": "^1.2.2",
     "xml2js": "^0.4.22"
   },
