@@ -3,10 +3,12 @@
   "version": "2.0.9",
   "description": "Modern, fully featured, very opinionated node javascript Amazon MWS API based on @ericblade/mws-simple",
   "main": "lib/index.js",
+  "types": "types/mws-advanced.d.ts",
   "repository": {
     "url": "https://github.com/ericblade/mws-advanced"
   },
   "scripts": {
+    "prepublishOnly": "npm run build-types",
     "coverage-codebeat": "./send-coverage",
     "coverage": "./node_modules/.bin/nyc --reporter=lcov ./node_modules/.bin/mocha --timeout=60000",
     "coveralls": "cat ./coverage/lcov.info | ./node_modules/.bin/coveralls",
@@ -15,6 +17,7 @@
     "make-docs": "echo # Public API > docs-src/public-api.md && documentation build lib/index.js -f md --shallow >> docs-src/public-api.md && npx esdoc",
     "make-docs-public": "documentation build lib/index.js lib/typedefs-public.js lib/constants.js --shallow --theme node_modules/documentation-devseed-theme -f html -o docs-src/public",
     "push-master": "npm run coverage && git push origin master && send-coverage.cmd",
+    "build-types": "npx tsc --emitDeclarationOnly --declaration --out ./types/mws-advanced.d.ts",
     "test": "./node_modules/.bin/mocha --timeout=60000"
   },
   "lint-staged": {
@@ -30,8 +33,16 @@
     "es6-error": "^4.1.1"
   },
   "devDependencies": {
+    "@semantic-release/changelog": "^3.0.6",
+    "@semantic-release/commit-analyzer": "^6.3.3",
+    "@semantic-release/git": "^7.0.18",
+    "@semantic-release/github": "^5.5.5",
+    "@semantic-release/npm": "^5.3.4",
+    "@semantic-release/release-notes-generator": "^7.3.5",
+    "@types/node": "^13.1.0",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
+    "conventional-changelog-eslint": "^3.0.4",
     "coveralls": "^3.0.9",
     "documentation-devseed-theme": "^0.1.7",
     "esdoc": "^1.1.0",
@@ -45,6 +56,8 @@
     "mocha": "^6.2.2",
     "nyc": "^15.0.0",
     "pre-commit": "^1.2.2",
+    "semantic-release": "^15.14.0",
+    "typescript": "^3.7.4",
     "xml2js": "^0.4.22"
   },
   "keywords": [
@@ -89,5 +102,27 @@
     "promises",
     "seller",
     "sku"
-  ]
+  ],
+  "release": {
+    "plugins": [
+      [
+        "@semantic-release/commit-analyzer",
+        {
+          "preset": "eslint"
+        }
+      ],
+      "@semantic-release/release-notes-generator",
+      [
+        "@semantic-release/npm",
+        {
+          "npmPublish": true
+        }
+      ],
+      "@semantic-release/changelog",
+      "@semantic-release/git",
+      "@semantic-release/github"
+    ],
+    "branch": "master",
+    "tagFormat": "${version}"
+  }
 }

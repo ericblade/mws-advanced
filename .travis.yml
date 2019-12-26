@@ -3,4 +3,4 @@ node_js:
   - "9"
   - "10"
   - "11"
-after_success: 'npm run coverage && npm run coveralls'
+after_success: 'npm run coverage && npm run coveralls && npx semantic-release'
