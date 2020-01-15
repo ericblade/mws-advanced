@@ -29,7 +29,7 @@
   "author": "Eric Blade <blade.eric@gmail.com>",
   "license": "Apache-2.0",
   "dependencies": {
-    "@ericblade/mws-simple": "^4.1.5",
+    "@ericblade/mws-simple": "^5.0.2",
     "es6-error": "^4.1.1"
   },
   "devDependencies": {
