@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GetInboundGuidanceForASINResponse xmlns="http://mws.amazonaws.com/FulfillmentInboundShipment/2010-10-01/">
+   <GetInboundGuidanceForASINResult>
+        <ASINInboundGuidanceList>
+            <ASINInboundGuidance>
+                <ASIN>ValidASINString</ASIN>
+                <InboundGuidance>InboundGuidanceString</InboundGuidance>
+                <GuidanceReasonList>
+                    <GuidanceReason>GuidanceReasonString</GuidanceReason>
+                </GuidanceReasonList>
+            </ASINInboundGuidance>
+        </ASINInboundGuidanceList>
+        <InvalidASINList>
+            <InvalidASIN>
+                <ASIN>InvalidASINString</ASIN>
+                <ErrorReason>ErrorString</ErrorReason>
+            </InvalidASIN>
+        </InvalidASINList>
+    </GetInboundGuidanceForASINResult>
+   <ResponseMetadata>
+        <RequestId>RequestIDString</RequestId>
+    </ResponseMetadata>
+</GetInboundGuidanceForASINResponse>

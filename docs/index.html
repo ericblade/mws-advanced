@@ -3,12 +3,12 @@
 <head>
   <meta charset="utf-8">
   <base data-ice="baseUrl" href="./">
-  <title data-ice="title">Manual | mws-advanced</title>
+  <title data-ice="title">Manual | @ericblade/mws-advanced</title>
   <link type="text/css" rel="stylesheet" href="css/style.css">
   <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
   <script src="script/prettify/prettify.js"></script>
   <script src="script/manual.js"></script>
-</head>
+<meta name="description" content="Modern, fully featured, very opinionated node javascript Amazon MWS API based on @ericblade/mws-simple"><meta property="twitter:card" content="summary"><meta property="twitter:title" content="@ericblade/mws-advanced"><meta property="twitter:description" content="Modern, fully featured, very opinionated node javascript Amazon MWS API based on @ericblade/mws-simple"></head>
 <body class="layout-container manual-root manual-index" data-ice="rootContainer">
 
 <header>
@@ -57,6 +57,7 @@
 <li data-ice="manualNav" class="indent-h3" data-link="manual/usage.html"><a href="manual/usage.html#report-processing" data-ice="link">Report Processing</a></li>
 <li data-ice="manualNav" class="indent-h2" data-link="manual/usage.html"><a href="manual/usage.html#api-call-caching" data-ice="link">API call caching</a></li>
 <li data-ice="manualNav" class="indent-h2" data-link="manual/usage.html"><a href="manual/usage.html#submitting-data-feeds" data-ice="link">Submitting data feeds</a></li>
+<li data-ice="manualNav" class="indent-h2" data-link="manual/usage.html"><a href="manual/usage.html#samples" data-ice="link">Samples</a></li>
 </ul>
   </div>
 </div>
@@ -69,7 +70,7 @@ cleaner interface to MWS, translating the mess of XML based results that Amazon 
 something that is much closer to what you&apos;re expecting in a Javascript environment. In the future,
 it will handle most all of the behind-the-scenes dirty work involved in creating a functional MWS
 application, such as throttling API calls.</p>
-<h1 id="example-usage---single-instance">Example usage - Single instance</h1><pre><code><code class="source-code prettyprint">const mws = require(&apos;mws-advanced&apos;);
+<h1 id="example-usage---single-instance">Example usage - Single instance</h1><pre><code><code class="source-code prettyprint">const mws = require(&apos;@ericblade/mws-advanced&apos;);
 
 mws.init({
     accessKeyId: &apos;Your Amazon AWS access key&apos;,
@@ -92,7 +93,7 @@ mws.init({
     console.log(`Orders: ${JSON.stringify(orders, null, 4)}`);
 })();
 </code>
-</code></pre><h1 id="example-usage---multiple-instance-capability">Example usage - Multiple instance capability</h1><pre><code><code class="source-code prettyprint">const MWS = require(&apos;mws-advanced).MWSAdvanced;
+</code></pre><h1 id="example-usage---multiple-instance-capability">Example usage - Multiple instance capability</h1><pre><code><code class="source-code prettyprint">const MWS = require(&apos;@ericblade/mws-advanced&apos;);
 
 (async function() {
     const mws = new MWS({
@@ -121,16 +122,9 @@ to MWS, and that will be automatically converted into the ISO-8601 date string t
 <p>Similarly, if you attempt to pass un-parseable strings as dates, strings for integers, integers that
 are out of the bounds MWS expects, negative numbers where only positives are allowed, etc, then
 requests with that data will be failed with a ValidationError before ever being transmitted to MWS.</p>
-<h1 id="basic-throttling-support">Basic Throttling Support</h1><p>There is currently support for a fairly basic retry model when API calls are throttled at the
-service end.  The API definitions in lib/endpoints all contain information about how long, according
-to the MWS documentation, requests of a specific type are throttled for.  When a throttle response
-is returned by MWS, the internal APIs will hold the request for the restore-rate length of time, and
-then retry the request.  The default number of retries per request is 2, which should be enough if
-you are executing most of your requests serially.  So, if you are executing a large number of
-requests in parallel, you will probably need to do some additional work behind the scenes to ensure
-that you don&apos;t continuously spam MWS with requests that will be throttled.  Additional work on
-improving this scheme will be undertaken in the future, and changes are welcome to enhance support
-for this throughout the API.</p>
+<h1 id="basic-throttling-support">Basic Throttling Support</h1><p>When a request has been throttled by Amazon, the library will attempt to automatically retry that
+request until it does succeed. Please see the Queue.js file for specifics as to how that works.
+(the documentation will be updated to cover the new Queue mechanism in the future)</p>
 <p>Please see the <a href="./manual/getting-started.html">Getting Started</a> page for more info.</p>
 </div>
 
@@ -151,16 +145,16 @@ Note your Seller ID under the &quot;Your Account Information&quot; heading.  The
 the date you created your API authorization, and a link titled &quot;View your credentials&quot;.</p><p>Click &quot;View your credentials&quot;, and a pop-up will appear with your Access Key ID. Make note of this,
 then click &quot;View&quot; next to the &quot;Secret Key&quot; field.  Make note of your Secret Access Key.</p><p>Now that you have your Access Key Id, Secret Access Key, and Merchant ID, you can begin using the
 MWS API.</p><h3>Official MWS API documentation</h3><p>You may find yourself wanting to refer to the official Amazon documentation, to determine how, when,
-or why to use an API, or to find out information about what it returns, or what it is used for:</p><p><a href="https://developer.amazonservices.com/gp/mws/docs.html">Amazon MWS Web Service API Documentation</a></p><h2>Installation</h2><p>As mws-advanced is still under heavy initial development, it is not currently available from the
-global npm repository.  You should install it from the github repo, as:</p><pre><code><code class="source-code prettyprint">npm install --save github:ericblade/mws-advanced</code>
-</code></pre><h2>Creating the connection to MWS</h2><p>Before you are able to use the mws-advanced API, you must initialize it with your MWS credentials.</p><pre><code><code class="source-code prettyprint">const mws = require(&apos;mws-advanced&apos;);
+or why to use an API, or to find out information about what it returns, or what it is used for:</p><p><a href="https://developer.amazonservices.com/gp/mws/docs.html">Amazon MWS Web Service API Documentation</a></p><h2>Installation</h2><p>from npm:</p><pre><code><code class="source-code prettyprint">npm install --save @ericblade/mws-advanced</code>
+</code></pre><p>from github:</p><pre><code><code class="source-code prettyprint">npm install --save github:ericblade/mws-advanced</code>
+</code></pre><h2>Creating the connection to MWS</h2><p>Before you are able to use the mws-advanced API, you must initialize it with your MWS credentials.</p><pre><code><code class="source-code prettyprint">const mws = require(&apos;@ericblade/mws-advanced&apos;);
 mws.init({
     accessKeyId: &apos;Your Amazon MWS Access Key ID&apos;,
     secretAccessKey: &apos;Your Amazon MWS Secret Access Key&apos;,
     merchantId: &apos;Your Amazon MWS Merchant ID&apos;,
 });</code>
 </code></pre><h2>Multiple Instances</h2><p>If you need multiple instances of the MWS API, such as if you are running a service that may be
-making requests for multiple SellerIDs over time, you can now do:</p><pre><code><code class="source-code prettyprint">const MWS = require(&apos;mws-advanced&apos;).MWSAdvanced;
+making requests for multiple SellerIDs over time, you can now do:</p><pre><code><code class="source-code prettyprint">const MWS = require(&apos;@ericblade/mws-advanced&apos;);
 const mws = new MWS({
     accessKeyId: &apos;Your Amazon MWS Access Key ID&apos;,
     secretAccessKey: &apos;Your Amazon MWS Secret Access Key&apos;,
@@ -397,7 +391,8 @@ significant changes, as we use them, and discover where they are lacking.</p><h2
 PO-TON5-ZUPT\t39.99\t9.99\t199.99\t0\t\t`,
         });
         console.warn(&apos;* results&apos;, JSON.stringify(results, null, 4));</code>
-</code></pre><p>There is a discussion thread up to determine some approaches to improving upon this.  See [Discussion: Dynamic feed generation] (<a href="https://github.com/ericblade/mws-advanced/issues/59">https://github.com/ericblade/mws-advanced/issues/59</a>)</p></div>
+</code></pre><p>There is a discussion thread up to determine some approaches to improving upon this.  See [Discussion: Dynamic feed generation] (<a href="https://github.com/ericblade/mws-advanced/issues/59">https://github.com/ericblade/mws-advanced/issues/59</a>)</p><h2>Samples</h2><p>Please see the [Samples] (<a href="https://github.com/ericblade/mws-advanced/tree/master/samples">https://github.com/ericblade/mws-advanced/tree/master/samples</a>) directory
+in the source repository for a large number of simple uses for the library</p></div>
         <a data-ice="link" href="manual/usage.html"></a>
       </div>
     </div>

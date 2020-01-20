@@ -1,4 +1,3 @@
-const sleep = require('../lib/util/sleep');
 const { Queue, QueueScheduler } = require('../lib/endpoints/Queue');
 
 describe('Testing Queues', function () {
@@ -65,12 +64,11 @@ describe('Testing Queues', function () {
         });
     });
 
-    describe.only('Class Queue', function () {
+    describe('Class Queue', function () {
         let q;
         beforeEach(() => {
             q = new Queue(
                 {
-                    maxInFlight: 6,
                     api: { // MOCK MWS
                         doRequest: () => Promise.resolve(
                             'TEST_RESULT',
@@ -80,121 +78,12 @@ describe('Testing Queues', function () {
                 () => {},
             );
         });
-
         it('Should run a single request', async () => {
             const received = await q.request();
             const expected = 'TEST_RESULT';
             expect(received).to.equal(expected);
         });
-
-        it('Should add an item (or items) to the queue', () => {
-            q.addToQueue = 'TEST_ITEM';
-            expect(q.getQueue).to.deep.equal(['TEST_ITEM']);
-
-            q.addToQueue = 'TEST_ITEM1';
-            q.addToQueue = 'TEST_ITEM2';
-            expect(q.getQueue).to.deep.equal(['TEST_ITEM', 'TEST_ITEM1', 'TEST_ITEM2']);
-
-            q.addToQueue = ['TEST_ITEM3', 'TEST_ITEM4'];
-            expect(q.getQueue).to.deep.equal([
-                'TEST_ITEM', 'TEST_ITEM1', 'TEST_ITEM2', 'TEST_ITEM3', 'TEST_ITEM4',
-            ]);
-        });
-
-        it('Should run all queued items', () => {
-            const mockItemRunner = (() => {
-                let count = 0;
-                q.complete();
-                return () => {
-                    count += 1;
-                    return count;
-                };
-            })();
-
-            q.addToQueue = [
-                { run: mockItemRunner },
-                { run: mockItemRunner },
-                { run: mockItemRunner },
-            ];
-            q.runQueue();
-            setImmediate(() => expect(mockItemRunner() - 1).to.equal(3));
-        });
-
-        it('Should throttle request', async () => {
-            const SleepMockedQueue = new Queue(
-                {
-                    maxInFlight: 5,
-                    restoreRate: 60,
-                    api: { // MOCK MWS
-                        doRequest: async () => {
-                            await sleep(100);
-                            return Promise.resolve('TEST_RESULT');
-                        },
-                    },
-                },
-                () => {},
-            );
-
-            for (let i = 0; i < 10; i += 1) {
-                // eslint-disable-next-line no-await-in-loop
-                await SleepMockedQueue.request({}, {});
-            }
-            expect(SleepMockedQueue.getQueue).to.deep.equal([]);
-        });
-
-        it.only('Should be able to deal with a throtteling Server Error', async () => {
-            const throttleErrorCode = 503;
-            class MockedServerError extends Error {
-                constructor(message, code, body) {
-                    super(message);
-                    if (Error.captureStackTrace) Error.captureStackTrace(this, MockedServerError);
-                    this.code = code;
-                    this.body = body;
-                }
-            }
-            function* mockDoRequestGenerator() {
-                yield Promise.reject(
-                    new MockedServerError('TEST_ERROR', throttleErrorCode, 'TEST'),
-                );
-                yield Promise.resolve('TEST_RESULT');
-                yield Promise.reject(
-                    new MockedServerError('TEST_ERROR', throttleErrorCode, 'TEST'),
-                );
-                yield Promise.reject(
-                    new MockedServerError('TEST_ERROR', throttleErrorCode, 'TEST'),
-                );
-                yield Promise.resolve('TEST_RESULT');
-            }
-            const mockedDoRequestGenerator = mockDoRequestGenerator();
-
-            const SleepMockedQueue = new Queue(
-                {
-                    category: 'TEST',
-                    action: 'SHOUT_TEST',
-                    maxInFlight: 5,
-                    restoreRate: 60,
-                    api: { // MOCK MWS
-                        doRequest: async () => {
-                            await sleep(100);
-                            return mockedDoRequestGenerator.next().value;
-                        },
-                        mws: {
-                            ServerError: MockedServerError,
-                        },
-                    },
-                },
-                () => {},
-            );
-
-            for (let i = 0; i < 2; i += 1) {
-                // eslint-disable-next-line no-await-in-loop
-                await SleepMockedQueue.request({}, {});
-            }
-            expect(SleepMockedQueue.getQueue).to.deep.equal([]);
-        });
     });
 
-    describe('Class QueueItem', function () {
-
-    });
+    describe('Class QueueItem', function () {});
 });

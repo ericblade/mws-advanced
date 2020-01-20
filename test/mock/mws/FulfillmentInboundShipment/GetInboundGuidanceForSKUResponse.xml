@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GetInboundGuidanceForSKUResponse xmlns="http://mws.amazonaws.com/FulfillmentInboundShipment/2010-10-01/">
+   <GetInboundGuidanceForSKUResult>
+        <SKUInboundGuidanceList>
+            <SKUInboundGuidance>
+                <SellerSKU>ValidSKUString</SellerSKU>
+                <ASIN>ValidASINString</ASIN>
+                <InboundGuidance>GuidanceString</InboundGuidance>
+                <GuidanceReasonList>
+                    <GuidanceReason>ReasonString</GuidanceReason>
+                </GuidanceReasonList>
+            </SKUInboundGuidance>
+        </SKUInboundGuidanceList>
+        <InvalidSKUList>
+            <InvalidSKU>
+                <SellerSKU>InvalidSKUString</SellerSKU>
+                <ErrorReason>ErrorString</ErrorReason>
+            </InvalidSKU>
+        </InvalidSKUList>
+    </GetInboundGuidanceForSKUResult>
+   <ResponseMetadata>
+        <RequestId>RequestIDString</RequestId>
+    </ResponseMetadata>
+</GetInboundGuidanceForSKUResponse>

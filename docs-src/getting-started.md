@@ -33,9 +33,11 @@ or why to use an API, or to find out information about what it returns, or what 
 
 ## Installation
 
-As mws-advanced is still under heavy initial development, it is not currently available from the
-global npm repository.  You should install it from the github repo, as:
-
+from npm:
+````
+npm install --save @ericblade/mws-advanced
+````
+from github:
 ````
 npm install --save github:ericblade/mws-advanced
 ````
@@ -45,7 +47,7 @@ npm install --save github:ericblade/mws-advanced
 Before you are able to use the mws-advanced API, you must initialize it with your MWS credentials.
 
 ````
-const mws = require('mws-advanced');
+const mws = require('@ericblade/mws-advanced');
 mws.init({
     accessKeyId: 'Your Amazon MWS Access Key ID',
     secretAccessKey: 'Your Amazon MWS Secret Access Key',
@@ -59,7 +61,7 @@ If you need multiple instances of the MWS API, such as if you are running a serv
 making requests for multiple SellerIDs over time, you can now do:
 
 ````
-const MWS = require('mws-advanced').MWSAdvanced;
+const MWS = require('@ericblade/mws-advanced');
 const mws = new MWS({
     accessKeyId: 'Your Amazon MWS Access Key ID',
     secretAccessKey: 'Your Amazon MWS Secret Access Key',

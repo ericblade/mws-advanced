@@ -10,7 +10,7 @@ application, such as throttling API calls.
 # Example usage - Single instance
 
 ````
-const mws = require('mws-advanced');
+const mws = require('@ericblade/mws-advanced');
 
 mws.init({
     accessKeyId: 'Your Amazon AWS access key',
@@ -38,7 +38,7 @@ mws.init({
 # Example usage - Multiple instance capability
 
 ````
-const MWS = require('mws-advanced).MWSAdvanced;
+const MWS = require('@ericblade/mws-advanced');
 
 (async function() {
     const mws = new MWS({
@@ -82,15 +82,8 @@ requests with that data will be failed with a ValidationError before ever being 
 
 # Basic Throttling Support
 
-There is currently support for a fairly basic retry model when API calls are throttled at the
-service end.  The API definitions in lib/endpoints all contain information about how long, according
-to the MWS documentation, requests of a specific type are throttled for.  When a throttle response
-is returned by MWS, the internal APIs will hold the request for the restore-rate length of time, and
-then retry the request.  The default number of retries per request is 2, which should be enough if
-you are executing most of your requests serially.  So, if you are executing a large number of
-requests in parallel, you will probably need to do some additional work behind the scenes to ensure
-that you don't continuously spam MWS with requests that will be throttled.  Additional work on
-improving this scheme will be undertaken in the future, and changes are welcome to enhance support
-for this throughout the API.
+When a request has been throttled by Amazon, the library will attempt to automatically retry that
+request until it does succeed. Please see the Queue.js file for specifics as to how that works.
+(the documentation will be updated to cover the new Queue mechanism in the future)
 
 Please see the [Getting Started](./manual/getting-started.html) page for more info.

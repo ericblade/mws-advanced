@@ -1,6 +1,16 @@
 language: node_js
 node_js:
-  - "9"
   - "10"
-  - "11"
-after_success: 'npm run coverage && npm run coveralls'
+  - "12"
+  - "13"
+script: 'npm run coverage'
+after_success: 'npm run coveralls'
+jobs:
+  include:
+    - stage: release
+      node_js: lts/*
+      deploy:
+        provider: script
+        skip_cleanup: true
+        script:
+          - npx semantic-release
