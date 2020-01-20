@@ -78,3 +78,8 @@ PO-TON5-ZUPT\t39.99\t9.99\t199.99\t0\t\t`,
 ````
 
 There is a discussion thread up to determine some approaches to improving upon this.  See [Discussion: Dynamic feed generation] (https://github.com/ericblade/mws-advanced/issues/59)
+
+## Samples
+
+Please see the [Samples] (https://github.com/ericblade/mws-advanced/tree/master/samples) directory
+in the source repository for a large number of simple uses for the library

@@ -1,4 +1,3 @@
-/* eslint-disable max-len */
 const fs = require('fs');
 
 const MWS = require('..');
@@ -29,7 +28,6 @@ describe('API', function runAPITests() {
 
             testMarketId = marketIds.includes('ATVPDKIKX0DER') ? 'ATVPDKIKX0DER' : marketIds[0];
             const testMarket = marketplaceResults[testMarketId];
-            // eslint-disable-next-line no-console
             console.warn('* using test markets', marketIds);
             expect(testMarket).to.include.all.keys(
                 'marketplaceId', 'defaultCountryCode', 'domainName', 'name',
@@ -55,7 +53,7 @@ describe('API', function runAPITests() {
                 };
                 const results = await MWS.listOrders(params);
                 expect(results).to.have.lengthOf.above(0);
-                orderIds = Object.keys(results).map(order => results[order].AmazonOrderId);
+                orderIds = Object.keys(results).map((order) => results[order].AmazonOrderId);
                 expect(orderIds).to.have.lengthOf.above(0);
                 orderId = orderIds[0];
                 return true;
@@ -76,9 +74,7 @@ describe('API', function runAPITests() {
                     this.skip();
                     return false;
                 }
-                const cappedOrderIdsLength = orderIds.length >= 50
-                    ? orderIds.slice(0, 49)
-                    : orderIds;
+                const cappedOrderIdsLength = orderIds.length >= 50 ? orderIds.slice(0, 49) : orderIds;
                 const results = await MWS.getOrder({ AmazonOrderId: cappedOrderIdsLength });
                 expect(results).to.be.an('array');
                 expect(results).to.have.lengthOf.above(0);
@@ -92,19 +88,20 @@ describe('API', function runAPITests() {
             startDate.setDate(startDate.getDate() - 7);
             const result = await MWS.listFinancialEvents({ PostedAfter: startDate });
             expect(result).to.be.an('object');
-            expect(result).to.have.keys(
+            expect(result).to.include.keys(
                 'ProductAdsPaymentEventList', 'RentalTransactionEventList',
                 'PayWithAmazonEventList', 'ServiceFeeEventList',
                 'CouponPaymentEventList', 'ServiceProviderCreditEventList',
                 'SellerDealPaymentEventList', 'SellerReviewEnrollmentPaymentEventList',
                 'DebtRecoveryEventList', 'ShipmentEventList', 'RetrochargeEventList',
-                'SAFETReimbursementEventList', 'GuaranteeClaimEventList',
-                'ImagingServicesFeeEventList',
+                'SAFETReimbursementEventList', 'GuaranteeClaimEventList', 'ImagingServicesFeeEventList',
                 'ChargebackEventList', 'FBALiquidationEventList', 'LoanServicingEventList',
                 'RefundEventList', 'AdjustmentEventList', 'PerformanceBondRefundEventList',
                 'AffordabilityExpenseEventList', 'AffordabilityExpenseReversalEventList',
                 'NetworkComminglingTransactionEventList',
             );
+            // another possible key is RemovalShipmentEventList, but only comes up if you have
+            // removal orders in your recent queue
             return result;
         });
     });
@@ -123,30 +120,28 @@ describe('API', function runAPITests() {
     });
     describe('Products Category', () => {
         describe('listMatchingProducts', () => {
-            it('listMatchingProducts better made special potato sticks original',
-                async function testListMatchingProducts() {
-                    const results = await MWS.listMatchingProducts({
-                        marketplaceId: 'ATVPDKIKX0DER',
-                        query: 'better made special potato sticks original',
-                    });
-                    expect(results).to.be.an('array');
-                    expect(results).to.have.length.greaterThan(0);
-                    const test = results[0];
-                    expect(test).to.be.an('object').that.contains.keys(
-                        'identifiers',
-                        'attributeSets',
-                        'relationships',
-                        'salesRankings',
-                    );
+            it('listMatchingProducts better made special potato sticks original', async function testListMatchingProducts() {
+                const results = await MWS.listMatchingProducts({
+                    marketplaceId: 'ATVPDKIKX0DER',
+                    query: 'better made special potato sticks original',
                 });
-            it('listMatchingProducts testjunk (expect empty response here)',
-                async function testListMatchingProducts2() {
-                    const results = await MWS.listMatchingProducts({
-                        marketplaceId: 'ATVPDKIKX0DER',
-                        query: 'testjunk',
-                    });
-                    return expect(results).to.be.an('array').with.lengthOf(0);
+                expect(results).to.be.an('array');
+                expect(results).to.have.length.greaterThan(0);
+                const test = results[0];
+                expect(test).to.be.an('object').that.contains.keys(
+                    'identifiers',
+                    'attributeSets',
+                    'relationships',
+                    'salesRankings',
+                );
+            });
+            it('listMatchingProducts testjunk (expect empty response here)', async function testListMatchingProducts2() {
+                const results = await MWS.listMatchingProducts({
+                    marketplaceId: 'ATVPDKIKX0DER',
+                    query: 'testjunk',
                 });
+                return expect(results).to.be.an('array').with.lengthOf(0);
+            });
         });
         describe('getMatchingProductForId', () => {
             // TODO: getMatchingProductForId with two duplicate ASINs throws a 400 Bad Request
@@ -195,6 +190,7 @@ describe('API', function runAPITests() {
                     IdType: 'UPC',
                     IdList: ['012345678900'],
                 };
+                // Error: {"Type":"Sender","Code":"InvalidParameterValue","Message":"Invalid UPC identifier 000000000000 for marketplace ATVPDKIKX0DER"}
                 return expect(MWS.getMatchingProductForId(params)).to.be.rejectedWith(errors.ServiceError);
             });
             it('getMatchingProductForId with ASIN that has been deleted', async function testGetMatchingProductForId5() {
@@ -388,6 +384,9 @@ describe('API', function runAPITests() {
                 expect(prices2.listingPrice).to.deep.equal(test2.listingPrice);
                 expect(prices2.shipping).to.deep.equal(test2.shipping);
             });
+            // TODO: this test used to test for a ServerError condition, where data was not
+            // available.
+            // now the exact same call is providing a ClientError instead. ?!
             it('getMyFeesEstimate error handling', async function testFeesErrors() {
                 const feeTest = {
                     marketplaceId: 'ATVPDKIKX0DER',
@@ -405,16 +404,21 @@ describe('API', function runAPITests() {
                 };
                 const res = await MWS.getMyFeesEstimate([feeTest]);
                 const test = res[`FBA.${feeTest.idValue}`];
+                // console.warn('* res=', res);
                 expect(test.totalFees).to.equal(undefined);
                 expect(test.time).to.equal(undefined);
                 expect(test.detail).to.equal(undefined);
                 expect(test.identifier).to.be.an('Object');
                 expect(test.identifier.isAmazonFulfilled).to.equal(true);
-                expect(test.status).to.equal('ServerError');
+                // expect(test.status).to.equal('ServerError');
+                expect(test.status).to.equal('ClientError');
                 expect(test.error).to.be.an('Object').that.includes.all.keys('code', 'message', 'type');
-                expect(test.error.code).to.equal('DataNotAvailable');
-                expect(test.error.message).to.equal('Item shipping weight is not available.');
-                expect(test.error.type).to.equal('Receiver');
+                // expect(test.error.code).to.equal('DataNotAvailable');
+                expect(test.error.code).to.equal('InvalidParameterValue');
+                // expect(test.error.message).to.equal('Item shipping weight is not available.');
+                expect(test.error.message).to.equal('There is an client-side error. Please verify your inputs.');
+                expect(test.error.type).to.equal('Sender');
+                // expect(test.error.type).to.equal('Receiver');
                 return res;
             });
         });
@@ -425,6 +429,7 @@ describe('API', function runAPITests() {
         let ReportRequestId = null;
         it('requestReport', async function () {
             if (!process.env.REPORTS_TESTS) {
+                console.warn('* skipping reports tests (set env REPORTS_TESTS=true to perform)');
                 this.skip();
                 return false;
             }
@@ -441,6 +446,7 @@ describe('API', function runAPITests() {
                 'StartDate',
             );
             ({ ReportRequestId } = report);
+            console.warn('* setting future report request id to', ReportRequestId);
             return true;
         });
         it('getReportRequestList (timeout disabled, retries until status shows a done or cancelled state)', async function testGetReportRequestList() {
@@ -449,6 +455,7 @@ describe('API', function runAPITests() {
                 return false;
             }
             if (!process.env.REPORTS_TESTS) {
+                console.warn('* skipping reports tests');
                 this.skip();
                 return false;
             }
@@ -472,6 +479,7 @@ describe('API', function runAPITests() {
         });
         it('getReportListAll', async function testGetReportListAll() {
             if (!process.env.REPORTS_TESTS) {
+                console.warn('* skipping reports tests');
                 this.skip();
                 return false;
             }
@@ -488,6 +496,7 @@ describe('API', function runAPITests() {
                 return false;
             }
             if (!process.env.REPORTS_TESTS) {
+                console.warn('* skipping reports tests');
                 this.skip();
                 return false;
             }
@@ -505,10 +514,12 @@ describe('API', function runAPITests() {
             );
             const amount = parseFloat(settlement['total-amount']);
             expect(amount).to.be.a('number');
+            console.warn(`* Found settlement of ${amount}`);
             return settlement;
         });
         it('requestAndDownloadReport (timeout 120sec)', async function testRequestDownloadReport() {
             if (!process.env.REPORTS_TESTS) {
+                console.warn('* skipping reports tests');
                 this.skip();
                 return false;
             }

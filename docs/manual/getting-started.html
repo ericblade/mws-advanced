@@ -3,12 +3,12 @@
 <head>
   <meta charset="utf-8">
   <base data-ice="baseUrl" href="../">
-  <title data-ice="title">Manual | mws-advanced</title>
+  <title data-ice="title">Manual | @ericblade/mws-advanced</title>
   <link type="text/css" rel="stylesheet" href="css/style.css">
   <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
   <script src="script/prettify/prettify.js"></script>
   <script src="script/manual.js"></script>
-</head>
+<meta name="description" content="Modern, fully featured, very opinionated node javascript Amazon MWS API based on @ericblade/mws-simple"><meta property="twitter:card" content="summary"><meta property="twitter:title" content="@ericblade/mws-advanced"><meta property="twitter:description" content="Modern, fully featured, very opinionated node javascript Amazon MWS API based on @ericblade/mws-simple"></head>
 <body class="layout-container manual-root" data-ice="rootContainer">
 
 <header>
@@ -57,6 +57,7 @@
 <li data-ice="manualNav" class="indent-h3" data-link="manual/usage.html"><a href="manual/usage.html#report-processing" data-ice="link">Report Processing</a></li>
 <li data-ice="manualNav" class="indent-h2" data-link="manual/usage.html"><a href="manual/usage.html#api-call-caching" data-ice="link">API call caching</a></li>
 <li data-ice="manualNav" class="indent-h2" data-link="manual/usage.html"><a href="manual/usage.html#submitting-data-feeds" data-ice="link">Submitting data feeds</a></li>
+<li data-ice="manualNav" class="indent-h2" data-link="manual/usage.html"><a href="manual/usage.html#samples" data-ice="link">Samples</a></li>
 </ul>
   </div>
 </div>
@@ -80,11 +81,12 @@ MWS API.</p>
 <h3 id="official-mws-api-documentation">Official MWS API documentation</h3><p>You may find yourself wanting to refer to the official Amazon documentation, to determine how, when,
 or why to use an API, or to find out information about what it returns, or what it is used for:</p>
 <p><a href="https://developer.amazonservices.com/gp/mws/docs.html">Amazon MWS Web Service API Documentation</a></p>
-<h2 id="installation">Installation</h2><p>As mws-advanced is still under heavy initial development, it is not currently available from the
-global npm repository.  You should install it from the github repo, as:</p>
+<h2 id="installation">Installation</h2><p>from npm:</p>
+<pre><code><code class="source-code prettyprint">npm install --save @ericblade/mws-advanced</code>
+</code></pre><p>from github:</p>
 <pre><code><code class="source-code prettyprint">npm install --save github:ericblade/mws-advanced</code>
 </code></pre><h2 id="creating-the-connection-to-mws">Creating the connection to MWS</h2><p>Before you are able to use the mws-advanced API, you must initialize it with your MWS credentials.</p>
-<pre><code><code class="source-code prettyprint">const mws = require(&apos;mws-advanced&apos;);
+<pre><code><code class="source-code prettyprint">const mws = require(&apos;@ericblade/mws-advanced&apos;);
 mws.init({
     accessKeyId: &apos;Your Amazon MWS Access Key ID&apos;,
     secretAccessKey: &apos;Your Amazon MWS Secret Access Key&apos;,
@@ -92,7 +94,7 @@ mws.init({
 });</code>
 </code></pre><h2 id="multiple-instances">Multiple Instances</h2><p>If you need multiple instances of the MWS API, such as if you are running a service that may be
 making requests for multiple SellerIDs over time, you can now do:</p>
-<pre><code><code class="source-code prettyprint">const MWS = require(&apos;mws-advanced&apos;).MWSAdvanced;
+<pre><code><code class="source-code prettyprint">const MWS = require(&apos;@ericblade/mws-advanced&apos;);
 const mws = new MWS({
     accessKeyId: &apos;Your Amazon MWS Access Key ID&apos;,
     secretAccessKey: &apos;Your Amazon MWS Secret Access Key&apos;,
