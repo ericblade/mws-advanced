@@ -33,7 +33,7 @@
     "es6-error": "^4.1.1"
   },
   "devDependencies": {
-    "@semantic-release/changelog": "^3.0.6",
+    "@semantic-release/changelog": "^5.0.0",
     "@semantic-release/commit-analyzer": "^7.0.0",
     "@semantic-release/git": "^8.0.0",
     "@semantic-release/github": "^6.0.2",
