@@ -33,12 +33,12 @@
     "es6-error": "^4.1.1"
   },
   "devDependencies": {
-    "@semantic-release/changelog": "^3.0.6",
-    "@semantic-release/commit-analyzer": "^7.0.0",
-    "@semantic-release/git": "^8.0.0",
+    "@semantic-release/changelog": "^5.0.0",
+    "@semantic-release/commit-analyzer": "^8.0.0",
+    "@semantic-release/git": "^9.0.0",
     "@semantic-release/github": "^6.0.2",
     "@semantic-release/npm": "^7.0.0",
-    "@semantic-release/release-notes-generator": "^7.3.5",
+    "@semantic-release/release-notes-generator": "^9.0.0",
     "@types/node": "^13.5.0",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
@@ -56,7 +56,7 @@
     "mocha": "^7.0.1",
     "nyc": "^15.0.0",
     "pre-commit": "^1.2.2",
-    "semantic-release": "^16.0.3",
+    "semantic-release": "^17.0.0",
     "typescript": "^3.7.5",
     "xml2js": "^0.4.22"
   },
