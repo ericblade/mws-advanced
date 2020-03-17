@@ -1,3 +1,5 @@
+# [2.2.0](https://github.com/ericblade/mws-advanced/compare/2.1.3...2.2.0) (2020-03-17)
+
 ## [2.1.3](https://github.com/ericblade/mws-advanced/compare/2.1.2...2.1.3) (2020-01-15)
 
 ## [2.1.2](https://github.com/ericblade/mws-advanced/compare/2.1.1...2.1.2) (2020-01-15)
