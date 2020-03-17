@@ -29,7 +29,7 @@
   "author": "Eric Blade <blade.eric@gmail.com>",
   "license": "Apache-2.0",
   "dependencies": {
-    "@ericblade/mws-simple": "^5.0.3",
+    "@ericblade/mws-simple": "^5.1.0",
     "es6-error": "^4.1.1"
   },
   "devDependencies": {
@@ -49,8 +49,8 @@
     "esdoc-ecmascript-proposal-plugin": "^1.0.0",
     "esdoc-node": "^1.0.5",
     "esdoc-standard-plugin": "^1.0.0",
-    "eslint": "^6.7.2",
-    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb-base": "^14.1.0",
     "eslint-plugin-import": "^2.20.0",
     "lint-staged": "^10.0.2",
     "mocha": "^7.0.1",
@@ -58,7 +58,7 @@
     "pre-commit": "^1.2.2",
     "semantic-release": "^17.0.0",
     "typescript": "^3.7.5",
-    "xml2js": "^0.4.22"
+    "xml2js": "^0.4.23"
   },
   "keywords": [
     "amazon merchant web services",
