@@ -11,7 +11,7 @@ async function main() {
         const ASINList = ['B0014QABX0']; // item with multiple buy-boxes possible
         ASINList.forEach(async (asin) => {
             console.warn('asin=', asin);
-            const results = await mws.getLowestPricedOffersForASIN({
+            const results = await mws.getLowestPricedOffersForAsin({
                 MarketplaceId: 'ATVPDKIKX0DER',
                 ASIN: asin,
                 ItemCondition: 'New',

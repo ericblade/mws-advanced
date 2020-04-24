@@ -239,7 +239,8 @@ describe('API', function runAPITests() {
             it('getLowestPricedOffersForAsin', async function testGetLowestPricedOffersForASIN() {
                 const params = {
                     MarketplaceId: 'ATVPDKIKX0DER',
-                    ASIN: 'B010YSIKKY',
+                    // ASIN: 'B010YSIKKY',
+                    ASIN: 'B0014QABX0',
                     ItemCondition: 'New',
                 };
                 const result = await MWS.getLowestPricedOffersForAsin(params);
