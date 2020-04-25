@@ -2,7 +2,7 @@ language: node_js
 node_js:
   - "10"
   - "12"
-  - "13"
+  - "14"
 script: 'npm run coverage'
 after_success: 'npm run coveralls'
 jobs:
@@ -12,5 +12,4 @@ jobs:
       deploy:
         provider: script
         skip_cleanup: true
-        script:
-          - npx semantic-release
+        script: "npx semantic-release"
