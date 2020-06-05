@@ -41,6 +41,65 @@ declare module "@ericblade/mws-advanced" {
         NA: 'mws.amazonservices.com',
     };
 
+    export type ListFinancialResultsParams {
+        MaxResultsPerPage?: number,
+        AmazonOrderId?: string,
+        FinancialEventGroupId?: string,
+        PostedAfter?: Date,
+        PostedBefore?: Date,
+    };
+
+    export type ListFinancialResultsReturn = {
+        NextToken: string,
+        FinancialEvents: any,
+    };
+
+    export type ShipmentStatus =
+        'WORKING' |
+        'SHIPPED' |
+        'IN_TRANSIT' |
+        'DELIVERED' |
+        'CHECKED_IN' |
+        'RECEIVING' |
+        'CLOSED' |
+        'CANCELLED' |
+        'DELETED' |
+        'ERROR';
+
+    export type ListInboundShipmentsParams = {
+        ShipmentStatusList?: Array<ShipmentStatus>,
+        ShipmentIdList?: Array<string>,
+        LastUpdatedAfter?: Date,
+        LastUpdatedBefore?: Date,
+    };
+
+    export type ListInboundShipmentsReturn = {
+        NextToken: string,
+        ShipmentData: any,
+    };
+
+    export type GetInboundGuidanceForASINParams = {
+        MarketplaceId: string,
+        ASINList: Array<string>,
+    };
+
+    export type GetInboundGuidanceForSKUParams = {
+        MarketplaceId: string,
+        SellerSKUList: Array<string>,
+    };
+
+    export type ListInventorySupplyParams = {
+        SellerSkus?: Array<string>,
+        QueryStartDateTime?: Date,
+        ResponseGroup?: 'Basic' | 'Detailed',
+        MarketplaceId: string,
+    };
+
+    export type ListInventorySupplyReturn = {
+        NextToken?: string,
+        InventorySupplyList?: any,
+    };
+
     export default class MwsAdvanced {
         static constants: {
             MWS_MARKETPLACES: MWS_MARKETPLACES,
@@ -63,10 +122,10 @@ declare module "@ericblade/mws-advanced" {
         static callEndpoint(name: any, apiParams: any, options: any);
         callEndpoint(name: any, apiParams: any, options: any);
 
-        getInboundGuidanceForASIN(params: any);
-        static getInboundGuidanceForASIN(params: any);
-        getInboundGuidanceForSKU(params: any);
-        static getInboundGuidanceForSKU(params: any);
+        getInboundGuidanceForASIN(params: GetInboundGuidanceForASINParams);
+        static getInboundGuidanceForASIN(params: GetInboundGuidanceForASINParams);
+        getInboundGuidanceForSKU(params: GetInboundGuidanceForSKUParams);
+        static getInboundGuidanceForSKU(params: GetInboundGuidanceForSKUParams);
         getMarketplaces(params: any);
         static getMarketplaces(params: any);
         listOrders(params: any);
@@ -75,10 +134,10 @@ declare module "@ericblade/mws-advanced" {
         static listOrderItems(params: any);
         getOrder(params: any);
         static getOrder(params: any);
-        listFinancialEvents(params: any);
-        static listFinancialEvents(params: any);
-        listInventorySupply(params: any);
-        static listInventorySupply(params: any);
+        listFinancialEvents(params: ListFinancialResultsParams): ListFinancialResultsReturn;
+        static listFinancialEvents(params: ListFinancialResultsParams): ListFinancialResultsReturn;
+        listInventorySupply(params: ListInventorySupplyParams): ListInventorySupplyReturn;
+        static listInventorySupply(params: ListInventorySupplyParams): ListInventorySupplyReturn;
         listMatchingProducts(params: any);
         static listMatchProducts(params: any);
         getMatchingProductForId(params: any);
