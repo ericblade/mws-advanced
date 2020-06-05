@@ -3,6 +3,7 @@
   "version": "2.4.2",
   "description": "Modern, fully featured, very opinionated node javascript Amazon MWS API based on @ericblade/mws-simple",
   "main": "lib/index.js",
+  "types": "types/mws-advanced.d.ts",
   "repository": {
     "url": "https://github.com/ericblade/mws-advanced"
   },
