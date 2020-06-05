@@ -7,7 +7,6 @@
     "url": "https://github.com/ericblade/mws-advanced"
   },
   "scripts": {
-    "prepublishOnly": "npm run build-types",
     "coverage-codebeat": "./send-coverage",
     "coverage": "./node_modules/.bin/nyc --reporter=lcov ./node_modules/.bin/mocha --timeout=60000",
     "coveralls": "cat ./coverage/lcov.info | ./node_modules/.bin/coveralls",
