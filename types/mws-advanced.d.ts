@@ -41,7 +41,7 @@ declare module "@ericblade/mws-advanced" {
         NA: 'mws.amazonservices.com',
     };
 
-    export type ListFinancialResultsParams {
+    export type ListFinancialResultsParams = {
         MaxResultsPerPage?: number,
         AmazonOrderId?: string,
         FinancialEventGroupId?: string,
