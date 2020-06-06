@@ -26,6 +26,9 @@ declare module "@ericblade/mws-advanced" {
         US: 'ATVPDKIKX0DER',
     };
 
+    type ValueOf<T> = T[keyof T];
+    type MarketplaceId = ValueOf<MWS_MARKETPLACES>;
+
     export type MARKET_CURRENCY = {
         CA: 'CAD',
         US: 'USD',
@@ -79,12 +82,12 @@ declare module "@ericblade/mws-advanced" {
     };
 
     export type GetInboundGuidanceForASINParams = {
-        MarketplaceId: string,
+        MarketplaceId: MarketplaceId,
         ASINList: Array<string>,
     };
 
     export type GetInboundGuidanceForSKUParams = {
-        MarketplaceId: string,
+        MarketplaceId: MarketplaceId,
         SellerSKUList: Array<string>,
     };
 
