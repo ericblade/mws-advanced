@@ -2,15 +2,14 @@ import { describe, beforeEach } from 'mocha';
 import { expect } from 'chai';
 
 import * as fs from 'fs';
-import * as MWS from '../lib/index';
+import MWS, { InitParams, ListInventorySupplyParams } from '../lib/index';
 
 import * as errors from '../lib/errors';
 import * as sleep from '../lib/util/sleep';
-import { ConstructorParams } from '@ericblade/mws-simple';
 
 // brought in from mocha.opts.js
 declare const SkipAPITests: boolean;
-declare const MWSAPIKeys: ConstructorParams;
+declare const MWSAPIKeys: InitParams;
 
 describe('API', function runAPITests() {
     let marketIds = ['ATVPDKIKX0DER'];
