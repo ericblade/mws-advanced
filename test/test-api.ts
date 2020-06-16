@@ -1,8 +1,16 @@
-const fs = require('fs');
+import { describe, beforeEach } from 'mocha';
+import { expect } from 'chai';
 
-const MWS = require('..');
-const errors = require('../lib/errors');
-const sleep = require('../lib/util/sleep');
+import * as fs from 'fs';
+import * as MWS from '../lib/index';
+
+import * as errors from '../lib/errors';
+import * as sleep from '../lib/util/sleep';
+import { ConstructorParams } from '@ericblade/mws-simple';
+
+// brought in from mocha.opts.js
+declare const SkipAPITests: boolean;
+declare const MWSAPIKeys: ConstructorParams;
 
 describe('API', function runAPITests() {
     let marketIds = ['ATVPDKIKX0DER'];
@@ -43,7 +51,6 @@ describe('API', function runAPITests() {
             it('listOrders', async function testListOrders() {
                 if (!marketIds || !marketIds.length) {
                     this.skip();
-                    return false;
                 }
                 const startDate = new Date();
                 startDate.setDate(startDate.getDate() - 7);
@@ -61,7 +68,6 @@ describe('API', function runAPITests() {
             it('listOrderItems', async function testListOrderItems() {
                 if (!marketIds || !marketIds.length) {
                     this.skip();
-                    return false;
                 }
                 const results = await MWS.listOrderItems(orderId);
                 return expect(results).to.be.an('Object').and.to.include.all.keys(
@@ -72,7 +78,6 @@ describe('API', function runAPITests() {
             it('endpoint GetOrder', async function testGetOrder() {
                 if (!orderIds || !orderIds.length) {
                     this.skip();
-                    return false;
                 }
                 const cappedOrderIdsLength = orderIds.length >= 50 ? orderIds.slice(0, 49) : orderIds;
                 const results = await MWS.getOrder({ AmazonOrderId: cappedOrderIdsLength });
@@ -135,10 +140,10 @@ describe('API', function runAPITests() {
                     'salesRankings',
                 );
             });
-            it('listMatchingProducts testjunk (expect empty response here)', async function testListMatchingProducts2() {
+            it('listMatchingProducts test junk (expect empty response here)', async function testListMatchingProducts2() {
                 const results = await MWS.listMatchingProducts({
                     marketplaceId: 'ATVPDKIKX0DER',
-                    query: 'testjunk',
+                    query: 'testJunk',
                 });
                 return expect(results).to.be.an('array').with.lengthOf(0);
             });
@@ -184,14 +189,14 @@ describe('API', function runAPITests() {
                 expect(result[0].id).to.equal('020357122682');
                 return result;
             });
-            it('getMatchingProductForId with invalid UPC', function testGetMatchingProductForId4() {
+            it('getMatchingProductForId with invalid UPC', async function testGetMatchingProductForId4() {
                 const params = {
                     MarketplaceId: 'ATVPDKIKX0DER',
                     IdType: 'UPC',
                     IdList: ['012345678900'],
                 };
                 // Error: {"Type":"Sender","Code":"InvalidParameterValue","Message":"Invalid UPC identifier 000000000000 for marketplace ATVPDKIKX0DER"}
-                return expect(MWS.getMatchingProductForId(params)).to.be.rejectedWith(errors.ServiceError);
+                return await expect(MWS.getMatchingProductForId(params)).to.be.rejectedWith(errors.InvalidIdentifier);
             });
             it('getMatchingProductForId with ASIN that has been deleted', async function testGetMatchingProductForId5() {
                 const params = {
@@ -199,7 +204,7 @@ describe('API', function runAPITests() {
                     IdType: 'ASIN',
                     IdList: ['B01FZRFN2C'],
                 };
-                return expect(MWS.getMatchingProductForId(params)).to.be.rejectedWith(errors.ServiceError);
+                return await expect(MWS.getMatchingProductForId(params)).to.be.rejectedWith(errors.InvalidIdentifier);
             });
             // oddly, the Amazon API throws Error 400 from the server if you give it duplicate items, instead of ignoring dupes or throwing individual errors, or returning multiple copies.
             it('getMatchingProductForId with duplicate ASINs in list', async function testGetMatchingProductForId6() {
@@ -214,7 +219,7 @@ describe('API', function runAPITests() {
                 // just return the results for the items sans duplicates.
                 // return expect(p).to.eventually.be.rejectedWith(mws.ServiceError);
             });
-            it('getMatchingProductForId with partial error (1 asin that works, 1 that doesnt)', async function testGetMatchingProductForId7() {
+            it(`getMatchingProductForId with partial error (1 asin that works, 1 that doesn't)`, async function testGetMatchingProductForId7() {
                 const params = {
                     MarketplaceId: 'ATVPDKIKX0DER',
                     IdType: 'ASIN',
@@ -234,7 +239,6 @@ describe('API', function runAPITests() {
             it('getLowestPricedOffersForSku', function () {
                 // console.warn('* test for getLowestPricedOffersForSKU not yet implemented, requires fetching a valid SellerSKU');
                 this.skip();
-                return false;
             });
             it('getLowestPricedOffersForAsin', async function testGetLowestPricedOffersForASIN() {
                 const params = {
@@ -291,13 +295,13 @@ describe('API', function runAPITests() {
                 expect(result[1]).to.include.all.keys('asin', 'Self');
                 expect(result[1].asin).to.equal('B00IH00CN0');
             });
-            // TODO: figure out some function we can use to query some valid skus to use
+            // TODO: figure out some function we can use to query some valid SKUs to use
             // TODO: we should test error conditions for getProductCategories*, however, throwing up
             // invalid ASINs comes up with potentially several different results:
             // 1- no category returned, no error
             // 2- error 400, "invalid ASIN for marketplace (x)",
             // 3- error 500, "Server Error"
-            it.skip('getProductCategoriesForSkus', 'unable to test skus without first querying skus');
+            it.skip('getProductCategoriesForSkus');
         });
         describe('getMyFeesEstimate', () => {
             const test1 = {
@@ -432,7 +436,6 @@ describe('API', function runAPITests() {
             if (!process.env.REPORTS_TESTS) {
                 console.warn('* skipping reports tests (set env REPORTS_TESTS=true to perform)');
                 this.skip();
-                return false;
             }
             const report = await MWS.requestReport({
                 ReportType: '_GET_V1_SELLER_PERFORMANCE_REPORT_',
@@ -453,12 +456,10 @@ describe('API', function runAPITests() {
         it('getReportRequestList (timeout disabled, retries until status shows a done or cancelled state)', async function testGetReportRequestList() {
             if (!ReportRequestId) {
                 this.skip();
-                return false;
             }
             if (!process.env.REPORTS_TESTS) {
                 console.warn('* skipping reports tests');
                 this.skip();
-                return false;
             }
             this.timeout(0);
             let reportComplete = false;
@@ -482,7 +483,6 @@ describe('API', function runAPITests() {
             if (!process.env.REPORTS_TESTS) {
                 console.warn('* skipping reports tests');
                 this.skip();
-                return false;
             }
             reportList = await MWS.getReportListAll({
                 ReportTypeList: ['_GET_V2_SETTLEMENT_REPORT_DATA_FLAT_FILE_'],
@@ -494,12 +494,10 @@ describe('API', function runAPITests() {
         it('getReport', async function testGetReport() {
             if (!reportList || !reportList.length) {
                 this.skip();
-                return false;
             }
             if (!process.env.REPORTS_TESTS) {
                 console.warn('* skipping reports tests');
                 this.skip();
-                return false;
             }
 
             const report = await MWS.getReport({
@@ -522,7 +520,6 @@ describe('API', function runAPITests() {
             if (!process.env.REPORTS_TESTS) {
                 console.warn('* skipping reports tests');
                 this.skip();
-                return false;
             }
             this.timeout(120 * 1000);
             await MWS.requestAndDownloadReport('_GET_FLAT_FILE_OPEN_LISTINGS_DATA_', './test-listings.json');
