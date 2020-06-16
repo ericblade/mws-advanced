@@ -9,15 +9,14 @@
   },
   "scripts": {
     "coverage-codebeat": "./send-coverage",
-    "coverage": "./node_modules/.bin/nyc --reporter=lcov ./node_modules/.bin/mocha --timeout=60000",
+    "coverage": "./node_modules/.bin/nyc --reporter=lcov ./node_modules/.bin/ts-mocha --timeout=60000",
     "coveralls": "cat ./coverage/lcov.info | ./node_modules/.bin/coveralls",
     "lint-staged": "npx lint-staged",
     "make-docs-old": "npx esdoc && documentation build -f md > API.md",
     "make-docs": "echo # Public API > docs-src/public-api.md && documentation build lib/index.js -f md --shallow >> docs-src/public-api.md && npx esdoc",
     "make-docs-public": "documentation build lib/index.js lib/typedefs-public.js lib/constants.js --shallow --theme node_modules/documentation-devseed-theme -f html -o docs-src/public",
     "push-master": "npm run coverage && git push origin master && send-coverage.cmd",
-    "build-types": "npx tsc --emitDeclarationOnly --declaration --out ./types/mws-advanced.d.ts",
-    "test": "./node_modules/.bin/mocha --timeout=60000"
+    "test": "npx ts-mocha --timeout=60000"
   },
   "lint-staged": {
     "*.js": "eslint"
