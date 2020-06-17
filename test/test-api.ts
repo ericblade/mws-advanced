@@ -2,7 +2,7 @@ import { describe, beforeEach } from 'mocha';
 import { expect } from 'chai';
 
 import * as fs from 'fs';
-import MWS, { InitParams, ListInventorySupplyParams } from '../lib/index';
+import MWS, { InitParams, ListInventorySupplyParams, MarketplaceId } from '../lib/index';
 
 import * as errors from '../lib/errors';
 import * as sleep from '../lib/util/sleep';
@@ -12,7 +12,7 @@ declare const SkipAPITests: boolean;
 declare const MWSAPIKeys: InitParams;
 
 describe('API', function runAPITests() {
-    let marketIds = ['ATVPDKIKX0DER'];
+    let marketIds: Array<MarketplaceId> = ['ATVPDKIKX0DER'];
     let testMarketId = 'ATVPDKIKX0DER';
     let orderIds = [];
 
@@ -30,7 +30,7 @@ describe('API', function runAPITests() {
             const marketplaceResults = await MWS.getMarketplaces();
             expect(marketplaceResults).to.be.an('object');
 
-            marketIds = Object.keys(marketplaceResults);
+            marketIds = Object.keys(marketplaceResults) as Array<MarketplaceId>;
             expect(marketIds).to.have.lengthOf.above(0);
 
             testMarketId = marketIds.includes('ATVPDKIKX0DER') ? 'ATVPDKIKX0DER' : marketIds[0];

@@ -104,6 +104,101 @@ export type ListInventorySupplyReturn = {
     supplyList: any,
 };
 
+export type MarketplaceEnumeration = {
+    marketplaceId: MarketplaceId,
+    defaultCountryCode: string, // TODO: we should be able to make a type for country codes?
+    domainName: string, // TODO: we should be able to make a type for domain name
+    defaultCurrencyCode: string, // TODO: we should be able to make a type for currencycodes
+    sellerId: string,
+    hasSellerSuspendedListings: 'Yes' | 'No',
+};
+
+export type GetMarketplacesReturn = {
+    [key: string]: MarketplaceEnumeration, // TODO: should use MarketplaceId not string, but that's an error using a union type
+};
+
+export type OrderStatus =
+    'PendingAvailability' |
+    'Pending' |
+    'Unshipped' |
+    'PartiallyShipped' |
+    'Shipped' |
+    'InvoiceUnconfirmed' |
+    'Canceled' |
+    'Unfulfillable';
+
+export type TFMShipmentStatus =
+    'PendingPickUp' |
+    'LabelCanceled' |
+    'PickedUp' |
+    'AtDestinationFC' |
+    'Delivered' |
+    'RejectedByBuyer' |
+    'Undeliverable' |
+    'ReturnedToSeller' |
+    'Lost';
+
+export type ListOrdersParams = {
+    CreatedAfter?: Date,
+    CreatedBefore?: Date,
+    LastUpdatedAfter?: Date,
+    LastUpdatedBefore?: Date,
+    OrderStatus?: Array<OrderStatus>,
+    MarketplaceId: Array<MarketplaceId>,
+    FulfillmentChannel?: Array<string>, // TODO: what are valid values?
+    PaymentMethod?: Array<string>, // TODO: what are valid values?
+    BuyerEmail?: string,
+    SellerOrderId?: string,
+    MaxResultsPerPage?: number, // TODO: positive number only?
+    TFMShipmentStatus?: TFMShipmentStatus,
+};
+
+export type Currency = {
+    Amount: string,
+    CurrencyCode: string,
+};
+
+export type ShippingAddress = {
+    City: string,
+    PostalCode: string,
+    isAddressSharingConfidential: 'true' | 'false', // Boolean
+    StateOrRegion: string,
+    CountryCode: string, // union?
+};
+
+export type OrderListResult = { // TODO: are we not parsing listOrders results out to javascript norms
+    LatestShipDate: string, // Date
+    OrderType: string, // union
+    PurchaseDate: string, // Date
+    BuyerEmail: string,
+    AmazonOrderId: string,
+    LastUpdateDate: string, // Date
+    IsReplacementOrder: 'true' | 'false', // boolean
+    NumberOfItemsShipped: string, // number
+    ShipServiceLevel: string, // union
+    OrderStatus: OrderStatus,
+    SalesChannel: string, // union
+    IsBusinessOrder: 'true' | 'false', // boolean
+    NumberOfItemsUnshipped: string, // number
+    PaymentMethodDetails: {
+        PaymentMethodDetail: string, // union
+    },
+    IsGlobalExpressEnabled: 'true' | 'false', // boolean
+    IsSoldByAB: 'true' | 'false', // boolean
+    IsPremiumOrder: 'true' | 'false', // boolean
+    OrderTotal: Currency,
+    EarliestShipDate: string, // Date,
+    MarketplaceId: MarketplaceId,
+    FulfillmentChannel: string, // union
+    PaymentMethod: string, // union
+    ShippingAddress: ShippingAddress,
+    IsPrime: 'true' | 'false', // boolean
+    SellerOrderId: string,
+    ShipmentServiceLevelCategory: string, // union
+};
+
+export type ListOrdersReturn = Array<OrderListResult>;
+
 export default class MwsAdvanced {
     static constants: {
         MWS_MARKETPLACES: MWS_MARKETPLACES,
@@ -130,10 +225,10 @@ export default class MwsAdvanced {
     static getInboundGuidanceForASIN(params: GetInboundGuidanceForASINParams);
     getInboundGuidanceForSKU(params: GetInboundGuidanceForSKUParams);
     static getInboundGuidanceForSKU(params: GetInboundGuidanceForSKUParams);
-    getMarketplaces(params?: any);
-    static getMarketplaces(params?: any);
-    listOrders(params: any);
-    static listOrders(params: any);
+    getMarketplaces(): Promise<GetMarketplacesReturn>;
+    static getMarketplaces(): Promise<GetMarketplacesReturn>;
+    listOrders(params: ListOrdersParams): Promise<ListOrdersReturn>;
+    static listOrders(params: ListOrdersParams): Promise<ListOrdersReturn>;
     listOrderItems(params: any);
     static listOrderItems(params: any);
     getOrder(params: any);
