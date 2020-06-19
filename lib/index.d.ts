@@ -256,6 +256,24 @@ export type InboundGuidanceList = {
     [key: string]: InboundGuidance,
 };
 
+export type ProductInfo = {
+    identifiers: any,
+    attributeSets: any,
+    relationships: any,
+    salesRankings: any,
+};
+
+export type ListMatchingProductsReturn = Array<ProductInfo>;
+
+export type GetMatchingProductReturn = Array<{
+    results: Array<ProductInfo>,
+    asin?: string,
+    upc?: string, // any other identifier types that might come up?
+    id: string,
+    idType: string,
+    Error?: Error,
+}>;
+
 export default class MwsAdvanced {
     static constants: {
         MWS_MARKETPLACES: MWS_MARKETPLACES,
@@ -278,10 +296,10 @@ export default class MwsAdvanced {
     static callEndpoint(name: any, apiParams: any, options: any): any;
     callEndpoint(name: any, apiParams: any, options: any): any;
 
-    getInboundGuidanceForASIN(params: GetInboundGuidanceForASINParams): InboundGuidanceList;
-    static getInboundGuidanceForASIN(params: GetInboundGuidanceForASINParams): InboundGuidanceList;
-    getInboundGuidanceForSKU(params: GetInboundGuidanceForSKUParams): InboundGuidanceList;
-    static getInboundGuidanceForSKU(params: GetInboundGuidanceForSKUParams): InboundGuidanceList;
+    getInboundGuidanceForASIN(params: GetInboundGuidanceForASINParams): Promise<InboundGuidanceList>;
+    static getInboundGuidanceForASIN(params: GetInboundGuidanceForASINParams): Promise<InboundGuidanceList>;
+    getInboundGuidanceForSKU(params: GetInboundGuidanceForSKUParams): Promise<InboundGuidanceList>;
+    static getInboundGuidanceForSKU(params: GetInboundGuidanceForSKUParams): Promise<InboundGuidanceList>;
     getMarketplaces(): Promise<GetMarketplacesReturn>;
     static getMarketplaces(): Promise<GetMarketplacesReturn>;
     listOrders(params: ListOrdersParams): Promise<ListOrdersReturn>;
@@ -294,10 +312,10 @@ export default class MwsAdvanced {
     static listFinancialEvents(params: ListFinancialResultsParams): Promise<ListFinancialResultsReturn>;
     listInventorySupply(params: ListInventorySupplyParams): Promise<ListInventorySupplyReturn>;
     static listInventorySupply(params: ListInventorySupplyParams): Promise<ListInventorySupplyReturn>;
-    listMatchingProducts(params: any);
-    static listMatchingProducts(params: any);
-    getMatchingProductForId(params: any);
-    static getMatchingProductForId(params: any);
+    listMatchingProducts(params: { marketplaceId: string, query: string }): Promise<ListMatchingProductsReturn>;
+    static listMatchingProducts(params: { marketplaceId: string, query: string }): Promise<ListMatchingProductsReturn>;
+    getMatchingProductForId(params: { MarketplaceId: string, IdType: string, IdList: Array<string> }): Promise<GetMatchingProductReturn>;
+    static getMatchingProductForId(params: { MarketplaceId: string, IdType: string, IdList: Array<string> }): Promise<GetMatchingProductReturn>;
 
     // TODO: We need to unify whether we use ASIN or Asin (all caps or not) in function names
     getLowestPricedOffersForAsin(params: any);

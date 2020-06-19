@@ -1,4 +1,4 @@
-const MWS = require('..').MWSAdvanced;
+const MWS = require('..');
 const keys = require('../test/keys.json');
 
 const mws = new MWS(keys);
