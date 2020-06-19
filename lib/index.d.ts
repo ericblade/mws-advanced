@@ -1,3 +1,5 @@
+import { OrderItem } from "./parsers/orderItems";
+
 export type InitParams = {
     accessKeyId: string;
     authToken?: string;
@@ -199,6 +201,14 @@ export type OrderListResult = { // TODO: are we not parsing listOrders results o
 
 export type ListOrdersReturn = Array<OrderListResult>;
 
+export type AmazonOrderId = string;
+
+export type ListOrderItemsReturn = {
+    orderItems: Array<OrderItem>,
+    nextToken?: string,
+    orderId: AmazonOrderId,
+};
+
 export default class MwsAdvanced {
     static constants: {
         MWS_MARKETPLACES: MWS_MARKETPLACES,
@@ -229,8 +239,8 @@ export default class MwsAdvanced {
     static getMarketplaces(): Promise<GetMarketplacesReturn>;
     listOrders(params: ListOrdersParams): Promise<ListOrdersReturn>;
     static listOrders(params: ListOrdersParams): Promise<ListOrdersReturn>;
-    listOrderItems(params: any);
-    static listOrderItems(params: any);
+    listOrderItems(params: AmazonOrderId): Promise<ListOrderItemsReturn>;
+    static listOrderItems(params: AmazonOrderId): Promise<ListOrderItemsReturn>;
     getOrder(params: any);
     static getOrder(params: any);
     listFinancialEvents(params: ListFinancialResultsParams): Promise<ListFinancialResultsReturn>;
