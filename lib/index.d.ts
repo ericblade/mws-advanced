@@ -274,6 +274,65 @@ export type GetMatchingProductReturn = Array<{
     Error?: Error,
 }>;
 
+export type GetLowestPricedOffersForAsinParams = {
+    MarketplaceId: MarketplaceId,
+    ASIN: string,
+    ItemCondition: 'New' | 'Used' | 'Collectible' | 'Refurbished' | 'Club', // weren't these already enumerated somewhere?
+};
+
+export type GetLowestPricedOffersForSkuParams = {
+    MarketplaceId: MarketplaceId,
+    SellerSKU: string,
+    ItemCondition: 'New' | 'Used' | 'Collectible' | 'Refurbished' | 'Club', // weren't these already enumerated somewhere?
+};
+
+export type GetLowestPricedOffersReturn = {
+    asin?: string,
+    sellerSku?: string,
+    marketplace: MarketplaceId,
+    itemCondition: 'New' | 'Used' | 'Collectible' | 'Refurbished' | 'Club', // weren't these already enumerated somewhere?
+    summary: {
+        totalOfferCount: number,
+        numberOfOffers: Array<{ count: number, condition: 'used' | 'new' | 'collectible' | 'refurbished' | 'club', fulfillmentChannel: 'Amazon' | 'Merchant' }>,
+        listPrice: Currency,
+        lowestPrices: Array<{
+            condition: 'used' | 'new' | 'collectible' | 'refurbished' | 'club',
+            fulfillmentChannel: 'Amazon' | 'Merchant',
+            landedPrice: Currency,
+            listingPrice: Currency,
+            shipping: Currency,
+        }>,
+        buyBoxPrices: Array<{
+            condition: 'used' | 'new' | 'collectible' | 'refurbished' | 'club',
+            landedPrice: Currency,
+            listingPrice: Currency,
+            shipping: Currency,
+        }>,
+        buyBoxEligibleOffers: Array<{
+            count: number,
+            condition: 'used' | 'new' | 'collectible' | 'refurbished' | 'club',
+            fulfillmentChannel: 'Amazon' | 'Merchant',
+        }>
+    },
+    lowestOffers: Array<{
+        subCondition: string, // TODO: i'm only seeing 'new' but i think it's enumerated elsewhere
+        sellerFeedbackRating: any, // SellerFeedbackRating,
+        shippingTime: {
+            minimumHours: string, // number
+            maximumHours: string, // number
+            availabilityType: string, // NOW, Date? unsure
+        },
+        listingPrice: Currency,
+        shipping: Currency,
+        shipsFrom: {
+            Country: string,
+        },
+        isFulfilledByAmazon: boolean,
+        isBuyBoxWinner: boolean,
+        isFeaturedMerchant: boolean,
+    }>
+};
+
 export default class MwsAdvanced {
     static constants: {
         MWS_MARKETPLACES: MWS_MARKETPLACES,
@@ -318,10 +377,10 @@ export default class MwsAdvanced {
     static getMatchingProductForId(params: { MarketplaceId: string, IdType: string, IdList: Array<string> }): Promise<GetMatchingProductReturn>;
 
     // TODO: We need to unify whether we use ASIN or Asin (all caps or not) in function names
-    getLowestPricedOffersForAsin(params: any);
-    static getLowestPricedOffersForAsin(params: any);
-    getLowestPricedOffersForSku(params: any);
-    static getLowestPricedOffersForSku(params: any);
+    getLowestPricedOffersForAsin(params: GetLowestPricedOffersForAsinParams): Promise<GetLowestPricedOffersReturn>;
+    static getLowestPricedOffersForAsin(params: GetLowestPricedOffersForAsinParams): Promise<GetLowestPricedOffersReturn>;
+    getLowestPricedOffersForSku(params: GetLowestPricedOffersForSkuParams): Promise<GetLowestPricedOffersReturn>;
+    static getLowestPricedOffersForSku(params: GetLowestPricedOffersForSkuParams): Promise<GetLowestPricedOffersReturn>;
     getProductCategoriesForAsins(params: any);
     static getProductCategoriesForAsins(params: any);
     getProductCategoriesForSkus(params: any);

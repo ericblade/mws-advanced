@@ -2,7 +2,7 @@ import { describe, beforeEach } from 'mocha';
 import { expect } from 'chai';
 
 import * as fs from 'fs';
-import MWS, { InitParams, ListInventorySupplyParams, MarketplaceId } from '../lib/index';
+import MWS, { InitParams, ListInventorySupplyParams, MarketplaceId, GetLowestPricedOffersForAsinParams } from '../lib/index';
 
 import * as errors from '../lib/errors';
 import * as sleep from '../lib/util/sleep';
@@ -240,7 +240,7 @@ describe('API', function runAPITests() {
                 this.skip();
             });
             it('getLowestPricedOffersForAsin', async function testGetLowestPricedOffersForASIN() {
-                const params = {
+                const params: GetLowestPricedOffersForAsinParams = {
                     MarketplaceId: 'ATVPDKIKX0DER',
                     // ASIN: 'B010YSIKKY',
                     ASIN: 'B0014QABX0',
