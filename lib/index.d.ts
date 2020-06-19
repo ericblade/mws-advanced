@@ -333,6 +333,18 @@ export type GetLowestPricedOffersReturn = {
     }>
 };
 
+export type ProductCategory = {
+    ProductCategoryId: string,
+    ProductCategoryName: string,
+    Parent?: ProductCategory,
+};
+
+export type GetProductCategoriesReturn = Array<{
+    asin?: string,
+    sellerSku?: string,
+    Self: ProductCategory,
+}>;
+
 export default class MwsAdvanced {
     static constants: {
         MWS_MARKETPLACES: MWS_MARKETPLACES,
@@ -381,10 +393,10 @@ export default class MwsAdvanced {
     static getLowestPricedOffersForAsin(params: GetLowestPricedOffersForAsinParams): Promise<GetLowestPricedOffersReturn>;
     getLowestPricedOffersForSku(params: GetLowestPricedOffersForSkuParams): Promise<GetLowestPricedOffersReturn>;
     static getLowestPricedOffersForSku(params: GetLowestPricedOffersForSkuParams): Promise<GetLowestPricedOffersReturn>;
-    getProductCategoriesForAsins(params: any);
-    static getProductCategoriesForAsins(params: any);
-    getProductCategoriesForSkus(params: any);
-    static getProductCategoriesForSkus(params: any);
+    getProductCategoriesForAsins(params: { marketplaceId: MarketplaceId, asins: Array<string> }): Promise<GetProductCategoriesReturn>;
+    static getProductCategoriesForAsins(params: { marketplaceId: MarketplaceId, asins: Array<string> }): Promise<GetProductCategoriesReturn>;
+    getProductCategoriesForSkus(params: { marketplaceId: MarketplaceId, sellerSkus: Array<string> }): Promise<GetProductCategoriesReturn>;
+    static getProductCategoriesForSkus(params: { marketplaceId: MarketplaceId, sellerSkus: Array<string> }): Promise<GetProductCategoriesReturn>;
     getMyFeesEstimate(params: any);
     static getMyFeesEstimate(params: any);
     requestReport(params: any);
