@@ -2,7 +2,7 @@ import { describe, beforeEach } from 'mocha';
 import { expect } from 'chai';
 
 import * as fs from 'fs';
-import MWS, { InitParams, ListInventorySupplyParams, MarketplaceId, GetLowestPricedOffersForAsinParams } from '../lib/index';
+import MWS, { InitParams, ListInventorySupplyParams, MarketplaceId, GetLowestPricedOffersForAsinParams, GetFeesParams } from '../lib/index';
 
 import * as errors from '../lib/errors';
 import * as sleep from '../lib/util/sleep';
@@ -303,7 +303,7 @@ describe('API', function runAPITests() {
             it.skip('getProductCategoriesForSkus');
         });
         describe('getMyFeesEstimate', () => {
-            const test1 = {
+            const test1: GetFeesParams = {
                 marketplaceId: 'ATVPDKIKX0DER',
                 idType: 'ASIN',
                 idValue: 'B002KT3XQM',
@@ -406,6 +406,7 @@ describe('API', function runAPITests() {
                         amount: '0.00',
                     },
                 };
+                // @ts-expect-error
                 const res = await MWS.getMyFeesEstimate([feeTest]);
                 const test = res[`FBA.${feeTest.idValue}`];
                 // console.warn('* res=', res);

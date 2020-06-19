@@ -345,6 +345,60 @@ export type GetProductCategoriesReturn = Array<{
     Self: ProductCategory,
 }>;
 
+export type GetFeesParams = {
+    marketplaceId: MarketplaceId,
+    idType: 'ASIN' | 'SKU', // what else?
+    idValue: string,
+    isAmazonFulfilled: boolean,
+    identifier: string,
+    listingPrice: { // TODO: make a AdvCurrency ? rename Amazon's Currency to "Money" as they use it, and name ours Currency?
+        currencyCode: string,
+        amount: string,
+    },
+    shipping: {
+        currencyCode: string,
+        amount: string,
+    },
+};
+
+export type GetFeesReturn = {
+    [key: string]: {
+        identifier: {
+            marketplaceId: MarketplaceId,
+            idType: 'ASIN' | 'SKU', // what else?
+            sellerId: string,
+            sellerInputIdentifier: string,
+            isAmazonFulfilled: boolean,
+            idValue: string,
+            priceToEstimateFees: {
+                listingPrice: {
+                    amount: string,
+                    currencyCode: string,
+                },
+                shipping: {
+                    amount: string,
+                    currencyCode: string,
+                },
+            },
+        },
+        status: 'ClientError' | 'ServerError' | string, // TODO: not sure what a value here is with no error
+        // totalFees only if no error
+        totalFees?: {
+            amount: string,
+            currencyCode: string,
+        },
+        // time only if no error
+        time?: string,
+        // detail only if no error, need to fill this in
+        detail?: Array<any>,
+        error?: {
+            code: string,
+            message: string,
+            type: 'Sender' | 'Receiver',
+        },
+    },
+};
+
 export default class MwsAdvanced {
     static constants: {
         MWS_MARKETPLACES: MWS_MARKETPLACES,
@@ -397,8 +451,8 @@ export default class MwsAdvanced {
     static getProductCategoriesForAsins(params: { marketplaceId: MarketplaceId, asins: Array<string> }): Promise<GetProductCategoriesReturn>;
     getProductCategoriesForSkus(params: { marketplaceId: MarketplaceId, sellerSkus: Array<string> }): Promise<GetProductCategoriesReturn>;
     static getProductCategoriesForSkus(params: { marketplaceId: MarketplaceId, sellerSkus: Array<string> }): Promise<GetProductCategoriesReturn>;
-    getMyFeesEstimate(params: any);
-    static getMyFeesEstimate(params: any);
+    getMyFeesEstimate(params: Array<GetFeesParams>): Promise<GetFeesReturn>;
+    static getMyFeesEstimate(params: Array<GetFeesParams>): Promise<GetFeesReturn>;
     requestReport(params: any);
     static requestReport(params: any);
     getReportRequestList(params: any);
