@@ -209,6 +209,39 @@ export type ListOrderItemsReturn = {
     orderId: AmazonOrderId,
 };
 
+export type GetOrderParams = {
+    AmazonOrderId: Array<AmazonOrderId>,
+};
+
+export type OrderInfo = {
+    LatestShipDate: string, // Date
+    OrderType: string, // Union?
+    PurchaseDate: string, // Date
+    BuyerEmail: string,
+    AmazonOrderId: AmazonOrderId,
+    LastUpdateDate: string, // Date
+    IsReplacementOrder: 'true' | 'false', // bool
+    NumberOfItemsShipped: string, // number
+    ShipServiceLevel: string, // Union?
+    OrderStatus: string, // Union?
+    SalesChannel: string, // Union?
+    IsBusinessOrder: 'true' | 'false', // bool
+    NumberOfItemsUnshipped: string, // number
+    PaymentMethodDetails: PaymentMethodData, // not sure if correct?
+    IsGlobalExpressEnabled: 'true' | 'false', // bool
+    IsSoldByAB: 'true' | 'false', // bool
+    IsPremiumOrder: 'true' | 'false', // bool
+    OrderTotal: Currency,
+    EarliestShipDate: string, // Date
+    MarketplaceId: MarketplaceId,
+    FulfillmentChannel: string, // Union?
+    PaymentMethod: string, // Union?
+    ShippingAddress: ShippingAddress,
+    IsPrime: 'true' | 'false', // bool
+    SellerOrderId: string, // NOT AMAZONORDERID
+    ShipmentServiceLevelCategory: string, // Union?
+};
+
 export default class MwsAdvanced {
     static constants: {
         MWS_MARKETPLACES: MWS_MARKETPLACES,
@@ -241,8 +274,8 @@ export default class MwsAdvanced {
     static listOrders(params: ListOrdersParams): Promise<ListOrdersReturn>;
     listOrderItems(params: AmazonOrderId): Promise<ListOrderItemsReturn>;
     static listOrderItems(params: AmazonOrderId): Promise<ListOrderItemsReturn>;
-    getOrder(params: any);
-    static getOrder(params: any);
+    getOrder(params: GetOrderParams): Promise<Array<OrderInfo>>;
+    static getOrder(params: GetOrderParams): Promise<Array<OrderInfo>>;
     listFinancialEvents(params: ListFinancialResultsParams): Promise<ListFinancialResultsReturn>;
     static listFinancialEvents(params: ListFinancialResultsParams): Promise<ListFinancialResultsReturn>;
     listInventorySupply(params: ListInventorySupplyParams): Promise<ListInventorySupplyReturn>;
