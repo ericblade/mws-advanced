@@ -127,6 +127,8 @@ describe('Parsers', function runParserTests() {
             isGift: false,
             quantityOrdered: 0,
             quantityShipped: 0,
+            isTransparency: undefined,
+            serialNumberRequired: undefined,
         });
     });
     it('getMarketplaces parser', function testGetMarketplacesParser() {
