@@ -242,6 +242,20 @@ export type OrderInfo = {
     ShipmentServiceLevelCategory: string, // Union?
 };
 
+export type InboundGuidanceError = {
+    error: string,
+};
+
+export type InboundGuidance = InboundGuidanceError | {
+    asin?: string,
+    guidance: string,
+    reason: string,
+};
+
+export type InboundGuidanceList = {
+    [key: string]: InboundGuidance,
+};
+
 export default class MwsAdvanced {
     static constants: {
         MWS_MARKETPLACES: MWS_MARKETPLACES,
@@ -259,15 +273,15 @@ export default class MwsAdvanced {
     static init(params: InitParams): MwsAdvanced;
     init(params: InitParams): MwsAdvanced;
     doRequest(requestData: any, options: any): any;
-    static parseEndpoint(outParser: () => any, inParser: (x: any) => any);
-    parseEndpoint(outParser: () => any, inParser: (x: any) => any);
-    static callEndpoint(name: any, apiParams: any, options: any);
-    callEndpoint(name: any, apiParams: any, options: any);
+    static parseEndpoint(outParser: () => any, inParser: (x: any) => any): any;
+    parseEndpoint(outParser: () => any, inParser: (x: any) => any): any;
+    static callEndpoint(name: any, apiParams: any, options: any): any;
+    callEndpoint(name: any, apiParams: any, options: any): any;
 
-    getInboundGuidanceForASIN(params: GetInboundGuidanceForASINParams);
-    static getInboundGuidanceForASIN(params: GetInboundGuidanceForASINParams);
-    getInboundGuidanceForSKU(params: GetInboundGuidanceForSKUParams);
-    static getInboundGuidanceForSKU(params: GetInboundGuidanceForSKUParams);
+    getInboundGuidanceForASIN(params: GetInboundGuidanceForASINParams): InboundGuidanceList;
+    static getInboundGuidanceForASIN(params: GetInboundGuidanceForASINParams): InboundGuidanceList;
+    getInboundGuidanceForSKU(params: GetInboundGuidanceForSKUParams): InboundGuidanceList;
+    static getInboundGuidanceForSKU(params: GetInboundGuidanceForSKUParams): InboundGuidanceList;
     getMarketplaces(): Promise<GetMarketplacesReturn>;
     static getMarketplaces(): Promise<GetMarketplacesReturn>;
     listOrders(params: ListOrdersParams): Promise<ListOrdersReturn>;
