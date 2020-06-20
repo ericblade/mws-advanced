@@ -31,11 +31,14 @@ export type MWS_MARKETPLACES = {
 
 type ValueOf<T> = T[keyof T];
 type MarketplaceId = ValueOf<MWS_MARKETPLACES>;
+type CountryCode = keyof MWS_MARKETPLACES;
 
 export type MARKET_CURRENCY = {
     CA: 'CAD',
     US: 'USD',
 };
+
+export type CurrencyCode = ValueOf<MARKET_CURRENCY>;
 
 export type MWS_ENDPOINTS = {
     AU: 'mws.amazonservices.com.au',
@@ -46,6 +49,8 @@ export type MWS_ENDPOINTS = {
     JP: 'mws.amazonservices.jp',
     NA: 'mws.amazonservices.com',
 };
+
+export type MWSDomain = ValueOf<MWS_ENDPOINTS>;
 
 export type ListFinancialResultsParams = {
     MaxResultsPerPage?: number,
@@ -108,9 +113,9 @@ export type ListInventorySupplyReturn = {
 
 export type MarketplaceEnumeration = {
     marketplaceId: MarketplaceId,
-    defaultCountryCode: string, // TODO: we should be able to make a type for country codes?
-    domainName: string, // TODO: we should be able to make a type for domain name
-    defaultCurrencyCode: string, // TODO: we should be able to make a type for currencycodes
+    defaultCountryCode: CountryCode,
+    domainName: MWSDomain,
+    defaultCurrencyCode: CurrencyCode,
     sellerId: string,
     hasSellerSuspendedListings: 'Yes' | 'No',
 };
