@@ -66,16 +66,16 @@ export type ListFinancialResultsReturn = {
 };
 
 export type ShipmentStatus =
-    'WORKING' |
-    'SHIPPED' |
-    'IN_TRANSIT' |
-    'DELIVERED' |
-    'CHECKED_IN' |
-    'RECEIVING' |
-    'CLOSED' |
-    'CANCELLED' |
-    'DELETED' |
-    'ERROR';
+    | 'WORKING'
+    | 'SHIPPED'
+    | 'IN_TRANSIT'
+    | 'DELIVERED'
+    | 'CHECKED_IN'
+    | 'RECEIVING'
+    | 'CLOSED'
+    | 'CANCELLED'
+    | 'DELETED'
+    | 'ERROR';
 
 export type ListInboundShipmentsParams = {
     ShipmentStatusList?: Array<ShipmentStatus>,
@@ -125,25 +125,25 @@ export type GetMarketplacesReturn = {
 };
 
 export type OrderStatus =
-    'PendingAvailability' |
-    'Pending' |
-    'Unshipped' |
-    'PartiallyShipped' |
-    'Shipped' |
-    'InvoiceUnconfirmed' |
-    'Canceled' |
-    'Unfulfillable';
+    | 'PendingAvailability'
+    | 'Pending'
+    | 'Unshipped'
+    | 'PartiallyShipped'
+    | 'Shipped'
+    | 'InvoiceUnconfirmed'
+    | 'Canceled'
+    | 'Unfulfillable';
 
 export type TFMShipmentStatus =
-    'PendingPickUp' |
-    'LabelCanceled' |
-    'PickedUp' |
-    'AtDestinationFC' |
-    'Delivered' |
-    'RejectedByBuyer' |
-    'Undeliverable' |
-    'ReturnedToSeller' |
-    'Lost';
+    | 'PendingPickUp'
+    | 'LabelCanceled'
+    | 'PickedUp'
+    | 'AtDestinationFC'
+    | 'Delivered'
+    | 'RejectedByBuyer'
+    | 'Undeliverable'
+    | 'ReturnedToSeller'
+    | 'Lost';
 
 export type ListOrdersParams = {
     CreatedAfter?: Date,
@@ -165,10 +165,13 @@ export type Currency = {
     CurrencyCode: string,
 };
 
+// TODO: the lib should convert all string bools to actual bools in the parsers, then this shouldn't be necessary anymore
+export type StringBool = 'true' | 'false';
+
 export type ShippingAddress = {
     City: string,
     PostalCode: string,
-    isAddressSharingConfidential: 'true' | 'false', // Boolean
+    isAddressSharingConfidential: StringBool;
     StateOrRegion: string,
     CountryCode: string, // union?
 };
@@ -180,26 +183,26 @@ export type OrderListResult = { // TODO: are we not parsing listOrders results o
     BuyerEmail: string,
     AmazonOrderId: string,
     LastUpdateDate: string, // Date
-    IsReplacementOrder: 'true' | 'false', // boolean
+    IsReplacementOrder: StringBool;
     NumberOfItemsShipped: string, // number
     ShipServiceLevel: string, // union
     OrderStatus: OrderStatus,
     SalesChannel: string, // union
-    IsBusinessOrder: 'true' | 'false', // boolean
+    IsBusinessOrder: StringBool;
     NumberOfItemsUnshipped: string, // number
     PaymentMethodDetails: {
         PaymentMethodDetail: string, // union
     },
-    IsGlobalExpressEnabled: 'true' | 'false', // boolean
-    IsSoldByAB: 'true' | 'false', // boolean
-    IsPremiumOrder: 'true' | 'false', // boolean
+    IsGlobalExpressEnabled: StringBool;
+    IsSoldByAB: StringBool;
+    IsPremiumOrder: StringBool;
     OrderTotal: Currency,
     EarliestShipDate: string, // Date,
     MarketplaceId: MarketplaceId,
     FulfillmentChannel: string, // union
     PaymentMethod: string, // union
     ShippingAddress: ShippingAddress,
-    IsPrime: 'true' | 'false', // boolean
+    IsPrime: StringBool;
     SellerOrderId: string,
     ShipmentServiceLevelCategory: string, // union
 };
@@ -225,24 +228,24 @@ export type OrderInfo = {
     BuyerEmail: string,
     AmazonOrderId: AmazonOrderId,
     LastUpdateDate: string, // Date
-    IsReplacementOrder: 'true' | 'false', // bool
+    IsReplacementOrder: StringBool;
     NumberOfItemsShipped: string, // number
     ShipServiceLevel: string, // Union?
     OrderStatus: string, // Union?
     SalesChannel: string, // Union?
-    IsBusinessOrder: 'true' | 'false', // bool
+    IsBusinessOrder: StringBool;
     NumberOfItemsUnshipped: string, // number
     PaymentMethodDetails: PaymentMethodData, // not sure if correct?
-    IsGlobalExpressEnabled: 'true' | 'false', // bool
-    IsSoldByAB: 'true' | 'false', // bool
-    IsPremiumOrder: 'true' | 'false', // bool
+    IsGlobalExpressEnabled: StringBool;
+    IsSoldByAB: StringBool;
+    IsPremiumOrder: StringBool;
     OrderTotal: Currency,
     EarliestShipDate: string, // Date
     MarketplaceId: MarketplaceId,
     FulfillmentChannel: string, // Union?
     PaymentMethod: string, // Union?
     ShippingAddress: ShippingAddress,
-    IsPrime: 'true' | 'false', // bool
+    IsPrime: StringBool;
     SellerOrderId: string, // NOT AMAZONORDERID
     ShipmentServiceLevelCategory: string, // Union?
 };
@@ -279,44 +282,60 @@ export type GetMatchingProductReturn = Array<{
     Error?: Error,
 }>;
 
+export type MWSItemCondition =
+    | 'New'
+    | 'Used'
+    | 'Collectible'
+    | 'Refurbished'
+    | 'Club';
+
+export type AdvItemCondition =
+    | 'used'
+    | 'new'
+    | 'collectible'
+    | 'refurbished'
+    | 'club';
+
 export type GetLowestPricedOffersForAsinParams = {
     MarketplaceId: MarketplaceId,
     ASIN: string,
-    ItemCondition: 'New' | 'Used' | 'Collectible' | 'Refurbished' | 'Club', // weren't these already enumerated somewhere?
+    ItemCondition: MWSItemCondition;
 };
 
 export type GetLowestPricedOffersForSkuParams = {
     MarketplaceId: MarketplaceId,
     SellerSKU: string,
-    ItemCondition: 'New' | 'Used' | 'Collectible' | 'Refurbished' | 'Club', // weren't these already enumerated somewhere?
+    ItemCondition: MWSItemCondition;
 };
+
+export type FulfillmentChannel = 'Amazon' | 'Merchant';
 
 export type GetLowestPricedOffersReturn = {
     asin?: string,
     sellerSku?: string,
     marketplace: MarketplaceId,
-    itemCondition: 'New' | 'Used' | 'Collectible' | 'Refurbished' | 'Club', // weren't these already enumerated somewhere?
+    itemCondition: MWSItemCondition;
     summary: {
         totalOfferCount: number,
-        numberOfOffers: Array<{ count: number, condition: 'used' | 'new' | 'collectible' | 'refurbished' | 'club', fulfillmentChannel: 'Amazon' | 'Merchant' }>,
+        numberOfOffers: Array<{ count: number, condition: AdvItemCondition, fulfillmentChannel: FulfillmentChannel }>,
         listPrice: Currency,
         lowestPrices: Array<{
-            condition: 'used' | 'new' | 'collectible' | 'refurbished' | 'club',
-            fulfillmentChannel: 'Amazon' | 'Merchant',
+            condition: AdvItemCondition,
+            fulfillmentChannel: FulfillmentChannel,
             landedPrice: Currency,
             listingPrice: Currency,
             shipping: Currency,
         }>,
         buyBoxPrices: Array<{
-            condition: 'used' | 'new' | 'collectible' | 'refurbished' | 'club',
+            condition: AdvItemCondition,
             landedPrice: Currency,
             listingPrice: Currency,
             shipping: Currency,
         }>,
         buyBoxEligibleOffers: Array<{
             count: number,
-            condition: 'used' | 'new' | 'collectible' | 'refurbished' | 'club',
-            fulfillmentChannel: 'Amazon' | 'Merchant',
+            condition: AdvItemCondition,
+            fulfillmentChannel: FulfillmentChannel,
         }>
     },
     lowestOffers: Array<{
@@ -350,9 +369,10 @@ export type GetProductCategoriesReturn = Array<{
     Self: ProductCategory,
 }>;
 
+export type IdType = 'ASIN' | 'SKU'; // TODO: pretty sure there are more.
 export type GetFeesParams = {
     marketplaceId: MarketplaceId,
-    idType: 'ASIN' | 'SKU', // what else?
+    idType: IdType;
     idValue: string,
     isAmazonFulfilled: boolean,
     identifier: string,
@@ -370,7 +390,7 @@ export type GetFeesReturn = {
     [key: string]: {
         identifier: {
             marketplaceId: MarketplaceId,
-            idType: 'ASIN' | 'SKU', // what else?
+            idType: IdType;
             sellerId: string,
             sellerInputIdentifier: string,
             isAmazonFulfilled: boolean,
