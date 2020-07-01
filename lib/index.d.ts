@@ -1,6 +1,7 @@
 import { OrderItem } from "./parsers/orderItems";
+import { GetReportRequestListResult } from "./helpers/reports";
 
-export type InitParams = {
+type InitParams = {
     accessKeyId: string;
     authToken?: string;
     host?: string;
@@ -424,6 +425,60 @@ export type GetFeesReturn = {
     },
 };
 
+export type NextTokenParams = { NextToken: string };
+
+export type RequestReportParams = {
+    ReportType: string,
+    ReportProcessingStatus?: string,
+    EndDate?: string,
+    Scheduled?: boolean,
+    ReportRequestId?: string,
+    SubmittedDate?: string,
+    StartDate?: string,
+};
+export type RequestReportReturn = any;
+
+export type GetReportRequestListParams = {
+    ReportRequestIdList?: Array<string>,
+    ReportTypeList?: string,
+    ReportProcessingStatusList?: string,
+    MaxCount?: number,
+    RequestedFromDate?: Date,
+    RequestedToDate?: Date,
+};
+export type GetReportRequestListReturn = any;
+
+export type GetReportParams = { ReportId: string };
+export type GetReportReturn = any;
+
+export type GetReportListParams = {
+    MaxCount?: number,
+    ReportTypeList?: Array<string>,
+    Acknowledged?: boolean,
+    ReportRequestIdList?: Array<string>,
+    AvailableFromDate?: Date,
+    AvailableToDate?: Date,
+};
+export type GetReportListReturn = any;
+
+export type RequestAndDownloadReportReturn = any;
+
+export type ManageReportScheduleParams = {
+    ReportType: string,
+    Schedule: any,
+    ScheduleDate?: Date,
+};
+export type ManageReportScheduleReturn = any;
+
+export type UpdateReportAcknowledgementsParams = {
+    ReportIdList: Array<string>,
+    Acknowledged?: boolean,
+};
+export type UpdateReportAcknowledgementsReturn = any;
+
+export type GetReportScheduleListParams = { ReportTypeList?: Array<string> };
+export type GetReportScheduleListReturn = any;
+
 export default class MwsAdvanced {
     static constants: {
         MWS_MARKETPLACES: MWS_MARKETPLACES,
@@ -479,24 +534,31 @@ export default class MwsAdvanced {
     getMyFeesEstimate(params: Array<GetFeesParams>): Promise<GetFeesReturn>;
     static getMyFeesEstimate(params: Array<GetFeesParams>): Promise<GetFeesReturn>;
 
-    requestReport(params: { ReportType: string, ReportProcessingStatus?: string, EndDate?: string, Scheduled?: boolean, ReportRequestId?: string, SubmittedDate?: string, StartDate?: string }): Promise<any>;
-    static requestReport(params: { ReportType: string, ReportProcessingStatus?: string, EndDate?: string, Scheduled?: boolean, ReportRequestId?: string, SubmittedDate?: string, StartDate?: string }): Promise<any>;
-    getReportRequestList(params: { ReportRequestIdList?: Array<string>, ReportTypeList?: string, ReportProcessingStatusList?: string, MaxCount?: number, RequestedFromDate?: Date, RequestedToDate?: Date }): Promise<any>;
-    static getReportRequestList(params: { ReportRequestIdList?: Array<string>, ReportTypeList?: string, ReportProcessingStatusList?: string, MaxCount?: number, RequestedFromDate?: Date, RequestedToDate?: Date }): Promise<any>;
-    getReport(params: { ReportId: string }): Promise<any>;
-    static getReport(params: { ReportId: string }): Promise<any>;
-    getReportList(params: { MaxCount?: number, ReportTypeList?: Array<string>, Acknowledged?: boolean, ReportRequestIdList?: Array<string>, AvailableFromDate?: Date, AvailableToDate?: Date }): Promise<any>;
-    static getReportList(params: { MaxCount?: number, ReportTypeList?: Array<string>, Acknowledged?: boolean, ReportRequestIdList?: Array<string>, AvailableFromDate?: Date, AvailableToDate?: Date }): Promise<any>;
-    getReportListByNextToken(params: { NextToken: string }): Promise<any>;
-    static getReportListByNextToken(params: { NextToken: string }): Promise<any>;
-    getReportListAll(params: { MaxCount?: number, ReportTypeList?: Array<string>, Acknowledged?: boolean, ReportRequestIdList?: Array <string>, AvailableFromDate?: Date, AvailableToDate?: Date }): Promise<any>;
-    static getReportListAll(params: { MaxCount?: number, ReportTypeList?: Array<string>, Acknowledged?: boolean, ReportRequestIdList?: Array<string>, AvailableFromDate?: Date, AvailableToDate?: Date }): Promise<any>;
-    requestAndDownloadReport(reportType: string, file: string, params?: any): Promise<any>;
-    static requestAndDownloadReport(reportType: string, file: string, params?: any): Promise<any>;
-    manageReportSchedule(params: { ReportType: string, Schedule: any, ScheduleDate?: Date }): Promise<any>;
-    static manageReportSchedule(params: { ReportType: string, Schedule: any, ScheduleDate?: Date }): Promise<any>;
-    updateReportAcknowledgements(params: { ReportIdList: Array<string>, Acknowledged?: boolean }): Promise<any>;
-    static updateReportAcknowledgements(params: { ReportIdList: Array<string>, Acknowledged?: boolean }): Promise<any>;
-    getReportScheduleList(params: { ReportTypeList?: Array<string> }): Promise<any>;
-    static getReportScheduleList(params: { ReportTypeList?: Array<string> }): Promise<any>;
+    requestReport(params: RequestReportParams): Promise<RequestReportReturn>;
+    static requestReport(params: RequestReportParams): Promise<RequestReportReturn>;
+
+    getReportRequestList(params: GetReportRequestListParams): Promise<GetReportRequestListResult>; // typescript imported this from the JSDoc, interesting? which is why it's name doesn't conform
+    static getReportRequestList(params: GetReportRequestListParams): Promise<GetReportRequestListResult>;
+
+    getReport(params: GetReportParams): Promise<GetReportReturn>;
+    static getReport(params: GetReportParams): Promise<GetReportReturn>;
+
+    getReportList(params: GetReportListParams): Promise<GetReportListReturn>;
+    static getReportList(params: GetReportListParams): Promise<GetReportListReturn>;
+    getReportListByNextToken(params: NextTokenParams): Promise<GetReportListReturn>;
+    static getReportListByNextToken(params: NextTokenParams): Promise<GetReportListReturn>;
+    getReportListAll(params: GetReportListParams): Promise<GetReportListReturn>;
+    static getReportListAll(params: GetReportListParams): Promise<GetReportListReturn>;
+
+    requestAndDownloadReport(reportType: string, file: string, params?: any): Promise<RequestAndDownloadReportReturn>;
+    static requestAndDownloadReport(reportType: string, file: string, params?: any): Promise<RequestAndDownloadReportReturn>;
+
+    manageReportSchedule(params: ManageReportScheduleParams): Promise<ManageReportScheduleReturn>;
+    static manageReportSchedule(params: ManageReportScheduleParams): Promise<ManageReportScheduleReturn>;
+
+    updateReportAcknowledgements(params: UpdateReportAcknowledgementsParams): Promise<UpdateReportAcknowledgementsReturn>;
+    static updateReportAcknowledgements(params: UpdateReportAcknowledgementsParams): Promise<UpdateReportAcknowledgementsReturn>;
+
+    getReportScheduleList(params: GetReportScheduleListParams): Promise<GetReportScheduleListReturn>;
+    static getReportScheduleList(params: GetReportScheduleListParams): Promise<GetReportScheduleListReturn>;
 }
