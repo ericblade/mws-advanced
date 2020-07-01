@@ -2,8 +2,7 @@ import { describe, beforeEach } from 'mocha';
 import { expect } from 'chai';
 
 import * as fs from 'fs';
-import { InitParams, ListInventorySupplyParams, MarketplaceId, GetLowestPricedOffersForAsinParams, GetFeesParams } from '../lib/index';
-import * as MWS from '../lib/index';
+import MWS, { InitParams, ListInventorySupplyParams, MarketplaceId, GetLowestPricedOffersForAsinParams, GetFeesParams } from '../lib/index';
 
 import * as errors from '../lib/errors';
 import * as sleep from '../lib/util/sleep';
