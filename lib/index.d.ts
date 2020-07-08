@@ -1,5 +1,4 @@
 import { OrderItem } from "./parsers/orderItems";
-import { GetReportRequestListResult } from "./helpers/reports";
 
 type InitParams = {
     accessKeyId: string;
@@ -446,7 +445,20 @@ export type GetReportRequestListParams = {
     RequestedFromDate?: Date,
     RequestedToDate?: Date,
 };
-export type GetReportRequestListReturn = any;
+export type GetReportRequestListReturn = {
+    nextToken?: string,
+    reportRequestList: Array<{
+        ReportType: string,
+        ReportProcessingStatus: string,
+        EndDate: string,
+        Scheduled: boolean,
+        ReportRequestId: string,
+        StartedProcessingDate: string,
+        StartDate: string,
+        CompletedDate: string,
+        GeneratedReportId: string,
+    }>,
+};
 
 export type GetReportParams = { ReportId: string };
 export type GetReportReturn = any;
@@ -537,8 +549,8 @@ export default class MwsAdvanced {
     requestReport(params: RequestReportParams): Promise<RequestReportReturn>;
     static requestReport(params: RequestReportParams): Promise<RequestReportReturn>;
 
-    getReportRequestList(params: GetReportRequestListParams): Promise<GetReportRequestListResult>; // typescript imported this from the JSDoc, interesting? which is why it's name doesn't conform
-    static getReportRequestList(params: GetReportRequestListParams): Promise<GetReportRequestListResult>;
+    getReportRequestList(params: GetReportRequestListParams): Promise<GetReportRequestListReturn>;
+    static getReportRequestList(params: GetReportRequestListParams): Promise<GetReportRequestListReturn>;
 
     getReport(params: GetReportParams): Promise<GetReportReturn>;
     static getReport(params: GetReportParams): Promise<GetReportReturn>;
