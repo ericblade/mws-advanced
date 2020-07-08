@@ -276,9 +276,14 @@ export type ListMatchingProductsReturn = Array<ProductInfo>;
 export type GetMatchingProductReturn = Array<{
     results: Array<ProductInfo>,
     asin?: string,
-    upc?: string, // any other identifier types that might come up?
+    gcid?: string,
+    sellersku?: string,
+    upc?: string,
+    ean?: string,
+    isbn?: string,
+    jan?: string,
     id: string,
-    idType: IdTypes,
+    idType: AdvIdTypes,
     Error?: Error,
 }>;
 
@@ -498,6 +503,15 @@ export type IdTypes =
     | 'EAN'
     | 'ISBN'
     | 'JAN';
+
+export type AdvIdTypes =
+    | 'asin'
+    | 'gcid'
+    | 'sellersku'
+    | 'upc'
+    | 'ean'
+    | 'isbn'
+    | 'jan';
 
 export default class MwsAdvanced {
     static constants: {
