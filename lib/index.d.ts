@@ -278,7 +278,7 @@ export type GetMatchingProductReturn = Array<{
     asin?: string,
     upc?: string, // any other identifier types that might come up?
     id: string,
-    idType: string,
+    idType: IdTypes,
     Error?: Error,
 }>;
 
@@ -369,10 +369,9 @@ export type GetProductCategoriesReturn = Array<{
     Self: ProductCategory,
 }>;
 
-export type IdType = 'ASIN' | 'SKU'; // TODO: pretty sure there are more.
 export type GetFeesParams = {
     marketplaceId: MarketplaceId,
-    idType: IdType;
+    idType: IdTypes;
     idValue: string,
     isAmazonFulfilled: boolean,
     identifier: string,
@@ -390,7 +389,7 @@ export type GetFeesReturn = {
     [key: string]: {
         identifier: {
             marketplaceId: MarketplaceId,
-            idType: IdType;
+            idType: IdTypes;
             sellerId: string,
             sellerInputIdentifier: string,
             isAmazonFulfilled: boolean,
@@ -491,6 +490,15 @@ export type UpdateReportAcknowledgementsReturn = any;
 export type GetReportScheduleListParams = { ReportTypeList?: Array<string> };
 export type GetReportScheduleListReturn = any;
 
+export type IdTypes =
+    | 'ASIN'
+    | 'GCID'
+    | 'SellerSKU'
+    | 'UPC'
+    | 'EAN'
+    | 'ISBN'
+    | 'JAN';
+
 export default class MwsAdvanced {
     static constants: {
         MWS_MARKETPLACES: MWS_MARKETPLACES,
@@ -531,8 +539,8 @@ export default class MwsAdvanced {
     static listInventorySupply(params: ListInventorySupplyParams): Promise<ListInventorySupplyReturn>;
     listMatchingProducts(params: { marketplaceId: string, query: string }): Promise<ListMatchingProductsReturn>;
     static listMatchingProducts(params: { marketplaceId: string, query: string }): Promise<ListMatchingProductsReturn>;
-    getMatchingProductForId(params: { MarketplaceId: string, IdType: string, IdList: Array<string> }): Promise<GetMatchingProductReturn>;
-    static getMatchingProductForId(params: { MarketplaceId: string, IdType: string, IdList: Array<string> }): Promise<GetMatchingProductReturn>;
+    getMatchingProductForId(params: { MarketplaceId: string, IdType: IdTypes, IdList: Array<string> }): Promise<GetMatchingProductReturn>;
+    static getMatchingProductForId(params: { MarketplaceId: string, IdType: IdTypes, IdList: Array<string> }): Promise<GetMatchingProductReturn>;
 
     // TODO: We need to unify whether we use ASIN or Asin (all caps or not) in function names
     getLowestPricedOffersForAsin(params: GetLowestPricedOffersForAsinParams): Promise<GetLowestPricedOffersReturn>;
