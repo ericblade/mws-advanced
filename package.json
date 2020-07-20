@@ -27,7 +27,7 @@
   "author": "Eric Blade <blade.eric@gmail.com>",
   "license": "Apache-2.0",
   "dependencies": {
-    "@ericblade/mws-simple": "^5.1.1",
+    "@ericblade/mws-simple": "^5.1.2",
     "es6-error": "^4.1.1"
   },
   "devDependencies": {
@@ -37,7 +37,7 @@
     "@semantic-release/github": "^7.0.7",
     "@semantic-release/npm": "^7.0.5",
     "@semantic-release/release-notes-generator": "^9.0.1",
-    "@types/node": "^14.0.10",
+    "@types/node": "^14.0.23",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
     "conventional-changelog-eslint": "^3.0.8",
@@ -47,15 +47,15 @@
     "esdoc-ecmascript-proposal-plugin": "^1.0.0",
     "esdoc-node": "^1.0.5",
     "esdoc-standard-plugin": "^1.0.0",
-    "eslint": "^7.1.0",
-    "eslint-config-airbnb-base": "^14.1.0",
-    "eslint-plugin-import": "^2.20.2",
-    "lint-staged": "^10.2.8",
-    "mocha": "^7.2.0",
+    "eslint": "^7.5.0",
+    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-plugin-import": "^2.22.0",
+    "lint-staged": "^10.2.11",
+    "mocha": "^8.0.1",
     "nyc": "^15.1.0",
     "pre-commit": "^1.2.2",
-    "semantic-release": "^17.0.8",
-    "typescript": "^3.9.3",
+    "semantic-release": "^17.1.1",
+    "typescript": "^3.9.7",
     "xml2js": "^0.4.23"
   },
   "keywords": [
