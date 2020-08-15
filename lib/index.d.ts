@@ -11,7 +11,7 @@ type InitParams = {
 };
 
 // cSpell: disable
-export type MWS_MARKETPLACES = {
+type MWS_MARKETPLACES = {
     AU: 'A39IBJ37TRP1C6',
     BR: 'A2Q3Y263D00KWC',
     CA: 'A2EUQ1WTGCTBG2',
@@ -33,14 +33,14 @@ type ValueOf<T> = T[keyof T];
 type MarketplaceId = ValueOf<MWS_MARKETPLACES>;
 type CountryCode = keyof MWS_MARKETPLACES;
 
-export type MARKET_CURRENCY = {
+type MARKET_CURRENCY = {
     CA: 'CAD',
     US: 'USD',
 };
 
-export type CurrencyCode = ValueOf<MARKET_CURRENCY>;
+type CurrencyCode = ValueOf<MARKET_CURRENCY>;
 
-export type MWS_ENDPOINTS = {
+type MWS_ENDPOINTS = {
     AU: 'mws.amazonservices.com.au',
     BR: 'mws.amazonservices.com',
     CN: 'mws.amazonservices.com.cn',
@@ -50,9 +50,9 @@ export type MWS_ENDPOINTS = {
     NA: 'mws.amazonservices.com',
 };
 
-export type MWSDomain = ValueOf<MWS_ENDPOINTS>;
+type MWSDomain = ValueOf<MWS_ENDPOINTS>;
 
-export type ListFinancialResultsParams = {
+type ListFinancialResultsParams = {
     MaxResultsPerPage?: number,
     AmazonOrderId?: string,
     FinancialEventGroupId?: string,
@@ -60,12 +60,12 @@ export type ListFinancialResultsParams = {
     PostedBefore?: Date,
 };
 
-export type ListFinancialResultsReturn = {
+type ListFinancialResultsReturn = {
     NextToken: string,
     FinancialEvents: any,
 };
 
-export type ShipmentStatus =
+type ShipmentStatus =
     | 'WORKING'
     | 'SHIPPED'
     | 'IN_TRANSIT'
@@ -77,41 +77,41 @@ export type ShipmentStatus =
     | 'DELETED'
     | 'ERROR';
 
-export type ListInboundShipmentsParams = {
+type ListInboundShipmentsParams = {
     ShipmentStatusList?: Array<ShipmentStatus>,
     ShipmentIdList?: Array<string>,
     LastUpdatedAfter?: Date,
     LastUpdatedBefore?: Date,
 };
 
-export type ListInboundShipmentsReturn = {
+type ListInboundShipmentsReturn = {
     NextToken: string,
     ShipmentData: any,
 };
 
-export type GetInboundGuidanceForASINParams = {
+type GetInboundGuidanceForASINParams = {
     MarketplaceId: MarketplaceId,
     ASINList: Array<string>,
 };
 
-export type GetInboundGuidanceForSKUParams = {
+type GetInboundGuidanceForSKUParams = {
     MarketplaceId: MarketplaceId,
     SellerSKUList: Array<string>,
 };
 
-export type ListInventorySupplyParams = {
+type ListInventorySupplyParams = {
     SellerSkus?: Array<string>,
     QueryStartDateTime?: Date,
     ResponseGroup?: 'Basic' | 'Detailed',
     MarketplaceId?: string,
 };
 
-export type ListInventorySupplyReturn = {
+type ListInventorySupplyReturn = {
     NextToken?: string,
     supplyList: any,
 };
 
-export type MarketplaceEnumeration = {
+type MarketplaceEnumeration = {
     marketplaceId: MarketplaceId,
     defaultCountryCode: CountryCode,
     domainName: MWSDomain,
@@ -120,11 +120,11 @@ export type MarketplaceEnumeration = {
     hasSellerSuspendedListings: 'Yes' | 'No',
 };
 
-export type GetMarketplacesReturn = {
+type GetMarketplacesReturn = {
     [key: string]: MarketplaceEnumeration, // TODO: should use MarketplaceId not string, but that's an error using a union type
 };
 
-export type OrderStatus =
+type OrderStatus =
     | 'PendingAvailability'
     | 'Pending'
     | 'Unshipped'
@@ -134,7 +134,7 @@ export type OrderStatus =
     | 'Canceled'
     | 'Unfulfillable';
 
-export type TFMShipmentStatus =
+type TFMShipmentStatus =
     | 'PendingPickUp'
     | 'LabelCanceled'
     | 'PickedUp'
@@ -145,7 +145,7 @@ export type TFMShipmentStatus =
     | 'ReturnedToSeller'
     | 'Lost';
 
-export type ListOrdersParams = {
+type ListOrdersParams = {
     CreatedAfter?: Date,
     CreatedBefore?: Date,
     LastUpdatedAfter?: Date,
@@ -160,15 +160,15 @@ export type ListOrdersParams = {
     TFMShipmentStatus?: TFMShipmentStatus,
 };
 
-export type Currency = {
+type Currency = {
     Amount: string,
     CurrencyCode: string,
 };
 
 // TODO: the lib should convert all string bools to actual bools in the parsers, then this shouldn't be necessary anymore
-export type StringBool = 'true' | 'false';
+type StringBool = 'true' | 'false';
 
-export type ShippingAddress = {
+type ShippingAddress = {
     City: string,
     PostalCode: string,
     isAddressSharingConfidential: StringBool;
@@ -176,7 +176,7 @@ export type ShippingAddress = {
     CountryCode: string, // union?
 };
 
-export type OrderListResult = { // TODO: are we not parsing listOrders results out to javascript norms
+type OrderListResult = { // TODO: are we not parsing listOrders results out to javascript norms
     LatestShipDate: string, // Date
     OrderType: string, // union
     PurchaseDate: string, // Date
@@ -207,21 +207,21 @@ export type OrderListResult = { // TODO: are we not parsing listOrders results o
     ShipmentServiceLevelCategory: string, // union
 };
 
-export type ListOrdersReturn = Array<OrderListResult>;
+type ListOrdersReturn = Array<OrderListResult>;
 
-export type AmazonOrderId = string;
+type AmazonOrderId = string;
 
-export type ListOrderItemsReturn = {
+type ListOrderItemsReturn = {
     orderItems: Array<OrderItem>,
     nextToken?: string,
     orderId: AmazonOrderId,
 };
 
-export type GetOrderParams = {
+type GetOrderParams = {
     AmazonOrderId: Array<AmazonOrderId>,
 };
 
-export type OrderInfo = {
+type OrderInfo = {
     LatestShipDate: string, // Date
     OrderType: string, // Union?
     PurchaseDate: string, // Date
@@ -250,30 +250,30 @@ export type OrderInfo = {
     ShipmentServiceLevelCategory: string, // Union?
 };
 
-export type InboundGuidanceError = {
+type InboundGuidanceError = {
     error: string,
 };
 
-export type InboundGuidance = InboundGuidanceError | {
+type InboundGuidance = InboundGuidanceError | {
     asin?: string,
     guidance: string,
     reason: string,
 };
 
-export type InboundGuidanceList = {
+type InboundGuidanceList = {
     [key: string]: InboundGuidance,
 };
 
-export type ProductInfo = {
+type ProductInfo = {
     identifiers: any,
     attributeSets: any,
     relationships: any,
     salesRankings: any,
 };
 
-export type ListMatchingProductsReturn = Array<ProductInfo>;
+type ListMatchingProductsReturn = Array<ProductInfo>;
 
-export type GetMatchingProductReturn = Array<{
+type GetMatchingProductReturn = Array<{
     results: Array<ProductInfo>,
     asin?: string,
     gcid?: string,
@@ -287,35 +287,35 @@ export type GetMatchingProductReturn = Array<{
     Error?: Error,
 }>;
 
-export type MWSItemCondition =
+type MWSItemCondition =
     | 'New'
     | 'Used'
     | 'Collectible'
     | 'Refurbished'
     | 'Club';
 
-export type AdvItemCondition =
+type AdvItemCondition =
     | 'used'
     | 'new'
     | 'collectible'
     | 'refurbished'
     | 'club';
 
-export type GetLowestPricedOffersForAsinParams = {
+type GetLowestPricedOffersForAsinParams = {
     MarketplaceId: MarketplaceId,
     ASIN: string,
     ItemCondition: MWSItemCondition;
 };
 
-export type GetLowestPricedOffersForSkuParams = {
+type GetLowestPricedOffersForSkuParams = {
     MarketplaceId: MarketplaceId,
     SellerSKU: string,
     ItemCondition: MWSItemCondition;
 };
 
-export type FulfillmentChannel = 'Amazon' | 'Merchant';
+type FulfillmentChannel = 'Amazon' | 'Merchant';
 
-export type GetLowestPricedOffersReturn = {
+type GetLowestPricedOffersReturn = {
     asin?: string,
     sellerSku?: string,
     marketplace: MarketplaceId,
@@ -362,19 +362,19 @@ export type GetLowestPricedOffersReturn = {
     }>
 };
 
-export type ProductCategory = {
+type ProductCategory = {
     ProductCategoryId: string,
     ProductCategoryName: string,
     Parent?: ProductCategory,
 };
 
-export type GetProductCategoriesReturn = Array<{
+type GetProductCategoriesReturn = Array<{
     asin?: string,
     sellerSku?: string,
     Self: ProductCategory,
 }>;
 
-export type GetFeesParams = {
+type GetFeesParams = {
     marketplaceId: MarketplaceId,
     idType: IdTypes;
     idValue: string,
@@ -390,7 +390,7 @@ export type GetFeesParams = {
     },
 };
 
-export type GetFeesReturn = {
+type GetFeesReturn = {
     [key: string]: {
         identifier: {
             marketplaceId: MarketplaceId,
@@ -428,9 +428,9 @@ export type GetFeesReturn = {
     },
 };
 
-export type NextTokenParams = { NextToken: string };
+type NextTokenParams = { NextToken: string };
 
-export type RequestReportParams = {
+type RequestReportParams = {
     ReportType: string,
     ReportProcessingStatus?: string,
     EndDate?: string,
@@ -439,9 +439,9 @@ export type RequestReportParams = {
     SubmittedDate?: string,
     StartDate?: string,
 };
-export type RequestReportReturn = any;
+type RequestReportReturn = any;
 
-export type GetReportRequestListParams = {
+type GetReportRequestListParams = {
     ReportRequestIdList?: Array<string>,
     ReportTypeList?: string,
     ReportProcessingStatusList?: string,
@@ -449,7 +449,7 @@ export type GetReportRequestListParams = {
     RequestedFromDate?: Date,
     RequestedToDate?: Date,
 };
-export type GetReportRequestListReturn = {
+type GetReportRequestListReturn = {
     nextToken?: string,
     reportRequestList: Array<{
         ReportType: string,
@@ -464,10 +464,10 @@ export type GetReportRequestListReturn = {
     }>,
 };
 
-export type GetReportParams = { ReportId: string };
-export type GetReportReturn = any;
+type GetReportParams = { ReportId: string };
+type GetReportReturn = any;
 
-export type GetReportListParams = {
+type GetReportListParams = {
     MaxCount?: number,
     ReportTypeList?: Array<string>,
     Acknowledged?: boolean,
@@ -475,27 +475,27 @@ export type GetReportListParams = {
     AvailableFromDate?: Date,
     AvailableToDate?: Date,
 };
-export type GetReportListReturn = any;
+type GetReportListReturn = any;
 
-export type RequestAndDownloadReportReturn = any;
+type RequestAndDownloadReportReturn = any;
 
-export type ManageReportScheduleParams = {
+type ManageReportScheduleParams = {
     ReportType: string,
     Schedule: any,
     ScheduleDate?: Date,
 };
-export type ManageReportScheduleReturn = any;
+type ManageReportScheduleReturn = any;
 
-export type UpdateReportAcknowledgementsParams = {
+type UpdateReportAcknowledgementsParams = {
     ReportIdList: Array<string>,
     Acknowledged?: boolean,
 };
-export type UpdateReportAcknowledgementsReturn = any;
+type UpdateReportAcknowledgementsReturn = any;
 
-export type GetReportScheduleListParams = { ReportTypeList?: Array<string> };
-export type GetReportScheduleListReturn = any;
+type GetReportScheduleListParams = { ReportTypeList?: Array<string> };
+type GetReportScheduleListReturn = any;
 
-export type IdTypes =
+type IdTypes =
     | 'ASIN'
     | 'GCID'
     | 'SellerSKU'
@@ -504,7 +504,7 @@ export type IdTypes =
     | 'ISBN'
     | 'JAN';
 
-export type AdvIdTypes =
+type AdvIdTypes =
     | 'asin'
     | 'gcid'
     | 'sellersku'
@@ -513,7 +513,7 @@ export type AdvIdTypes =
     | 'isbn'
     | 'jan';
 
-export default class MwsAdvanced {
+declare class MwsAdvanced {
     static constants: {
         MWS_MARKETPLACES: MWS_MARKETPLACES,
         MARKET_CURRENCY: MARKET_CURRENCY,
@@ -596,3 +596,5 @@ export default class MwsAdvanced {
     getReportScheduleList(params: GetReportScheduleListParams): Promise<GetReportScheduleListReturn>;
     static getReportScheduleList(params: GetReportScheduleListParams): Promise<GetReportScheduleListReturn>;
 }
+
+export = MwsAdvanced;
