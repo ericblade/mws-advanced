@@ -2,12 +2,12 @@ import { OrderItem } from "./parsers/orderItems";
 
 type InitParams = {
     accessKeyId: string;
+    merchantId: string;
+    secretAccessKey: string;
     authToken?: string;
     host?: string;
-    merchantId: string;
     port?: number;
     region?: string;
-    secretAccessKey: string;
 };
 
 // cSpell: disable
@@ -107,8 +107,8 @@ type ListInventorySupplyParams = {
 };
 
 type ListInventorySupplyReturn = {
-    NextToken?: string,
     supplyList: any,
+    NextToken?: string,
 };
 
 type MarketplaceEnumeration = {
@@ -146,12 +146,12 @@ type TFMShipmentStatus =
     | 'Lost';
 
 type ListOrdersParams = {
+    MarketplaceId: Array<MarketplaceId>,
     CreatedAfter?: Date,
     CreatedBefore?: Date,
     LastUpdatedAfter?: Date,
     LastUpdatedBefore?: Date,
     OrderStatus?: Array<OrderStatus>,
-    MarketplaceId: Array<MarketplaceId>,
     FulfillmentChannel?: Array<string>, // TODO: what are valid values?
     PaymentMethod?: Array<string>, // TODO: what are valid values?
     BuyerEmail?: string,
@@ -165,7 +165,7 @@ type Currency = {
     CurrencyCode: string,
 };
 
-// TODO: the lib should convert all string bools to actual bools in the parsers, then this shouldn't be necessary anymore
+// TODO: #176 the lib should convert all string bools to actual bools in the parsers, then this shouldn't be necessary anymore
 type StringBool = 'true' | 'false';
 
 type ShippingAddress = {
@@ -176,7 +176,7 @@ type ShippingAddress = {
     CountryCode: string, // union?
 };
 
-type OrderListResult = { // TODO: are we not parsing listOrders results out to javascript norms
+type OrderListResult = { // TODO: #177 are we not parsing listOrders results out to javascript norms
     LatestShipDate: string, // Date
     OrderType: string, // union
     PurchaseDate: string, // Date
@@ -255,9 +255,9 @@ type InboundGuidanceError = {
 };
 
 type InboundGuidance = InboundGuidanceError | {
-    asin?: string,
     guidance: string,
     reason: string,
+    asin?: string,
 };
 
 type InboundGuidanceList = {
@@ -275,6 +275,8 @@ type ListMatchingProductsReturn = Array<ProductInfo>;
 
 type GetMatchingProductReturn = Array<{
     results: Array<ProductInfo>,
+    id: string,
+    idType: AdvIdTypes,
     asin?: string,
     gcid?: string,
     sellersku?: string,
@@ -282,8 +284,6 @@ type GetMatchingProductReturn = Array<{
     ean?: string,
     isbn?: string,
     jan?: string,
-    id: string,
-    idType: AdvIdTypes,
     Error?: Error,
 }>;
 
@@ -316,8 +316,6 @@ type GetLowestPricedOffersForSkuParams = {
 type FulfillmentChannel = 'Amazon' | 'Merchant';
 
 type GetLowestPricedOffersReturn = {
-    asin?: string,
-    sellerSku?: string,
     marketplace: MarketplaceId,
     itemCondition: MWSItemCondition;
     summary: {
@@ -345,7 +343,7 @@ type GetLowestPricedOffersReturn = {
     },
     lowestOffers: Array<{
         subCondition: string, // TODO: i'm only seeing 'new' but i think it's enumerated elsewhere
-        sellerFeedbackRating: any, // SellerFeedbackRating,
+        sellerFeedbackRating: any, // TODO: SellerFeedbackRating,
         shippingTime: {
             minimumHours: string, // number
             maximumHours: string, // number
@@ -359,7 +357,9 @@ type GetLowestPricedOffersReturn = {
         isFulfilledByAmazon: boolean,
         isBuyBoxWinner: boolean,
         isFeaturedMerchant: boolean,
-    }>
+    }>,
+    asin?: string,
+    sellerSku?: string,
 };
 
 type ProductCategory = {
@@ -369,9 +369,9 @@ type ProductCategory = {
 };
 
 type GetProductCategoriesReturn = Array<{
+    Self: ProductCategory,
     asin?: string,
     sellerSku?: string,
-    Self: ProductCategory,
 }>;
 
 type GetFeesParams = {
@@ -450,7 +450,6 @@ type GetReportRequestListParams = {
     RequestedToDate?: Date,
 };
 type GetReportRequestListReturn = {
-    nextToken?: string,
     reportRequestList: Array<{
         ReportType: string,
         ReportProcessingStatus: string,
@@ -462,6 +461,7 @@ type GetReportRequestListReturn = {
         CompletedDate: string,
         GeneratedReportId: string,
     }>,
+    nextToken?: string,
 };
 
 type GetReportParams = { ReportId: string };
@@ -475,25 +475,25 @@ type GetReportListParams = {
     AvailableFromDate?: Date,
     AvailableToDate?: Date,
 };
-type GetReportListReturn = any;
+type GetReportListReturn = any; // TODO ?
 
-type RequestAndDownloadReportReturn = any;
+type RequestAndDownloadReportReturn = any; // TODO ?
 
 type ManageReportScheduleParams = {
     ReportType: string,
     Schedule: any,
     ScheduleDate?: Date,
 };
-type ManageReportScheduleReturn = any;
+type ManageReportScheduleReturn = any; // TODO ?
 
 type UpdateReportAcknowledgementsParams = {
     ReportIdList: Array<string>,
     Acknowledged?: boolean,
 };
-type UpdateReportAcknowledgementsReturn = any;
+type UpdateReportAcknowledgementsReturn = any; // TODO ?
 
 type GetReportScheduleListParams = { ReportTypeList?: Array<string> };
-type GetReportScheduleListReturn = any;
+type GetReportScheduleListReturn = any; // TODO ?
 
 type IdTypes =
     | 'ASIN'
@@ -556,7 +556,7 @@ declare class MwsAdvanced {
     getMatchingProductForId(params: { MarketplaceId: string, IdType: IdTypes, IdList: Array<string> }): Promise<GetMatchingProductReturn>;
     static getMatchingProductForId(params: { MarketplaceId: string, IdType: IdTypes, IdList: Array<string> }): Promise<GetMatchingProductReturn>;
 
-    // TODO: We need to unify whether we use ASIN or Asin (all caps or not) in function names
+    // TODO: #178 We need to unify whether we use ASIN or Asin (all caps or not) in function names
     getLowestPricedOffersForAsin(params: GetLowestPricedOffersForAsinParams): Promise<GetLowestPricedOffersReturn>;
     static getLowestPricedOffersForAsin(params: GetLowestPricedOffersForAsinParams): Promise<GetLowestPricedOffersReturn>;
     getLowestPricedOffersForSku(params: GetLowestPricedOffersForSkuParams): Promise<GetLowestPricedOffersReturn>;
