@@ -3,20 +3,20 @@
   "version": "2.4.2",
   "description": "Modern, fully featured, very opinionated node javascript Amazon MWS API based on @ericblade/mws-simple",
   "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "repository": {
     "url": "https://github.com/ericblade/mws-advanced"
   },
   "scripts": {
     "coverage-codebeat": "./send-coverage",
-    "coverage": "./node_modules/.bin/nyc --reporter=lcov ./node_modules/.bin/mocha --timeout=60000",
+    "coverage": "./node_modules/.bin/nyc --reporter=lcov ./node_modules/.bin/ts-mocha --timeout=60000",
     "coveralls": "cat ./coverage/lcov.info | ./node_modules/.bin/coveralls",
     "lint-staged": "npx lint-staged",
     "make-docs-old": "npx esdoc && documentation build -f md > API.md",
     "make-docs": "echo # Public API > docs-src/public-api.md && documentation build lib/index.js -f md --shallow >> docs-src/public-api.md && npx esdoc",
     "make-docs-public": "documentation build lib/index.js lib/typedefs-public.js lib/constants.js --shallow --theme node_modules/documentation-devseed-theme -f html -o docs-src/public",
     "push-master": "npm run coverage && git push origin master && send-coverage.cmd",
-    "build-types": "npx tsc --emitDeclarationOnly --declaration --out ./types/mws-advanced.d.ts",
-    "test": "./node_modules/.bin/mocha --timeout=60000"
+    "test": "npx ts-mocha -p ./test/tsconfig.json --timeout=60000"
   },
   "lint-staged": {
     "*.js": "eslint"
@@ -38,6 +38,9 @@
     "@semantic-release/npm": "^7.0.5",
     "@semantic-release/release-notes-generator": "^9.0.1",
     "@types/node": "^14.0.23",
+    "@types/chai": "^4.2.11",
+    "@types/chai-as-promised": "^7.1.2",
+    "@types/mocha": "^7.0.2",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
     "conventional-changelog-eslint": "^3.0.8",
