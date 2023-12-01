@@ -59,7 +59,7 @@
     "pre-commit": "^1.2.2",
     "semantic-release": "^17.1.1",
     "typescript": "^3.9.7",
-    "xml2js": "^0.4.23"
+    "xml2js": "^0.5.0"
   },
   "keywords": [
     "amazon merchant web services",
