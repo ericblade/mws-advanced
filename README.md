@@ -1,3 +1,15 @@
+### ARCHIVED - DEPRECATION ALERT ###
+
+Over the last year, Amazon has shutdown most of the MWS API, and it has not been available to new users for quite some time.  The new Amazon SP API is a replacement for it.  You can find suitable libraries for using SP API in several places on github.  
+
+As the MWS API is effectively no longer available, this repository has now been deprecated, and moved to archive status.  There will be no more updates of any kind to this code.  If you depend on it still, for the last few months of the last few sections of MWS that remain, go ahead and fork it.
+
+Have a great day, and BE AWESOME.
+
+Thank you for all your support over the years.
+
+-Eric
+
 [![Build Status](https://travis-ci.org/ericblade/mws-advanced.svg?branch=master)](https://travis-ci.org/ericblade/mws-advanced)
 [![codebeat badge](https://codebeat.co/badges/83ea05b8-db4e-4765-ae00-63169ef19c2e)](https://codebeat.co/projects/github-com-ericblade-mws-advanced-master)
 [![Greenkeeper badge](https://badges.greenkeeper.io/ericblade/mws-advanced.svg)](https://greenkeeper.io/)
